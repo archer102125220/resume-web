@@ -1,3 +1,54 @@
 {
-  "extends": "next/core-web-vitals"
+  "parserOptions": {
+    "parser": "@babel/eslint-parser",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "parserOpts": {
+        "plugins": [
+          "jsx"
+        ]
+      }
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@next/next/recommended",
+    "next",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "no-extra-semi": 2,
+    "semi": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      1,
+      "single"
+    ],
+    "prefer-const": 2,
+    "no-var": 0,
+    "no-console": 0,
+    "no-const-assign": 2,
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "after-used"
+      }
+    ],
+    "no-irregular-whitespace": 0,
+    "no-trailing-spaces": 1,
+    "no-undef": 2
+  }
 }

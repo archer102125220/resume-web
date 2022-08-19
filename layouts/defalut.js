@@ -1,10 +1,12 @@
-import Footer from './../components/Footer'
+import Footer from '@/components/Footer';
 
 function DefalutLayout(props) {
-  return (<>
-    {props.children}
-    <Footer />
-  </>);
+  return (
+    <>
+      {props.children}
+      <Footer />
+    </>
+  );
 }
 
-export default DefalutLayout
+export default DefalutLayout;
