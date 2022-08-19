@@ -1,4 +1,4 @@
-const system = {
+export default {
   namespace: 'system',
 
   state: {
@@ -56,5 +56,3 @@ const system = {
     },
   },
 };
-
-export default system;
