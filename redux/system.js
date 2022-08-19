@@ -1,3 +1,5 @@
+import { GET_homePage } from '@/services/index';
+
 export default {
   namespace: 'system',
 
@@ -38,6 +40,10 @@ export default {
     },
     *enquireScreen({ payload }, { put }) {
       yield put({ type: 'SAVE_is_mobile', payload });
+    },
+    *GET_HomePage({ payload }, { call, put }) {
+      const data = yield call(GET_homePage, payload);
+      yield put({ type: 'SAVE_page_info', payload: data });
     },
   },
 

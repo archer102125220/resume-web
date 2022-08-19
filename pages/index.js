@@ -6,8 +6,7 @@ import { wrapperGetServerSideProps } from '@/utils/reduxInit';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const messageSuccess = () =>
-    dispatch({ type: 'system/message_success', payload: '456' });
+  const GET_HomePage = () => dispatch({ type: 'system/GET_HomePage' });
 
   const messageText = useSelector((state) => state.system.message);
   console.log({ messageText });
@@ -57,7 +56,7 @@ export default function Home() {
             </p>
           </a>
         </div>
-        <Button variant="contained" onClick={messageSuccess}>
+        <Button variant="contained" onClick={GET_HomePage}>
           你好，世界
         </Button>
       </main>
@@ -65,8 +64,9 @@ export default function Home() {
   );
 }
 // https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
-export const getServerSideProps = wrapperGetServerSideProps(
-  function (content, { dispatch }) {
-    dispatch({ type: 'system/message_success', payload: '123' });
-  }
-);
+export const getServerSideProps = wrapperGetServerSideProps(function (
+  content,
+  { dispatch }
+) {
+  dispatch({ type: 'system/message_success', payload: '123' });
+});

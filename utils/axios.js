@@ -1,10 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
-import nuxtConfig from '@/nuxt.config';
 
-const {
-  axios: { baseURL },
-} = nuxtConfig;
+const baseURL = process.env.AXIOS_BASE_URL;
 
 const ax = axios.create({ baseURL });
 
@@ -34,8 +31,7 @@ function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
       ..._extendOption,
       // withCredentials: true,
     })
-    .then((response) => response.data)
-    .catch((error) => error);
+    .then((response) => response.data);
 }
 
 export default {
