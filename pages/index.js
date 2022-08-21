@@ -7,6 +7,8 @@ import { wrapperGetServerSideProps } from '@/utils/reduxInit';
 export default function Home() {
   const dispatch = useDispatch();
   const GET_HomePage = () => dispatch({ type: 'system/GET_HomePage' });
+  const successMessage = () =>
+    dispatch({ type: 'system/message_success', payload: '246' });
 
   const messageText = useSelector((state) => state.system.message);
   console.log({ messageText });
@@ -57,7 +59,10 @@ export default function Home() {
           </a>
         </div>
         <Button variant="contained" onClick={GET_HomePage}>
-          你好，世界
+          call api
+        </Button>
+        <Button variant="contained" onClick={successMessage}>
+          open message
         </Button>
       </main>
     </div>

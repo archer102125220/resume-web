@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.1",
     "axios": "^0.27.2",
+    "enquire-js": "^0.2.1",
     "next": "12.2.5",
     "next-redux-wrapper": "^7.0.5",
     "qs": "^6.11.0",
