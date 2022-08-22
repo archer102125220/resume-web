@@ -7,6 +7,7 @@ export default {
     message: { text: '', type: '' },
     isMobile: false,
     pageInfo: {},
+    isClient: typeof(window) === 'object'
   },
 
   effects: {
@@ -59,6 +60,9 @@ export default {
     },
     SAVE_title(state, { payload }) {
       return { ...state, title: payload };
+    },
+    SAVE_is_client(state, { payload }) {
+      return { ...state, isClient: payload };
     },
   },
 };
