@@ -1,8 +1,10 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import * as reduxSagaEffects from 'redux-saga/effects';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import pluginRedux from '@/redux/redux';
+
+export let store;
 
 export default function reduxInit(pluginRedux) {
   // https://github.com/explooosion/react-redux-i18n-boilerplate/blob/master/src/reducers/settings.js
@@ -63,40 +65,53 @@ export default function reduxInit(pluginRedux) {
       : compose;
   const sagaMiddleware = createSagaMiddleware();
 
-  const store = createStore(
+  const reduxStore = createStore(
     combineReducers(models),
     composeEnhancers(applyMiddleware(sagaMiddleware))
   );
 
   sagaMiddleware.run(rootSaga);
 
-  return store;
+  store = reduxStore;
+
+  return reduxStore;
 }
 
-export const store = reduxInit(pluginRedux);
 
 export const wrapper = createWrapper(() => reduxInit(pluginRedux));
 
-export function wrapperGetServerSideProps(callback) {
-  return wrapper.getServerSideProps((store) => (content) => {
-    callback(content, store);
+export function wrapperGetServerSideProps(mainCallback, secondCallback) {
+  return wrapper.getServerSideProps((store) => {
+    if(typeof(secondCallback) === 'function') secondCallback(store);
+    return (content) => {
+      return mainCallback(content, store);
+    };
+});
+}
+
+export function wrapperGetStaticProps(mainCallback, secondCallback) {
+  return wrapper.getStaticProps((store) => {
+    if(typeof(secondCallback) === 'function') secondCallback(store);
+    return (content) => {
+      return mainCallback(content, store);
+    };
   });
 }
 
-export function wrapperGetStaticProps(callback) {
-  return wrapper.getStaticProps((store) => (content) => {
-    callback(content, store);
+export function wrapperGetInitialAppProps(mainCallback, secondCallback) {
+  return wrapper.getInitialAppProps((store) => {
+    if(typeof(secondCallback) === 'function') secondCallback(store);
+    return(content) => {
+      return mainCallback(content, store);
+    };
   });
 }
 
-export function wrapperGetInitialAppProps(callback) {
-  return wrapper.getInitialAppProps((store) => (content) => {
-    callback(content, store);
-  });
-}
-
-export function wrapperGetInitialPageProps(callback) {
-  return wrapper.getInitialPageProps((store) => (content) => {
-    callback(content, store);
+export function wrapperGetInitialPageProps(mainCallback, secondCallback) {
+  return wrapper.getInitialPageProps((store) => {
+    if(typeof(secondCallback) === 'function') secondCallback(store);
+    return (content) => {
+      return mainCallback(content, store);
+    };
   });
 }
