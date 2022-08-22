@@ -9,7 +9,7 @@ const nextConfig = {
     return config;
   },
   env: {
-    AXIOS_BASE_URL: process.env.NODE_ENV === 'development'?'http://localhost:3000/api' : ''
+    AXIOS_BASE_URL: process.env.NODE_ENV === 'development'?'http://localhost:3000/api' : '/api'
   },
 };
 
