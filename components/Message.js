@@ -13,6 +13,7 @@ export default function Message() {
   const { text = '', type = '' } = messageState || {};
 
   const handleOpen = () => {
+    if(type === '') return;
     setOpen(true);
   };
 
@@ -23,7 +24,7 @@ export default function Message() {
 
     setOpen(false);
   };
-  useEffect(handleOpen, [messageState]);
+  useEffect(handleOpen, [messageState, type]);
 
   return (
     <Snackbar
