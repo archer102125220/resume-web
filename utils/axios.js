@@ -34,24 +34,23 @@ function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
     .then((response) => response.data);
 }
 
-export default {
-  ax,
-  axios,
-  baseURL,
-  request,
-  get: function (...arg) {
-    return request('GET', ...arg);
-  },
-  post: function (...arg) {
-    return request('POST', ...arg);
-  },
-  put: function (...arg) {
-    return request('PUT', ...arg);
-  },
-  delete: function (...arg) {
-    return request('DELETE', ...arg);
-  },
-  patch: function (...arg) {
-    return request('PATCH', ...arg);
-  },
+request.ax = ax;
+request.axios = axios;
+request.baseURL = baseURL;
+request.get = function (...arg) {
+  return request('GET', ...arg);
 };
+request.post = function (...arg) {
+  return request('POST', ...arg);
+};
+request.put = function (...arg) {
+  return request('PUT', ...arg);
+};
+request.delete = function (...arg) {
+  return request('DELETE', ...arg);
+};
+request.patch = function (...arg) {
+  return request('PATCH', ...arg);
+};
+
+export default request;
