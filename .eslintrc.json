@@ -27,6 +27,8 @@
     }
   },
   "rules": {
+    "react-hooks/exhaustive-deps": 0,
+    "react/prop-types": 2,
     "import/no-anonymous-default-export": 0,
     "no-extra-semi": 2,
     "semi": [
