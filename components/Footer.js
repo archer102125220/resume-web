@@ -1,21 +1,40 @@
+// import PropTypes from 'prop-types';
 import Image from 'next/image';
-import styles from '@/styles/Home.module.css';
+import { makeStyles } from '@mui/styles';
 
-function Footer() {
+const styles = {
+  footer: {
+    display: 'flex',
+    flex: '1',
+    padding: '2rem 0',
+    borderTop: '1px solid #eaeaea',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    height: '1em',
+    marginLeft: '0.5rem'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
+function Footer(props) {
+  const classes = useStyles(props);
+
+  const classNameFooter = classes.footer;
+  // const classNameFooter = '';
+
   return (
-    <footer className={styles.footer}>
-      <a
-        href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Powered by{' '}
-        <span className={styles.logo}>
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </span>
-      </a>
+    <footer className={classNameFooter}>
+      Powered by{' '}
+      <span className={styles.logo}>
+        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+      </span>
     </footer>
   );
 }
+
+Footer.propTypes = {};
 
 export default Footer;

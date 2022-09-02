@@ -1,64 +1,43 @@
+// import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Button from '@mui/material/Button';
-import styles from '@/styles/Home.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { wrapperGetServerSideProps } from '@/utils/reduxInit';
+import { useDispatch } from 'react-redux';
+import { makeStyles } from '@mui/styles';
+import { wrapper } from '@/redux/index';
+import { systemAsyncThunk } from '@/redux/system';
 
-export default function Home() {
+const styles = {
+  container: {
+    padding: '0 2rem',
+  },
+  main: {
+    minHeight: '100vh',
+    padding: '4rem 0',
+    flex: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+};
+
+const useStyles = makeStyles(styles);
+
+function Home(props) {
+  const classes = useStyles(props);
+
   const dispatch = useDispatch();
-  const GET_HomePage = () => dispatch({ type: 'system/GET_HomePage' });
-  const successMessage = () =>
-    dispatch({ type: 'system/message_success', payload: '246' });
-
-  const messageText = useSelector((state) => state.system.message);
-  console.log({ messageText });
+  const gethomePage = () => dispatch(systemAsyncThunk.GET_HomePage());
+  const successMessage = () => dispatch({ type: 'system/message_success', payload: '246' });
 
   return (
-    <div className={styles.container}>
+    <div className={classes.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Parker Chan 的個人資料</title>
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-        <Button variant="contained" onClick={GET_HomePage}>
+      <main className={classes.main}>
+        <Button variant="contained" onClick={gethomePage}>
           call api
         </Button>
         <Button variant="contained" onClick={successMessage}>
@@ -68,10 +47,20 @@ export default function Home() {
     </div>
   );
 }
-// https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
-export const getServerSideProps = wrapperGetServerSideProps(function (
-  content,
-  { dispatch }
-) {
-  dispatch({ type: 'system/message_success', payload: '123' });
-});
+
+export default Home;
+// export default Home;
+
+Home.propTypes = {
+};
+
+// // https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
+export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) =>
+  function () {
+    dispatch({ type: 'system/message_success', payload: '123' });
+
+    return {
+      props: {},
+    };
+  }
+);

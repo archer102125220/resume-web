@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Footer from '@/components/Footer';
 
 function DefalutLayout(props) {
@@ -10,3 +11,7 @@ function DefalutLayout(props) {
 }
 
 export default DefalutLayout;
+
+DefalutLayout.propTypes = {
+  children: PropTypes.any,
+};

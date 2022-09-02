@@ -1,19 +1,13 @@
-import { forwardRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import { useSelector } from 'react-redux';
 
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-export default function Message() {
+export default function Message({ messageState, anchorOrigin, autoHideDuration, width }) {
   const [open, setOpen] = useState(false);
-  const messageState = useSelector((state) => state.system.message);
   const { text = '', type = '' } = messageState || {};
-
   const handleOpen = () => {
-    if(type === '') return;
+    if (type === '') return;
     setOpen(true);
   };
 
@@ -24,18 +18,31 @@ export default function Message() {
 
     setOpen(false);
   };
-  useEffect(handleOpen, [messageState, type]);
+  useEffect(handleOpen, [messageState]);
 
   return (
     <Snackbar
       open={open}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      autoHideDuration={6000}
+      anchorOrigin={anchorOrigin}
+      autoHideDuration={autoHideDuration}
       onClose={handleClose}
     >
-      <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+      <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity={type || 'success'} sx={{ width }}>
         {text}
-      </Alert>
+      </MuiAlert>
     </Snackbar>
   );
 }
+
+Message.propTypes = {
+  messageState: PropTypes.object,
+  anchorOrigin: PropTypes.object,
+  autoHideDuration: PropTypes.number,
+  width: PropTypes.string
+};
+
+Message.defaultProps = {
+  anchorOrigin: { vertical: 'top', horizontal: 'center' },
+  autoHideDuration: 6000,
+  width: '100%'
+};
