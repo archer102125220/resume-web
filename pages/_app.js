@@ -1,6 +1,7 @@
+import App from 'next/app';
+import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
 import { ThemeProvider } from '@mui/material/styles';
@@ -30,11 +31,10 @@ function NextApp({ Component, pageProps, router }) {
       enquireScreen(
         (mobile) => {
           systemEnquireScreen(mobile ? true : false);
-        } /*, '(max-width: 1024px)' */
+        }
       );
     }
 
-    windowWidthListener();
     window.addEventListener('resize', windowWidthListener);
     return () => window.removeEventListener('resize', windowWidthListener);
   }, []);
@@ -63,11 +63,22 @@ function NextApp({ Component, pageProps, router }) {
   </ThemeProvider>;
 }
 
-export default wrapper.withRedux(NextApp);
-
 NextApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
   router: PropTypes.object,
   err: PropTypes.object
 };
+
+NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
+  return async (appContext) => {
+    const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
+    const isMobile = userAgent.includes('WebKit-based');
+    dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
+    const appProps = await App.getInitialProps(appContext);
+
+    return { ...appProps };
+  };
+});
+
+export default wrapper.withRedux(NextApp);

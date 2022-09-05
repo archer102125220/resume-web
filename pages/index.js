@@ -54,7 +54,7 @@ export default Home;
 Home.propTypes = {
 };
 
-// // https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
+// https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) =>
   function () {
     dispatch({ type: 'system/message_success', payload: '123' });
