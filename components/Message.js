@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-export default function Message({ messageState, anchorOrigin, autoHideDuration, width }) {
+function Message({ messageState, anchorOrigin, autoHideDuration, width }) {
   const [open, setOpen] = useState(false);
   const { text = '', type = '' } = messageState || {};
   const handleOpen = () => {
@@ -46,3 +46,5 @@ Message.defaultProps = {
   autoHideDuration: 6000,
   width: '100%'
 };
+
+export default Message;

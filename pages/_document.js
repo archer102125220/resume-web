@@ -1,21 +1,27 @@
 import { Children } from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
-import pageCacheManage from '@/middleware/page-cache-manage.js';
+import pageCacheManage from '@/utils/page-cache-manage.js';
+
+const linkTagList = [{ rel: 'icon', href: '/favicon.ico' }];
 
 export default class NextDocument extends Document {
   static async getInitialProps(ctx) {
-    // const initialProps = await Document.getInitialProps(ctx);
-    // return { ...initialProps };
 
     // https://github.com/mui/material-ui/issues/30348
     const sheets = new ServerStyleSheets();
     ctx.originalRenderPage = ctx.renderPage;
 
     ctx.renderPage = async function () {
-      const pageCache = pageCacheManage.getPageCache(this.pathname);
-
-      if (typeof (pageCache) === 'object' && pageCache !== null) return pageCache;
+      const clearCache = this.query?.clearCache;
+      if (clearCache === '') {
+        pageCacheManage.clearAllPageCache();
+      } else if (typeof (clearCache) === 'string') {
+        pageCacheManage.clearPageCache(this.pathname);
+      } else {
+        const pageCache = pageCacheManage.getPageCache(this.pathname);
+        if (typeof (pageCache) === 'object' && pageCache !== null) return pageCache;
+      }
 
       const page = await this.originalRenderPage({
         enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
@@ -37,7 +43,9 @@ export default class NextDocument extends Document {
     return (
       <Html lang="zh-tw">
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          {
+            linkTagList.map((linkTag, index) => <link key={index + '-link'} rel={linkTag.rel} href={linkTag.href} />)
+          }
         </Head>
         <body>
           <Main />

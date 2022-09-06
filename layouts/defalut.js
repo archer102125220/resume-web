@@ -4,14 +4,16 @@ import Footer from '@/components/Footer';
 function DefalutLayout(props) {
   return (
     <>
-      {props.children}
+      <main>
+        {props.children}
+      </main>
       <Footer />
     </>
   );
 }
 
-export default DefalutLayout;
-
 DefalutLayout.propTypes = {
   children: PropTypes.any,
 };
+
+export default DefalutLayout;

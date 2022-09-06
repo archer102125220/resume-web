@@ -1,5 +1,6 @@
 // import PropTypes from 'prop-types';
 import Head from 'next/head';
+import Link from 'next/link';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
@@ -11,7 +12,7 @@ const styles = {
     padding: '0 2rem',
   },
   main: {
-    minHeight: '100vh',
+    minHeight: 'calc(100vh - 1em - 8rem)',
     padding: '4rem 0',
     flex: '1',
     display: 'flex',
@@ -36,20 +37,18 @@ function Home(props) {
         <title>Parker Chan 的個人資料</title>
       </Head>
 
-      <main className={classes.main}>
+      <div className={classes.main}>
         <Button variant="contained" onClick={gethomePage}>
           call api
         </Button>
         <Button variant="contained" onClick={successMessage}>
           open message
         </Button>
-      </main>
+        <Link href="/tow">tow</Link>
+      </div>
     </div>
   );
 }
-
-export default Home;
-// export default Home;
 
 Home.propTypes = {
 };
@@ -64,3 +63,5 @@ export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) =>
     };
   }
 );
+
+export default Home;

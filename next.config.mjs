@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig = {
   reactStrictMode: true,
-  distDir: 'build',
+  distDir: process.env.NODE_ENV === 'development' ? '.next' : 'build',
   swcMinify: true,
   webpack: (config) => {
     config.resolve.alias['@'] = resolve(__dirname);

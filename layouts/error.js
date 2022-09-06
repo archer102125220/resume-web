@@ -17,11 +17,11 @@ const useStyles = makeStyles(styles);
 
 function ErrorLayout({ children }) {
   const classes = useStyles();
-  return <div className={classes.main}>{children}</div>;
+  return <main className={classes.main}>{children}</main>;
 }
-
-export default ErrorLayout;
 
 ErrorLayout.propTypes = {
   children: PropTypes.any,
 };
+
+export default ErrorLayout;
