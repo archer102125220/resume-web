@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import Footer from '@/components/Footer';
+import Footer from '@/components/layout/Footer';
 
-function DefalutLayout({children}) {
+function DefalutLayout({ children }) {
   return (
     <>
       <main>

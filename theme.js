@@ -9,7 +9,7 @@ export const themeObj = {
       main: '#d2b6f7',
     },
     secondary: {
-      main: '#f44336',
+      main: '#61dafb',
     },
     inherit: {
       main: '#ffffff',

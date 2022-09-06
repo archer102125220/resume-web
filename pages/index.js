@@ -50,9 +50,6 @@ function Home(props) {
   );
 }
 
-Home.propTypes = {
-};
-
 // https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) =>
   function () {

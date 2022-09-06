@@ -13,8 +13,8 @@ const scrollbar = {
   },
   '::-webkit-scrollbar-thumb': {
     borderRadius: '4px',
-    backgroundColor: theme.palette.primary.main,
-    border: `1px solid ${theme.palette.primary.main}`
+    backgroundColor: theme.palette.primary.light,
+    border: `1px solid ${theme.palette.primary.light}`
   },
   '::-webkit-scrollbar-track-piece': {
     backgroundColor: '#ffffff00'
@@ -22,27 +22,6 @@ const scrollbar = {
   '::-webkit-scrollbar-track': {
     boxShadow: 'transparent'
   },
-};
-
-const pageTransition = {
-  '.page-enter': {
-    opacity: 0,
-    transform: 'translateX(100%)'
-  },
-  '.page-enter-active': {
-    opacity: 1,
-    transform: 'translateX(0)',
-    transition: 'all  300ms'
-  },
-  '.page-exit': {
-    opacity: 1,
-    transform: 'translateX(0)'
-  },
-  '.page-exit-active': {
-    opacity: 0,
-    transform: 'translateX(-100%)',
-    transition: 'all  300ms'
-  }
 };
 
 export const globalStyle = {
@@ -63,8 +42,7 @@ export const globalStyle = {
   '#__next': {
     overflow: 'hidden'
   },
-  ...scrollbar,
-  ...pageTransition
+  ...scrollbar
 };
 
 export default function globalStyleComponent() {

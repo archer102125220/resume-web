@@ -35,7 +35,4 @@ function Tow(props) {
   );
 }
 
-Tow.propTypes = {
-};
-
 export default Tow;

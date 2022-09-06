@@ -35,6 +35,4 @@ function Footer(props) {
   );
 }
 
-Footer.propTypes = {};
-
 export default Footer;
