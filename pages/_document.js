@@ -18,7 +18,9 @@ export default class NextDocument extends Document {
         pageCacheManage.clearAllPageCache();
       } else if (typeof (clearCache) === 'string') {
         pageCacheManage.clearPageCache(this.pathname);
-      } else {
+      }
+
+      if (clearCache !== this.pathname) {
         const pageCache = pageCacheManage.getPageCache(this.pathname);
         if (typeof (pageCache) === 'object' && pageCache !== null) return pageCache;
       }

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import Footer from '@/components/Footer';
 
-function DefalutLayout(props) {
+function DefalutLayout({children}) {
   return (
     <>
       <main>
-        {props.children}
+        {children}
       </main>
       <Footer />
     </>
