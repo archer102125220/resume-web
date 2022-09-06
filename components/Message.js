@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-function Message({ messageState, anchorOrigin, autoHideDuration, width }) {
+function Message({ messageState, anchorOrigin, autoHideDuration, width, resetMessageState }) {
   const [open, setOpen] = useState(false);
   const { text = '', type = '' } = messageState || {};
   const handleOpen = () => {
-    if (type === '') return;
+    if (text === '' || type === '') return;
     setOpen(true);
   };
 
@@ -17,6 +17,7 @@ function Message({ messageState, anchorOrigin, autoHideDuration, width }) {
     }
 
     setOpen(false);
+    resetMessageState();
   };
   useEffect(handleOpen, [messageState]);
 
@@ -38,13 +39,15 @@ Message.propTypes = {
   messageState: PropTypes.object,
   anchorOrigin: PropTypes.object,
   autoHideDuration: PropTypes.number,
-  width: PropTypes.string
+  width: PropTypes.string,
+  resetMessageState: PropTypes.func
 };
 
 Message.defaultProps = {
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
   autoHideDuration: 6000,
-  width: '100%'
+  width: '100%',
+  resetMessageState() { }
 };
 
 export default Message;

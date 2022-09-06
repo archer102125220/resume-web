@@ -21,6 +21,7 @@ function NextApp({ Component, pageProps, router }) {
   const [pageLoading, setPageLoading] = useState(false);
   const messageState = useSelector((state) => state.system.message);
   const dispatch = useDispatch();
+  const resetMessageState = (callback) => dispatch({ type: 'system/message_reset', callback });
 
   useEffect(() => {
     const handleStart = (url) => (url !== router.asPath) && setPageLoading(true);
@@ -64,7 +65,7 @@ function NextApp({ Component, pageProps, router }) {
       <Component {...pageProps} />
     </LayoutSwitch>
     {pageLoading === true && <PageLoading />}
-    <Message messageState={messageState} />
+    <Message messageState={messageState} resetMessageState={resetMessageState} />
   </ThemeProvider>;
 }
 
