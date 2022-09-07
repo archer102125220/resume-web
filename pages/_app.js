@@ -79,7 +79,7 @@ NextApp.propTypes = {
 NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
   return async (appContext) => {
     const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
-    const isMobile = userAgent.includes('WebKit-based');
+    const isMobile = userAgent.includes('Android') || userAgent.includes('iPhone');
     dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
     const appProps = await App.getInitialProps(appContext);
 
