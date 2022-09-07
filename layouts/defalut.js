@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
 import Footer from '@/components/layout/Footer';
 
 function DefalutLayout({ children }) {
   return (
     <>
-      <main>
+      <Typography component='main'>
         {children}
-      </main>
+      </Typography>
       <Footer />
     </>
   );
