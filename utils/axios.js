@@ -5,6 +5,54 @@ const baseURL = process.env.AXIOS_BASE_URL;
 
 const ax = axios.create({ baseURL });
 
+export class cancelRequest {
+  requestCancelerList = {};
+
+  addRequestCanceler(cancel, method = 'GET', url) {
+    const key = method.toLocaleLowerCase() + '_' + url;
+    this.requestCancelerList[key] = cancel;
+  }
+  getRequestCanceler(method = 'GET', url) {
+    const key = method.toLocaleLowerCase() + '_' + url;
+    return this.requestCancelerList[key];
+  }
+  removeRequestCanceler(method = 'GET', url) {
+    const key = method.toLocaleLowerCase() + '_' + url;
+    this.requestCancelerList[key] = null;
+  }
+
+  handlerCancel = (method = 'GET', url) => {
+    const key = method.toLocaleLowerCase() + '_' + url;
+    const requestCanceler = this.requestCancelerList[key] || {};
+    if (typeof requestCanceler === 'object' && requestCanceler !== null) {
+      requestCanceler.abort();
+      this.requestCancelerList[key] = null;
+    }
+  };
+  handlerCancelAll = () => {
+    const requestCancelerList = this.requestCancelerList;
+    Object.keys(requestCancelerList).forEach((requestCancelerKey) => {
+      const requestCanceler = requestCancelerList[requestCancelerKey] || {};
+      if (typeof requestCanceler === 'object' && requestCanceler !== null) {
+        requestCanceler.abort();
+        this.requestCancelerList[requestCancelerKey] = null;
+      }
+    });
+  };
+}
+
+const CancelRequest = new cancelRequest();
+
+ax.interceptors.request.use(function (config) {
+  const controller = new AbortController();
+  const cfg = {
+    ...config,
+    signal: controller.signal,
+  };
+  CancelRequest.addRequestCanceler(controller, config.method, config.url);
+  return cfg;
+});
+
 function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
   const method = _method.toUpperCase();
   let params = {};
@@ -52,5 +100,22 @@ request.delete = function (...arg) {
 request.patch = function (...arg) {
   return request('PATCH', ...arg);
 };
+request.cancel = CancelRequest.handlerCancel;
+request.getCancel = function (...arg) {
+  return CancelRequest.handlerCancel('get', ...arg);
+};
+request.postCancel = function (...arg) {
+  return CancelRequest.handlerCancel('post', ...arg);
+};
+request.putCancel = function (...arg) {
+  return CancelRequest.handlerCancel('put', ...arg);
+};
+request.deleteCancel = function (...arg) {
+  return CancelRequest.handlerCancel('delete', ...arg);
+};
+request.patchCancel = function (...arg) {
+  return CancelRequest.handlerCancel('patch', ...arg);
+};
+request.cancelAll = CancelRequest.handlerCancelAll;
 
 export default request;
