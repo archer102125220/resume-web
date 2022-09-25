@@ -21,11 +21,15 @@ function NextApp({ Component, pageProps, router }) {
   const [pageLoading, setPageLoading] = useState(false);
   const messageState = useSelector((state) => state.system.message);
   const dispatch = useDispatch();
-  const resetMessageState = (callback) => dispatch({ type: 'system/message_reset', callback });
+  const resetMessageState = (callback) => {
+    return dispatch({ type: 'system/message_reset', callback });
+  };
 
   useEffect(() => {
-    const handleStart = (url) => (url !== router.asPath) && setPageLoading(true);
-    const handleComplete = (url) => (url === router.asPath) && setPageLoading(false);
+    const handleStart = (url) => url !== router.asPath && setPageLoading(true);
+    const handleComplete = (url) => {
+      url === router.asPath && setPageLoading(false);
+    };
     nextRouter.events.on('routeChangeStart', handleStart);
     nextRouter.events.on('routeChangeComplete', handleComplete);
     nextRouter.events.on('routeChangeError', handleComplete);
@@ -35,13 +39,13 @@ function NextApp({ Component, pageProps, router }) {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
 
-    const systemEnquireScreen = (payload, callback) => dispatch({ type: 'system/SAVE_is_mobile', payload, callback });
+    const systemEnquireScreen = (payload, callback) => {
+      return dispatch({ type: 'system/SAVE_is_mobile', payload, callback });
+    };
     function windowWidthListener() {
-      enquireScreen(
-        (mobile) => {
-          systemEnquireScreen(mobile ? true : false);
-        }
-      );
+      enquireScreen((mobile) => {
+        systemEnquireScreen(mobile ? true : false);
+      });
     }
     window.addEventListener('resize', windowWidthListener);
     return () => {
@@ -53,33 +57,40 @@ function NextApp({ Component, pageProps, router }) {
     };
   }, []);
 
-  return <ThemeProvider theme={theme}>
-    <Head>
-      <GlobalStyles />
-      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="viewport" content="initial-scale=1, width=device-width" />
-      <meta name="description" content="Parker Chan 的個人資料" />
-      <meta name="theme-color" content={theme.palette.primary.main} />
-    </Head>
-    <LayoutSwitch router={router} pageProps={pageProps}>
-      <Component {...pageProps} />
-    </LayoutSwitch>
-    {pageLoading === true && <PageLoading />}
-    <Message messageState={messageState} resetMessageState={resetMessageState} />
-  </ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <Head>
+        <GlobalStyles />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="description" content="Parker Chan 的個人資料" />
+        <meta name="theme-color" content={theme.palette.primary.main} />
+        <title>Parker Chan 的個人資料</title>
+      </Head>
+      <LayoutSwitch router={router} pageProps={pageProps}>
+        <Component {...pageProps} />
+      </LayoutSwitch>
+      {pageLoading === true && <PageLoading />}
+      <Message
+        messageState={messageState}
+        resetMessageState={resetMessageState}
+      />
+    </ThemeProvider>
+  );
 }
 
 NextApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
   router: PropTypes.object,
-  err: PropTypes.object
+  err: PropTypes.object,
 };
 
 NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
   return async (appContext) => {
     const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
-    const isMobile = userAgent.includes('Android') || userAgent.includes('iPhone');
+    const isMobile =
+      userAgent.includes('Android') || userAgent.includes('iPhone');
     dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
     const appProps = await App.getInitialProps(appContext);
 
