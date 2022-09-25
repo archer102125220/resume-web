@@ -2,12 +2,22 @@
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { makeStyles } from '@mui/styles';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import DefalutLayout from '@/layouts/defalut';
 import ErrorLayout from '@/layouts/error';
 
+const styles = {
+  transitionRoot: {
+    minHeight: 'inherit',
+    height: 'inherit'
+  },
+};
+const useStyles = makeStyles(styles);
+
 function LayoutSwitch({ router, children, pageProps }) {
   const nodeRef = useRef(null);
+  const classes = useStyles();
 
   const layoutSetting = [
     { path: '/404', layout: ErrorLayout },
@@ -42,7 +52,7 @@ function LayoutSwitch({ router, children, pageProps }) {
       <SwitchTransition>
         <CSSTransition key={router.pathname} nodeRef={nodeRef} in timeout={200} classNames="page">
           {/* https://github.com/reactjs/react-transition-group/issues/668 */}
-          <div ref={nodeRef}>
+          <div ref={nodeRef} className={classes.transitionRoot}>
             {children}
           </div>
         </CSSTransition>
