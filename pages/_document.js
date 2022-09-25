@@ -1,7 +1,7 @@
 import { Children } from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
-import pageCacheManage from '@/utils/page-cache-manage.js';
+import pageCacheManage from '@/utils/cache-manage.js';
 
 const linkTagList = [{ rel: 'icon', href: '/favicon.ico' }];
 
