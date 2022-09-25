@@ -8,21 +8,29 @@ const ax = axios.create({ baseURL });
 export class cancelRequest {
   requestCancelerList = {};
 
-  addRequestCanceler(cancel, method = 'GET', url) {
-    const key = method.toLocaleLowerCase() + '_' + url;
+  getRequestKey(method, url, params) {
+    let requestKey = method.toLocaleLowerCase() + '|__|' + url;
+    if (typeof params === 'object' && params !== null) {
+      requestKey += '|__|' + JSON.stringify(params);
+    }
+    return requestKey;
+  }
+
+  addRequestCanceler(cancel, method = 'GET', url, params) {
+    const key = this.getRequestKey(method, url, params);
     this.requestCancelerList[key] = cancel;
   }
-  getRequestCanceler(method = 'GET', url) {
-    const key = method.toLocaleLowerCase() + '_' + url;
+  getRequestCanceler(method = 'GET', url, params) {
+    const key = this.getRequestKey(method, url, params);
     return this.requestCancelerList[key];
   }
-  removeRequestCanceler(method = 'GET', url) {
-    const key = method.toLocaleLowerCase() + '_' + url;
+  removeRequestCanceler(method = 'GET', url, params) {
+    const key = this.getRequestKey(method, url, params);
     this.requestCancelerList[key] = null;
   }
 
-  handlerCancel = (method = 'GET', url) => {
-    const key = method.toLocaleLowerCase() + '_' + url;
+  handlerCancel = (method = 'GET', url, params) => {
+    const key = this.getRequestKey(method, url, params);
     const requestCanceler = this.requestCancelerList[key] || {};
     if (typeof requestCanceler === 'object' && requestCanceler !== null) {
       requestCanceler.abort();
@@ -41,15 +49,25 @@ export class cancelRequest {
   };
 }
 
-const CancelRequest = new cancelRequest();
+export const CancelRequest = new cancelRequest();
 
 ax.interceptors.request.use(function (config) {
   const controller = new AbortController();
+  let params = config.params;
+  const configData = config.data;
+  if (configData) {
+    params = JSON.parse(configData);
+  }
   const cfg = {
     ...config,
     signal: controller.signal,
   };
-  CancelRequest.addRequestCanceler(controller, config.method, config.url);
+  CancelRequest.addRequestCanceler(
+    controller,
+    config.method,
+    config.url,
+    params
+  );
   return cfg;
 });
 
@@ -79,7 +97,16 @@ function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
       ..._extendOption,
       // withCredentials: true,
     })
-    .then((response) => response.data);
+    .then((response) => {
+      const { config, data } = response;
+      let params = config.params;
+      const configData = config.data;
+      if (configData) {
+        params = JSON.parse(configData);
+      }
+      CancelRequest.removeRequestCanceler(config.method, config.url, params);
+      return data;
+    });
 }
 
 request.ax = ax;
