@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
 
@@ -6,13 +6,15 @@ const styles = {
   footer: {
     display: 'flex',
     flex: '1',
-    padding: '2rem 0',
+    // padding: '2rem 0',
+    padding: ({ footerPadding }) => footerPadding,
     borderTop: '1px solid #eaeaea',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    height: '1em',
+    // height: '1em',
+    height: ({ logoHeight }) => logoHeight,
     marginLeft: '0.5rem'
   }
 };
@@ -34,5 +36,22 @@ function Footer(props) {
     </footer>
   );
 }
+
+Footer.propTypes = {
+  logoHeight: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  footerPadding: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+};
+
+Footer.defaultProps = {
+  footerPadding: '2rem 0',
+  logoHeight: '1em'
+};
+
 
 export default Footer;
