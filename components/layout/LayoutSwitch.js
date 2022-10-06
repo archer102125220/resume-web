@@ -5,6 +5,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { makeStyles } from '@mui/styles';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import DefalutLayout from '@/layouts/defalut';
+import IndexLayout from '@/layouts/index';
 import ErrorLayout from '@/layouts/error';
 
 const styles = {
@@ -20,6 +21,8 @@ function LayoutSwitch({ router, children, pageProps }) {
   const classes = useStyles();
 
   const layoutSetting = [
+    { path: '/', layout: IndexLayout },
+    { path: '/index', layout: IndexLayout },
     { path: '/404', layout: ErrorLayout },
     { path: '/500', layout: ErrorLayout }
   ];

@@ -10,7 +10,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function DefalutLayout({ children }) {
+function IndexLayout({ children }) {
   const classes = useStyles();
   return (
     <Typography component="main" className={classes.main}>
@@ -19,8 +19,8 @@ function DefalutLayout({ children }) {
   );
 }
 
-DefalutLayout.propTypes = {
+IndexLayout.propTypes = {
   children: PropTypes.any,
 };
 
-export default DefalutLayout;
+export default IndexLayout;
