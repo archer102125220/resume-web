@@ -1,19 +1,26 @@
 import { useRef, useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import anime from 'animejs';
+// https://greensock.com/
 
 // https://www.atjiang.com/create-grids-via-css-linear-gradient/
-const doorStyle = {
+const doorStyle = (theme) => ({
   position: 'absolute',
   top: 0,
-  background: '#ffe7c0',
+  zIndex: 10,
+  background: theme.palette.secondary.main,
   backgroundImage:
     'linear-gradient(rgb(106 106 106) 1px, transparent 0), linear-gradient(90deg, rgb(106 106 106) 1px, transparent 0)',
   backgroundSize: '50px 50px, 50px 50px',
   border: 0,
   borderStyle: 'solid',
   cursor: 'pointer',
-};
+  WebkitTapHighlightColor: 'transparent',
+  WebkitUserSelect: 'none',
+  MozUserSelect: 'none',
+  OUserSelect: 'none',
+  userSelect: 'none',
+});
 
 const doorHandleStyle = {
   position: 'absolute',
@@ -24,7 +31,13 @@ const doorHandleStyle = {
   borderRadius: 100,
 };
 
-const styles = {
+const tableStyle = {
+  position: 'absolute',
+  border: '1px solid',
+  backgroundColor: '#d7904e',
+};
+
+const styles = (theme) => ({
   index: {
     width: '100%',
     height: '100%',
@@ -34,14 +47,14 @@ const styles = {
     overflow: 'hidden',
   },
   indexLeftDoor: {
-    ...doorStyle,
+    ...doorStyle(theme),
     width: '50%',
     height: '100%',
     borderRight: '2px',
     left: 0,
   },
   indexRightDoor: {
-    ...doorStyle,
+    ...doorStyle(theme),
     width: '50%',
     height: '100%',
     borderLeft: '2px',
@@ -55,48 +68,92 @@ const styles = {
     ...doorHandleStyle,
     left: 0,
   },
-  textArea: {
+  indexContent: {
+    height: 'inherit',
+    backgroundColor: theme.palette.primary.main,
     textAlign: 'center',
   },
-};
+  indexContentTable: tableStyle,
+  indexContentTableside: {
+    ...tableStyle,
+    top: '100%',
+    left: '0.5%',
+    width: '99%',
+    transform: 'perspective(0.5em) rotateX(359deg)',
+  },
+  indexContentTableBase: {
+    ...tableStyle,
+    // top: '110%',
+    // height: '100%',
+    // width: '10%',
+    // borderRadius: '10%',
+  },
+});
 
 const useStyles = makeStyles(styles);
 
 function Index() {
-  const reftDoorRef = useRef(null);
+  const leftDoorRef = useRef(null);
   const rightDoorRef = useRef(null);
+  const tabletopRef = useRef(null);
+  const tablesideRef = useRef(null);
+  const tableBaseRef = useRef(null);
   const [openDoor, setOpenDoor] = useState(false);
-  const classes = useStyles() || {};
+  const classes = useStyles();
   const {
     index,
     indexLeftDoor,
     indexLeftDoorHandle,
     indexRightDoor,
     indexRightDoorHandle,
-    textArea,
+    indexContent,
+    indexContentTable,
+    indexContentTableside,
+    indexContentTableBase,
   } = classes;
 
   useEffect(() => {
     if (openDoor === true) {
       anime({
-        targets: reftDoorRef.current,
+        targets: leftDoorRef.current,
         translateX: '-100%',
         duration: 1000,
-        complete() {
-          console.log(reftDoorRef.current);
-        },
       });
       anime({
         targets: rightDoorRef.current,
         translateX: '100%',
         duration: 1000,
+      });
+      anime({
+        targets: tabletopRef.current,
+        top: ['25%', '5%'],
+        left: ['25%', '5%'],
+        width: ['50%', '90%'],
+        height: ['20%', '90%'],
+        perspective: ['0.5em', '0.5em'],
+        rotateX: [1, 0],
+        delay: 500,
+        easing: 'easeOutQuint',
+        // autoplay: false,
         complete() {
-          console.log(rightDoorRef.current);
+          console.log(tabletopRef.current);
+        },
+      });
+      anime({
+        targets: tablesideRef.current,
+        left: ['0.5%', '0%'],
+        width: ['99%', '100%'],
+        height: ['13%', '0%'],
+        delay: 500,
+        easing: 'easeOutQuint',
+        // autoplay: false,
+        complete() {
+          console.log(tablesideRef.current);
         },
       });
     } else if (openDoor === false) {
       anime({
-        targets: reftDoorRef.current,
+        targets: leftDoorRef.current,
         translateX: 0,
         // https://easings.net/
         easing: 'easeOutQuint',
@@ -111,15 +168,18 @@ function Index() {
 
   return (
     <div className={index} onClick={() => setOpenDoor(!openDoor)}>
-      <div className={indexLeftDoor} ref={reftDoorRef}>
+      <div className={indexLeftDoor} ref={leftDoorRef}>
         <div className={indexLeftDoorHandle} />
       </div>
       <div className={indexRightDoor} ref={rightDoorRef}>
         <div className={indexRightDoorHandle} />
       </div>
-      <p className={textArea}>
-        不好意思，其餘頁面與動畫正在設計中，感謝您的來訪~
-      </p>
+      <div className={indexContent}>
+        <div className={indexContentTable} ref={tabletopRef}>
+          <div className={indexContentTableside} ref={tablesideRef} />
+          <div className={indexContentTableBase} ref={tableBaseRef} />
+        </div>
+      </div>
     </div>
   );
 }
