@@ -24,11 +24,8 @@ const useStyles = makeStyles(styles);
 function Footer(props) {
   const classes = useStyles(props);
 
-  const classNameFooter = classes.footer;
-  // const classNameFooter = '';
-
   return (
-    <footer className={classNameFooter}>
+    <footer className={classes.footer}>
       Powered by{' '}
       <span className={classes.logo}>
         <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
