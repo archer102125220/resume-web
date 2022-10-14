@@ -40,7 +40,7 @@ function Tow(props) {
         <Button variant="contained" onClick={successMessage}>
           open message
         </Button>
-        <Link href="/">home</Link>
+        <Link href="/home">home</Link>
       </div>
     </div>
   );

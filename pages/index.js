@@ -1,9 +1,12 @@
+import PropTypes from 'prop-types';
 import { useRef, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import anime from 'animejs';
 // https://greensock.com/
 import { useSelector } from 'react-redux';
 import { mediaMobile } from '@/styles/globals';
+import { tableStyle } from '@/styles/tableStyle';
 
 // https://www.atjiang.com/create-grids-via-css-linear-gradient/
 const doorStyle = (theme) => ({
@@ -22,6 +25,7 @@ const doorStyle = (theme) => ({
   MozUserSelect: 'none',
   OUserSelect: 'none',
   userSelect: 'none',
+  overflow: 'hidden',
 });
 
 const doorHandleStyle = {
@@ -33,11 +37,6 @@ const doorHandleStyle = {
   borderRadius: 100,
 };
 
-const tableStyle = {
-  position: 'absolute',
-  border: '1px solid',
-  backgroundColor: '#d7904e',
-};
 const contentTableLowerLeftHandBaseFront = {
   ...tableStyle,
   top: '112%',
@@ -74,6 +73,16 @@ const contentTableLowerLeftHandBaseSide = {
     transform: 'skewX(25deg)',
   },
 };
+const doorplate = {
+  background: '#f8c97c',
+  fontSize: '36px',
+  display: 'inline-block',
+  whiteSpace: 'nowrap',
+  border: '1px solid',
+  [mediaMobile]: {
+    fontSize: '30px',
+  },
+};
 
 const styles = (theme) => ({
   index: {
@@ -102,21 +111,49 @@ const styles = (theme) => ({
     ...doorHandleStyle,
     right: 0,
   },
+  leftDoorDoorplate: {
+    ...doorplate,
+    position: 'absolute',
+    top: '25%',
+    right: 0,
+    borderRight: 0,
+    [mediaMobile]: {
+      ...doorplate[mediaMobile],
+    },
+  },
   rightDoorHandle: {
     ...doorHandleStyle,
     left: 0,
+  },
+  rightDoorDoorplate: {
+    ...doorplate,
+    position: 'absolute',
+    top: '25%',
+    left: 0,
+    borderLeft: 0,
+    [mediaMobile]: {
+      ...doorplate[mediaMobile],
+    },
   },
   content: {
     height: 'inherit',
     backgroundColor: theme.palette.primary.main,
     textAlign: 'center',
   },
-  contentTable: tableStyle,
+  contentTable: {
+    ...tableStyle,
+    top: '25%',
+    left: '25%',
+    width: '50%',
+    height: '20%',
+    transform: 'perspective(0.5em) rotateX(1deg)',
+  },
   contentTableside: {
     ...tableStyle,
     top: '100%',
     left: '0.5%',
     width: '99%',
+    height: '13%',
     transform: 'perspective(0.5em) rotateX(359deg)',
     zIndex: 2,
   },
@@ -124,22 +161,26 @@ const styles = (theme) => ({
   contentTableLowerLeftHandBaseSide,
   contentTableLowerRightHandBaseFront: {
     ...contentTableLowerLeftHandBaseFront,
-    left: 'unset',
+    left: null,
     right: '8%',
-    transform: 'skewX(321deg)',
+    transform: 'skewX(347deg)',
     [mediaMobile]: {
-      left: 'unset',
+      ...contentTableLowerLeftHandBaseFront[mediaMobile],
+      left: null,
       right: '9%',
+      transform: 'skewX(347deg)',
     },
   },
   contentTableLowerRightHandBaseSide: {
     ...contentTableLowerLeftHandBaseSide,
-    left: 'unset',
+    left: null,
     right: '13%',
     transform: 'skewX(321deg)',
     [mediaMobile]: {
-      left: 'unset',
+      ...contentTableLowerLeftHandBaseSide[mediaMobile],
+      left: null,
       right: '16%',
+      transform: 'skewX(347deg)',
     },
   },
 });
@@ -147,6 +188,7 @@ const styles = (theme) => ({
 const useStyles = makeStyles(styles);
 
 function Index() {
+  const nextRouter = useRouter();
   const leftDoorRef = useRef(null);
   const rightDoorRef = useRef(null);
   const tabletopRef = useRef(null);
@@ -161,8 +203,10 @@ function Index() {
     index,
     leftDoor,
     leftDoorHandle,
+    leftDoorDoorplate,
     rightDoor,
     rightDoorHandle,
+    rightDoorDoorplate,
     content,
     contentTable,
     contentTableside,
@@ -197,7 +241,7 @@ function Index() {
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tabletopRef.current);
+        // console.log(tabletopRef.current);
       },
     });
     anime({
@@ -209,7 +253,7 @@ function Index() {
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tablesideRef.current);
+        // console.log(tablesideRef.current);
       },
     });
     anime({
@@ -221,7 +265,7 @@ function Index() {
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tablesideRef.current);
+        // console.log(tablesideRef.current);
       },
     });
     anime({
@@ -230,60 +274,60 @@ function Index() {
       left: ['9%', '1%'],
       width: [isMobile === true ? '10%' : '5%', '8%'],
       height: [isMobile === true ? '25%' : '50%', '0%'],
-      // transform: 'skewX(43deg)'
       skewX: [isMobile === true ? 26 : 43, 0],
       delay: 500,
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tableLowerLeftHandBaseFrontRef.current);
+        // console.log(tableLowerLeftHandBaseFrontRef.current);
       },
     });
     anime({
-      targets: [tableLowerLeftHandBaseSideRef.current],
+      targets: tableLowerLeftHandBaseSideRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       left: [isMobile === true ? '16%' : '13%', '9%'],
       width: [isMobile === true ? '5%' : '2.5%', '0.2%'],
       height: [isMobile === true ? '25%' : '50%', '0%'],
-      // transform: 'skewX(43deg)'
       skewX: [isMobile === true ? 25 : 43, 0],
       delay: 500,
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tableLowerLeftHandBaseSideRef.current);
+        // console.log(tableLowerLeftHandBaseSideRef.current);
       },
     });
     anime({
-      targets: [tableLowerRightHandBaseFrontRef.current],
+      targets: tableLowerRightHandBaseFrontRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       right: ['9%', '1%'],
       width: [isMobile === true ? '10%' : '5%', '8%'],
       height: [isMobile === true ? '25%' : '50%', '0%'],
-      // transform: 'skewX(43deg)'
       skewX: [isMobile === true ? 347 : 321, 360],
       delay: 500,
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tableLowerRightHandBaseFrontRef.current);
+        // console.log(tableLowerRightHandBaseFrontRef.current);
       },
     });
-    anime({
-      targets: [tableLowerRightHandBaseSideRef.current],
+    const a = anime({
+      targets: tableLowerRightHandBaseSideRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       right: [isMobile === true ? '16%' : '13%', '9%'],
       width: [isMobile === true ? '5%' : '2.5%', '0.2%'],
       height: [isMobile === true ? '25%' : '50%', '0%'],
-      // transform: 'skewX(43deg)'
       skewX: [isMobile === true ? 345 : 321, 360],
       delay: 500,
       easing: 'easeOutQuint',
       autoplay,
       complete() {
-        console.log(tableLowerRightHandBaseSideRef.current);
+        // console.log(tableLowerRightHandBaseSideRef.current);
+        nextRouter.push('/home');
       },
     });
+    console.log({ a, anime });
+    // a.seek(a.duration);
+    // a.pause();
   }
   function cloesingAnime() {
     anime({
@@ -311,13 +355,14 @@ function Index() {
     <div className={index} onClick={() => setOpenDoor(!openDoor)}>
       <div className={leftDoor} ref={leftDoorRef}>
         <div className={leftDoorHandle} />
+        <h1 className={leftDoorDoorplate}>Parker Cheng</h1>
       </div>
       <div className={rightDoor} ref={rightDoorRef}>
         <div className={rightDoorHandle} />
+        <h1 className={rightDoorDoorplate}>的個人資料室</h1>
       </div>
       <div className={content}>
         <div className={contentTable} ref={tabletopRef}>
-          不好意思，其餘頁面與動畫正在設計中，感謝您的來訪~
           <div className={contentTableside} ref={tablesideRef} />
           <div
             className={contentTableLowerLeftHandBaseFront}
@@ -340,5 +385,9 @@ function Index() {
     </div>
   );
 }
+
+Index.propTypes = {
+  isMobile: PropTypes.bool,
+};
 
 export default Index;

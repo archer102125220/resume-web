@@ -39,6 +39,9 @@ export const globalStyle = {
   },
   '*': {
     boxSizing: 'border-box',
+    fontSize: 'inherit',
+    padding: 0,
+    margin: 0,
   },
   '#__next': {
     overflow: 'hidden',

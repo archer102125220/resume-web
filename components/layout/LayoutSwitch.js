@@ -16,6 +16,26 @@ const styles = {
 };
 const useStyles = makeStyles(styles);
 
+const pageTransition = {
+  '.page-enter': {
+    opacity: 0,
+    transform: 'translateY(-100%)'
+  },
+  '.page-enter-active': {
+    opacity: 1,
+    transform: 'translateY(0)',
+    transition: 'all  300ms'
+  },
+  '.page-exit': {
+    opacity: 1,
+    transform: 'translateY(0)'
+  },
+  '.page-exit-active': {
+    opacity: 0,
+    transform: 'translateY(100%)',
+    transition: 'all  300ms'
+  }
+};
 function LayoutSwitch({ router, children, pageProps }) {
   const nodeRef = useRef(null);
   const classes = useStyles();
@@ -27,27 +47,6 @@ function LayoutSwitch({ router, children, pageProps }) {
     { path: '/500', layout: ErrorLayout }
   ];
   const Layout = layoutSetting.find(({ path }) => path === router.route)?.layout || DefalutLayout;
-
-  const pageTransition = {
-    '.page-enter': {
-      opacity: 0,
-      transform: 'translateX(100%)'
-    },
-    '.page-enter-active': {
-      opacity: 1,
-      transform: 'translateX(0)',
-      transition: 'all  300ms'
-    },
-    '.page-exit': {
-      opacity: 1,
-      transform: 'translateX(0)'
-    },
-    '.page-exit-active': {
-      opacity: 0,
-      transform: 'translateX(-100%)',
-      transition: 'all  300ms'
-    }
-  };
 
   return <>
     <GlobalStyles styles={pageTransition} />
