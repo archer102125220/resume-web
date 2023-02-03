@@ -1,18 +1,13 @@
 import App from 'next/app';
 import Head from 'next/head';
-// import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import {
-  useEffect,
-  // useState
-} from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme';
 import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
-// import PageLoading from '@/components/PageLoading';
 import Message from '@/components/Message';
 import { wrapper } from '@/redux/index';
 
@@ -20,8 +15,6 @@ import { wrapper } from '@/redux/index';
 // https://vercel.com/archer102125220/resume-web
 
 function NextApp({ Component, pageProps, router }) {
-  // const nextRouter = useRouter();
-  // const [pageLoading, setPageLoading] = useState(false);
   const messageState = useSelector((state) => state.system.message);
   const dispatch = useDispatch();
   const resetMessageState = (callback) => {
@@ -29,14 +22,6 @@ function NextApp({ Component, pageProps, router }) {
   };
 
   useEffect(() => {
-    // const handleStart = (url) => url !== router.asPath && setPageLoading(true);
-    // const handleComplete = (url) => {
-    //   url === router.asPath && setPageLoading(false);
-    // };
-    // nextRouter.events.on('routeChangeStart', handleStart);
-    // nextRouter.events.on('routeChangeComplete', handleComplete);
-    // nextRouter.events.on('routeChangeError', handleComplete);
-
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement?.removeChild(jssStyles);
@@ -52,10 +37,6 @@ function NextApp({ Component, pageProps, router }) {
     }
     window.addEventListener('resize', windowWidthListener);
     return () => {
-      // nextRouter.events.off('routeChangeStart', handleStart);
-      // nextRouter.events.off('routeChangeComplete', handleComplete);
-      // nextRouter.events.off('routeChangeError', handleComplete);
-
       window.removeEventListener('resize', windowWidthListener);
     };
   }, []);
@@ -73,7 +54,6 @@ function NextApp({ Component, pageProps, router }) {
       <LayoutSwitch router={router} pageProps={pageProps}>
         <Component {...pageProps} />
       </LayoutSwitch>
-      {/* {pageLoading === true && <PageLoading />} */}
       <Message
         messageState={messageState}
         resetMessageState={resetMessageState}
