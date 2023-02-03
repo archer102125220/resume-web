@@ -59,7 +59,7 @@ function NextApp({ Component, pageProps, router }) {
     if (typeof window.dataLayer !== 'object') return setTimeout(gtagInit, 100);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function (...arg) { window.dataLayer.push(arg); }
+    window.gtag = function (...arg) { window.dataLayer.push(arg); };
     window.gtag('js', new Date());
 
     window.gtag('config', process.env.GA_ID, { debug_mode: process.env.NODE_ENV === 'development' });
