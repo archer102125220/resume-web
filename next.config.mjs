@@ -13,7 +13,9 @@ const nextConfig = {
     return config;
   },
   env: {
-    AXIOS_BASE_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api'
+    AXIOS_BASE_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api',
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    GA_ID: process.env.GA_ID
   },
 };
 
