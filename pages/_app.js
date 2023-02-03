@@ -1,6 +1,5 @@
 import App from 'next/app';
 import Head from 'next/head';
-import Script from 'next/script';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,10 +37,31 @@ function NextApp({ Component, pageProps, router }) {
       });
     }
     window.addEventListener('resize', windowWidthListener);
+    createScript();
     return () => {
       window.removeEventListener('resize', windowWidthListener);
     };
   }, []);
+
+  function createScript() {
+    if (document.querySelector('#dataLayer')) return;
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '');
+    script.async = true;
+    script.id = 'dataLayer';
+    document.body.appendChild(script);
+    setTimeout(gtagInit, 100);
+  }
+
+  function gtagInit() {
+    if (typeof window.dataLayer !== 'object') return setTimeout(gtagInit, 100);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function (...arg) { window.dataLayer.push(arg); }
+    window.gtag('js', new Date());
+
+    window.gtag('config', process.env.GA_ID, { debug_mode: process.env.NODE_ENV === 'development' });
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -52,18 +72,6 @@ function NextApp({ Component, pageProps, router }) {
         <meta name="description" content="Parker Chan 的個人資料" />
         <meta name="theme-color" content={theme.palette.primary.main} />
         <title>Parker Chan 的個人資料</title>
-        <Script
-          src={"https://www.googletagmanager.com/gtag/js?id=" + (process.env.GA_ID || '')}
-        />
-        <Script>
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', '${process.env.GA_ID || ''}');
-        `}
-        </Script>
       </Head>
       <LayoutSwitch router={router} pageProps={pageProps}>
         <Component {...pageProps} />
