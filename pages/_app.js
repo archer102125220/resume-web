@@ -1,5 +1,6 @@
 import App from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +11,7 @@ import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
 import { wrapper } from '@/redux/index';
+import { app } from '@/utils/firebase';
 
 // https://ithelp.ithome.com.tw/articles/10269342
 // https://vercel.com/archer102125220/resume-web
@@ -50,6 +52,18 @@ function NextApp({ Component, pageProps, router }) {
         <meta name="description" content="Parker Chan 的個人資料" />
         <meta name="theme-color" content={theme.palette.primary.main} />
         <title>Parker Chan 的個人資料</title>
+        <Script
+          src={"https://www.googletagmanager.com/gtag/js?id=" + (process.env.GA_ID || '')}
+        />
+        <Script>
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${process.env.GA_ID || ''}');
+        `}
+        </Script>
       </Head>
       <LayoutSwitch router={router} pageProps={pageProps}>
         <Component {...pageProps} />

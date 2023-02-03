@@ -9,7 +9,7 @@ import { getFirestore } from 'firebase/firestore/lite';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDrkQ39bol9ac4MJHDg4knwMz5fm9jzzio',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'resume-web-223c3.firebaseapp.com',
   projectId: 'resume-web-223c3',
   storageBucket: 'resume-web-223c3.appspot.com',
@@ -18,7 +18,16 @@ export const firebaseConfig = {
   measurementId: 'G-EDV5FF65FE',
 };
 
+
+export let app;
+export let analytics;
+export let db;
+
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-export const db = getFirestore(app);
+export function init() {
+  if (typeof window === 'object') {
+    app = initializeApp(firebaseConfig);
+    analytics = getAnalytics(app);
+    db = getFirestore(app);
+  }
+}
