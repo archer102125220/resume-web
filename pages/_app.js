@@ -10,7 +10,7 @@ import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
 import { wrapper } from '@/redux/index';
-import { app } from '@/utils/firebase';
+import { app, init } from '@/utils/firebase';
 
 // https://ithelp.ithome.com.tw/articles/10269342
 // https://vercel.com/archer102125220/resume-web
@@ -37,6 +37,8 @@ function NextApp({ Component, pageProps, router }) {
       });
     }
     window.addEventListener('resize', windowWidthListener);
+    init();
+    console.log({ app });
     createScript();
     return () => {
       window.removeEventListener('resize', windowWidthListener);
