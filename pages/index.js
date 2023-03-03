@@ -189,6 +189,7 @@ const useStyles = makeStyles(styles);
 
 function Index() {
   const nextRouter = useRouter();
+  const [openDoor, setOpenDoor] = useState(false);
   const leftDoorRef = useRef(null);
   const rightDoorRef = useRef(null);
   const tabletopRef = useRef(null);
@@ -197,7 +198,14 @@ function Index() {
   const tableLowerLeftHandBaseFrontRef = useRef(null);
   const tableLowerRightHandBaseFrontRef = useRef(null);
   const tableLowerRightHandBaseSideRef = useRef(null);
-  const [openDoor, setOpenDoor] = useState(false);
+  const leftDoorAnime = useRef(null);
+  const rightDoorAnime = useRef(null);
+  const tabletopAnime = useRef(null);
+  const tablesideAnime = useRef(null);
+  const tableLowerLeftHandBaseFrontAnime = useRef(null);
+  const tableLowerLeftHandBaseSideAnime = useRef(null);
+  const tableLowerRightHandBaseFrontAnime = useRef(null);
+  const tableLowerRightHandBaseSideAnime = useRef(null);
   const classes = useStyles();
   const {
     index,
@@ -218,18 +226,29 @@ function Index() {
   const isMobile = useSelector(({ system }) => system.isMobile);
 
   function openingAnime() {
+    if (openDoor === true) {
+      leftDoorAnime.current.seek(leftDoorAnime.current.duration);
+      rightDoorAnime.current.seek(rightDoorAnime.current.duration);
+      tabletopAnime.current.seek(tabletopAnime.current.duration);
+      tablesideAnime.current.seek(tablesideAnime.current.duration);
+      tableLowerLeftHandBaseFrontAnime.current.seek(tableLowerLeftHandBaseFrontAnime.current.duration);
+      tableLowerLeftHandBaseSideAnime.current.seek(tableLowerLeftHandBaseSideAnime.current.duration);
+      tableLowerRightHandBaseFrontAnime.current.seek(tableLowerRightHandBaseFrontAnime.current.duration);
+      tableLowerRightHandBaseSideAnime.current.seek(tableLowerRightHandBaseSideAnime.current.duration);
+    }
+
     const autoplay = true;
-    anime({
+    leftDoorAnime.current = anime({
       targets: leftDoorRef.current,
       translateX: '-100%',
       duration: 1000,
     });
-    anime({
+    rightDoorAnime.current = anime({
       targets: rightDoorRef.current,
       translateX: '100%',
       duration: 1000,
     });
-    anime({
+    tabletopAnime.current = anime({
       targets: tabletopRef.current,
       top: ['25%', '5%'],
       left: ['25%', '5%'],
@@ -244,19 +263,7 @@ function Index() {
         // console.log(tabletopRef.current);
       },
     });
-    anime({
-      targets: tablesideRef.current,
-      left: ['0.5%', '0%'],
-      width: ['99%', '100%'],
-      height: ['13%', '0%'],
-      delay: 500,
-      easing: 'easeOutQuint',
-      autoplay,
-      complete() {
-        // console.log(tablesideRef.current);
-      },
-    });
-    anime({
+    tablesideAnime.current = anime({
       targets: tablesideRef.current,
       left: ['0.5%', '0%'],
       width: ['99%', '100%'],
@@ -268,7 +275,7 @@ function Index() {
         // console.log(tablesideRef.current);
       },
     });
-    anime({
+    tableLowerLeftHandBaseFrontAnime.current = anime({
       targets: [tableLowerLeftHandBaseFrontRef.current],
       top: [isMobile === true ? '109%' : '112%', '100%'],
       left: ['9%', '1%'],
@@ -282,7 +289,7 @@ function Index() {
         // console.log(tableLowerLeftHandBaseFrontRef.current);
       },
     });
-    anime({
+    tableLowerLeftHandBaseSideAnime.current = anime({
       targets: tableLowerLeftHandBaseSideRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       left: [isMobile === true ? '16%' : '13%', '9%'],
@@ -296,7 +303,7 @@ function Index() {
         // console.log(tableLowerLeftHandBaseSideRef.current);
       },
     });
-    anime({
+    tableLowerRightHandBaseFrontAnime.current = anime({
       targets: tableLowerRightHandBaseFrontRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       right: ['9%', '1%'],
@@ -310,7 +317,7 @@ function Index() {
         // console.log(tableLowerRightHandBaseFrontRef.current);
       },
     });
-    const a = anime({
+    tableLowerRightHandBaseSideAnime.current = anime({
       targets: tableLowerRightHandBaseSideRef.current,
       top: [isMobile === true ? '109%' : '112%', '100%'],
       right: [isMobile === true ? '16%' : '13%', '9%'],
@@ -325,34 +332,32 @@ function Index() {
         nextRouter.push('/home');
       },
     });
-    console.log({ a, anime });
-    // a.seek(a.duration);
-    // a.pause();
+    setOpenDoor(true);
   }
-  function cloesingAnime() {
-    anime({
-      targets: leftDoorRef.current,
-      translateX: 0,
-      // https://easings.net/
-      easing: 'easeOutQuint',
-    });
-    anime({
-      targets: rightDoorRef.current,
-      translateX: 0,
-      easing: 'easeOutQuint',
-    });
-  }
+  // function cloesingAnime() {
+  //   anime({
+  //     targets: leftDoorRef.current,
+  //     translateX: 0,
+  //     // https://easings.net/
+  //     easing: 'easeOutQuint',
+  //   });
+  //   anime({
+  //     targets: rightDoorRef.current,
+  //     translateX: 0,
+  //     easing: 'easeOutQuint',
+  //   });
+  // }
 
-  useEffect(() => {
-    if (openDoor === true) {
-      openingAnime();
-    } else if (openDoor === false) {
-      cloesingAnime();
-    }
-  }, [openDoor]);
+  // useEffect(() => {
+  //   if (openDoor === true) {
+  //     openingAnime();
+  //   } else if (openDoor === false) {
+  //     cloesingAnime();
+  //   }
+  // }, [openDoor]);
 
   return (
-    <div className={index} onClick={() => setOpenDoor(!openDoor)}>
+    <div className={index} onClick={openingAnime}>
       <div className={leftDoor} ref={leftDoorRef}>
         <div className={leftDoorHandle} />
         <h1 className={leftDoorDoorplate}>Parker Cheng</h1>
