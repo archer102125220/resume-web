@@ -1,14 +1,18 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { makeStyles } from '@mui/styles';
+import Link from 'next/link';
 
 const styles = {
   menu: {
     display: 'inline-block',
-    width: '100px',
+    width: '60px',
     height: '100px',
-    backgroundColor: 'rgb(0,0,0)',
-  },
+    // backgroundColor: 'rgb(0,0,0)',
+    '& > a': {
+      display: 'block'
+    }
+  }
 };
 
 const useStyles = makeStyles(styles);
@@ -18,7 +22,10 @@ const Menu = forwardRef(function Menu(props, ref) {
   const propClassName = props.className;
 
   return (
-    <div ref={ref} className={[classes.menu, propClassName].join(' ')}></div>
+    <div ref={ref} className={[classes.menu, propClassName].join(' ')}>
+      <Link href="/home">home</Link>
+      <Link href="/tow">tow</Link>
+    </div>
   );
 });
 

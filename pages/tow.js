@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
@@ -40,7 +39,6 @@ function Tow(props) {
         <Button variant="contained" onClick={successMessage}>
           open message
         </Button>
-        <Link href="/home">home</Link>
       </div>
     </div>
   );

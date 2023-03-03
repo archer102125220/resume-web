@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Head from 'next/head';
 // import { useDispatch } from 'react-redux';
 // import { makeStyles } from '@mui/styles';
@@ -30,7 +29,6 @@ function Home() {
         <title>Parker Chan 的個人資料 - 首頁</title>
       </Head>
       <p>不好意思，其餘頁面與動畫正在設計中，感謝您的來訪~</p>
-      <Link href="/tow">home</Link>
     </div>
   );
 }
