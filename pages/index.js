@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import anime from 'animejs';
