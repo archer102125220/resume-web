@@ -41,7 +41,7 @@ function NextApp({ Component, pageProps, router }) {
 
     function handleRouteChange(url) {
       const title = document.head.title;
-      if (window.dataLayer.push) window.dataLayer.push({ event: 'Scn_Open', url, title });
+      if (window.dataLayer.push) window.dataLayer.push({ event: 'scnOpen', url, title });
     }
     router.events.on('routeChangeComplete', handleRouteChange);
 
