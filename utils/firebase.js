@@ -10,12 +10,12 @@ import { getFirestore } from 'firebase/firestore/lite';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: 'resume-web-223c3.firebaseapp.com',
-  projectId: 'resume-web-223c3',
-  storageBucket: 'resume-web-223c3.appspot.com',
-  messagingSenderId: '645521973503',
-  appId: '1:645521973503:web:63734a3ccd99fb1037acca',
-  measurementId: 'G-EDV5FF65FE',
+  authDomain: 'resume-web-bcdbb.firebaseapp.com',
+  projectId: 'resume-web-bcdbb',
+  storageBucket: 'resume-web-bcdbb.appspot.com',
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.GA_ID,
 };
 
 
