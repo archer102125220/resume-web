@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
@@ -32,6 +33,9 @@ function Tow(props) {
 
   return (
     <div className={classes.container}>
+      <Head>
+        <title>Parker Chan 的個人資料 - 次頁</title>
+      </Head>
       <div className={classes.main}>
         <Button variant="contained" onClick={gethomePage}>
           call api

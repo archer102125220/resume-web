@@ -23,7 +23,8 @@ const systemSlice = createSlice({
   initialState: {
     message: { text: '', type: '' },
     isMobile: false,
-    pageInfo: {}
+    pageInfo: {},
+    // gtm: typeof window === 'object' ? (window?.dataLayer || null) : null
   },
   reducers: {
     message_reset(state) {
@@ -42,6 +43,9 @@ const systemSlice = createSlice({
       return { ...state, message: { text: payload, type: 'warning' } };
     },
 
+    // SAVE_gtm(state, { payload }) {
+    //   return { ...state, gtm: payload };
+    // },
     SAVE_message(state, { payload }) {
       return { ...state, message: payload };
     },

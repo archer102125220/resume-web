@@ -79,8 +79,10 @@ const doorplate = {
   display: 'inline-block',
   whiteSpace: 'nowrap',
   border: '1px solid',
+  minHeight: '55px',
   [mediaMobile]: {
     fontSize: '25px',
+    minHeight: '40px',
   },
 };
 

@@ -1,4 +1,5 @@
 import { Children } from 'react';
+// import Script from 'next/script';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
 import pageCacheManage from '@/utils/cache-manage.js';
@@ -45,6 +46,16 @@ export default class NextDocument extends Document {
     return (
       <Html lang="zh-tw">
         <Head>
+          {/* <Script src={'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '')} async='true' id='dataLayer' strategy='beforeInteractive'></Script> */}
+          {/* <Script strategy='beforeInteractive'>
+            {`
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function (...arg) { window.dataLayer.push(arg); };
+            window.gtag('js', new Date());
+
+            window.gtag('config', ${process.env.GA_ID}, { debug_mode: ${process.env.NODE_ENV === 'development'} });
+          `}
+          </Script> */}
           {
             linkTagList.map((linkTag, index) => <link key={index + '-link'} rel={linkTag.rel} href={linkTag.href} />)
           }

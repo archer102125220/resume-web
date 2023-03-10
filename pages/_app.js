@@ -1,7 +1,7 @@
 import App from 'next/app';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
 import { ThemeProvider } from '@mui/material/styles';
@@ -18,30 +18,38 @@ import { app, init } from '@/utils/firebase';
 function NextApp({ Component, pageProps, router }) {
   const messageState = useSelector((state) => state.system.message);
   const dispatch = useDispatch();
-  const resetMessageState = (callback) => {
+
+  const resetMessageState = useCallback((callback) => {
     return dispatch({ type: 'system/message_reset', callback });
-  };
+  }, [dispatch]);
+  const SAVE_is_mobile = useCallback((payload, callback) => {
+    return dispatch({ type: 'system/SAVE_is_mobile', payload, callback });
+  }, [dispatch]);
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
-
-    const systemEnquireScreen = (payload, callback) => {
-      return dispatch({ type: 'system/SAVE_is_mobile', payload, callback });
-    };
     function windowWidthListener() {
       enquireScreen((mobile) => {
-        systemEnquireScreen(mobile ? true : false);
+        SAVE_is_mobile(mobile ? true : false);
       });
     }
     window.addEventListener('resize', windowWidthListener);
     init();
-    console.log({ app });
+
+    function handleRouteChange(url) {
+      const title = document.head.title;
+      if (window.dataLayer.push) window.dataLayer.push({ event: 'Scn_Open', url, title });
+    }
+    router.events.on('routeChangeComplete', handleRouteChange);
+
     createScript();
+    // gtagInit();
     return () => {
       window.removeEventListener('resize', windowWidthListener);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 
@@ -59,7 +67,7 @@ function NextApp({ Component, pageProps, router }) {
     if (typeof window.dataLayer !== 'object') return setTimeout(gtagInit, 100);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function (...arg) { window.dataLayer.push(arg); };
+    window.gtag = function gtag(...arg) { window.dataLayer.push(arg); };
     window.gtag('js', new Date());
 
     window.gtag('config', process.env.GA_ID, { debug_mode: process.env.NODE_ENV === 'development' });
