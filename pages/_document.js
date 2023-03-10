@@ -1,5 +1,5 @@
 import { Children } from 'react';
-// import Script from 'next/script';
+import Script from 'next/script';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
 import pageCacheManage from '@/utils/cache-manage.js';
@@ -44,18 +44,20 @@ export default class NextDocument extends Document {
 
   render() {
     return (
-      <Html lang="zh-tw">
+      <Html lang='zh-tw'>
         <Head>
-          {/* <Script src={'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '')} async='true' id='dataLayer' strategy='beforeInteractive'></Script> */}
-          {/* <Script strategy='beforeInteractive'>
+          <Script src={'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '')} async={true} id='dataLayer' strategy='beforeInteractive'></Script>
+          <Script strategy='beforeInteractive'>
             {`
             window.dataLayer = window.dataLayer || [];
             window.gtag = function (...arg) { window.dataLayer.push(arg); };
             window.gtag('js', new Date());
 
-            window.gtag('config', ${process.env.GA_ID}, { debug_mode: ${process.env.NODE_ENV === 'development'} });
+            window.gtag('config', '${process.env.GA_ID}', { debug_mode: ${process.env.NODE_ENV === 'development'} });
+
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${process.env.GTM_ID}');
           `}
-          </Script> */}
+          </Script>
           {
             linkTagList.map((linkTag, index) => <link key={index + '-link'} rel={linkTag.rel} href={linkTag.href} />)
           }
@@ -64,6 +66,14 @@ export default class NextDocument extends Document {
           <Main />
           <NextScript />
         </body>
+        {
+          typeof window === 'object' ? (
+            <noscript>
+              <iframe src={'https://www.googletagmanager.com/ns.html?id=' + process.env.GTM_ID} height='0' width='0' style='display:none;visibility:hidden'>
+              </iframe>
+            </noscript>) :
+            null
+        }
       </Html>
     );
   }

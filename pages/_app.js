@@ -45,8 +45,7 @@ function NextApp({ Component, pageProps, router }) {
     }
     router.events.on('routeChangeComplete', handleRouteChange);
 
-    createScript();
-    // gtagInit();
+    // createScript();
     return () => {
       window.removeEventListener('resize', windowWidthListener);
       router.events.off('routeChangeComplete', handleRouteChange);
@@ -60,7 +59,7 @@ function NextApp({ Component, pageProps, router }) {
     script.async = true;
     script.id = 'dataLayer';
     document.body.appendChild(script);
-    setTimeout(gtagInit, 100);
+    // setTimeout(gtagInit, 100);
   }
 
   function gtagInit() {

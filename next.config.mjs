@@ -16,6 +16,7 @@ const nextConfig = {
     AXIOS_BASE_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api',
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     GA_ID: process.env.GA_ID,
+    GTM_ID: process.env.GTM_ID,
     MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
     APP_ID: process.env.APP_ID
   },
