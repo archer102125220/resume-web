@@ -39,15 +39,8 @@ function NextApp({ Component, pageProps, router }) {
     window.addEventListener('resize', windowWidthListener);
     init();
 
-    function handleRouteChange(url) {
-      const title = document.head.title;
-      if (window.dataLayer.push) window.dataLayer.push({ event: 'scnOpen', url, title });
-    }
-    router.events.on('routeChangeComplete', handleRouteChange);
-
     return () => {
       window.removeEventListener('resize', windowWidthListener);
-      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 

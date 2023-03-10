@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import anime from 'animejs';
@@ -226,6 +226,15 @@ function Index() {
     contentTableLowerRightHandBaseSide,
   } = classes;
   const isMobile = useSelector(({ system }) => system.isMobile);
+
+  useEffect(() => {
+    try {
+      const title = document.head.title;
+      window.dataLayer.push({ event: 'scnOpen', url: '/', title });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   function openingAnime() {
     if (openDoor === true) {

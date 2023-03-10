@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
@@ -30,6 +31,15 @@ function Tow(props) {
   const successMessage = () => {
     return dispatch({ type: 'system/message_success', payload: '246' });
   };
+
+  useEffect(() => {
+    try {
+      const title = document.head.title;
+      window.dataLayer.push({ event: 'scnOpen', url: '/tow', title });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div className={classes.container}>
