@@ -80,7 +80,7 @@ const doorplate = {
   whiteSpace: 'nowrap',
   border: '1px solid',
   [mediaMobile]: {
-    fontSize: '30px',
+    fontSize: '25px',
   },
 };
 
