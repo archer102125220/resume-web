@@ -10,7 +10,7 @@ import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
 import { wrapper } from '@/redux/index';
-import { app, init } from '@/utils/firebase';
+import { init } from '@/utils/firebase';
 
 // https://ithelp.ithome.com.tw/articles/10269342
 // https://vercel.com/archer102125220/resume-web
@@ -45,32 +45,11 @@ function NextApp({ Component, pageProps, router }) {
     }
     router.events.on('routeChangeComplete', handleRouteChange);
 
-    // createScript();
     return () => {
       window.removeEventListener('resize', windowWidthListener);
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
-
-  function createScript() {
-    if (document.querySelector('#dataLayer')) return;
-    const script = document.createElement('script');
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '');
-    script.async = true;
-    script.id = 'dataLayer';
-    document.body.appendChild(script);
-    // setTimeout(gtagInit, 100);
-  }
-
-  function gtagInit() {
-    if (typeof window.dataLayer !== 'object') return setTimeout(gtagInit, 100);
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...arg) { window.dataLayer.push(arg); };
-    window.gtag('js', new Date());
-
-    window.gtag('config', process.env.GA_ID, { debug_mode: process.env.NODE_ENV === 'development' });
-  }
 
   return (
     <ThemeProvider theme={theme}>
