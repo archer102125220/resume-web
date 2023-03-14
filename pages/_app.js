@@ -72,6 +72,7 @@ NextApp.propTypes = {
   err: PropTypes.object,
 };
 
+// https://github.com/kirill-konshin/next-redux-wrapper
 NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
   return async (appContext) => {
     if (typeof window === 'undefined') {

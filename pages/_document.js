@@ -47,7 +47,7 @@ export default class NextDocument extends Document {
       <Html lang='zh-tw'>
         <Head>
           {/* <Script src={'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '')} async={true} id='dataLayer' strategy='beforeInteractive'></Script> */}
-          <Script strategy='beforeInteractive'>
+          <Script strategy='beforeInteractive' id='gtm'>
             {`
             // window.dataLayer = window.dataLayer || [];
             // window.gtag = function (...arg) { window.dataLayer.push(arg); };
