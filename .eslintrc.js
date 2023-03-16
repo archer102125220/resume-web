@@ -14,9 +14,8 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'jsx-a11y', 'react', 'import', 'jsdoc'],
   extends: [
     'eslint:recommended',
-    // 'plugin:@next/next/recommended',
-    // 'next/core-web-vitals',
-    'next',
+    'plugin:@next/next/recommended',
+    'next/core-web-vitals',
     'prettier'
   ],
   env: {
