@@ -2,28 +2,41 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import system from '@/redux/system';
 
-export const wrapper = createWrapper(function () {
+export const wrapper = createWrapper(function (appContext) {
   const combinedReducer = combineReducers({
     system
   });
 
   const reducer = (state, action) => {
+    console.log({
+      'action.type': action.type,
+      'action.payload': action.payload
+    });
     if (action.type === HYDRATE) {
       const nextState = {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
       return nextState;
     } else {
       return combinedReducer(state, action);
     }
+    // return combinedReducer(state, action);
   };
 
   const reduxStore = configureStore({
     reducer,
     devTools: process.env.NODE_ENV === 'development',
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({ serializableCheck: false })
   });
+
+  if (typeof window !== 'object') {
+    const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
+    const isMobile =
+      userAgent.includes('Android') || userAgent.includes('iPhone');
+    reduxStore.dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
+  }
 
   return reduxStore;
 });

@@ -1,8 +1,8 @@
-import App from 'next/app';
+// import App from 'next/app';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useCallback, useMemo } from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme';
@@ -16,15 +16,25 @@ import { init } from '@/utils/firebase';
 // https://vercel.com/archer102125220/resume-web
 
 function NextApp({ Component, pageProps, router }) {
-  const messageState = useSelector((state) => state.system.message);
+  const messageState = useSelector(state => state.system.message);
   const dispatch = useDispatch();
 
-  const resetMessageState = useCallback((callback) => {
-    return dispatch({ type: 'system/message_reset', callback });
-  }, [dispatch]);
-  const SAVE_is_mobile = useCallback((payload, callback) => {
-    return dispatch({ type: 'system/SAVE_is_mobile', payload, callback });
-  }, [dispatch]);
+  const resetMessageState = useCallback(
+    callback => {
+      return dispatch({ type: 'system/message_reset', callback });
+    },
+    [dispatch]
+  );
+  const SAVE_is_mobile = useCallback(
+    (payload, callback) => {
+      return dispatch({
+        type: 'system/SAVE_is_mobile',
+        payload,
+        callback
+      });
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
@@ -32,7 +42,7 @@ function NextApp({ Component, pageProps, router }) {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
     function windowWidthListener() {
-      enquireScreen((mobile) => {
+      enquireScreen(mobile => {
         SAVE_is_mobile(mobile ? true : false);
       });
     }
@@ -43,6 +53,9 @@ function NextApp({ Component, pageProps, router }) {
       window.removeEventListener('resize', windowWidthListener);
     };
   }, []);
+  useEffect(() => {
+    console.log(messageState);
+  }, [messageState]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,22 +82,34 @@ NextApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
   router: PropTypes.object,
-  err: PropTypes.object,
+  err: PropTypes.object
 };
-
 // https://github.com/kirill-konshin/next-redux-wrapper
-NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
-  return async (appContext) => {
-    if (typeof window === 'undefined') {
-      const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
-      const isMobile =
-        userAgent.includes('Android') || userAgent.includes('iPhone');
-      dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
-    }
-    const appProps = await App.getInitialProps(appContext);
+// NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
+//   return async (appContext) => {
+//     if (typeof window === 'undefined') {
+//       const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
+//       const isMobile =
+//         userAgent.includes('Android') || userAgent.includes('iPhone');
+//       dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
+//     }
+//     const appProps = await App.getInitialProps(appContext);
 
-    return { ...appProps };
-  };
-});
+//     return { ...appProps };
+//   };
+// });
 
-export default wrapper.withRedux(NextApp);
+// export default wrapper.withRedux(NextApp);
+
+function App({ ...rest }) {
+  const wrapperData = wrapper.useWrappedStore(rest);
+  const { props } = wrapperData;
+  const store = useMemo(() => wrapperData.store, [wrapperData.store]);
+  return (
+    <Provider store={store}>
+      <NextApp {...props} />
+    </Provider>
+  );
+}
+
+export default App;

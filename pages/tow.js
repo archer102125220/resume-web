@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
@@ -27,10 +27,10 @@ function Tow(props) {
   const classes = useStyles(props);
 
   const dispatch = useDispatch();
-  const gethomePage = () => dispatch(systemAsyncThunk.GET_HomePage());
-  const successMessage = () => {
+  const gethomePage = useCallback(() => dispatch(systemAsyncThunk.GET_HomePage()), [dispatch]);
+  const successMessage = useCallback(() => {
     return dispatch({ type: 'system/message_success', payload: '246' });
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     try {

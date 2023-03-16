@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import { GET_homePage } from '@/services/index';
 
 const name = 'system';
@@ -8,11 +9,11 @@ export const systemAsyncThunk = {
     `${name}/GET_HomePage`,
     async function (arg, { dispatch }) {
       const { payload, callback, loading } = arg || {};
-      if (typeof (loading) === 'function') loading(true);
+      if (typeof loading === 'function') loading(true);
       const data = await GET_homePage(payload);
       dispatch({ type: `${name}/SAVE_page_info`, payload: data });
-      if (typeof (loading) === 'function') loading(false);
-      if (typeof (callback) === 'function') callback();
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
       return data;
     }
   )
@@ -23,7 +24,7 @@ const systemSlice = createSlice({
   initialState: {
     message: { text: '', type: '' },
     isMobile: false,
-    pageInfo: {},
+    pageInfo: {}
     // gtm: typeof window === 'object' ? (window?.dataLayer || null) : null
   },
   reducers: {
@@ -54,16 +55,23 @@ const systemSlice = createSlice({
     },
     SAVE_page_info(state, { payload }) {
       return { ...state, pageInfo: payload };
-    },
+    }
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(`${name}/GET_HomePage`, (state, { payload, callback }) => {
-  //       console.log(`${name}/GET_HomePage`, callback);
-  //       asyncThunk.GET_HomePage(payload);
-  //       return state;
-  //     });
-  // },
+  // extraReducers: builder => {
+  //   builder.addCase(HYDRATE, (state, { payload }) => {
+  //     console.log('HYDRATE', state, payload);
+  //     return {
+  //       ...state,
+  //       ...(payload[name] || {})
+  //     };
+  //   });
+  //   // builder
+  //   //   .addCase(`${name}/GET_HomePage`, (state, { payload, callback }) => {
+  //   //     console.log(`${name}/GET_HomePage`, callback);
+  //   //     asyncThunk.GET_HomePage(payload);
+  //   //     return state;
+  //   //   });
+  // }
 });
 
 export const systemActions = systemSlice.actions;
@@ -116,17 +124,17 @@ export default systemSlice.reducer;
 //   },
 
 //   reducers: {
-  //   SAVE_message(state, { payload }) {
-  //     return { ...state, message: payload };
-  //   },
-  //   SAVE_is_mobile(state, { payload }) {
-  //     return { ...state, isMobile: payload };
-  //   },
-  //   SAVE_page_info(state, { payload }) {
-  //     return { ...state, pageInfo: payload };
-  //   },
-  //   SAVE_title(state, { payload }) {
-  //     return { ...state, title: payload };
-  //   },
-  // },
+//   SAVE_message(state, { payload }) {
+//     return { ...state, message: payload };
+//   },
+//   SAVE_is_mobile(state, { payload }) {
+//     return { ...state, isMobile: payload };
+//   },
+//   SAVE_page_info(state, { payload }) {
+//     return { ...state, pageInfo: payload };
+//   },
+//   SAVE_title(state, { payload }) {
+//     return { ...state, title: payload };
+//   },
+// },
 // };

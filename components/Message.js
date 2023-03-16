@@ -3,7 +3,13 @@ import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-function Message({ messageState, anchorOrigin, autoHideDuration, width, resetMessageState }) {
+function Message({
+  messageState,
+  anchorOrigin,
+  autoHideDuration,
+  width,
+  resetMessageState
+}) {
   const [open, setOpen] = useState(false);
   const { text = '', type = '' } = messageState || {};
   const handleOpen = () => {
@@ -28,7 +34,13 @@ function Message({ messageState, anchorOrigin, autoHideDuration, width, resetMes
       autoHideDuration={autoHideDuration}
       onClose={handleClose}
     >
-      <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity={type || 'success'} sx={{ width }}>
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={handleClose}
+        severity={type || 'success'}
+        sx={{ width }}
+      >
         {text}
       </MuiAlert>
     </Snackbar>
@@ -47,7 +59,7 @@ Message.defaultProps = {
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
   autoHideDuration: 6000,
   width: '100%',
-  resetMessageState() { }
+  resetMessageState() {}
 };
 
 export default Message;

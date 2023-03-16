@@ -15,17 +15,17 @@ function isCacheLike(cache) {
 
 export default function cacheAdapterEnhancer(adapter, options) {
   const { maxAge, enabledByDefault = true,
-    cacheFlag = 'cache', defaultCache = MemoryCache,
+    cacheFlag = 'cache', defaultCache = options.defaultCache,
   } = options;
 
   return (config) => {
     const { method, forceUpdate } = config;
-    let useCache = config[cacheFlag] !== undefined && config[cacheFlag] !== null
+    const useCache = config[cacheFlag] !== undefined && config[cacheFlag] !== null
       ? config[cacheFlag]
       : enabledByDefault;
     if (method === 'get' && useCache) {
       const cache = isCacheLike(useCache) ? useCache : defaultCache;
-      let requestKey = generateReqKey(config);  // 生成請求Key
+      const requestKey = generateReqKey(config);  // 生成請求Key
       let responsePromise = cache.get(requestKey); // 從快取中取得請求key對應的響應對象
       if (!responsePromise || forceUpdate) { // 快取未命中/失效或強制更新時，則重新請求資料
         responsePromise = (async () => {
