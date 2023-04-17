@@ -15,9 +15,8 @@ export const firebaseConfig = {
   storageBucket: 'resume-web-bcdbb.appspot.com',
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.GA_ID,
+  measurementId: process.env.GA_ID
 };
-
 
 export let app;
 export let analytics;

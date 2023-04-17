@@ -1,5 +1,5 @@
-import axios from '@/utils/axios';
+import request from '@/utils/request';
 
 export function GET_homePage(payload = { a: 'a' }) {
-  return axios.get('/hello', payload);
+  return request.get('/hello', payload);
 }

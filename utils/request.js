@@ -4,8 +4,8 @@ import qs from 'qs';
 // https://github.com/axios/axios/issues/5072
 // import { cacheAdapterEnhancer } from 'axios-extensions';
 
-import cacheAdapterEnhancer from '@/utils/axios-extensions';
 import LRUCache from 'lru-cache';
+import cacheAdapterEnhancer from '@/utils/axios-extensions';
 
 const baseURL = process.env.AXIOS_BASE_URL;
 
@@ -14,16 +14,19 @@ const baseURL = process.env.AXIOS_BASE_URL;
 // api資料快取儲存物件
 const cacheCfg = new LRUCache({
   ttl: 1000 * 60 * 10,
-  max: 100,
+  max: 100
 });
 const ax = axios.create({
   baseURL,
   adapter: cacheAdapterEnhancer(
-    axios.defaults.adapter,
     {
       enabledByDefault: false,
       cacheFlag: 'useCache',
-      defaultCache: cacheCfg,
+      defaultCache: cacheCfg
+    },
+    config => {
+      delete config.adapter;
+      return axios(config);
     }
   )
 });
@@ -62,7 +65,7 @@ export class cancelRequest {
   };
   handlerCancelAll = () => {
     const requestCancelerList = this.requestCancelerList;
-    Object.keys(requestCancelerList).forEach((requestCancelerKey) => {
+    Object.keys(requestCancelerList).forEach(requestCancelerKey => {
       const requestCanceler = requestCancelerList[requestCancelerKey] || {};
       if (typeof requestCanceler === 'object' && requestCanceler !== null) {
         requestCanceler.abort();
@@ -78,12 +81,14 @@ ax.interceptors.request.use(function (config) {
   const controller = new AbortController();
   let params = config.params;
   const configData = config.data;
-  if (configData) {
+  if (configData && typeof configData === 'string') {
     params = JSON.parse(configData);
+  } else if (configData) {
+    params = configData;
   }
   const cfg = {
     ...config,
-    signal: controller.signal,
+    signal: controller.signal
   };
   CancelRequest.addRequestCanceler(
     controller,
@@ -113,19 +118,27 @@ function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
     .request({
       url,
       method,
-      paramsSerializer: (params) => {
-        return qs.stringify(params, { encodeValuesOnly: true });
+      // paramsSerializer: (params) => {
+      //   return qs.stringify(params, { encodeValuesOnly: true });
+      // },
+      paramsSerializer: {
+        encode: params => {
+          return qs.stringify(params, { encodeValuesOnly: true });
+        },
+        indexes: false // array indexes format (null - no brackets, false (default) - empty brackets, true - brackets with indexes)
       },
       ...params,
-      ..._extendOption,
+      ..._extendOption
       // withCredentials: true,
     })
-    .then((response) => {
+    .then(response => {
       const { config, data } = response;
       let params = config.params;
       const configData = config.data;
-      if (configData) {
+      if (configData && typeof configData === 'string') {
         params = JSON.parse(configData);
+      } else if (configData) {
+        params = configData;
       }
       CancelRequest.removeRequestCanceler(config.method, config.url, params);
       return data;
