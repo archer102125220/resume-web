@@ -24,12 +24,40 @@ const ax = axios.create({
       cacheFlag: 'useCache',
       defaultCache: cacheCfg
     },
-    config => {
+    function defaultAdapter(config) {
       delete config.adapter;
       return axios(config);
     }
   )
 });
+
+if (typeof window === 'undefined') {
+  ax.interceptors.request.use(function (config) {
+    let params = config.params;
+    const _baseURL = config.baseURL || '';
+    const configData = config.data;
+    const token = config.headers?.token || config.headers?.ez1;
+    if (configData && typeof configData === 'string') {
+      params = JSON.parse(configData);
+    } else if (configData) {
+      params = configData;
+    }
+    let requestPath = 'request: ' + config.method + '__';
+    if (config.url?.includes('http')) {
+      requestPath += config.url;
+    } else {
+      requestPath += _baseURL + config.url;
+    }
+    if (typeof params === 'object' && params !== null) {
+      requestPath += ' params: ' + JSON.stringify(params);
+    }
+    if (token) {
+      requestPath += '__token:' + token;
+    }
+    console.log('\x1b[33m%s\x1b[0m', requestPath);
+    return config;
+  });
+}
 
 export class cancelRequest {
   requestCancelerList = {};

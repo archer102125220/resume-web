@@ -10,14 +10,15 @@ export default async function handler(req, res) {
     return;
   }
   const { body } = req;
-  const result = await request.post(url, body, {
+  const tappayResult = await request.post(url, body, {
     headers: {
       'x-api-key': process.env.PARTNER_KEY
     }
   });
-  if (result.status === 0) {
-    res.status(200).json(result);
+  console.log({ tappayResult });
+  if (tappayResult.status === 0) {
+    res.status(200).json(tappayResult);
   } else {
-    res.status(400).json(result);
+    res.status(400).json(tappayResult);
   }
 }
