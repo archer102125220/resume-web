@@ -10,12 +10,14 @@ export default async function handler(req, res) {
     return;
   }
   const { body } = req;
-  console.log(body);
   const result = await request.post(url, body, {
     headers: {
-      'x-api-key':
-        'partner_6ID1DoDlaPrfHw6HBZsULfTYtDmWs0q0ZZGKMBpp4YICWBxgK97eK3RM'
+      'x-api-key': process.env.PARTNER_KEY
     }
   });
-  res.status(200).json(result);
+  if (result.status === 0) {
+    res.status(200).json(result);
+  } else {
+    res.status(400).json(result);
+  }
 }
