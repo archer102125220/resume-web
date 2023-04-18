@@ -22,19 +22,23 @@ const nextConfig = {
     );
     return config;
   },
-  experimental: {
-    headers() {
-      return [
-        {
-          source: '/apple-app-site-association',
-          headers: [{ key: 'content-type', value: 'application/json' }]
-        },
-        {
-          source: '/.well-known/apple-app-site-association',
-          headers: [{ key: 'content-type', value: 'application/json' }]
-        }
-      ];
-    }
+  headers() {
+    return [
+      {
+        source: '/apple-app-site-association',
+        headers: [
+          { key: 'content-type', value: 'application/json' },
+          { key: 'Content-Type', value: 'application/json' }
+        ]
+      },
+      {
+        source: '/.well-known/apple-app-site-association',
+        headers: [
+          { key: 'content-type', value: 'application/json' },
+          { key: 'Content-Type', value: 'application/json' }
+        ]
+      }
+    ];
   },
   env: {
     AXIOS_BASE_URL:
