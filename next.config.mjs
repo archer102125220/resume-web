@@ -27,15 +27,13 @@ const nextConfig = {
       {
         source: '/apple-app-site-association',
         headers: [
-          { key: 'content-type', value: 'application/json' },
-          { key: 'Content-Type', value: 'application/json' }
+          { key: 'Content-Type', value: 'application/json; charset=utf-8' }
         ]
       },
       {
         source: '/.well-known/apple-app-site-association',
         headers: [
-          { key: 'content-type', value: 'application/json' },
-          { key: 'Content-Type', value: 'application/json' }
+          { key: 'Content-Type', value: 'application/json; charset=utf-8' }
         ]
       }
     ];
