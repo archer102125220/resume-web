@@ -5,7 +5,7 @@
       {
         "appID": "ZHDBL73556.com.cbscom.yahoobid",
         "paths": [
-          "*"
+          "api/open-app-test/ios"
         ]
       }
     ]
