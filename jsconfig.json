@@ -5,10 +5,16 @@
       "@/*": [
         "./*"
       ],
+      "@serverClient/*": [
+        "./services/client/*"
+      ],
+      "@serverServices/*": [
+        "./services/server/*"
+      ]
     }
   },
   "exclude": [
     "node_modules",
-    "dist"
+    ".next"
   ]
 }

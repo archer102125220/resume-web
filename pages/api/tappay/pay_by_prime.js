@@ -1,6 +1,4 @@
-import request from '@/utils/request';
-
-const url = process.env.TAPPAY_DOMAIN + '/payment/pay-by-prime';
+import { POST_PayByPrime } from '@serverServices/tappay';
 
 export default async function handler(req, res) {
   const method = req.method.toLocaleUpperCase();
@@ -10,11 +8,7 @@ export default async function handler(req, res) {
     return;
   }
   const { body } = req;
-  const tappayResult = await request.post(url, body, {
-    headers: {
-      'x-api-key': process.env.PARTNER_KEY
-    }
-  });
+  const tappayResult = await POST_PayByPrime(body);
   console.log({ tappayResult });
   if (tappayResult.status === 0) {
     res.status(200).json(tappayResult);

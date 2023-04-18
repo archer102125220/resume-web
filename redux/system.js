@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
-import { GET_homePage } from '@/services/index';
+import { GET_homePage } from '@serverClient/index';
 
 const name = 'system';
 
