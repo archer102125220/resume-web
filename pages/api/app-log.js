@@ -6,10 +6,6 @@ export default function appLog(req, res) {
     return;
   }
   const { body } = req;
-  if (typeof body === 'string') {
-    console.log(body);
-  } else {
-    console.log({ appLog: body });
-  }
+  console.log(body);
   res.status(200).send('');
 }
