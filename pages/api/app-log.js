@@ -6,6 +6,10 @@ export default function handler(req, res) {
     return;
   }
   const { body } = req;
-  console.log({ appLog: body });
+  if (typeof body === 'string') {
+    console.log(body);
+  } else {
+    console.log({ appLog: body });
+  }
   res.status(200).send('');
 }
