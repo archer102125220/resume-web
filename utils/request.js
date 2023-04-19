@@ -54,7 +54,7 @@ if (typeof window === 'undefined') {
     if (token) {
       requestPath += '__token:' + token;
     }
-    console.log('\x1b[33m%s\x1b[0m', requestPath);
+    console.log('\x1b[33m%s\x1b[0m ', requestPath);
     return config;
   });
 }
@@ -170,6 +170,14 @@ function request(_method = 'GET', url, _params = {}, _extendOption = {}) {
       }
       CancelRequest.removeRequestCanceler(config.method, config.url, params);
       return data;
+    })
+    .catch(error => {
+      if (typeof window === 'undefined') {
+        console.log('\x1b[31m%s\x1b[0m ', error);
+      } else {
+        console.log(`%c${error}`, 'color:red');
+      }
+      throw error;
     });
 }
 
