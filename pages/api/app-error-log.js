@@ -1,4 +1,4 @@
-export default function appLog(req, res) {
+export default function appErrorLog(req, res) {
   const method = req.method.toLocaleUpperCase();
   if (method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -9,7 +9,7 @@ export default function appLog(req, res) {
   if (typeof body === 'string') {
     console.log(body);
   } else {
-    console.log({ appLog: body });
+    console.log({ appErrorLog: body });
   }
   res.status(200).send('');
 }
