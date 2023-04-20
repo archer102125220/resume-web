@@ -26,7 +26,7 @@ const ax = axios.create({
     },
     function defaultAdapter(config) {
       delete config.adapter;
-      return ax(config);
+      return axios(config);
     }
   )
 });
