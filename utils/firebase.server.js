@@ -6,6 +6,8 @@ export const firebaseConfig = {
   storageBucket: 'resume-web-bcdbb.appspot.com'
 };
 
+export let firebaseApp;
+
 export const androidCredential =
   process.env.ANDROID_FIREBASE_CREDENTIAL || '{}';
 
@@ -14,9 +16,16 @@ export const androidFirebaseConfig = {
   projectId: 'httpsbibiancojp',
   storageBucket: 'httpsbibiancojp.appspot.com'
 };
-
-export let firebaseApp;
 export let androidFirebaseApp;
+
+export const iosCredential = process.env.IOS_FIREBASE_CREDENTIAL || '{}';
+
+export const iosFirebaseConfig = {
+  authDomain: 'httpsbibiancojp.firebaseapp.com',
+  projectId: 'httpsbibiancojp',
+  storageBucket: 'httpsbibiancojp.appspot.com'
+};
+export let iosFirebaseApp;
 
 export async function firebaseServerInit() {
   try {
@@ -35,10 +44,17 @@ export async function firebaseServerInit() {
         },
         'androidFirebase'
       );
+      iosFirebaseApp = firebaseAdmin.initializeApp(
+        {
+          ...androidFirebaseConfig,
+          credential: firebaseAdmin.credential.cert(JSON.parse(iosCredential))
+        },
+        'iosFirebase'
+      );
     }
   } catch (error) {
     console.log(error);
   }
 
-  return { firebaseApp };
+  return { firebaseApp, androidFirebaseApp, iosFirebaseApp };
 }
