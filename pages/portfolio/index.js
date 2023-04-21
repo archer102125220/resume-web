@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
+import Image from 'next/image';
 // import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
+
+import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
   portfolio: {
@@ -12,22 +15,36 @@ const styles = {
     justifyContent: 'space-evenly',
     alignContent: 'space-around',
     alignItems: 'center'
+  },
+  portfolioButton: {
+    display: 'block',
+    marginTop: '10px',
+    marginBottom: '10px',
+    background: '#fbc780',
+    '&:active': {
+      background: '#dfa14d'
+    },
+    '&:hover': {
+      background: '#f8cd92'
+    }
   }
 };
 
 const useStyles = makeStyles(styles);
 
 function Portfolio() {
+  const nextRouter = useRouter();
+
   const classes = useStyles();
 
-  useEffect(() => {
-    try {
-      const title = document.head.title;
-      window.dataLayer.push({ event: 'scnOpen', url: '/portfolio', title });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio' });
+
+  function handleGoToTappay() {
+    nextRouter.push('/tappay');
+  }
+  function handleGoToFirebaseAdmin() {
+    nextRouter.push('/firebase-admin');
+  }
 
   return (
     <div>
@@ -35,8 +52,33 @@ function Portfolio() {
         <title>Parker Chan 的個人資料 - 作品集</title>
       </Head>
       <div className={classes.portfolio}>
-        <Link href="/tappay">Tappay串接</Link>
-        <Link href="/firebase-admin">FirebaseAdmin</Link>
+        <Button
+          sx={styles.portfolioButton}
+          variant="contained"
+          onClick={handleGoToTappay}
+        >
+          <p>Tappay串接</p>
+          <Image
+            src="/tappay-logo.svg"
+            alt="Tappay Logo"
+            width={200}
+            height={50}
+          />
+        </Button>
+
+        <Button
+          sx={styles.portfolioButton}
+          variant="contained"
+          onClick={handleGoToFirebaseAdmin}
+        >
+          <p>Firebase Admin SDK</p>
+          <Image
+            src="/firebase_logo.png"
+            alt="Firebase Logo"
+            width={200}
+            height={50}
+          />
+        </Button>
       </div>
     </div>
   );

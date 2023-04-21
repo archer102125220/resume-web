@@ -8,10 +8,10 @@ export const wrapper = createWrapper(function (appContext) {
   });
 
   const reducer = (state, action) => {
-    console.log({
-      'action.type': action.type,
-      'action.payload': action.payload
-    });
+    // console.log({
+    //   'action.type': action.type,
+    //   'action.payload': action.payload
+    // });
     if (action.type === HYDRATE) {
       const nextState = {
         ...state,
