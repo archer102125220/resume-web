@@ -20,6 +20,13 @@ const nextConfig = {
       'services',
       'server'
     );
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+      child_process: false
+    };
     return config;
   },
   headers() {
@@ -51,7 +58,8 @@ const nextConfig = {
     TAPPAY_DOMAIN: process.env.TAPPAY_DOMAIN,
     PARTNER_KEY: process.env.PARTNER_KEY,
     MERCHANT_ID: process.env.MERCHANT_ID,
-    MERCHANT_NAME: process.env.MERCHANT_NAME
+    MERCHANT_NAME: process.env.MERCHANT_NAME,
+    FIREBASE_CREDENTIAL: process.env.FIREBASE_CREDENTIAL
   }
 };
 

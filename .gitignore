@@ -31,3 +31,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# firebase
+resume-web-bcdbb-firebase-adminsdk-kzwqs-e08fc82265.json

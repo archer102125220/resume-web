@@ -9,14 +9,19 @@ import theme from '@/theme';
 import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
+import CircularLoading from '@/components/CircularLoading';
 import { wrapper } from '@/redux/index';
-import { init } from '@/utils/firebase';
+import { firebaseClientInit } from '@/utils/firebase.client';
+import { firebaseServerInit } from '@/utils/firebase.server';
 
 // https://ithelp.ithome.com.tw/articles/10269342
 // https://vercel.com/archer102125220/resume-web
 
+firebaseServerInit();
+
 function NextApp({ Component, pageProps, router }) {
   const messageState = useSelector(state => state.system.message);
+  const loading = useSelector(state => state.system.loading);
   const dispatch = useDispatch();
 
   const resetMessageState = useCallback(
@@ -47,7 +52,7 @@ function NextApp({ Component, pageProps, router }) {
       });
     }
     window.addEventListener('resize', windowWidthListener);
-    init();
+    firebaseClientInit();
 
     return () => {
       window.removeEventListener('resize', windowWidthListener);
@@ -73,6 +78,18 @@ function NextApp({ Component, pageProps, router }) {
       <Message
         messageState={messageState}
         resetMessageState={resetMessageState}
+      />
+      <CircularLoading
+        loading={loading}
+        // loading={true}
+        style={{
+          position: 'absolute',
+          width: '20vw',
+          height: '20vw',
+          top: '40%',
+          left: '40%'
+        }}
+        size="100%"
       />
     </ThemeProvider>
   );

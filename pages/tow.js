@@ -8,7 +8,7 @@ import { wrapper } from '@/redux/index';
 
 const styles = {
   container: {
-    padding: '0 2rem',
+    padding: '0 2rem'
   },
   main: {
     minHeight: 'calc(100vh - 1em - 8rem)',
@@ -17,8 +17,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 };
 
 const useStyles = makeStyles(styles);
@@ -27,7 +27,10 @@ function Tow(props) {
   const classes = useStyles(props);
 
   const dispatch = useDispatch();
-  const gethomePage = useCallback(() => dispatch(systemAsyncThunk.GET_HomePage()), [dispatch]);
+  const gethomePage = useCallback(
+    () => dispatch(systemAsyncThunk.GET_HomePage()),
+    [dispatch]
+  );
   const successMessage = useCallback(() => {
     return dispatch({ type: 'system/message_success', payload: '246' });
   }, [dispatch]);
@@ -65,7 +68,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       dispatch({ type: 'system/message_success', payload: '123' });
 
       return {
-        props: {},
+        props: {}
       };
     }
 );
