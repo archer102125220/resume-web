@@ -1,6 +1,6 @@
-import { POST_PayByPrime } from '@serverServices/tappay';
+import { POST_Refund } from '@serverServices/tappay';
 
-export default async function payByPrime(req, res) {
+export default async function refund(req, res) {
   const method = req.method.toLocaleUpperCase();
   if (method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -8,7 +8,7 @@ export default async function payByPrime(req, res) {
     return;
   }
   const { body } = req;
-  const tappayResult = await POST_PayByPrime(body);
+  const tappayResult = await POST_Refund(body);
   console.log({ tappayResult });
   if (tappayResult.status === 0) {
     res.status(200).json(tappayResult);

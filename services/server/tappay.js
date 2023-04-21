@@ -9,3 +9,11 @@ export function POST_PayByPrime(payload = {}) {
     }
   });
 }
+
+export function POST_Refund(payload = {}) {
+  return request.post(url + '/refund', payload, {
+    headers: {
+      'x-api-key': process.env.PARTNER_KEY
+    }
+  });
+}
