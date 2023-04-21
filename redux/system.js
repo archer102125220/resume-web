@@ -24,7 +24,8 @@ const systemSlice = createSlice({
   initialState: {
     message: { text: '', type: '' },
     isMobile: false,
-    pageInfo: {}
+    pageInfo: {},
+    loading: false
     // gtm: typeof window === 'object' ? (window?.dataLayer || null) : null
   },
   reducers: {
@@ -55,8 +56,11 @@ const systemSlice = createSlice({
     },
     SAVE_page_info(state, { payload }) {
       return { ...state, pageInfo: payload };
+    },
+    SAVE_loading(state, { payload }) {
+      return { ...state, loading: payload };
     }
-  },
+  }
   // extraReducers: builder => {
   //   builder.addCase(HYDRATE, (state, { payload }) => {
   //     console.log('HYDRATE', state, payload);

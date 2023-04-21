@@ -6,23 +6,23 @@ import anime from 'animejs';
 import { tableStyle } from '@/styles/tableStyle';
 import Menu from '@/components/layout/Menu';
 
-const styles = (theme) => ({
+const styles = theme => ({
   content: {
     width: '100vw',
     height: '100vh',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main
   },
   table: {
     ...tableStyle,
     top: '5%',
     left: '5%',
     width: '90%',
-    height: '90%',
+    height: '90%'
   },
   tableclothAnimeContent: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
   tablecloth: {
     width: '80%',
@@ -30,12 +30,12 @@ const styles = (theme) => ({
     margin: 'auto',
     padding: '15px',
     // textAlign: 'center',
-    backgroundColor: 'rgb(255 226 177)',
+    backgroundColor: 'rgb(255 226 177)'
   },
   tableclothAnimeContentMenu: {
     position: 'absolute',
-    left: '-100%',
-  },
+    left: '-100%'
+  }
 });
 
 const useStyles = makeStyles(styles);
@@ -44,13 +44,15 @@ function DefalutLayout({ children }) {
   const tableclothRef = useRef(null);
   const mainContentRef = useRef(null);
   const menuRef = useRef(null);
+
   const {
     table,
     content,
     tableclothAnimeContent,
     tablecloth,
-    tableclothAnimeContentMenu,
+    tableclothAnimeContentMenu
   } = useStyles();
+
   useEffect(() => {
     if (menuRef?.current?.style) menuRef.current.style.left = '-100%';
     anime({
@@ -63,11 +65,12 @@ function DefalutLayout({ children }) {
           targets: menuRef.current,
           left: ['-100%', '0%'],
           duration: 1000,
-          easing: 'easeOutQuint',
+          easing: 'easeOutQuint'
         });
-      },
+      }
     });
   }, []);
+
   return (
     <div className={content}>
       <div className={table}>
@@ -85,7 +88,7 @@ function DefalutLayout({ children }) {
 }
 
 DefalutLayout.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.any
 };
 
 export default DefalutLayout;
