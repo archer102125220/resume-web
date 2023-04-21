@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
 // import { useDispatch } from 'react-redux';
 // import { makeStyles } from '@mui/styles';
 // import { systemAsyncThunk } from '@/redux/system';
+
+import useGTMTrack from '@/hooks/useGTMTrack';
 
 // const styles = {
 //   footer: {
@@ -24,14 +25,7 @@ import Head from 'next/head';
 function Home() {
   // const classes = useStyles();
 
-  useEffect(() => {
-    try {
-      const title = document.head.title;
-      window.dataLayer.push({ event: 'scnOpen', url: '/home', title });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  useGTMTrack({ event: 'scnOpen', url: '/home' });
 
   return (
     <div>

@@ -58,9 +58,6 @@ function NextApp({ Component, pageProps, router }) {
       window.removeEventListener('resize', windowWidthListener);
     };
   }, []);
-  useEffect(() => {
-    console.log(messageState);
-  }, [messageState]);
 
   return (
     <ThemeProvider theme={theme}>

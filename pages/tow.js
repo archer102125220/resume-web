@@ -1,10 +1,11 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import Head from 'next/head';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { systemAsyncThunk } from '@/redux/system';
 import { wrapper } from '@/redux/index';
+import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
   container: {
@@ -35,14 +36,7 @@ function Tow(props) {
     return dispatch({ type: 'system/message_success', payload: '246' });
   }, [dispatch]);
 
-  useEffect(() => {
-    try {
-      const title = document.head.title;
-      window.dataLayer.push({ event: 'scnOpen', url: '/tow', title });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  useGTMTrack({ event: 'scnOpen', url: '/tow' });
 
   return (
     <div className={classes.container}>

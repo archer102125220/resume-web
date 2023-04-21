@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import anime from 'animejs';
@@ -7,9 +7,10 @@ import anime from 'animejs';
 import { useSelector } from 'react-redux';
 import { mediaMobile } from '@/styles/globals';
 import { tableStyle } from '@/styles/tableStyle';
+import useGTMTrack from '@/hooks/useGTMTrack';
 
 // https://www.atjiang.com/create-grids-via-css-linear-gradient/
-const doorStyle = (theme) => ({
+const doorStyle = theme => ({
   position: 'absolute',
   top: 0,
   zIndex: 10,
@@ -25,7 +26,7 @@ const doorStyle = (theme) => ({
   MozUserSelect: 'none',
   OUserSelect: 'none',
   userSelect: 'none',
-  overflow: 'hidden',
+  overflow: 'hidden'
 });
 
 const doorHandleStyle = {
@@ -34,7 +35,7 @@ const doorHandleStyle = {
   background: '#000',
   width: '50px',
   height: '50px',
-  borderRadius: 100,
+  borderRadius: 100
 };
 
 const contentTableLowerLeftHandBaseFront = {
@@ -52,8 +53,8 @@ const contentTableLowerLeftHandBaseFront = {
     left: '9%',
     width: '10%',
     height: '25%',
-    transform: 'skewX(26deg)',
-  },
+    transform: 'skewX(26deg)'
+  }
 };
 const contentTableLowerLeftHandBaseSide = {
   ...tableStyle,
@@ -70,8 +71,8 @@ const contentTableLowerLeftHandBaseSide = {
     left: '16%',
     width: '5%',
     height: '25%',
-    transform: 'skewX(25deg)',
-  },
+    transform: 'skewX(25deg)'
+  }
 };
 const doorplate = {
   background: '#f8c97c',
@@ -82,36 +83,36 @@ const doorplate = {
   minHeight: '55px',
   [mediaMobile]: {
     fontSize: '25px',
-    minHeight: '40px',
-  },
+    minHeight: '40px'
+  }
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   index: {
     width: '100%',
     height: '100%',
     position: 'absolute',
     top: 0,
     left: 0,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   leftDoor: {
     ...doorStyle(theme),
     width: '50%',
     height: '100%',
     borderRight: '2px',
-    left: 0,
+    left: 0
   },
   rightDoor: {
     ...doorStyle(theme),
     width: '50%',
     height: '100%',
     borderLeft: '2px',
-    right: 0,
+    right: 0
   },
   leftDoorHandle: {
     ...doorHandleStyle,
-    right: 0,
+    right: 0
   },
   leftDoorDoorplate: {
     ...doorplate,
@@ -120,12 +121,12 @@ const styles = (theme) => ({
     right: 0,
     borderRight: 0,
     [mediaMobile]: {
-      ...doorplate[mediaMobile],
-    },
+      ...doorplate[mediaMobile]
+    }
   },
   rightDoorHandle: {
     ...doorHandleStyle,
-    left: 0,
+    left: 0
   },
   rightDoorDoorplate: {
     ...doorplate,
@@ -134,13 +135,13 @@ const styles = (theme) => ({
     left: 0,
     borderLeft: 0,
     [mediaMobile]: {
-      ...doorplate[mediaMobile],
-    },
+      ...doorplate[mediaMobile]
+    }
   },
   content: {
     height: 'inherit',
     backgroundColor: theme.palette.primary.main,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   contentTable: {
     ...tableStyle,
@@ -148,7 +149,7 @@ const styles = (theme) => ({
     left: '25%',
     width: '50%',
     height: '20%',
-    transform: 'perspective(0.5em) rotateX(1deg)',
+    transform: 'perspective(0.5em) rotateX(1deg)'
   },
   contentTableside: {
     ...tableStyle,
@@ -157,7 +158,7 @@ const styles = (theme) => ({
     width: '99%',
     height: '13%',
     transform: 'perspective(0.5em) rotateX(359deg)',
-    zIndex: 2,
+    zIndex: 2
   },
   contentTableLowerLeftHandBaseFront,
   contentTableLowerLeftHandBaseSide,
@@ -170,8 +171,8 @@ const styles = (theme) => ({
       ...contentTableLowerLeftHandBaseFront[mediaMobile],
       left: null,
       right: '9%',
-      transform: 'skewX(347deg)',
-    },
+      transform: 'skewX(347deg)'
+    }
   },
   contentTableLowerRightHandBaseSide: {
     ...contentTableLowerLeftHandBaseSide,
@@ -182,9 +183,9 @@ const styles = (theme) => ({
       ...contentTableLowerLeftHandBaseSide[mediaMobile],
       left: null,
       right: '16%',
-      transform: 'skewX(347deg)',
-    },
-  },
+      transform: 'skewX(347deg)'
+    }
+  }
 });
 
 const useStyles = makeStyles(styles);
@@ -223,18 +224,11 @@ function Index() {
     contentTableLowerLeftHandBaseFront,
     contentTableLowerLeftHandBaseSide,
     contentTableLowerRightHandBaseFront,
-    contentTableLowerRightHandBaseSide,
+    contentTableLowerRightHandBaseSide
   } = classes;
   const isMobile = useSelector(({ system }) => system.isMobile);
 
-  useEffect(() => {
-    try {
-      const title = document.head.title;
-      window.dataLayer.push({ event: 'scnOpen', url: '/', title });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  useGTMTrack({ event: 'scnOpen', url: '/' });
 
   function openingAnime() {
     if (openDoor === true) {
@@ -242,22 +236,30 @@ function Index() {
       rightDoorAnime.current.seek(rightDoorAnime.current.duration);
       tabletopAnime.current.seek(tabletopAnime.current.duration);
       tablesideAnime.current.seek(tablesideAnime.current.duration);
-      tableLowerLeftHandBaseFrontAnime.current.seek(tableLowerLeftHandBaseFrontAnime.current.duration);
-      tableLowerLeftHandBaseSideAnime.current.seek(tableLowerLeftHandBaseSideAnime.current.duration);
-      tableLowerRightHandBaseFrontAnime.current.seek(tableLowerRightHandBaseFrontAnime.current.duration);
-      tableLowerRightHandBaseSideAnime.current.seek(tableLowerRightHandBaseSideAnime.current.duration);
+      tableLowerLeftHandBaseFrontAnime.current.seek(
+        tableLowerLeftHandBaseFrontAnime.current.duration
+      );
+      tableLowerLeftHandBaseSideAnime.current.seek(
+        tableLowerLeftHandBaseSideAnime.current.duration
+      );
+      tableLowerRightHandBaseFrontAnime.current.seek(
+        tableLowerRightHandBaseFrontAnime.current.duration
+      );
+      tableLowerRightHandBaseSideAnime.current.seek(
+        tableLowerRightHandBaseSideAnime.current.duration
+      );
     }
 
     const autoplay = true;
     leftDoorAnime.current = anime({
       targets: leftDoorRef.current,
       translateX: '-100%',
-      duration: 1000,
+      duration: 1000
     });
     rightDoorAnime.current = anime({
       targets: rightDoorRef.current,
       translateX: '100%',
-      duration: 1000,
+      duration: 1000
     });
     tabletopAnime.current = anime({
       targets: tabletopRef.current,
@@ -272,7 +274,7 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tabletopRef.current);
-      },
+      }
     });
     tablesideAnime.current = anime({
       targets: tablesideRef.current,
@@ -284,7 +286,7 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tablesideRef.current);
-      },
+      }
     });
     tableLowerLeftHandBaseFrontAnime.current = anime({
       targets: [tableLowerLeftHandBaseFrontRef.current],
@@ -298,7 +300,7 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tableLowerLeftHandBaseFrontRef.current);
-      },
+      }
     });
     tableLowerLeftHandBaseSideAnime.current = anime({
       targets: tableLowerLeftHandBaseSideRef.current,
@@ -312,7 +314,7 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tableLowerLeftHandBaseSideRef.current);
-      },
+      }
     });
     tableLowerRightHandBaseFrontAnime.current = anime({
       targets: tableLowerRightHandBaseFrontRef.current,
@@ -326,7 +328,7 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tableLowerRightHandBaseFrontRef.current);
-      },
+      }
     });
     tableLowerRightHandBaseSideAnime.current = anime({
       targets: tableLowerRightHandBaseSideRef.current,
@@ -341,7 +343,7 @@ function Index() {
       complete() {
         // console.log(tableLowerRightHandBaseSideRef.current);
         nextRouter.push('/home');
-      },
+      }
     });
     setOpenDoor(true);
   }
@@ -403,7 +405,7 @@ function Index() {
 }
 
 Index.propTypes = {
-  isMobile: PropTypes.bool,
+  isMobile: PropTypes.bool
 };
 
 export default Index;
