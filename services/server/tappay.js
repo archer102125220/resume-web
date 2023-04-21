@@ -17,3 +17,11 @@ export function POST_Refund(payload = {}) {
     }
   });
 }
+
+export function POST_Record(payload = {}) {
+  return request.post(url + '/query', payload, {
+    headers: {
+      'x-api-key': process.env.PARTNER_KEY
+    }
+  });
+}
