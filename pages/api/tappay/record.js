@@ -13,6 +13,6 @@ export default async function record(req, res) {
   if (tappayResult.status === 0) {
     res.status(200).json(tappayResult);
   } else {
-    res.status(500).json(tappayResult);
+    res.status(400).json(tappayResult);
   }
 }
