@@ -130,7 +130,7 @@ function FirebaseAdmin() {
           <></>
         )}
         {appMessageTokens.map((appMessageToken, index) => (
-          <ListItem key={index}>
+          <ListItem sx={{ maxWidth: 360, overflow: 'scroll' }} key={index}>
             <ListItemText primary={appMessageToken} />
           </ListItem>
         ))}

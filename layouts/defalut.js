@@ -30,7 +30,8 @@ const styles = theme => ({
     margin: 'auto',
     padding: '15px',
     // textAlign: 'center',
-    backgroundColor: 'rgb(255 226 177)'
+    backgroundColor: 'rgb(255 226 177)',
+    overflow: 'scroll'
   },
   tableclothAnimeContentMenu: {
     position: 'absolute',
