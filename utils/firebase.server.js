@@ -93,7 +93,7 @@ firebaseServerInit();
 let tokens = [];
 
 export function registerTokens(token) {
-  if (typeof token !== 'string' || token === '') {
+  if (typeof token !== 'string' || token === '' || tokens.includes(token)) {
     return;
   }
   tokens.push(token);
