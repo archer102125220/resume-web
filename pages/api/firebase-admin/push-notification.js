@@ -1,5 +1,3 @@
-import { getMessaging } from 'firebase-admin/app';
-
 import {
   getTokens,
   androidFirebaseApp,
@@ -15,14 +13,16 @@ export default async function pushMessage(req, res) {
       return;
     }
     const tokens = getTokens();
+    console.log({ tokens });
 
     const { body } = req;
+    console.log(body.data);
     const response = await Promise.all([
-      getMessaging(androidFirebaseApp).sendMulticast({
+      androidFirebaseApp.messaging().sendMulticast({
         data: body.data,
         tokens
       }),
-      getMessaging(iosFirebaseApp).sendMulticast({
+      iosFirebaseApp.messaging().sendMulticast({
         data: body.data,
         tokens
       })

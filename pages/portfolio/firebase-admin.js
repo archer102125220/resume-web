@@ -48,7 +48,7 @@ function FirebaseAdmin() {
       return dispatch(
         firebaseAdminAsyncThunk.POST_PushNotification({
           loading: boloean => SAVE_loading(boloean),
-          payload: { data }
+          payload: { data: { msg: data } }
         })
       );
     },

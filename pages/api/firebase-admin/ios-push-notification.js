@@ -1,5 +1,3 @@
-import { getMessaging } from 'firebase-admin/app';
-
 import { iosFirebaseApp } from '@/utils/firebase.server';
 
 export default async function iosPushMessage(req, res) {
@@ -18,7 +16,7 @@ export default async function iosPushMessage(req, res) {
       res.status(500).send('Missing parameter: token');
       return;
     }
-    const response = await getMessaging(iosFirebaseApp).sendMulticast({
+    const response = await iosFirebaseApp.messaging().sendMulticast({
       data: body.data,
       tokens: body.token
     });

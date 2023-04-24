@@ -12,12 +12,6 @@ import Message from '@/components/Message';
 import CircularLoading from '@/components/CircularLoading';
 import { wrapper } from '@/redux/index';
 import { firebaseClientInit } from '@/utils/firebase.client';
-import { firebaseServerInit } from '@/utils/firebase.server';
-
-// https://ithelp.ithome.com.tw/articles/10269342
-// https://vercel.com/archer102125220/resume-web
-
-firebaseServerInit();
 
 function NextApp({ Component, pageProps, router }) {
   const messageState = useSelector(state => state.system.message);
