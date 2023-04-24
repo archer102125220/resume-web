@@ -39,10 +39,13 @@ function Portfolio() {
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio' });
 
-  function handleGoToTappay() {
+  function handleGoToTappay(e) {
+    console.log(e);
+    e.preventDefault();
     nextRouter.push('/portfolio/tappay');
   }
-  function handleGoToFirebaseAdmin() {
+  function handleGoToFirebaseAdmin(e) {
+    e.preventDefault();
     nextRouter.push('/portfolio/firebase-admin');
   }
 
@@ -56,6 +59,8 @@ function Portfolio() {
           sx={styles.portfolioButton}
           variant="contained"
           onClick={handleGoToTappay}
+          component="a"
+          href='/portfolio/tappay'
         >
           <p>Tappay串接</p>
           <Image
@@ -70,6 +75,8 @@ function Portfolio() {
           sx={styles.portfolioButton}
           variant="contained"
           onClick={handleGoToFirebaseAdmin}
+          component="a"
+          href='/portfolio/irebase-admin'
         >
           <p>Firebase Admin SDK</p>
           <Image

@@ -1,10 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import system from '@/redux/system';
+import firebaseAdmin from '@/redux/firebaseAdmin';
 
 export const wrapper = createWrapper(function (appContext) {
   const combinedReducer = combineReducers({
-    system
+    system,
+    firebaseAdmin
   });
 
   const reducer = (state, action) => {

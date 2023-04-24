@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
+// import { HYDRATE } from 'next-redux-wrapper';
 import { GET_homePage } from '@serverClient/index';
 
 const name = 'system';
@@ -10,8 +10,13 @@ export const systemAsyncThunk = {
     async function (arg, { dispatch }) {
       const { payload, callback, loading } = arg || {};
       if (typeof loading === 'function') loading(true);
-      const data = await GET_homePage(payload);
-      dispatch({ type: `${name}/SAVE_page_info`, payload: data });
+      let data;
+      try {
+        data = await GET_homePage(payload);
+        dispatch({ type: `${name}/SAVE_page_info`, payload: data });
+      } catch (error) {
+        console.log(error);
+      }
       if (typeof loading === 'function') loading(false);
       if (typeof callback === 'function') callback();
       return data;

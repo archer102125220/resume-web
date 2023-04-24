@@ -58,3 +58,24 @@ export async function firebaseServerInit() {
 
   return { firebaseApp, androidFirebaseApp, iosFirebaseApp };
 }
+
+let tokens = [];
+
+export function registerTokens(token) {
+  if (typeof token !== 'string' || token === '') {
+    return;
+  }
+  tokens.push(token);
+}
+
+export function cancelTokens(token) {
+  if (typeof token !== 'string' || token === '') {
+    return;
+  }
+  tokens.push(token);
+  tokens = tokens.filter(_token => _token !== token);
+}
+
+export function getTokens() {
+  return tokens;
+}

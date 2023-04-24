@@ -42,9 +42,7 @@ function LayoutSwitch({ router, children, pageProps }) {
   const nodeRef = useRef(null);
   const dispatch = useDispatch();
   const SAVE_loading = useCallback(
-    loading => {
-      return dispatch({ type: 'system/SAVE_loading', payload: loading });
-    },
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
     [dispatch]
   );
   const classes = useStyles();
