@@ -40,10 +40,10 @@ function Portfolio() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio' });
 
   function handleGoToTappay() {
-    nextRouter.push('/tappay');
+    nextRouter.push('/portfolio/tappay');
   }
   function handleGoToFirebaseAdmin() {
-    nextRouter.push('/firebase-admin');
+    nextRouter.push('/portfolio/firebase-admin');
   }
 
   return (

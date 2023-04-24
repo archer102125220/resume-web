@@ -1,6 +1,10 @@
 import Head from 'next/head';
 
+import useGTMTrack from '@/hooks/useGTMTrack';
+
 function Tappay() {
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay' });
+
   return (
     <div>
       <Head>

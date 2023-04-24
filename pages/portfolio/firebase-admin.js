@@ -1,6 +1,10 @@
 import Head from 'next/head';
 
+import useGTMTrack from '@/hooks/useGTMTrack';
+
 function FirebaseAdmin() {
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
+
   return (
     <div>
       <Head>
