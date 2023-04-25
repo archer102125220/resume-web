@@ -21,7 +21,7 @@ function FirebaseAdmin() {
   const [appMessageToken, setAppMessageToken] = useState('1');
   const [appMessage, setAppMessage] = useState('appMessage');
   const appMessageTokens = useSelector(
-    ({ firebaseAdmin }) => firebaseAdmin.appMessageTokens
+    ({ firebaseAdmin }) => firebaseAdmin.appMessageTokens || []
   );
   const dispatch = useDispatch();
   const SAVE_loading = useCallback(
@@ -78,7 +78,7 @@ function FirebaseAdmin() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
 
   function registerMessageToken() {
-    POST_RegisterMessageToken({ token: appMessageToken });
+    POST_RegisterMessageToken(appMessageToken);
   }
   function pushNotification() {
     POST_PushNotification(appMessage);

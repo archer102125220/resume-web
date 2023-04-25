@@ -10,9 +10,8 @@ export default async function registerMessageToken(req, res) {
       return;
     }
     const { body } = req;
-    console.log(body.token);
     // registerTokens(body.token);
-    await addToken(body.token);
+    await addToken(body);
 
     res.status(200).json({ success: true, token: body.token });
   } catch (error) {

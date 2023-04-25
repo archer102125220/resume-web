@@ -4,6 +4,9 @@ import { getAnalytics } from 'firebase/analytics';
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from 'firebase/firestore/lite';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getMessaging, getToken } from 'firebase/messaging';
+
+import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
 
 // const firebaseAdmin = require('firebase-admin');
 
@@ -22,13 +25,21 @@ export const firebaseConfig = {
 export let firebaseApp;
 export let firebaseAnalytics;
 export let firebaseDB;
+export let firebaseMessaging;
 
 // Initialize Firebase
-export function firebaseClientInit() {
+export async function firebaseClientInit() {
   if (typeof window === 'object') {
     firebaseApp = initializeApp(firebaseConfig);
     firebaseAnalytics = getAnalytics(firebaseApp);
     firebaseDB = getFirestore(firebaseApp);
+    firebaseMessaging = getMessaging(firebaseApp);
+    try {
+      const token = await getToken(firebaseMessaging);
+      await POST_registerMessageToken({ token, os: 'web' });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return { firebaseApp, firebaseAnalytics, firebaseDB };

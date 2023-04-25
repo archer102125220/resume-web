@@ -13,6 +13,8 @@ import CircularLoading from '@/components/CircularLoading';
 import { wrapper } from '@/redux/index';
 import { firebaseClientInit } from '@/utils/firebase.client';
 
+firebaseClientInit();
+
 function NextApp({ Component, pageProps, router }) {
   const messageState = useSelector(state => state.system.message);
   const loading = useSelector(state => state.system.loading);
@@ -46,7 +48,6 @@ function NextApp({ Component, pageProps, router }) {
       });
     }
     window.addEventListener('resize', windowWidthListener);
-    firebaseClientInit();
 
     return () => {
       window.removeEventListener('resize', windowWidthListener);

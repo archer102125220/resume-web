@@ -16,7 +16,6 @@ export default async function pushMessage(req, res) {
     // const tokens = getTokens().map(({ token }) => token);
     let tokens = await findAllToken();
     tokens = tokens.map(({ token }) => token);
-    console.log({ tokens });
 
     const { body } = req;
     console.log(body.data);
@@ -30,7 +29,6 @@ export default async function pushMessage(req, res) {
         tokens
       })
     ]);
-    console.log(response);
 
     res.status(200).json(response);
   } catch (error) {

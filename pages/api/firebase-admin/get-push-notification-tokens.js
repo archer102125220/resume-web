@@ -11,7 +11,6 @@ export default async function getMessageTokens(req, res) {
     }
     // const tokens = getTokens();
     const tokens = await findAllToken();
-    console.log(tokens);
 
     res.status(200).json(tokens);
   } catch (error) {
