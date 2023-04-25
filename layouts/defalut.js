@@ -31,7 +31,7 @@ const styles = theme => ({
     padding: '15px',
     // textAlign: 'center',
     backgroundColor: 'rgb(255 226 177)',
-    overflow: 'scroll'
+    overflow: 'auto'
   },
   tableclothAnimeContentMenu: {
     position: 'absolute',
