@@ -14,19 +14,22 @@ export default async function pushMessage(req, res) {
       return;
     }
     // const tokens = getTokens().map(({ token }) => token);
-    let tokens = await findAllToken();
-    tokens = tokens.map(({ token }) => token);
+    const tokens = await findAllToken();
 
     const { body } = req;
     console.log(body.data);
     const response = await Promise.all([
       androidFirebaseApp.messaging().sendMulticast({
         data: { msg: body.data },
-        tokens
+        tokens: tokens
+          .filter(({ os }) => os === 'android')
+          .map(({ token }) => token)
       }),
       iosFirebaseApp.messaging().sendMulticast({
         data: { msg: body.data },
-        tokens
+        tokens: tokens
+          .filter(({ os }) => os === 'ios')
+          .map(({ token }) => token)
       })
     ]);
 
