@@ -1,6 +1,7 @@
 import { findAllToken } from '@serverServices/firebaseAdmin';
 import {
   // getTokens,
+  firebaseApp,
   androidFirebaseApp,
   iosFirebaseApp
 } from '@/utils/firebase.server';
@@ -19,6 +20,12 @@ export default async function pushMessage(req, res) {
     const { body } = req;
     console.log(body.data);
     const response = await Promise.all([
+      firebaseApp.messaging().sendMulticast({
+        data: { msg: body.data },
+        tokens: tokens
+          .filter(({ os }) => os === 'web')
+          .map(({ token }) => token)
+      }),
       androidFirebaseApp.messaging().sendMulticast({
         data: { msg: body.data },
         tokens: tokens
