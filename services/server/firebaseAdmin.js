@@ -4,14 +4,16 @@ export async function addToken(token = { token: '', os: '' }) {
   await MongoDBClient.connect();
   try {
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
-    const firebaseAdmin = resumeWebDB.collection('firebaseAdmin');
+    const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
 
-    const _tokens = await firebaseAdmin.find({ token: token.token }).toArray();
+    const _tokens = await firebaseAdminTable
+      .find({ token: token.token })
+      .toArray();
     if (_tokens.find(_token => _token.token === token.token) !== undefined) {
       return;
     }
 
-    const response = await firebaseAdmin.insertMany([token]);
+    const response = await firebaseAdminTable.insertMany([token]);
     return response;
   } catch (error) {
     console.log(error);
@@ -23,8 +25,8 @@ export async function removeToken(token = '') {
   await MongoDBClient.connect();
   try {
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
-    const firebaseAdmin = resumeWebDB.collection('firebaseAdmin');
-    const response = await firebaseAdmin.deleteMany({ token });
+    const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
+    const response = await firebaseAdminTable.deleteMany({ token });
     return response;
   } catch (error) {
     console.log(error);
@@ -36,8 +38,10 @@ export async function findToken(token = '') {
   await MongoDBClient.connect();
   try {
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
-    const firebaseAdmin = resumeWebDB.collection('firebaseAdmin');
-    const response = await firebaseAdmin.find({ token: token.token }).toArray();
+    const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
+    const response = await firebaseAdminTable
+      .find({ token: token.token })
+      .toArray();
     return response;
   } catch (error) {
     console.log(error);
@@ -49,8 +53,8 @@ export async function findAllToken() {
   await MongoDBClient.connect();
   try {
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
-    const firebaseAdmin = resumeWebDB.collection('firebaseAdmin');
-    const response = await firebaseAdmin.find({}).toArray();
+    const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
+    const response = await firebaseAdminTable.find({}).toArray();
     return response;
   } catch (error) {
     console.log(error);
