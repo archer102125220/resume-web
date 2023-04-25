@@ -1,6 +1,7 @@
+import { removeToken } from '@serverServices/firebaseAdmin';
 import { cancelTokens } from '@/utils/firebase.server';
 
-export default function cancelMessageToken(req, res) {
+export default async function cancelMessageToken(req, res) {
   try {
     const method = req.method.toLocaleUpperCase();
     if (method !== 'DELETE') {
@@ -9,8 +10,9 @@ export default function cancelMessageToken(req, res) {
       return;
     }
     const { token } = req.query;
-    console.log(typeof token);
     cancelTokens(token);
+    const response = await removeToken(token);
+    console.log(response);
 
     res.status(200).json({ success: true, token });
   } catch (error) {

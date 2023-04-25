@@ -1,4 +1,5 @@
-import { getTokens } from '@/utils/firebase.server';
+import { findAllToken } from '@serverServices/firebaseAdmin';
+// import { getTokens } from '@/utils/firebase.server';
 
 export default async function getMessageTokens(req, res) {
   try {
@@ -8,7 +9,9 @@ export default async function getMessageTokens(req, res) {
       res.status(405).end(`Method ${method} Not Allowed`);
       return;
     }
-    const tokens = getTokens();
+    // const tokens = getTokens();
+    const tokens = await findAllToken();
+    console.log(tokens);
 
     res.status(200).json(tokens);
   } catch (error) {

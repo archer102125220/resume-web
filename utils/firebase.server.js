@@ -1,3 +1,5 @@
+import firebaseAdmin from 'firebase-admin';
+
 export const credential = process.env.FIREBASE_CREDENTIAL || '{}';
 
 export const firebaseConfig = {
@@ -36,10 +38,9 @@ export function getIosFirebaseApp() {
   return iosFirebaseApp;
 }
 
-export async function firebaseServerInit() {
+export function firebaseServerInit() {
   try {
     if (typeof window === 'undefined') {
-      const firebaseAdmin = await import('firebase-admin');
       const firebaseAdminAppStore = firebaseAdmin.INTERNAL.appStore.appStore;
       // console.log(firebaseAdmin.messaging);
       // console.log(firebaseAdmin.INTERNAL.appStore.appStore);
@@ -94,13 +95,14 @@ let tokens = [];
 
 export function registerTokens(token) {
   if (
-    typeof token !== 'string' ||
-    token === '' ||
-    tokens.includes(token) === true
+    typeof token.token !== 'string' ||
+    token.token === '' ||
+    tokens.find(_token => _token.token === token.token) !== undefined
   ) {
-    return;
+    return tokens;
   }
   tokens.push(token);
+  return tokens;
 }
 
 export function cancelTokens(token) {
@@ -109,9 +111,10 @@ export function cancelTokens(token) {
     token === '' ||
     tokens.includes(token) === false
   ) {
-    return;
+    return tokens;
   }
-  tokens = tokens.filter(_token => _token !== token);
+  tokens = tokens.filter(_token => _token.token !== token);
+  return tokens;
 }
 
 export function getTokens() {

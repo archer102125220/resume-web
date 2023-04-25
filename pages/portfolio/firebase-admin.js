@@ -52,7 +52,7 @@ function FirebaseAdmin() {
       return dispatch(
         firebaseAdminAsyncThunk.POST_PushNotification({
           loading: boloean => SAVE_loading(boloean),
-          payload: { data: { msg: data } }
+          payload: { data }
         })
       );
     },
@@ -78,7 +78,7 @@ function FirebaseAdmin() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
 
   function registerMessageToken() {
-    POST_RegisterMessageToken(appMessageToken);
+    POST_RegisterMessageToken({ token: appMessageToken });
   }
   function pushNotification() {
     POST_PushNotification(appMessage);
@@ -134,7 +134,7 @@ function FirebaseAdmin() {
         </Grid>
       </Grid>
       <List
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        sx={{ width: '100%', bgcolor: 'background.paper' }}
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
@@ -152,13 +152,13 @@ function FirebaseAdmin() {
         {appMessageTokens.map((appMessageToken, index) => (
           <ListItem key={index}>
             <ListItemText
-              sx={{ maxWidth: 360, overflow: 'scroll' }}
-              primary={appMessageToken}
+              sx={{ maxWidth: '80%', overflow: 'scroll' }}
+              primary={appMessageToken.token}
             />
             <IconButton
               edge="end"
               aria-label="delete"
-              onClick={() => cancelMessageToken(appMessageToken)}
+              onClick={() => cancelMessageToken(appMessageToken.token)}
             >
               <DeleteIcon color="#808080" />
             </IconButton>

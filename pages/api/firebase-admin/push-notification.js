@@ -1,5 +1,6 @@
+import { findAllToken } from '@serverServices/firebaseAdmin';
 import {
-  getTokens,
+  // getTokens,
   androidFirebaseApp,
   iosFirebaseApp
 } from '@/utils/firebase.server';
@@ -12,18 +13,20 @@ export default async function pushMessage(req, res) {
       res.status(405).end(`Method ${method} Not Allowed`);
       return;
     }
-    const tokens = getTokens();
+    // const tokens = getTokens().map(({ token }) => token);
+    let tokens = await findAllToken();
+    tokens = tokens.map(({ token }) => token);
     console.log({ tokens });
 
     const { body } = req;
     console.log(body.data);
     const response = await Promise.all([
       androidFirebaseApp.messaging().sendMulticast({
-        data: body.data,
+        data: { msg: body.data },
         tokens
       }),
       iosFirebaseApp.messaging().sendMulticast({
-        data: body.data,
+        data: { msg: body.data },
         tokens
       })
     ]);

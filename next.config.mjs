@@ -58,8 +58,7 @@ const nextConfig = {
     TAPPAY_DOMAIN: process.env.TAPPAY_DOMAIN,
     PARTNER_KEY: process.env.PARTNER_KEY,
     MERCHANT_ID: process.env.MERCHANT_ID,
-    MERCHANT_NAME: process.env.MERCHANT_NAME,
-    FIREBASE_CREDENTIAL: process.env.FIREBASE_CREDENTIAL
+    MERCHANT_NAME: process.env.MERCHANT_NAME
   }
 };
 
