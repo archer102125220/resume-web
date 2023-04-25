@@ -6,6 +6,10 @@ import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import CancelIcon from '@mui/icons-material/Cancel';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -54,6 +58,18 @@ function FirebaseAdmin() {
     },
     [dispatch]
   );
+  const DELETE_CancelMessageToken = useCallback(
+    token => {
+      return dispatch(
+        firebaseAdminAsyncThunk.DELETE_CancelMessageToken({
+          loading: boloean => SAVE_loading(boloean),
+          payload: token,
+          callback: GET_GetMessageTokens
+        })
+      );
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     GET_GetMessageTokens();
@@ -66,6 +82,10 @@ function FirebaseAdmin() {
   }
   function pushNotification() {
     POST_PushNotification(appMessage);
+  }
+  function cancelMessageToken(cancelToken) {
+    console.log({ cancelToken });
+    DELETE_CancelMessageToken(cancelToken);
   }
 
   return (
@@ -130,8 +150,18 @@ function FirebaseAdmin() {
           <></>
         )}
         {appMessageTokens.map((appMessageToken, index) => (
-          <ListItem sx={{ maxWidth: 360, overflow: 'scroll' }} key={index}>
-            <ListItemText primary={appMessageToken} />
+          <ListItem key={index}>
+            <ListItemText
+              sx={{ maxWidth: 360, overflow: 'scroll' }}
+              primary={appMessageToken}
+            />
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={() => cancelMessageToken(appMessageToken)}
+            >
+              <DeleteIcon color="#808080" />
+            </IconButton>
           </ListItem>
         ))}
       </List>

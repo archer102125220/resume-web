@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   POST_registerMessageToken,
   GET_getMessageTokens,
-  POST_pushNotification
+  POST_pushNotification,
+  DELETE_cancelMessageToken
 } from '@serverClient/firebaseAdmin';
 
 const name = 'firebaseAdmin';
@@ -49,6 +50,22 @@ export const firebaseAdminAsyncThunk = {
       let data;
       try {
         data = await POST_pushNotification(payload);
+      } catch (error) {
+        console.log(error);
+      }
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
+      return data;
+    }
+  ),
+  DELETE_CancelMessageToken: createAsyncThunk(
+    `${name}/DELETE_CancelMessageToken`,
+    async function (arg) {
+      const { payload, callback, loading } = arg || {};
+      if (typeof loading === 'function') loading(true);
+      let data;
+      try {
+        data = await DELETE_cancelMessageToken(payload);
       } catch (error) {
         console.log(error);
       }
