@@ -9,7 +9,7 @@ import theme from '@/theme';
 import GlobalStyles from '@/styles/globals';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
-import CircularLoading from '@/components/CircularLoading';
+import PageLoading from '@/components/PageLoading';
 import { wrapper } from '@/redux/index';
 import { firebaseClientInit } from '@/utils/firebase.client';
 
@@ -71,7 +71,7 @@ function NextApp({ Component, pageProps, router }) {
         messageState={messageState}
         resetMessageState={resetMessageState}
       />
-      <CircularLoading
+      <PageLoading
         loading={loading}
         // loading={true}
         style={{

@@ -11,24 +11,15 @@ function PageLoading({ loading }) {
         height: '100vh',
         top: '0',
         left: '0',
-        backgroundColor: 'rgb(0 0 0 / 22%)'
+        zIndex: 100
+        // backgroundColor: 'rgb(0 0 0 / 22%)'
       }}
     >
       <CircularLoading
-        style={{ width: '20vw', height: '20vw', top: '10%', left: '40%' }}
+        loading={true}
+        style={{ width: '20vw', height: '20vw', top: 'calc(50% - 20vh)', left: 'calc(50% - 10vw)' }}
         size="100%"
       />
-      <Box
-        sx={{
-          position: 'relative',
-          top: '15%',
-          textAlign: 'center',
-          fontSize: '50px'
-          // color: 'primary.main'
-        }}
-      >
-        Loading...
-      </Box>
     </Box>
   ) : (
     <></>

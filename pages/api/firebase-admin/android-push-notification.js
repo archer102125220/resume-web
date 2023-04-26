@@ -12,12 +12,12 @@ export default async function androidPushMessage(req, res) {
     if (body.data === undefined || body.data === null) {
       res.status(500).send('Missing parameter: data');
       return;
-    } else if (typeof body.token !== 'string' || body.token === '') {
+    } else if (Array.isArray(body.token) === false || body.token.length <= 0) {
       res.status(500).send('Missing parameter: token');
       return;
     }
     const response = await androidFirebaseApp.messaging().sendMulticast({
-      data: body.data,
+      data: { msg: body.data },
       tokens: body.token
     });
     console.log(response);

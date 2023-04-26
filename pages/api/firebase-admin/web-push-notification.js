@@ -1,6 +1,6 @@
-import { iosFirebaseApp } from '@/utils/firebase.server';
+import { firebaseApp } from '@/utils/firebase.server';
 
-export default async function iosPushMessage(req, res) {
+export default async function webPushMessage(req, res) {
   try {
     const method = req.method.toLocaleUpperCase();
     if (method !== 'POST') {
@@ -16,7 +16,7 @@ export default async function iosPushMessage(req, res) {
       res.status(500).send('Missing parameter: token');
       return;
     }
-    const response = await iosFirebaseApp.messaging().sendMulticast({
+    const response = await firebaseApp.messaging().sendMulticast({
       data: { msg: body.data },
       tokens: body.token
     });

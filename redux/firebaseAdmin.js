@@ -3,7 +3,10 @@ import {
   POST_registerMessageToken,
   GET_getMessageTokens,
   POST_pushNotification,
-  DELETE_cancelMessageToken
+  DELETE_cancelMessageToken,
+  POST_androidPushNotification,
+  POST_iosPushNotification,
+  POST_webPushMessage
 } from '@serverClient/firebaseAdmin';
 
 const name = 'firebaseAdmin';
@@ -66,6 +69,54 @@ export const firebaseAdminAsyncThunk = {
       let data;
       try {
         data = await DELETE_cancelMessageToken(payload);
+      } catch (error) {
+        console.log(error);
+      }
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
+      return data;
+    }
+  ),
+  POST_AndroidPushNotification: createAsyncThunk(
+    `${name}/POST_AndroidPushNotification`,
+    async function (arg) {
+      const { payload, callback, loading } = arg || {};
+      if (typeof loading === 'function') loading(true);
+      let data;
+      try {
+        data = await POST_androidPushNotification(payload);
+      } catch (error) {
+        console.log(error);
+      }
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
+      return data;
+    }
+  ),
+  POST_IosPushNotification: createAsyncThunk(
+    `${name}/POST_IosPushNotification`,
+    async function (arg) {
+      const { payload, callback, loading } = arg || {};
+      if (typeof loading === 'function') loading(true);
+      let data;
+      try {
+        data = await POST_iosPushNotification(payload);
+      } catch (error) {
+        console.log(error);
+      }
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
+      return data;
+    }
+  ),
+  POST_WebPushMessage: createAsyncThunk(
+    `${name}/POST_WebPushMessage`,
+    async function (arg) {
+      const { payload, callback, loading } = arg || {};
+      if (typeof loading === 'function') loading(true);
+      let data;
+      try {
+        data = await POST_webPushMessage(payload);
       } catch (error) {
         console.log(error);
       }

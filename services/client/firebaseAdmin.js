@@ -20,3 +20,15 @@ export function DELETE_cancelMessageToken(payload) {
     `/firebase-admin/cancel-push-notification-token/${payload}`
   );
 }
+
+export function POST_androidPushNotification(payload) {
+  return request.post('/firebase-admin/android-push-notification', payload);
+}
+
+export function POST_iosPushNotification(payload) {
+  return request.post('/firebase-admin/ios-push-notification', payload);
+}
+
+export function POST_webPushMessage(payload) {
+  return request.post('/firebase-admin/web-push-notification', payload);
+}
