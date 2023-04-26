@@ -84,7 +84,11 @@ function TokenDataView({
         sx={{ width: '100%', bgcolor: 'background.paper' }}
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
+          <ListSubheader
+            sx={{ top: ' -16px' }}
+            component="div"
+            id="nested-list-subheader"
+          >
             {title}
           </ListSubheader>
         }
