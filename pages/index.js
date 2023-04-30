@@ -248,6 +248,7 @@ function Index() {
       tableLowerRightHandBaseSideAnime.current.seek(
         tableLowerRightHandBaseSideAnime.current.duration
       );
+      return true;
     }
 
     const autoplay = true;

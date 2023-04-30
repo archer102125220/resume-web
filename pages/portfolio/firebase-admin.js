@@ -11,8 +11,9 @@ import useGTMTrack from '@/hooks/useGTMTrack';
 import TokenDataView from '@/components/FirebaseAdmin/TokenDataView';
 
 function FirebaseAdmin() {
-  const [appMessageToken, setAppMessageToken] = useState('1');
+  const [appMessageToken, setAppMessageToken] = useState('');
   const [appMessage, setAppMessage] = useState('appMessage');
+  const [appMessageTokenError, setAppMessageTokenError] = useState(false);
   const appMessageTokens = useSelector(
     ({ firebaseAdmin }) => firebaseAdmin.appMessageTokens || []
   );
@@ -93,6 +94,12 @@ function FirebaseAdmin() {
     },
     [dispatch, appMessageTokens]
   );
+  const errorMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_error', payload });
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     GET_GetMessageTokens();
@@ -100,12 +107,22 @@ function FirebaseAdmin() {
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
 
+  function handleSetAppMessageToken(e) {
+    setAppMessageToken(e.target.value);
+    setAppMessageTokenError(false);
+  }
+
   function tokenFilter(filterOs) {
     return appMessageTokens
       .filter(({ os }) => os === filterOs)
       .map(({ token }) => token);
   }
   function registerMessageToken() {
+    if (typeof `${appMessageToken}` !== 'string' || appMessageToken === '') {
+      errorMessage('請輸入有效token!');
+      setAppMessageTokenError(true);
+      return;
+    }
     POST_RegisterMessageToken(appMessageToken);
   }
   function pushNotification() {
@@ -123,8 +140,9 @@ function FirebaseAdmin() {
             label="推播Token"
             variant="filled"
             fullWidth
+            error={appMessageTokenError}
             value={appMessageToken}
-            onChange={e => setAppMessageToken(e.target.value)}
+            onChange={handleSetAppMessageToken}
           />
         </Grid>
         <Grid xs={6} md={4}>
