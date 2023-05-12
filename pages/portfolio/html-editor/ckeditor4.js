@@ -7,7 +7,119 @@ import { CKEditor } from 'ckeditor4-react';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
 
+const m3 = {
+  margin: '1rem'
+};
+const mb3 = {
+  marginBottom: '1rem'
+};
+const formLabel = {
+  marginBottom: '0.5rem'
+};
+const formSelect = {
+  // eslint-disable-next-line quotes
+  '--bs-form-select-bg-img': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")`,
+  display: 'block',
+  width: '100%',
+  padding: '0.375rem 2.25rem 0.375rem 0.75rem',
+  fontSize: '1rem',
+  fontWeight: '400',
+  lineHeight: '1.5',
+  color: '#212529',
+  backgroundColor: '#fff',
+  backgroundImage:
+    'var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none)',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 0.75rem center',
+  backgroundSize: '16px 12px',
+  border: '1px solid #dee2e6',
+  borderRadius: '0.375rem',
+  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+  '-webkit-appearance': 'none',
+  '-moz-appearance': 'none',
+  appearance: 'none'
+};
+const formControl = {
+  display: 'block',
+  width: '100%',
+  padding: '0.375rem 0.75rem',
+  fontSize: '1rem',
+  fontWeight: '400',
+  lineHeight: '1.5',
+  color: '#212529',
+  backgroundColor: '#fff',
+  backgroundClip: 'padding-box',
+  border: '1px solid #dee2e6',
+  '-webkit-appearance': 'none',
+  '-moz-appearance': 'none',
+  appearance: 'none',
+  borderRadius: '0.375rem',
+  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
+};
+const invalidFeedback = {
+  display: 'none',
+  width: '100%',
+  marginTop: '0.25rem',
+  fontSize: '.875em',
+  color: '#dc3545'
+};
+const row = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginTop: 'calc(-1 * 1rem)',
+  marginRight: 'calc(-.5 * 1rem)',
+  marginLeft: 'calc(-.5 * 1rem)',
+  '& > *': {
+    flexShrink: '0',
+    width: '100%',
+    maxWidth: '100%',
+    paddingRight: 'calc(1rem * .5)',
+    paddingLeft: 'calc(1rem * .5)',
+    marginTop: '1rem'
+  }
+};
+const colAuto = {
+  flex: '0 0 auto',
+  width: 'auto'
+};
+const isInvalid = {
+  borderColor: '#dc3545',
+  paddingRight: 'calc(1.5em + 0.75rem)',
+  // eslint-disable-next-line quotes
+  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right calc(0.375em + 0.1875rem) center',
+  backgroundSize: 'calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)'
+};
+
+const styles = {
+  m3,
+  mb3,
+  formLabel,
+  formSelect,
+  formControl,
+  invalidFeedback,
+  row,
+  colAuto,
+  isInvalid,
+  root: {
+    ...m3
+    // minWidth: 1200
+  },
+  dataTime: {
+    ...mb3,
+    minHeight: '6.25em'
+  },
+  dataTimeInput: {
+    ...colAuto,
+    width: '10.625em'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
 function CKEditor4() {
+  const [CKEDITOR, set_CKEDITOR] = useState(null);
   const [category, setCategory] = useState('');
   const [categoryError, setCategoryError] = useState(false);
   const [title, setTitle] = useState('');
@@ -29,7 +141,8 @@ function CKEditor4() {
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
 
-  const CKEditorBlockRef = useRef < HTMLDivElement > null;
+  const CKEditorBlockRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     handleDescriptionChange(context);
@@ -152,7 +265,7 @@ function CKEditor4() {
   }
 
   async function handleSubmit() {
-    const field = [category, title, context, keyWord, startDate, endDate];
+    const field = [category, title, keyWord, startDate, endDate];
     const errorFieldSetter = [
       setCategoryError,
       setTitleError,
@@ -169,10 +282,17 @@ function CKEditor4() {
       return false;
     });
 
+    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
+
+    let _contextErrorMsg = '';
+    if (description === '' && ckeditorDom !== null) {
+      _contextErrorMsg += '請輸入文字';
+      ckeditorDom.style.borderColor = '#dc3545';
+      fail.push(true);
+    }
     if (hasImg === false) {
-      setContextErrorMsg('請插入圖片，以利建立文章縮圖');
-      const ckeditorDom =
-        CKEditorBlockRef.current.querySelector('#cke_editor1');
+      _contextErrorMsg +=
+        (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
       if (ckeditorDom !== null) {
         ckeditorDom.style.borderColor = '#dc3545';
       }
@@ -182,12 +302,15 @@ function CKEditor4() {
       fail.push(true);
     }
 
+    if (_contextErrorMsg !== '') {
+      setContextErrorMsg(_contextErrorMsg);
+    }
     if (fail.length > 0) {
       return;
     }
 
     console.log({
-      POST_URL:'/api/add-html',
+      POST_URL: '/api/add-html',
       category,
       title,
       description,
@@ -238,19 +361,24 @@ function CKEditor4() {
     if (ckeditorDom !== null) {
       ckeditorDom.querySelector('#cke_editor1').style.borderColor = '';
     }
+
+    if (typeof CKEDITOR?.instances?.editor1?.setData === 'function') {
+      CKEDITOR.instances.editor1.setData('');
+    }
   }
 
   return (
-    <div className="m-3" style={{ minWidth: 1200 }}>
+    <div className={classes.m3}>
       <Head>
         <title>Parker Chan 的作品集 - HTML編輯器</title>
       </Head>
-      <div className="mb-3">
-        <label className="form-label">文章類別</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章類別</label>
         <select
-          className={['form-select', categoryError ? 'is-invalid' : ''].join(
-            ' '
-          )}
+          className={[
+            classes.formSelect,
+            categoryError ? classes.isInvalid : ''
+          ].join(' ')}
           onChange={e => handleCategoryChange(e.target.value)}
           value={category}
         >
@@ -273,17 +401,18 @@ function CKEditor4() {
         <div ref={CKEditorBlockRef}>
           <CKEditor
             editorUrl="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"
-            onNamespaceLoaded={CKEDITOR => {
-              CKEDITOR.plugins.addExternal(
+            onNamespaceLoaded={_CKEDITOR => {
+              _CKEDITOR.plugins.addExternal(
                 'videoembed',
                 '/ckeditor/plugins/videoembed/plugin.js'
               );
+              set_CKEDITOR(_CKEDITOR);
             }}
             initData={context}
             onChange={handleContextChange}
             config={{
               language: 'zh',
-              filebrowserUploadUrl: '/upload-img?a',
+              // filebrowserUploadUrl: '/upload-img?a',
               plugins: [
                 'dialogui',
                 'dialog',
@@ -325,7 +454,9 @@ function CKEditor4() {
                 'pastefromlibreoffice',
                 'menubutton',
                 'showborders',
-                'lineutils'
+                'lineutils',
+                'colorbutton',
+                'font'
                 // 'stylescombo'
               ],
               format_tags: 'p;h1;h2;h3;h4;h5;h6',

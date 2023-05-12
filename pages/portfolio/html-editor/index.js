@@ -16,7 +16,7 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  portfolioButton: {
+  htmlEditorButton: {
     display: 'block',
     marginTop: '10px',
     marginBottom: '10px',
@@ -57,9 +57,12 @@ function HTMLEditor() {
       <p>
         html編輯器最初是用ckeditor5，後來發現疑似不合公司需求，所以才會出現ckeditor4版本～
       </p>
+      <p>
+        不過正式用在工作上的ckeditor4有配合後端做圖檔上傳功能，為了節省伺服器維運成本，所以作品集版的就將上傳功能移除了
+      </p>
       <div className={classes.htmlEditor}>
         <Button
-          sx={styles.portfolioButton}
+          sx={styles.htmlEditorButton}
           variant="contained"
           onClick={handleGoToCKEditor4}
           component="a"
@@ -70,12 +73,12 @@ function HTMLEditor() {
             src="/ckeditor/img/ckeditor-4.svg"
             alt="CKEditor4"
             width={200}
-            height={50}
+            height={200}
           />
         </Button>
 
         <Button
-          sx={styles.portfolioButton}
+          sx={styles.htmlEditorButton}
           variant="contained"
           onClick={handleGoToCKEditor5}
           component="a"
@@ -86,7 +89,7 @@ function HTMLEditor() {
             src="/ckeditor/img/ckeditor-5.svg"
             alt="CKEditor5"
             width={200}
-            height={50}
+            height={200}
           />
         </Button>
       </div>

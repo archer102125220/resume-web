@@ -48,20 +48,26 @@ function Portfolio() {
     e.preventDefault();
     nextRouter.push('/portfolio/firebase-admin');
   }
+  function handleGoToHTMLEditor(e) {
+    e.preventDefault();
+    nextRouter.push('/portfolio/html-editor');
+  }
 
   return (
     <div>
       <Head>
         <title>Parker Chan 的個人資料 - 作品集</title>
       </Head>
-      <p>除了個人在學及閒暇時間所做的成品，工作時所做並易於抽離的部分也會列在此處～</p>
+      <p>
+        除了個人在學及閒暇時間所做的成品，工作時所做並易於抽離的部分也會列在此處～
+      </p>
       <div className={classes.portfolio}>
         <Button
           sx={styles.portfolioButton}
           variant="contained"
           onClick={handleGoToTappay}
           component="a"
-          href='/portfolio/tappay'
+          href="/portfolio/tappay"
         >
           <p>Tappay串接</p>
           <Image
@@ -77,7 +83,7 @@ function Portfolio() {
           variant="contained"
           onClick={handleGoToFirebaseAdmin}
           component="a"
-          href='/portfolio/firebase-admin'
+          href="/portfolio/firebase-admin"
         >
           <p>Firebase Admin SDK</p>
           <Image
@@ -85,6 +91,28 @@ function Portfolio() {
             alt="Firebase Logo"
             width={200}
             height={50}
+          />
+        </Button>
+
+        <Button
+          sx={styles.portfolioButton}
+          variant="contained"
+          onClick={handleGoToHTMLEditor}
+          component="a"
+          href="/portfolio/html-editor"
+        >
+          <p>HTML編輯器</p>
+          <Image
+            src="/ckeditor/img/ckeditor-4.svg"
+            alt="CKEditor4"
+            width={100}
+            height={100}
+          />
+          <Image
+            src="/ckeditor/img/ckeditor-5.svg"
+            alt="CKEditor5"
+            width={100}
+            height={100}
           />
         </Button>
       </div>

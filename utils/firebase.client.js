@@ -4,7 +4,7 @@ import { getAnalytics } from 'firebase/analytics';
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from 'firebase/firestore/lite';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
 
@@ -42,7 +42,7 @@ export async function requestPermission() {
   }
 }
 
-export function onMessage(
+export async function firebaseClientMessage(
   messaging,
   callback = payload => console.log('Message received. ', payload)
 ) {
@@ -64,7 +64,7 @@ export async function firebaseClientInit() {
     }
 
     await requestPermission();
-    onMessage(firebaseMessaging);
+    firebaseClientMessage(firebaseMessaging);
   }
 
   return { firebaseApp, firebaseAnalytics, firebaseDB };

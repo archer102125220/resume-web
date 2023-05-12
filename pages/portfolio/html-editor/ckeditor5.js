@@ -8,6 +8,109 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
 
+import '@ckeditor/ckeditor5-build-classic/build/translations/zh';
+
+const m3 = {
+  margin: '1rem'
+};
+const mb3 = {
+  marginBottom: '1rem'
+};
+const formLabel = {
+  marginBottom: '0.5rem'
+};
+const formSelect = {
+  '--bs-form-select-bg-img':
+    'url(data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3e%3cpath fill="none" stroke="%23343a40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 5 6 6 6-6"/%3e%3c/svg%3e)',
+  display: 'block',
+  width: '100%',
+  padding: '0.375rem 2.25rem 0.375rem 0.75rem',
+  fontSize: '1rem',
+  fontWeight: '400',
+  lineHeight: '1.5',
+  color: '#212529',
+  backgroundColor: '#fff',
+  backgroundImage:
+    'var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none)',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 0.75rem center',
+  backgroundSize: '16px 12px',
+  border: '1px solid #dee2e6',
+  borderRadius: '0.375rem',
+  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+  '-webkit-appearance': 'none',
+  '-moz-appearance': 'none',
+  appearance: 'none'
+};
+const formControl = {
+  display: 'block',
+  width: '100%',
+  padding: '0.375rem 0.75rem',
+  fontSize: '1rem',
+  fontWeight: '400',
+  lineHeight: '1.5',
+  color: '#212529',
+  backgroundColor: '#fff',
+  backgroundClip: 'padding-box',
+  border: '1px solid #dee2e6',
+  '-webkit-appearance': 'none',
+  '-moz-appearance': 'none',
+  appearance: 'none',
+  borderRadius: '0.375rem',
+  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
+};
+const invalidFeedback = {
+  display: 'none',
+  width: '100%',
+  marginTop: '0.25rem',
+  fontSize: '.875em',
+  color: '#dc3545'
+};
+const row = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginTop: 'calc(-1 * 1rem)',
+  marginRight: 'calc(-.5 * 1rem)',
+  marginLeft: 'calc(-.5 * 1rem)',
+  '& > *': {
+    flexShrink: '0',
+    width: '100%',
+    maxWidth: '100%',
+    paddingRight: 'calc(1rem * .5)',
+    paddingLeft: 'calc(1rem * .5)',
+    marginTop: '1rem'
+  }
+};
+const colAuto = {
+  flex: '0 0 auto',
+  width: 'auto'
+};
+
+const styles = {
+  m3,
+  mb3,
+  formLabel,
+  formSelect,
+  formControl,
+  invalidFeedback,
+  row,
+  colAuto,
+  root: {
+    ...m3,
+    minWidth: 1200
+  },
+  dataTime: {
+    ...mb3,
+    minHeight: '6.25em'
+  },
+  dataTimeInput: {
+    ...colAuto,
+    width: '10.625em'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
 function CKEditor4() {
   const [category, setCategory] = useState('');
   const [categoryError, setCategoryError] = useState(false);
@@ -30,7 +133,8 @@ function CKEditor4() {
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
 
-  const CKEditorBlockRef = useRef < HTMLDivElement > null;
+  const CKEditorBlockRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     handleDescriptionChange(context);
@@ -62,7 +166,7 @@ function CKEditor4() {
     setTitleError(false);
   }
 
-  function handleContextChange({ editor }) {
+  function handleContextChange(event, editor) {
     const data = editor.getData();
     setContext(data);
     // console.log({ event: { ...event }, editor: { ...editor } });
@@ -153,7 +257,7 @@ function CKEditor4() {
   }
 
   async function handleSubmit() {
-    const field = [category, title, context, keyWord, startDate, endDate];
+    const field = [category, title, keyWord, startDate, endDate];
     const errorFieldSetter = [
       setCategoryError,
       setTitleError,
@@ -170,10 +274,17 @@ function CKEditor4() {
       return false;
     });
 
+    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
+
+    let _contextErrorMsg = '';
+    if (description === '' && ckeditorDom !== null) {
+      _contextErrorMsg += '請輸入文字';
+      ckeditorDom.style.borderColor = '#dc3545';
+      fail.push(true);
+    }
     if (hasImg === false) {
-      setContextErrorMsg('請插入圖片，以利建立文章縮圖');
-      const ckeditorDom =
-        CKEditorBlockRef.current.querySelector('#cke_editor1');
+      _contextErrorMsg +=
+        (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
       if (ckeditorDom !== null) {
         ckeditorDom.style.borderColor = '#dc3545';
       }
@@ -183,6 +294,9 @@ function CKEditor4() {
       fail.push(true);
     }
 
+    if (_contextErrorMsg !== '') {
+      setContextErrorMsg(_contextErrorMsg);
+    }
     if (fail.length > 0) {
       return;
     }
@@ -284,6 +398,7 @@ function CKEditor4() {
                 '|',
                 'bold',
                 'link',
+                'imageUpload',
                 'ckfinder',
                 'mediaEmbed'
               ],
@@ -333,7 +448,7 @@ function CKEditor4() {
                 ]
               },
               ckfinder: {
-                option: {
+                options: {
                   language: 'zh-tw'
                 }
               }
