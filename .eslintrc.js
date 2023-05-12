@@ -65,6 +65,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'react/prop-types': 'warn',
     'import/no-anonymous-default-export': 'warn',
+    '@next/next/no-sync-scripts': 'warn',
     'no-extra-semi': 'warn',
     'semi': [
       'warn',

@@ -8,7 +8,7 @@ import { makeStyles } from '@mui/styles';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
-  portfolio: {
+  htmlEditor: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -32,41 +32,43 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function Portfolio() {
+function HTMLEditor() {
   const nextRouter = useRouter();
 
   const classes = useStyles();
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio' });
+  useGTMTrack({ event: 'scnOpen', url: '/htmlEditor' });
 
-  function handleGoToTappay(e) {
+  function handleGoToCKEditor4(e) {
     console.log(e);
     e.preventDefault();
-    nextRouter.push('/portfolio/tappay');
+    nextRouter.push('/portfolio/html-editor/ckeditor4');
   }
-  function handleGoToFirebaseAdmin(e) {
+  function handleGoToCKEditor5(e) {
     e.preventDefault();
-    nextRouter.push('/portfolio/firebase-admin');
+    nextRouter.push('/portfolio/html-editor/ckeditor5');
   }
 
   return (
     <div>
       <Head>
-        <title>Parker Chan 的個人資料 - 作品集</title>
+        <title>Parker Chan 的作品集 - HTML編輯器</title>
       </Head>
-      <p>除了個人在學及閒暇時間所做的成品，工作時所做並易於抽離的部分也會列在此處～</p>
-      <div className={classes.portfolio}>
+      <p>
+        html編輯器最初是用ckeditor5，後來發現疑似不合公司需求，所以才會出現ckeditor4版本～
+      </p>
+      <div className={classes.htmlEditor}>
         <Button
           sx={styles.portfolioButton}
           variant="contained"
-          onClick={handleGoToTappay}
+          onClick={handleGoToCKEditor4}
           component="a"
-          href='/portfolio/tappay'
+          href="/portfolio/html-editor/ckeditor4"
         >
-          <p>Tappay串接</p>
+          <p>CKEditor4</p>
           <Image
-            src="/tappay-logo.svg"
-            alt="Tappay Logo"
+            src="/ckeditor/img/ckeditor-4.svg"
+            alt="CKEditor4"
             width={200}
             height={50}
           />
@@ -75,14 +77,14 @@ function Portfolio() {
         <Button
           sx={styles.portfolioButton}
           variant="contained"
-          onClick={handleGoToFirebaseAdmin}
+          onClick={handleGoToCKEditor5}
           component="a"
-          href='/portfolio/firebase-admin'
+          href="/portfolio/html-editor/ckeditor5"
         >
-          <p>Firebase Admin SDK</p>
+          <p>CKEditor5</p>
           <Image
-            src="/firebase_logo.png"
-            alt="Firebase Logo"
+            src="/ckeditor/img/ckeditor-5.svg"
+            alt="CKEditor5"
             width={200}
             height={50}
           />
@@ -92,4 +94,4 @@ function Portfolio() {
   );
 }
 
-export default Portfolio;
+export default HTMLEditor;
