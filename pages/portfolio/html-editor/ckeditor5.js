@@ -1,14 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+const CKEditor = dynamic(
+  async () => {
+    const { CKEditor: _CKEditor } = await import('@ckeditor/ckeditor5-react');
+    console.log(_CKEditor);
+    return _CKEditor;
+  },
+  { ssr: false }
+);
 
 import useGTMTrack from '@/hooks/useGTMTrack';
-
-import '@ckeditor/ckeditor5-build-classic/build/translations/zh';
 
 const m3 = {
   margin: '1rem'
@@ -20,8 +26,8 @@ const formLabel = {
   marginBottom: '0.5rem'
 };
 const formSelect = {
-  '--bs-form-select-bg-img':
-    'url(data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3e%3cpath fill="none" stroke="%23343a40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 5 6 6 6-6"/%3e%3c/svg%3e)',
+  // eslint-disable-next-line quotes
+  '--bs-form-select-bg-img': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")`,
   display: 'block',
   width: '100%',
   padding: '0.375rem 2.25rem 0.375rem 0.75rem',
@@ -40,7 +46,12 @@ const formSelect = {
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
-  appearance: 'none'
+  appearance: 'none',
+  '&:focus': {
+    borderColor: '#86b7fe',
+    outline: 0,
+    boxShadow: '0 0 0 0.25rem rgba(13,110,253,.25)'
+  }
 };
 const formControl = {
   display: 'block',
@@ -85,6 +96,15 @@ const colAuto = {
   flex: '0 0 auto',
   width: 'auto'
 };
+const isInvalid = {
+  borderColor: '#dc3545',
+  paddingRight: 'calc(1.5em + 0.75rem)',
+  // eslint-disable-next-line quotes
+  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right calc(0.375em + 0.1875rem) center',
+  backgroundSize: 'calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)'
+};
 
 const styles = {
   m3,
@@ -95,9 +115,10 @@ const styles = {
   invalidFeedback,
   row,
   colAuto,
+  isInvalid,
   root: {
-    ...m3,
-    minWidth: 1200
+    ...m3
+    // minWidth: 1200
   },
   dataTime: {
     ...mb3,
@@ -111,7 +132,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function CKEditor4() {
+function CKEditor5() {
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const [category, setCategory] = useState('');
   const [categoryError, setCategoryError] = useState(false);
   const [title, setTitle] = useState('');
@@ -132,11 +154,31 @@ function CKEditor4() {
   const [endDate, setEndDate] = useState('');
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
-
   const CKEditorBlockRef = useRef(null);
+
+  const editorRef = useRef();
+  const { ClassicEditor = null } = editorRef.current || {};
+
   const classes = useStyles();
 
   useEffect(() => {
+    (async () => {
+      // const { CKEditor } = await import('@ckeditor/ckeditor5-react');
+      const { default: ClassicEditor } = await import(
+        '@ckeditor/ckeditor5-build-classic'
+      );
+      await import('@ckeditor/ckeditor5-build-classic/build/translations/zh');
+      if (document.querySelector('#ckfinder-script') === null) {
+        const script = document.createElement('script');
+        script.id = 'ckfinder-script';
+        script.src = 'https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js';
+        document.head.append(script);
+      }
+      editorRef.current = {
+        ClassicEditor
+      };
+      setEditorLoaded(true);
+    })();
     handleDescriptionChange(context);
   }, []);
   useEffect(() => {
@@ -356,17 +398,17 @@ function CKEditor4() {
   }
 
   return (
-    <div className="m-3" style={{ minWidth: 1200 }}>
+    <div className={classes.m3}>
       <Head>
         <title>Parker Chan 的作品集 - HTML編輯器</title>
-        <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
       </Head>
-      <div className="mb-3">
-        <label className="form-label">文章類別</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章類別</label>
         <select
-          className={['form-select', categoryError ? 'is-invalid' : ''].join(
-            ' '
-          )}
+          className={[
+            classes.formSelect,
+            categoryError ? classes.isInvalid : ''
+          ].join(' ')}
           onChange={e => handleCategoryChange(e.target.value)}
           value={category}
         >
@@ -374,90 +416,97 @@ function CKEditor4() {
           <option value="test">測試</option>
         </select>
       </div>
-      <div className="mb-3">
-        <label className="form-label">文章標題</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章標題</label>
         <input
           type="text"
-          className={['form-control', titleError ? 'is-invalid' : ''].join(' ')}
+          className={[
+            classes.formControl,
+            titleError ? classes.isInvalid : ''
+          ].join(' ')}
           onChange={e => handleTitleChange(e.target.value)}
           value={title}
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">文章內文</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章內文</label>
         <div ref={CKEditorBlockRef}>
-          <CKEditor
-            editor={ClassicEditor}
-            data={context}
-            onChange={handleContextChange}
-            config={{
-              language: 'zh',
-              toolbar: [
-                'heading',
-                '|',
-                'bold',
-                'link',
-                'imageUpload',
-                'ckfinder',
-                'mediaEmbed'
-              ],
-              heading: {
-                options: [
-                  {
-                    model: 'paragraph',
-                    title: 'Paragraph',
-                    class: 'ck-heading_paragraph'
-                  },
-                  {
-                    model: 'heading1',
-                    view: 'h1',
-                    title: 'Heading 1',
-                    class: 'ck-heading_heading1'
-                  },
-                  {
-                    model: 'heading2',
-                    view: 'h2',
-                    title: 'Heading 2',
-                    class: 'ck-heading_heading2'
-                  },
-                  {
-                    model: 'heading3',
-                    view: 'h3',
-                    title: 'Heading 3',
-                    class: 'ck-heading_heading3'
-                  },
-                  {
-                    model: 'heading4',
-                    view: 'h4',
-                    title: 'Heading 4',
-                    class: 'ck-heading_heading4'
-                  },
-                  {
-                    model: 'heading5',
-                    view: 'h5',
-                    title: 'Heading 5',
-                    class: 'ck-heading_heading5'
-                  },
-                  {
-                    model: 'heading6',
-                    view: 'h6',
-                    title: 'Heading 6',
-                    class: 'ck-heading_heading6'
+          {editorLoaded !== false ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data={context}
+              onChange={handleContextChange}
+              config={{
+                language: 'zh',
+                toolbar: [
+                  'heading',
+                  '|',
+                  'bold',
+                  'link',
+                  'imageUpload',
+                  'ckfinder',
+                  'mediaEmbed'
+                ],
+                heading: {
+                  options: [
+                    {
+                      model: 'paragraph',
+                      title: 'Paragraph',
+                      class: 'ck-heading_paragraph'
+                    },
+                    {
+                      model: 'heading1',
+                      view: 'h1',
+                      title: 'Heading 1',
+                      class: 'ck-heading_heading1'
+                    },
+                    {
+                      model: 'heading2',
+                      view: 'h2',
+                      title: 'Heading 2',
+                      class: 'ck-heading_heading2'
+                    },
+                    {
+                      model: 'heading3',
+                      view: 'h3',
+                      title: 'Heading 3',
+                      class: 'ck-heading_heading3'
+                    },
+                    {
+                      model: 'heading4',
+                      view: 'h4',
+                      title: 'Heading 4',
+                      class: 'ck-heading_heading4'
+                    },
+                    {
+                      model: 'heading5',
+                      view: 'h5',
+                      title: 'Heading 5',
+                      class: 'ck-heading_heading5'
+                    },
+                    {
+                      model: 'heading6',
+                      view: 'h6',
+                      title: 'Heading 6',
+                      class: 'ck-heading_heading6'
+                    }
+                  ]
+                },
+                ckfinder: {
+                  options: {
+                    language: 'zh-tw'
                   }
-                ]
-              },
-              ckfinder: {
-                options: {
-                  language: 'zh-tw'
                 }
-              }
-            }}
-          />
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div
           className="invalid-feedback"
-          style={{ display: contextErrorMsg !== '' ? 'block' : '' }}
+          style={contextErrorMsg !== '' ? { display: 'block' } : {}}
         >
           {contextErrorMsg}
         </div>
@@ -541,7 +590,7 @@ function CKEditor4() {
         </div>
         <div
           className="invalid-feedback"
-          style={{ display: endDateError || startDateError ? 'block' : '' }}
+          style={endDateError || startDateError ? { display: 'block' } : {}}
         >
           {dateErrorMsg}
         </div>
@@ -558,4 +607,4 @@ function CKEditor4() {
   );
 }
 
-export default CKEditor4;
+export default CKEditor5;

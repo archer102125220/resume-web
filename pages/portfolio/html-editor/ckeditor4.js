@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-import { CKEditor } from 'ckeditor4-react';
+
+const CKEditor = dynamic(
+  () => import('ckeditor4-react').then(({ CKEditor }) => CKEditor),
+  { ssr: false }
+);
 
 import useGTMTrack from '@/hooks/useGTMTrack';
 
@@ -37,7 +42,12 @@ const formSelect = {
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
-  appearance: 'none'
+  appearance: 'none',
+  '&:focus': {
+    borderColor: '#86b7fe',
+    outline: 0,
+    boxShadow: '0 0 0 0.25rem rgba(13,110,253,.25)'
+  }
 };
 const formControl = {
   display: 'block',
@@ -154,7 +164,7 @@ function CKEditor4() {
     dataTimeCheck(startDate, endDate, articleVisible.status);
   }, [articleVisible]);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor/ckeditor4' });
 
   function handleArticleVisibleChange(e) {
     if (e.target.checked) {
@@ -386,18 +396,21 @@ function CKEditor4() {
           <option value="test">測試</option>
         </select>
       </div>
-      <div className="mb-3">
-        <label className="form-label">文章標題</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章標題</label>
         <input
           type="text"
-          className={['form-control', titleError ? 'is-invalid' : ''].join(' ')}
+          className={[
+            classes.formControl,
+            titleError ? classes.isInvalid : ''
+          ].join(' ')}
           onChange={e => handleTitleChange(e.target.value)}
           value={title}
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">文章內文</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章內文</label>
         <div ref={CKEditorBlockRef}>
           <CKEditor
             editorUrl="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"
@@ -497,15 +510,15 @@ function CKEditor4() {
           />
         </div>
         <div
-          className="invalid-feedback"
-          style={{ display: contextErrorMsg !== '' ? 'block' : '' }}
+          className={classes.invalidFeedback}
+          style={contextErrorMsg !== '' ? { display: 'block' } : {}}
         >
           {contextErrorMsg}
         </div>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>
           文章描述(自動節錄文章內文內容，最多75字)
         </label>
         {/* <dd className="col-sm-9">{description}</dd> */}
@@ -514,25 +527,27 @@ function CKEditor4() {
           // readOnly={true}
           value={description}
           onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
-          className={['form-control', keyWordError ? 'is-invalid' : ''].join(
-            ' '
-          )}
+          className={[
+            classes.formControl,
+            contextErrorMsg !== '' ? classes.isInvalid : ''
+          ].join(' ')}
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">文章關鍵字</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章關鍵字</label>
         <input
           type="text"
           value={keyWord}
           onChange={e => handleKeyWordChange(e.target.value)}
-          className={['form-control', keyWordError ? 'is-invalid' : ''].join(
-            ' '
-          )}
+          className={[
+            classes.formControl,
+            keyWordError ? classes.isInvalid : ''
+          ].join(' ')}
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">文章狀態</label>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章狀態</label>
         <div className="form-check form-switch">
           <input
             className="form-check-input"
@@ -544,15 +559,15 @@ function CKEditor4() {
           <label className="form-check-label">{articleVisible?.message}</label>
         </div>
       </div>
-      <div className="mb-3" style={{ minHeight: '6.25em' }}>
-        <label className="form-label">上架時間</label>
-        <div className="row g-3">
-          <div className="col-auto" style={{ width: '10.625em' }}>
+      <div className={classes.dataTime}>
+        <label className={classes.formLabel}>上架時間</label>
+        <div className={classes.row}>
+          <div className={classes.dataTimeInput}>
             <input
               type="date"
               className={[
-                'form-control',
-                startDateError ? 'is-invalid' : ''
+                classes.formControl,
+                startDateError ? classes.isInvalid : ''
               ].join(' ')}
               value={startDate}
               onChange={e => handleStartDateChange(e.target.value)}
@@ -568,12 +583,12 @@ function CKEditor4() {
           >
             ~
           </div>
-          <div className="col-auto" style={{ width: '10.625em' }}>
+          <div className={classes.dataTimeInput}>
             <input
               type="date"
               className={[
-                'form-control',
-                endDateError ? 'is-invalid' : ''
+                classes.formControl,
+                endDateError ? classes.isInvalid : ''
               ].join(' ')}
               value={endDate}
               onChange={e => handleEndDateChange(e.target.value)}
@@ -582,7 +597,7 @@ function CKEditor4() {
         </div>
         <div
           className="invalid-feedback"
-          style={{ display: endDateError || startDateError ? 'block' : '' }}
+          style={endDateError || startDateError ? { display: 'block' } : {}}
         >
           {dateErrorMsg}
         </div>
