@@ -3,10 +3,13 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
 // import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { makeStyles } from '@mui/styles';
+
+import 'dayjs/locale/zh-cn';
 
 const CKEditor = dynamic(
   async () => {
@@ -411,7 +414,7 @@ function CKEditor5() {
   }
 
   return (
-    <LocalizationProvider adapterLocale="zhCN" dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
       <div className={classes.m3}>
         <Head>
           <title>Parker Chan 的作品集 - HTML編輯器</title>
@@ -583,7 +586,12 @@ function CKEditor5() {
               value={startDate}
               onChange={e => handleStartDateChange(e.target.value)}
             /> */}
-              <DatePicker value={startDate} onChange={handleStartDateChange} />
+              <DatePicker
+                mask="____/__/__"
+                value={startDate}
+                onChange={handleStartDateChange}
+                renderInput={params => <TextField {...params} />}
+              />
             </div>
             <div className={classes.dataTimeBetween}>~</div>
             <div className={classes.dataTimeInput}>
