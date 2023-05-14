@@ -60,6 +60,9 @@ function NextApp({ Component, pageProps, router }) {
   return (
     <ThemeProvider theme={theme}>
       <Head>
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="description" content="Parker Chan 的個人資料" />
         <meta name="theme-color" content={theme.palette.primary.main} />
         <title>Parker Chan 的個人資料</title>
       </Head>

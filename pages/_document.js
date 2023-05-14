@@ -56,9 +56,6 @@ export default class NextDocument extends Document {
     return (
       <Html lang="zh-tw">
         <Head>
-          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <meta name="description" content="Parker Chan 的個人資料" />
           {/* <Script src={'https://www.googletagmanager.com/gtag/js?id=' + (process.env.GA_ID || '')} async={true} id='dataLayer' strategy='beforeInteractive'></Script> */}
           <Script strategy="beforeInteractive" id="gtm">
             {`
