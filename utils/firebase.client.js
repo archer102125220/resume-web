@@ -4,9 +4,11 @@ import { getAnalytics } from 'firebase/analytics';
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from 'firebase/firestore/lite';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
+
+// https://firebase.google.com/docs/cloud-messaging/js/receive?hl=zh-cn#web-version-9_2
 
 // const firebaseAdmin = require('firebase-admin');
 
@@ -27,6 +29,26 @@ export let firebaseAnalytics;
 export let firebaseDB;
 export let firebaseMessaging;
 
+export async function requestPermission() {
+  if (typeof window !== 'object') return;
+  console.log('Requesting permission...');
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function firebaseClientMessage(
+  messaging,
+  callback = payload => console.log('Message received. ', payload)
+) {
+  onMessage(messaging, callback);
+}
+
 // Initialize Firebase
 export async function firebaseClientInit() {
   if (typeof window === 'object') {
@@ -40,6 +62,9 @@ export async function firebaseClientInit() {
     } catch (error) {
       console.log(error);
     }
+
+    await requestPermission();
+    firebaseClientMessage(firebaseMessaging);
   }
 
   return { firebaseApp, firebaseAnalytics, firebaseDB };

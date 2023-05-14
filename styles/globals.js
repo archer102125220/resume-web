@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import theme from '@/theme';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
@@ -31,7 +32,8 @@ export const globalStyle = {
     padding: 0,
     margin: 0,
     fontFamily:
-      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif'
+      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+    overflow: 'hidden'
   },
   a: {
     color: 'inherit',
@@ -49,6 +51,8 @@ export const globalStyle = {
   ...scrollbar
 };
 
-export default function globalStyleComponent() {
+function globalStyleComponent() {
   return <GlobalStyles styles={globalStyle} />;
 }
+
+export default memo(globalStyleComponent);

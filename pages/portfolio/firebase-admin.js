@@ -132,7 +132,7 @@ function FirebaseAdmin() {
   return (
     <div>
       <Head>
-        <title>Parker Chan 的個人資料 - FirebaseAdmin</title>
+        <title>Parker Chan 的作品集 - FirebaseAdmin</title>
       </Head>
       <Grid container spacing={2} sx={{ marginBottom: '10px' }}>
         <Grid xs={6} md={8}>
