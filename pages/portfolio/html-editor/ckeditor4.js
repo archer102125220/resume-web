@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-// import { useDispatch } from 'react-redux';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import { makeStyles } from '@mui/styles';
 
 const CKEditor = dynamic(
@@ -381,7 +382,7 @@ function CKEditor4() {
     setContextErrorMsg('');
     const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
     if (ckeditorDom !== null) {
-      ckeditorDom.querySelector('#cke_editor1').style.borderColor = '';
+      ckeditorDom.style.borderColor = '';
     }
 
     if (typeof CKEDITOR?.instances?.editor1?.setData === 'function') {
@@ -561,7 +562,7 @@ function CKEditor4() {
       </div>
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章狀態</label>
-        <div className="form-check form-switch">
+        {/* <div className="form-check form-switch">
           <input
             className="form-check-input"
             type="checkbox"
@@ -570,6 +571,18 @@ function CKEditor4() {
             checked={articleVisible?.status}
           />
           <label className="form-check-label">{articleVisible?.message}</label>
+        </div> */}
+        <div>
+          <FormControlLabel
+            control={
+              <Switch
+                color="warning"
+                checked={articleVisible?.status}
+                onChange={handleArticleVisibleChange}
+              />
+            }
+            label={articleVisible?.message}
+          />
         </div>
       </div>
       <div className={classes.dataTime}>
@@ -619,12 +632,12 @@ function CKEditor4() {
         </div>
       </div>
       <div className={classes.buttonBlock}>
-        <button className="btn btn-primary" onClick={handleSubmit}>
+        <Button variant="contained" onClick={handleSubmit}>
           發布文章
-        </button>
-        <button className="btn btn-danger" onClick={handleReset}>
+        </Button>
+        <Button variant="contained" color="error" onClick={handleReset}>
           重新填寫
-        </button>
+        </Button>
       </div>
     </div>
   );
