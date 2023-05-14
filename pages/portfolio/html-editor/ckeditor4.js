@@ -13,21 +13,22 @@ const CKEditor = dynamic(
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const m3 = {
-  margin: '1rem'
+  margin: '16px'
 };
 const mb3 = {
-  marginBottom: '1rem'
+  marginBottom: '16px'
 };
 const formLabel = {
-  marginBottom: '0.5rem'
+  display: 'inline-block',
+  marginBottom: '8px'
 };
 const formSelect = {
   // eslint-disable-next-line quotes
   '--bs-form-select-bg-img': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")`,
   display: 'block',
   width: '100%',
-  padding: '0.375rem 2.25rem 0.375rem 0.75rem',
-  fontSize: '1rem',
+  padding: '6px 36px 6px 12px',
+  fontSize: '16px',
   fontWeight: '400',
   lineHeight: '1.5',
   color: '#212529',
@@ -35,10 +36,10 @@ const formSelect = {
   backgroundImage:
     'var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none)',
   backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right 0.75rem center',
+  backgroundPosition: 'right 12px center',
   backgroundSize: '16px 12px',
   border: '1px solid #dee2e6',
-  borderRadius: '0.375rem',
+  borderRadius: '6px',
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
@@ -46,14 +47,14 @@ const formSelect = {
   '&:focus': {
     borderColor: '#86b7fe',
     outline: 0,
-    boxShadow: '0 0 0 0.25rem rgba(13,110,253,.25)'
+    boxShadow: '0 0 0 4px rgba(13,110,253,.25)'
   }
 };
 const formControl = {
   display: 'block',
   width: '100%',
-  padding: '0.375rem 0.75rem',
-  fontSize: '1rem',
+  padding: '6px 12px',
+  fontSize: '16px',
   fontWeight: '400',
   lineHeight: '1.5',
   color: '#212529',
@@ -63,29 +64,29 @@ const formControl = {
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
   appearance: 'none',
-  borderRadius: '0.375rem',
+  borderRadius: '6px',
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
 };
 const invalidFeedback = {
   display: 'none',
   width: '100%',
-  marginTop: '0.25rem',
+  marginTop: '4px',
   fontSize: '.875em',
   color: '#dc3545'
 };
 const row = {
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: 'calc(-1 * 1rem)',
-  marginRight: 'calc(-.5 * 1rem)',
-  marginLeft: 'calc(-.5 * 1rem)',
+  marginTop: 'calc(-1 * 16px)',
+  marginRight: 'calc(-.5 * 16px)',
+  marginLeft: 'calc(-.5 * 16px)',
   '& > *': {
     flexShrink: '0',
     width: '100%',
     maxWidth: '100%',
-    paddingRight: 'calc(1rem * .5)',
-    paddingLeft: 'calc(1rem * .5)',
-    marginTop: '1rem'
+    paddingRight: 'calc(16px * .5)',
+    paddingLeft: 'calc(16px * .5)',
+    marginTop: '16px'
   }
 };
 const colAuto = {
@@ -94,12 +95,12 @@ const colAuto = {
 };
 const isInvalid = {
   borderColor: '#dc3545',
-  paddingRight: 'calc(1.5em + 0.75rem)',
+  paddingRight: 'calc(1.5em + 12px)',
   // eslint-disable-next-line quotes
   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`,
   backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right calc(0.375em + 0.1875rem) center',
-  backgroundSize: 'calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)'
+  backgroundPosition: 'right calc(0.375em + 3px) center',
+  backgroundSize: 'calc(0.75em + 6px) calc(0.75em + 6px)'
 };
 
 const styles = {
@@ -123,6 +124,16 @@ const styles = {
   dataTimeInput: {
     ...colAuto,
     width: '10.625em'
+  },
+  dataTimeBetween: {
+    ...colAuto,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonBlock: {
+    display: 'flex',
+    justifyContent: 'space-around'
   }
 };
 
@@ -573,16 +584,7 @@ function CKEditor4() {
               onChange={e => handleStartDateChange(e.target.value)}
             />
           </div>
-          <div
-            className="col-auto"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            ~
-          </div>
+          <div className={classes.dataTimeBetween}>~</div>
           <div className={classes.dataTimeInput}>
             <input
               type="date"
@@ -596,13 +598,13 @@ function CKEditor4() {
           </div>
         </div>
         <div
-          className="invalid-feedback"
+          className={classes.invalidFeedback}
           style={endDateError || startDateError ? { display: 'block' } : {}}
         >
           {dateErrorMsg}
         </div>
       </div>
-      <div className="d-flex justify-content-around">
+      <div className={classes.buttonBlock}>
         <button className="btn btn-primary" onClick={handleSubmit}>
           發布文章
         </button>

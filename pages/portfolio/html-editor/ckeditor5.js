@@ -3,12 +3,14 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
 // import Button from '@mui/material/Button';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { makeStyles } from '@mui/styles';
 
 const CKEditor = dynamic(
   async () => {
     const { CKEditor: _CKEditor } = await import('@ckeditor/ckeditor5-react');
-    console.log(_CKEditor);
     return _CKEditor;
   },
   { ssr: false }
@@ -17,21 +19,22 @@ const CKEditor = dynamic(
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const m3 = {
-  margin: '1rem'
+  margin: '16px'
 };
 const mb3 = {
-  marginBottom: '1rem'
+  marginBottom: '16px'
 };
 const formLabel = {
-  marginBottom: '0.5rem'
+  display: 'inline-block',
+  marginBottom: '8px'
 };
 const formSelect = {
   // eslint-disable-next-line quotes
   '--bs-form-select-bg-img': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")`,
   display: 'block',
   width: '100%',
-  padding: '0.375rem 2.25rem 0.375rem 0.75rem',
-  fontSize: '1rem',
+  padding: '6px 36px 6px 12px',
+  fontSize: '16px',
   fontWeight: '400',
   lineHeight: '1.5',
   color: '#212529',
@@ -39,10 +42,10 @@ const formSelect = {
   backgroundImage:
     'var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none)',
   backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right 0.75rem center',
+  backgroundPosition: 'right 12px center',
   backgroundSize: '16px 12px',
   border: '1px solid #dee2e6',
-  borderRadius: '0.375rem',
+  borderRadius: '6px',
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
@@ -50,14 +53,14 @@ const formSelect = {
   '&:focus': {
     borderColor: '#86b7fe',
     outline: 0,
-    boxShadow: '0 0 0 0.25rem rgba(13,110,253,.25)'
+    boxShadow: '0 0 0 4px rgba(13,110,253,.25)'
   }
 };
 const formControl = {
   display: 'block',
   width: '100%',
-  padding: '0.375rem 0.75rem',
-  fontSize: '1rem',
+  padding: '6px 12px',
+  fontSize: '16px',
   fontWeight: '400',
   lineHeight: '1.5',
   color: '#212529',
@@ -67,29 +70,29 @@ const formControl = {
   '-webkit-appearance': 'none',
   '-moz-appearance': 'none',
   appearance: 'none',
-  borderRadius: '0.375rem',
+  borderRadius: '6px',
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
 };
 const invalidFeedback = {
   display: 'none',
   width: '100%',
-  marginTop: '0.25rem',
+  marginTop: '4px',
   fontSize: '.875em',
   color: '#dc3545'
 };
 const row = {
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: 'calc(-1 * 1rem)',
-  marginRight: 'calc(-.5 * 1rem)',
-  marginLeft: 'calc(-.5 * 1rem)',
+  marginTop: 'calc(-1 * 16px)',
+  marginRight: 'calc(-.5 * 16px)',
+  marginLeft: 'calc(-.5 * 16px)',
   '& > *': {
     flexShrink: '0',
     width: '100%',
     maxWidth: '100%',
-    paddingRight: 'calc(1rem * .5)',
-    paddingLeft: 'calc(1rem * .5)',
-    marginTop: '1rem'
+    paddingRight: 'calc(16px * .5)',
+    paddingLeft: 'calc(16px * .5)',
+    marginTop: '16px'
   }
 };
 const colAuto = {
@@ -98,12 +101,12 @@ const colAuto = {
 };
 const isInvalid = {
   borderColor: '#dc3545',
-  paddingRight: 'calc(1.5em + 0.75rem)',
+  paddingRight: 'calc(1.5em + 12px)',
   // eslint-disable-next-line quotes
   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`,
   backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right calc(0.375em + 0.1875rem) center',
-  backgroundSize: 'calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)'
+  backgroundPosition: 'right calc(0.375em + 3px) center',
+  backgroundSize: 'calc(0.75em + 6px) calc(0.75em + 6px)'
 };
 
 const styles = {
@@ -127,6 +130,16 @@ const styles = {
   dataTimeInput: {
     ...colAuto,
     width: '10.625em'
+  },
+  dataTimeBetween: {
+    ...colAuto,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonBlock: {
+    display: 'flex',
+    justifyContent: 'space-around'
   }
 };
 
@@ -398,212 +411,210 @@ function CKEditor5() {
   }
 
   return (
-    <div className={classes.m3}>
-      <Head>
-        <title>Parker Chan 的作品集 - HTML編輯器</title>
-      </Head>
-      <div className={classes.md3}>
-        <label className={classes.formLabel}>文章類別</label>
-        <select
-          className={[
-            classes.formSelect,
-            categoryError ? classes.isInvalid : ''
-          ].join(' ')}
-          onChange={e => handleCategoryChange(e.target.value)}
-          value={category}
-        >
-          <option value="">請選擇</option>
-          <option value="test">測試</option>
-        </select>
-      </div>
-      <div className={classes.md3}>
-        <label className={classes.formLabel}>文章標題</label>
-        <input
-          type="text"
-          className={[
-            classes.formControl,
-            titleError ? classes.isInvalid : ''
-          ].join(' ')}
-          onChange={e => handleTitleChange(e.target.value)}
-          value={title}
-        />
-      </div>
-
-      <div className={classes.md3}>
-        <label className={classes.formLabel}>文章內文</label>
-        <div ref={CKEditorBlockRef}>
-          {editorLoaded !== false ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data={context}
-              onChange={handleContextChange}
-              config={{
-                language: 'zh',
-                toolbar: [
-                  'heading',
-                  '|',
-                  'bold',
-                  'link',
-                  'imageUpload',
-                  'ckfinder',
-                  'mediaEmbed'
-                ],
-                heading: {
-                  options: [
-                    {
-                      model: 'paragraph',
-                      title: 'Paragraph',
-                      class: 'ck-heading_paragraph'
-                    },
-                    {
-                      model: 'heading1',
-                      view: 'h1',
-                      title: 'Heading 1',
-                      class: 'ck-heading_heading1'
-                    },
-                    {
-                      model: 'heading2',
-                      view: 'h2',
-                      title: 'Heading 2',
-                      class: 'ck-heading_heading2'
-                    },
-                    {
-                      model: 'heading3',
-                      view: 'h3',
-                      title: 'Heading 3',
-                      class: 'ck-heading_heading3'
-                    },
-                    {
-                      model: 'heading4',
-                      view: 'h4',
-                      title: 'Heading 4',
-                      class: 'ck-heading_heading4'
-                    },
-                    {
-                      model: 'heading5',
-                      view: 'h5',
-                      title: 'Heading 5',
-                      class: 'ck-heading_heading5'
-                    },
-                    {
-                      model: 'heading6',
-                      view: 'h6',
-                      title: 'Heading 6',
-                      class: 'ck-heading_heading6'
-                    }
-                  ]
-                },
-                ckfinder: {
-                  options: {
-                    language: 'zh-tw'
-                  }
-                }
-              }}
-            />
-          ) : (
-            <></>
-          )}
+    <LocalizationProvider adapterLocale="zhCN" dateAdapter={AdapterDayjs}>
+      <div className={classes.m3}>
+        <Head>
+          <title>Parker Chan 的作品集 - HTML編輯器</title>
+        </Head>
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>文章類別</label>
+          <select
+            className={[
+              classes.formSelect,
+              categoryError ? classes.isInvalid : ''
+            ].join(' ')}
+            onChange={e => handleCategoryChange(e.target.value)}
+            value={category}
+          >
+            <option value="">請選擇</option>
+            <option value="test">測試</option>
+          </select>
         </div>
-        <div
-          className="invalid-feedback"
-          style={contextErrorMsg !== '' ? { display: 'block' } : {}}
-        >
-          {contextErrorMsg}
-        </div>
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">
-          文章描述(自動節錄文章內文內容，最多75字)
-        </label>
-        {/* <dd className="col-sm-9">{description}</dd> */}
-        <input
-          type="text"
-          // readOnly={true}
-          value={description}
-          onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
-          className={['form-control', keyWordError ? 'is-invalid' : ''].join(
-            ' '
-          )}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">文章關鍵字</label>
-        <input
-          type="text"
-          value={keyWord}
-          onChange={e => handleKeyWordChange(e.target.value)}
-          className={['form-control', keyWordError ? 'is-invalid' : ''].join(
-            ' '
-          )}
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">文章狀態</label>
-        <div className="form-check form-switch">
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>文章標題</label>
           <input
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            onChange={handleArticleVisibleChange}
-            checked={articleVisible?.status}
+            type="text"
+            className={[
+              classes.formControl,
+              titleError ? classes.isInvalid : ''
+            ].join(' ')}
+            onChange={e => handleTitleChange(e.target.value)}
+            value={title}
           />
-          <label className="form-check-label">{articleVisible?.message}</label>
         </div>
-      </div>
-      <div className="mb-3" style={{ minHeight: '6.25em' }}>
-        <label className="form-label">上架時間</label>
-        <div className="row g-3">
-          <div className="col-auto" style={{ width: '10.625em' }}>
+
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>文章內文</label>
+          <div ref={CKEditorBlockRef}>
+            {editorLoaded !== false ? (
+              <CKEditor
+                editor={ClassicEditor}
+                data={context}
+                onChange={handleContextChange}
+                config={{
+                  language: 'zh',
+                  toolbar: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'link',
+                    'imageUpload',
+                    'ckfinder',
+                    'mediaEmbed'
+                  ],
+                  heading: {
+                    options: [
+                      {
+                        model: 'paragraph',
+                        title: 'Paragraph',
+                        class: 'ck-heading_paragraph'
+                      },
+                      {
+                        model: 'heading1',
+                        view: 'h1',
+                        title: 'Heading 1',
+                        class: 'ck-heading_heading1'
+                      },
+                      {
+                        model: 'heading2',
+                        view: 'h2',
+                        title: 'Heading 2',
+                        class: 'ck-heading_heading2'
+                      },
+                      {
+                        model: 'heading3',
+                        view: 'h3',
+                        title: 'Heading 3',
+                        class: 'ck-heading_heading3'
+                      },
+                      {
+                        model: 'heading4',
+                        view: 'h4',
+                        title: 'Heading 4',
+                        class: 'ck-heading_heading4'
+                      },
+                      {
+                        model: 'heading5',
+                        view: 'h5',
+                        title: 'Heading 5',
+                        class: 'ck-heading_heading5'
+                      },
+                      {
+                        model: 'heading6',
+                        view: 'h6',
+                        title: 'Heading 6',
+                        class: 'ck-heading_heading6'
+                      }
+                    ]
+                  },
+                  ckfinder: {
+                    options: {
+                      language: 'zh-tw'
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            className={classes.invalidFeedback}
+            style={contextErrorMsg !== '' ? { display: 'block' } : {}}
+          >
+            {contextErrorMsg}
+          </div>
+        </div>
+
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>
+            文章描述(自動節錄文章內文內容，最多75字)
+          </label>
+          {/* <dd className="col-sm-9">{description}</dd> */}
+          <input
+            type="text"
+            // readOnly={true}
+            value={description}
+            onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
+            className={[
+              classes.formControl,
+              contextErrorMsg !== '' ? classes.isInvalid : ''
+            ].join(' ')}
+          />
+        </div>
+
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>文章關鍵字</label>
+          <input
+            type="text"
+            value={keyWord}
+            onChange={e => handleKeyWordChange(e.target.value)}
+            className={[
+              classes.formControl,
+              keyWordError ? classes.isInvalid : ''
+            ].join(' ')}
+          />
+        </div>
+        <div className={classes.md3}>
+          <label className={classes.formLabel}>文章狀態</label>
+          <div className="form-check form-switch">
             <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              onChange={handleArticleVisibleChange}
+              checked={articleVisible?.status}
+            />
+            <label className="form-check-label">
+              {articleVisible?.message}
+            </label>
+          </div>
+        </div>
+        <div className={classes.dataTime}>
+          <label className={classes.formLabel}>上架時間</label>
+          <div className={classes.row}>
+            <div className={classes.dataTimeInput}>
+              {/* <input
               type="date"
               className={[
-                'form-control',
-                startDateError ? 'is-invalid' : ''
+                classes.formControl,
+                startDateError ? classes.isInvalid : ''
               ].join(' ')}
               value={startDate}
               onChange={e => handleStartDateChange(e.target.value)}
-            />
+            /> */}
+              <DatePicker value={startDate} onChange={handleStartDateChange} />
+            </div>
+            <div className={classes.dataTimeBetween}>~</div>
+            <div className={classes.dataTimeInput}>
+              <input
+                type="date"
+                className={[
+                  classes.formControl,
+                  endDateError ? classes.isInvalid : ''
+                ].join(' ')}
+                value={endDate}
+                onChange={e => handleEndDateChange(e.target.value)}
+              />
+            </div>
           </div>
           <div
-            className="col-auto"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
+            className={classes.invalidFeedback}
+            style={endDateError || startDateError ? { display: 'block' } : {}}
           >
-            ~
-          </div>
-          <div className="col-auto" style={{ width: '10.625em' }}>
-            <input
-              type="date"
-              className={[
-                'form-control',
-                endDateError ? 'is-invalid' : ''
-              ].join(' ')}
-              value={endDate}
-              onChange={e => handleEndDateChange(e.target.value)}
-            />
+            {dateErrorMsg}
           </div>
         </div>
-        <div
-          className="invalid-feedback"
-          style={endDateError || startDateError ? { display: 'block' } : {}}
-        >
-          {dateErrorMsg}
+        <div className={classes.buttonBlock}>
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            發布文章
+          </button>
+          <button className="btn btn-danger" onClick={handleReset}>
+            重新填寫
+          </button>
         </div>
       </div>
-      <div className="d-flex justify-content-around">
-        <button className="btn btn-primary" onClick={handleSubmit}>
-          發布文章
-        </button>
-        <button className="btn btn-danger" onClick={handleReset}>
-          重新填寫
-        </button>
-      </div>
-    </div>
+    </LocalizationProvider>
   );
 }
 
