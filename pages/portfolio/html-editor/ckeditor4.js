@@ -3,6 +3,8 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
 // import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { makeStyles } from '@mui/styles';
 
 const CKEditor = dynamic(
@@ -123,7 +125,10 @@ const styles = {
   },
   dataTimeInput: {
     ...colAuto,
-    width: '10.625em'
+    // width: '10.625em',
+    padding: '0',
+    backgroundColor: '#fff',
+    borderRadius: '4px'
   },
   dataTimeBetween: {
     ...colAuto,
@@ -146,7 +151,6 @@ function CKEditor4() {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [description, setDescription] = useState('Hello from CKEditor 5!');
-  // const [description, setDescription] = useState('');
   const [context, setContext] = useState('<p>Hello from CKEditor 5!</p>');
   const [contextErrorMsg, setContextErrorMsg] = useState('');
   const [hasImg, setHasImg] = useState(false);
@@ -156,9 +160,9 @@ function CKEditor4() {
   });
   const [keyWord, setKeyWord] = useState('');
   const [keyWordError, setKeyWordError] = useState(false);
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
   const [startDateError, setStartDateError] = useState(false);
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(null);
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
 
@@ -248,22 +252,19 @@ function CKEditor4() {
   }
 
   function dataTimeCheck(_startDate, _endDate, articleVisibleStatus = true) {
-    if (_startDate !== '' && _endDate !== '') {
-      const startDateObj = new Date(_startDate);
-      const endDateObj = new Date(_endDate);
+    if (_startDate !== null && _endDate !== null) {
       let _dateErrorMsg = '';
-      // console.log({ startDateObj: startDateObj.getTime(), endDateObj: endDateObj.getTime() });
-      if (articleVisibleStatus === true && Date.now() > endDateObj.getTime()) {
+      if (articleVisibleStatus === true && Date.now() > _endDate.valueOf()) {
         setEndDateError(true);
         _dateErrorMsg = '請檢查上架結束時間';
-        if (startDateObj.getTime() > endDateObj.getTime()) {
+        if (_startDate.valueOf() > _endDate.valueOf()) {
           _dateErrorMsg = '請檢查上架開始及結束時間';
           setStartDateError(true);
         }
         setDateErrorMsg(_dateErrorMsg);
         return false;
       }
-      if (startDateObj.getTime() > endDateObj.getTime()) {
+      if (_startDate.valueOf() > _endDate.valueOf()) {
         setStartDateError(true);
         setEndDateError(true);
 
@@ -296,7 +297,7 @@ function CKEditor4() {
     ];
 
     const fail = field.filter((element, index) => {
-      if (element === '') {
+      if (element === '' || element === null) {
         errorFieldSetter[index](true);
         return true;
       }
@@ -338,8 +339,8 @@ function CKEditor4() {
       context,
       articleVisible: articleVisible.status,
       keyWord,
-      startDate,
-      endDate
+      startDate: startDate.valueOf(),
+      endDate: endDate.valueOf()
     });
 
     // try {
@@ -371,9 +372,9 @@ function CKEditor4() {
     setArticleVisible({ status: true, message: '上架' });
     setKeyWord('');
     setKeyWordError(false);
-    setStartDate('');
+    setStartDate(null);
     setStartDateError(false);
-    setEndDate('');
+    setEndDate(null);
     setEndDateError(false);
     setDateErrorMsg('');
     setHasImg(false);
@@ -574,7 +575,7 @@ function CKEditor4() {
         <label className={classes.formLabel}>上架時間</label>
         <div className={classes.row}>
           <div className={classes.dataTimeInput}>
-            <input
+            {/* <input
               type="date"
               className={[
                 classes.formControl,
@@ -582,11 +583,17 @@ function CKEditor4() {
               ].join(' ')}
               value={startDate}
               onChange={e => handleStartDateChange(e.target.value)}
+            /> */}
+            <DatePicker
+              value={startDate}
+              className={[startDateError ? classes.isInvalid : ''].join(' ')}
+              onChange={handleStartDateChange}
+              renderInput={params => <TextField {...params} />}
             />
           </div>
           <div className={classes.dataTimeBetween}>~</div>
           <div className={classes.dataTimeInput}>
-            <input
+            {/* <input
               type="date"
               className={[
                 classes.formControl,
@@ -594,6 +601,12 @@ function CKEditor4() {
               ].join(' ')}
               value={endDate}
               onChange={e => handleEndDateChange(e.target.value)}
+            /> */}
+            <DatePicker
+              value={endDate}
+              className={[endDateError ? classes.isInvalid : ''].join(' ')}
+              onChange={handleEndDateChange}
+              renderInput={params => <TextField {...params} />}
             />
           </div>
         </div>

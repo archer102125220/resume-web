@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import theme from '@/theme';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
@@ -50,6 +51,8 @@ export const globalStyle = {
   ...scrollbar
 };
 
-export default function globalStyleComponent() {
+function globalStyleComponent() {
   return <GlobalStyles styles={globalStyle} />;
 }
+
+export default memo(globalStyleComponent);

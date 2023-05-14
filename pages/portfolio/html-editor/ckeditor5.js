@@ -4,12 +4,8 @@ import dynamic from 'next/dynamic';
 // import { useDispatch } from 'react-redux';
 // import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { makeStyles } from '@mui/styles';
-
-import 'dayjs/locale/zh-cn';
 
 const CKEditor = dynamic(
   async () => {
@@ -132,7 +128,10 @@ const styles = {
   },
   dataTimeInput: {
     ...colAuto,
-    width: '10.625em'
+    // width: '10.625em',
+    padding: '0',
+    backgroundColor: '#fff',
+    borderRadius: '4px'
   },
   dataTimeBetween: {
     ...colAuto,
@@ -155,7 +154,6 @@ function CKEditor5() {
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [description, setDescription] = useState('Hello from CKEditor 5!');
-  // const [description, setDescription] = useState('');
   const [context, setContext] = useState('<p>Hello from CKEditor 5!</p>');
   const [contextErrorMsg, setContextErrorMsg] = useState('');
   const [hasImg, setHasImg] = useState(false);
@@ -165,9 +163,9 @@ function CKEditor5() {
   });
   const [keyWord, setKeyWord] = useState('');
   const [keyWordError, setKeyWordError] = useState(false);
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
   const [startDateError, setStartDateError] = useState(false);
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(null);
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
   const CKEditorBlockRef = useRef(null);
@@ -179,7 +177,6 @@ function CKEditor5() {
 
   useEffect(() => {
     (async () => {
-      // const { CKEditor } = await import('@ckeditor/ckeditor5-react');
       const { default: ClassicEditor } = await import(
         '@ckeditor/ckeditor5-build-classic'
       );
@@ -277,22 +274,19 @@ function CKEditor5() {
   }
 
   function dataTimeCheck(_startDate, _endDate, articleVisibleStatus = true) {
-    if (_startDate !== '' && _endDate !== '') {
-      const startDateObj = new Date(_startDate);
-      const endDateObj = new Date(_endDate);
+    if (_startDate !== null && _endDate !== null) {
       let _dateErrorMsg = '';
-      // console.log({ startDateObj: startDateObj.getTime(), endDateObj: endDateObj.getTime() });
-      if (articleVisibleStatus === true && Date.now() > endDateObj.getTime()) {
+      if (articleVisibleStatus === true && Date.now() > _endDate.valueOf()) {
         setEndDateError(true);
         _dateErrorMsg = '請檢查上架結束時間';
-        if (startDateObj.getTime() > endDateObj.getTime()) {
+        if (_startDate.valueOf() > _endDate.valueOf()) {
           _dateErrorMsg = '請檢查上架開始及結束時間';
           setStartDateError(true);
         }
         setDateErrorMsg(_dateErrorMsg);
         return false;
       }
-      if (startDateObj.getTime() > endDateObj.getTime()) {
+      if (_startDate.valueOf() > _endDate.valueOf()) {
         setStartDateError(true);
         setEndDateError(true);
 
@@ -325,7 +319,7 @@ function CKEditor5() {
     ];
 
     const fail = field.filter((element, index) => {
-      if (element === '') {
+      if (element === '' || element === null) {
         errorFieldSetter[index](true);
         return true;
       }
@@ -367,8 +361,8 @@ function CKEditor5() {
       context,
       articleVisible: articleVisible.status,
       keyWord,
-      startDate,
-      endDate
+      startDate: startDate.valueOf(),
+      endDate: endDate.valueOf()
     });
 
     // try {
@@ -400,9 +394,9 @@ function CKEditor5() {
     setArticleVisible({ status: true, message: '上架' });
     setKeyWord('');
     setKeyWordError(false);
-    setStartDate('');
+    setStartDate(null);
     setStartDateError(false);
-    setEndDate('');
+    setEndDate(null);
     setEndDateError(false);
     setDateErrorMsg('');
     setHasImg(false);
@@ -414,170 +408,167 @@ function CKEditor5() {
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
-      <div className={classes.m3}>
-        <Head>
-          <title>Parker Chan 的作品集 - HTML編輯器</title>
-        </Head>
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>文章類別</label>
-          <select
-            className={[
-              classes.formSelect,
-              categoryError ? classes.isInvalid : ''
-            ].join(' ')}
-            onChange={e => handleCategoryChange(e.target.value)}
-            value={category}
-          >
-            <option value="">請選擇</option>
-            <option value="test">測試</option>
-          </select>
-        </div>
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>文章標題</label>
-          <input
-            type="text"
-            className={[
-              classes.formControl,
-              titleError ? classes.isInvalid : ''
-            ].join(' ')}
-            onChange={e => handleTitleChange(e.target.value)}
-            value={title}
-          />
-        </div>
+    <div className={classes.m3}>
+      <Head>
+        <title>Parker Chan 的作品集 - HTML編輯器</title>
+      </Head>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章類別</label>
+        <select
+          className={[
+            classes.formSelect,
+            categoryError ? classes.isInvalid : ''
+          ].join(' ')}
+          onChange={e => handleCategoryChange(e.target.value)}
+          value={category}
+        >
+          <option value="">請選擇</option>
+          <option value="test">測試</option>
+        </select>
+      </div>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章標題</label>
+        <input
+          type="text"
+          className={[
+            classes.formControl,
+            titleError ? classes.isInvalid : ''
+          ].join(' ')}
+          onChange={e => handleTitleChange(e.target.value)}
+          value={title}
+        />
+      </div>
 
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>文章內文</label>
-          <div ref={CKEditorBlockRef}>
-            {editorLoaded !== false ? (
-              <CKEditor
-                editor={ClassicEditor}
-                data={context}
-                onChange={handleContextChange}
-                config={{
-                  language: 'zh',
-                  toolbar: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'link',
-                    'imageUpload',
-                    'ckfinder',
-                    'mediaEmbed'
-                  ],
-                  heading: {
-                    options: [
-                      {
-                        model: 'paragraph',
-                        title: 'Paragraph',
-                        class: 'ck-heading_paragraph'
-                      },
-                      {
-                        model: 'heading1',
-                        view: 'h1',
-                        title: 'Heading 1',
-                        class: 'ck-heading_heading1'
-                      },
-                      {
-                        model: 'heading2',
-                        view: 'h2',
-                        title: 'Heading 2',
-                        class: 'ck-heading_heading2'
-                      },
-                      {
-                        model: 'heading3',
-                        view: 'h3',
-                        title: 'Heading 3',
-                        class: 'ck-heading_heading3'
-                      },
-                      {
-                        model: 'heading4',
-                        view: 'h4',
-                        title: 'Heading 4',
-                        class: 'ck-heading_heading4'
-                      },
-                      {
-                        model: 'heading5',
-                        view: 'h5',
-                        title: 'Heading 5',
-                        class: 'ck-heading_heading5'
-                      },
-                      {
-                        model: 'heading6',
-                        view: 'h6',
-                        title: 'Heading 6',
-                        class: 'ck-heading_heading6'
-                      }
-                    ]
-                  },
-                  ckfinder: {
-                    options: {
-                      language: 'zh-tw'
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章內文</label>
+        <div ref={CKEditorBlockRef}>
+          {editorLoaded !== false ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data={context}
+              onChange={handleContextChange}
+              config={{
+                language: 'zh',
+                toolbar: [
+                  'heading',
+                  '|',
+                  'bold',
+                  'link',
+                  'imageUpload',
+                  'ckfinder',
+                  'mediaEmbed'
+                ],
+                heading: {
+                  options: [
+                    {
+                      model: 'paragraph',
+                      title: 'Paragraph',
+                      class: 'ck-heading_paragraph'
+                    },
+                    {
+                      model: 'heading1',
+                      view: 'h1',
+                      title: 'Heading 1',
+                      class: 'ck-heading_heading1'
+                    },
+                    {
+                      model: 'heading2',
+                      view: 'h2',
+                      title: 'Heading 2',
+                      class: 'ck-heading_heading2'
+                    },
+                    {
+                      model: 'heading3',
+                      view: 'h3',
+                      title: 'Heading 3',
+                      class: 'ck-heading_heading3'
+                    },
+                    {
+                      model: 'heading4',
+                      view: 'h4',
+                      title: 'Heading 4',
+                      class: 'ck-heading_heading4'
+                    },
+                    {
+                      model: 'heading5',
+                      view: 'h5',
+                      title: 'Heading 5',
+                      class: 'ck-heading_heading5'
+                    },
+                    {
+                      model: 'heading6',
+                      view: 'h6',
+                      title: 'Heading 6',
+                      class: 'ck-heading_heading6'
                     }
+                  ]
+                },
+                ckfinder: {
+                  options: {
+                    language: 'zh-tw'
                   }
-                }}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-          <div
-            className={classes.invalidFeedback}
-            style={contextErrorMsg !== '' ? { display: 'block' } : {}}
-          >
-            {contextErrorMsg}
-          </div>
-        </div>
-
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>
-            文章描述(自動節錄文章內文內容，最多75字)
-          </label>
-          {/* <dd className="col-sm-9">{description}</dd> */}
-          <input
-            type="text"
-            // readOnly={true}
-            value={description}
-            onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
-            className={[
-              classes.formControl,
-              contextErrorMsg !== '' ? classes.isInvalid : ''
-            ].join(' ')}
-          />
-        </div>
-
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>文章關鍵字</label>
-          <input
-            type="text"
-            value={keyWord}
-            onChange={e => handleKeyWordChange(e.target.value)}
-            className={[
-              classes.formControl,
-              keyWordError ? classes.isInvalid : ''
-            ].join(' ')}
-          />
-        </div>
-        <div className={classes.md3}>
-          <label className={classes.formLabel}>文章狀態</label>
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              onChange={handleArticleVisibleChange}
-              checked={articleVisible?.status}
+                }
+              }}
             />
-            <label className="form-check-label">
-              {articleVisible?.message}
-            </label>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
-        <div className={classes.dataTime}>
-          <label className={classes.formLabel}>上架時間</label>
-          <div className={classes.row}>
-            <div className={classes.dataTimeInput}>
-              {/* <input
+        <div
+          className={classes.invalidFeedback}
+          style={contextErrorMsg !== '' ? { display: 'block' } : {}}
+        >
+          {contextErrorMsg}
+        </div>
+      </div>
+
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>
+          文章描述(自動節錄文章內文內容，最多75字)
+        </label>
+        {/* <dd className="col-sm-9">{description}</dd> */}
+        <input
+          type="text"
+          // readOnly={true}
+          value={description}
+          onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
+          className={[
+            classes.formControl,
+            contextErrorMsg !== '' ? classes.isInvalid : ''
+          ].join(' ')}
+        />
+      </div>
+
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章關鍵字</label>
+        <input
+          type="text"
+          value={keyWord}
+          onChange={e => handleKeyWordChange(e.target.value)}
+          className={[
+            classes.formControl,
+            keyWordError ? classes.isInvalid : ''
+          ].join(' ')}
+        />
+      </div>
+      <div className={classes.md3}>
+        <label className={classes.formLabel}>文章狀態</label>
+        <div className="form-check form-switch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            onChange={handleArticleVisibleChange}
+            checked={articleVisible?.status}
+          />
+          <label className="form-check-label">{articleVisible?.message}</label>
+        </div>
+      </div>
+      <div className={classes.dataTime}>
+        <label className={classes.formLabel}>上架時間</label>
+        <div className={classes.row}>
+          <div className={classes.dataTimeInput}>
+            {/* <input
               type="date"
               className={[
                 classes.formControl,
@@ -586,43 +577,48 @@ function CKEditor5() {
               value={startDate}
               onChange={e => handleStartDateChange(e.target.value)}
             /> */}
-              <DatePicker
-                mask="____/__/__"
-                value={startDate}
-                onChange={handleStartDateChange}
-                renderInput={params => <TextField {...params} />}
-              />
-            </div>
-            <div className={classes.dataTimeBetween}>~</div>
-            <div className={classes.dataTimeInput}>
-              <input
-                type="date"
-                className={[
-                  classes.formControl,
-                  endDateError ? classes.isInvalid : ''
-                ].join(' ')}
-                value={endDate}
-                onChange={e => handleEndDateChange(e.target.value)}
-              />
-            </div>
+            <DatePicker
+              value={startDate}
+              className={[startDateError ? classes.isInvalid : ''].join(' ')}
+              onChange={handleStartDateChange}
+              renderInput={params => <TextField {...params} />}
+            />
           </div>
-          <div
-            className={classes.invalidFeedback}
-            style={endDateError || startDateError ? { display: 'block' } : {}}
-          >
-            {dateErrorMsg}
+          <div className={classes.dataTimeBetween}>~</div>
+          <div className={classes.dataTimeInput}>
+            {/* <input
+              type="date"
+              className={[
+                classes.formControl,
+                endDateError ? classes.isInvalid : ''
+              ].join(' ')}
+              value={endDate}
+              onChange={e => handleEndDateChange(e.target.value)}
+            /> */}
+            <DatePicker
+              value={endDate}
+              className={[endDateError ? classes.isInvalid : ''].join(' ')}
+              onChange={handleEndDateChange}
+              renderInput={params => <TextField {...params} />}
+            />
           </div>
         </div>
-        <div className={classes.buttonBlock}>
-          <button className="btn btn-primary" onClick={handleSubmit}>
-            發布文章
-          </button>
-          <button className="btn btn-danger" onClick={handleReset}>
-            重新填寫
-          </button>
+        <div
+          className={classes.invalidFeedback}
+          style={endDateError || startDateError ? { display: 'block' } : {}}
+        >
+          {dateErrorMsg}
         </div>
       </div>
-    </LocalizationProvider>
+      <div className={classes.buttonBlock}>
+        <button className="btn btn-primary" onClick={handleSubmit}>
+          發布文章
+        </button>
+        <button className="btn btn-danger" onClick={handleReset}>
+          重新填寫
+        </button>
+      </div>
+    </div>
   );
 }
 

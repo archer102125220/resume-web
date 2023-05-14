@@ -12,9 +12,9 @@ export const themeObj = {
     secondary: {
       main: '#ffe7c0'
     },
-    inherit: {
-      main: '#ffffff'
-    }
+    // inherit: {
+    //   main: '#ffffff'
+    // }
   }
 };
 
