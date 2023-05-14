@@ -13,6 +13,7 @@ const CKEditor = dynamic(
   { ssr: false }
 );
 
+import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const m3 = {
@@ -632,10 +633,15 @@ function CKEditor4() {
         </div>
       </div>
       <div className={classes.buttonBlock}>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button sx={buttonStyle} variant="contained" onClick={handleSubmit}>
           發布文章
         </Button>
-        <Button variant="contained" color="error" onClick={handleReset}>
+        <Button
+          sx={buttonLayout}
+          variant="contained"
+          color="error"
+          onClick={handleReset}
+        >
           重新填寫
         </Button>
       </div>

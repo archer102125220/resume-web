@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
+import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
@@ -16,18 +17,7 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  portfolioButton: {
-    display: 'block',
-    marginTop: '10px',
-    marginBottom: '10px',
-    background: '#fbc780',
-    '&:active': {
-      background: '#dfa14d'
-    },
-    '&:hover': {
-      background: '#f8cd92'
-    }
-  }
+  portfolioButton: buttonStyle
 };
 
 const useStyles = makeStyles(styles);
