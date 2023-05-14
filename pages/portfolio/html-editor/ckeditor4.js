@@ -437,7 +437,7 @@ function CKEditor4() {
             onChange={handleContextChange}
             config={{
               language: 'zh',
-              // filebrowserUploadUrl: '/upload-img?a',
+              filebrowserUploadUrl: '/upload-img?a',
               plugins: [
                 'dialogui',
                 'dialog',
@@ -517,7 +517,8 @@ function CKEditor4() {
                 'Strike',
                 'Subscript',
                 'Superscript'
-              ]
+              ],
+              removeDialogTabs: 'image:advanced;image:Link'
             }}
           />
         </div>
