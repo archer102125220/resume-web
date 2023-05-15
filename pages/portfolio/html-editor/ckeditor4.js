@@ -7,6 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { makeStyles } from '@mui/styles';
+import dayjs from 'dayjs';
 
 const CKEditor = dynamic(
   () => import('ckeditor4-react').then(({ CKEditor }) => CKEditor),
@@ -178,7 +179,7 @@ function CKEditor4() {
     handleDescriptionChange(context);
   }, [context]);
   useEffect(() => {
-    dataTimeCheck(startDate, endDate, articleVisible.status);
+    dataTimeCheck(startDate, endDate);
   }, [articleVisible]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor/ckeditor4' });
@@ -244,28 +245,18 @@ function CKEditor4() {
   function handleStartDateChange(newStartDate) {
     setStartDate(newStartDate);
     setStartDateError(false);
-    dataTimeCheck(newStartDate, endDate, articleVisible.status);
+    dataTimeCheck(newStartDate, endDate);
   }
 
   function handleEndDateChange(newEndDate) {
     setEndDate(newEndDate);
     setEndDateError(false);
-    dataTimeCheck(startDate, newEndDate, articleVisible.status);
+    dataTimeCheck(startDate, newEndDate);
   }
 
-  function dataTimeCheck(_startDate, _endDate, articleVisibleStatus = true) {
+  function dataTimeCheck(_startDate, _endDate) {
     if (_startDate !== null && _endDate !== null) {
       let _dateErrorMsg = '';
-      if (articleVisibleStatus === true && Date.now() > _endDate.valueOf()) {
-        setEndDateError(true);
-        _dateErrorMsg = '請檢查上架結束時間';
-        if (_startDate.valueOf() > _endDate.valueOf()) {
-          _dateErrorMsg = '請檢查上架開始及結束時間';
-          setStartDateError(true);
-        }
-        setDateErrorMsg(_dateErrorMsg);
-        return false;
-      }
       if (_startDate.valueOf() > _endDate.valueOf()) {
         setStartDateError(true);
         setEndDateError(true);
@@ -322,7 +313,7 @@ function CKEditor4() {
       }
       fail.push(true);
     }
-    if (dataTimeCheck(startDate, endDate, articleVisible.status) === false) {
+    if (dataTimeCheck(startDate, endDate) === false) {
       fail.push(true);
     }
 
@@ -601,6 +592,8 @@ function CKEditor4() {
             /> */}
             <DatePicker
               value={startDate}
+              minDate={dayjs()}
+              maxDate={endDate ? endDate : ''}
               className={[startDateError ? classes.isInvalid : ''].join(' ')}
               onChange={handleStartDateChange}
               renderInput={params => <TextField {...params} />}
@@ -619,6 +612,7 @@ function CKEditor4() {
             /> */}
             <DatePicker
               value={endDate}
+              minDate={dayjs()}
               className={[endDateError ? classes.isInvalid : ''].join(' ')}
               onChange={handleEndDateChange}
               renderInput={params => <TextField {...params} />}

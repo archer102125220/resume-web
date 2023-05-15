@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { makeStyles } from '@mui/styles';
+import dayjs from 'dayjs';
 
 const CKEditor = dynamic(
   async () => {
@@ -158,7 +158,6 @@ function CKEditor5() {
   const [description, setDescription] = useState('Hello from CKEditor 5!');
   const [context, setContext] = useState('<p>Hello from CKEditor 5!</p>');
   const [contextErrorMsg, setContextErrorMsg] = useState('');
-  const [hasImg, setHasImg] = useState(false);
   const [articleVisible, setArticleVisible] = useState({
     status: true,
     message: '上架'
@@ -200,7 +199,7 @@ function CKEditor5() {
     handleDescriptionChange(context);
   }, [context]);
   useEffect(() => {
-    dataTimeCheck(startDate, endDate, articleVisible.status);
+    dataTimeCheck(startDate, endDate);
   }, [articleVisible]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor' });
@@ -234,28 +233,13 @@ function CKEditor5() {
     div.innerHTML = newContext;
 
     if (div.querySelector('img') !== null) {
-      setHasImg(true);
       setContextErrorMsg('');
-      const ckeditorDom =
-        CKEditorBlockRef.current.querySelector('#cke_editor1');
-      if (ckeditorDom !== null) {
-        ckeditorDom.style.borderColor = '';
-      }
     }
 
-    const descriptionElement = div.querySelectorAll(
-      'p, h1, h2, h3, h4, h5, h6'
-    );
-    let _description = '';
-    for (let i = 0; i < descriptionElement.length; i++) {
-      const innerText = descriptionElement[i].innerText.trim();
-      if (_description.length >= 75) {
-        break;
-      } else if (innerText !== '') {
-        _description += _description.length === 0 ? innerText : ' ' + innerText;
-      }
+    const descriptionElement = div.querySelector('p');
+    if (descriptionElement !== null) {
+      setDescription(descriptionElement.innerText.trim().substring(0, 75));
     }
-    setDescription(_description.substring(0, 75));
   }
 
   function handleKeyWordChange(newKeyWord) {
@@ -266,28 +250,18 @@ function CKEditor5() {
   function handleStartDateChange(newStartDate) {
     setStartDate(newStartDate);
     setStartDateError(false);
-    dataTimeCheck(newStartDate, endDate, articleVisible.status);
+    dataTimeCheck(newStartDate, endDate);
   }
 
   function handleEndDateChange(newEndDate) {
     setEndDate(newEndDate);
     setEndDateError(false);
-    dataTimeCheck(startDate, newEndDate, articleVisible.status);
+    dataTimeCheck(startDate, newEndDate);
   }
 
-  function dataTimeCheck(_startDate, _endDate, articleVisibleStatus = true) {
+  function dataTimeCheck(_startDate, _endDate) {
     if (_startDate !== null && _endDate !== null) {
       let _dateErrorMsg = '';
-      if (articleVisibleStatus === true && Date.now() > _endDate.valueOf()) {
-        setEndDateError(true);
-        _dateErrorMsg = '請檢查上架結束時間';
-        if (_startDate.valueOf() > _endDate.valueOf()) {
-          _dateErrorMsg = '請檢查上架開始及結束時間';
-          setStartDateError(true);
-        }
-        setDateErrorMsg(_dateErrorMsg);
-        return false;
-      }
       if (_startDate.valueOf() > _endDate.valueOf()) {
         setStartDateError(true);
         setEndDateError(true);
@@ -328,23 +302,25 @@ function CKEditor5() {
       return false;
     });
 
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
-
     let _contextErrorMsg = '';
-    if (description === '' && ckeditorDom !== null) {
+    if (description === '') {
       _contextErrorMsg += '請輸入文字';
-      ckeditorDom.style.borderColor = '#dc3545';
       fail.push(true);
     }
-    if (hasImg === false) {
+
+    const div = document.createElement('div');
+    div.innerHTML = context;
+
+    const img = div.querySelector('img');
+    let firstImage = '';
+    if (img === null) {
       _contextErrorMsg +=
         (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
-      if (ckeditorDom !== null) {
-        ckeditorDom.style.borderColor = '#dc3545';
-      }
       fail.push(true);
+    } else {
+      firstImage = img.src;
     }
-    if (dataTimeCheck(startDate, endDate, articleVisible.status) === false) {
+    if (dataTimeCheck(startDate, endDate) === false) {
       fail.push(true);
     }
 
@@ -361,26 +337,25 @@ function CKEditor5() {
       title,
       description,
       context,
-      articleVisible: articleVisible.status,
+      visible: articleVisible.status,
       keyWord,
+      firstImage,
       startDate: startDate.valueOf(),
       endDate: endDate.valueOf()
     });
 
     // try {
-    //   await axios.post(
-    //     POST_URL,
-    //     {
-    //       category,
-    //       title,
-    //       description,
-    //       context,
-    //       articleVisible: articleVisible.status,
-    //       keyWord,
-    //       startDate,
-    //       endDate
-    //     }
-    //   );
+    //   await axios.post(POST_URL, {
+    //     category,
+    //     title,
+    //     description,
+    //     context,
+    //     visible: articleVisible.status,
+    //     keyWord,
+    //     firstImage,
+    //     startDate: startDate.valueOf(),
+    //     endDate: endDate.valueOf()
+    //   });
     // } catch (error) {
     //   console.log('post error');
     // }
@@ -401,12 +376,7 @@ function CKEditor5() {
     setEndDate(null);
     setEndDateError(false);
     setDateErrorMsg('');
-    setHasImg(false);
     setContextErrorMsg('');
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
-    if (ckeditorDom !== null) {
-      ckeditorDom.style.borderColor = '';
-    }
   }
 
   return (
@@ -614,9 +584,10 @@ function CKEditor5() {
             /> */}
             <DatePicker
               value={startDate}
-              className={[startDateError ? classes.isInvalid : ''].join(' ')}
               onChange={handleStartDateChange}
-              renderInput={params => <TextField {...params} />}
+              minDate={dayjs()}
+              maxDate={endDate ? endDate : ''}
+              className={[startDateError ? classes.isInvalid : ''].join(' ')}
             />
           </div>
           <div className={classes.dataTimeBetween}>~</div>
@@ -632,9 +603,9 @@ function CKEditor5() {
             /> */}
             <DatePicker
               value={endDate}
-              className={[endDateError ? classes.isInvalid : ''].join(' ')}
               onChange={handleEndDateChange}
-              renderInput={params => <TextField {...params} />}
+              minDate={dayjs()}
+              className={[endDateError ? classes.isInvalid : ''].join(' ')}
             />
           </div>
         </div>
