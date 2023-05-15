@@ -14,14 +14,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import { firebaseAdminAsyncThunk } from '@/redux/firebaseAdmin';
-import buttonStyle from '@/styles/buttonStyle';
+import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 
 function TokenDataView({
   defaultAppMessage,
   title,
   messageTitle,
   appMessageTokens,
-  pushNotification
+  pushNotification,
+  platform
 }) {
   const [appMessage, setAppMessage] = useState(defaultAppMessage);
   const dispatch = useDispatch();
@@ -48,14 +49,40 @@ function TokenDataView({
     },
     [dispatch]
   );
+  const DELETE_cancelAllMessageToken = useCallback(
+    token => {
+      return dispatch(
+        firebaseAdminAsyncThunk.DELETE_CancelAllMessageToken({
+          loading: boloean => SAVE_loading(boloean),
+          payload: token,
+          callback: GET_GetMessageTokens
+        })
+      );
+    },
+    [dispatch]
+  );
 
   function cancelMessageToken(cancelToken) {
     console.log({ cancelToken });
     DELETE_CancelMessageToken(cancelToken);
   }
 
+  function cancelAllMessageToken(_platform) {
+    console.log({ _platform });
+    DELETE_cancelAllMessageToken(_platform);
+  }
+
   return (
     <div>
+      <Button
+        color="error"
+        variant="contained"
+        sx={{ ...buttonLayout, width: '100%', display: 'inline-flex' }}
+        onClick={(...e) => cancelAllMessageToken(platform, ...e)}
+      >
+        <p>清空{platform}token</p>
+        <DeleteIcon color="#808080" />
+      </Button>
       <Grid
         container
         spacing={2}
@@ -125,7 +152,8 @@ TokenDataView.propTypes = {
   appMessageTokens: PropTypes.array,
   title: PropTypes.string,
   messageTitle: PropTypes.string,
-  pushNotification: PropTypes.func
+  pushNotification: PropTypes.func,
+  platform: PropTypes.string
 };
 
 TokenDataView.defaultProps = {

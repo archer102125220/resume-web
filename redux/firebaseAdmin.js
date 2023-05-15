@@ -4,6 +4,7 @@ import {
   GET_getMessageTokens,
   POST_pushNotification,
   DELETE_cancelMessageToken,
+  DELETE_cancelAllMessageToken,
   POST_androidPushNotification,
   POST_iosPushNotification,
   POST_webPushMessage
@@ -69,6 +70,22 @@ export const firebaseAdminAsyncThunk = {
       let data;
       try {
         data = await DELETE_cancelMessageToken(payload);
+      } catch (error) {
+        console.log(error);
+      }
+      if (typeof loading === 'function') loading(false);
+      if (typeof callback === 'function') callback();
+      return data;
+    }
+  ),
+  DELETE_CancelAllMessageToken: createAsyncThunk(
+    `${name}/DELETE_CancelAllMessageToken`,
+    async function (arg) {
+      const { payload, callback, loading } = arg || {};
+      if (typeof loading === 'function') loading(true);
+      let data;
+      try {
+        data = await DELETE_cancelAllMessageToken(payload);
       } catch (error) {
         console.log(error);
       }

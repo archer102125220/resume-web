@@ -176,25 +176,28 @@ function FirebaseAdmin() {
         </Grid>
       </Grid>
       <TokenDataView
-        defaultAppMessage="AndroidAppMessage"
-        title="Android Message Tokens"
-        messageTitle="Android推播訊息"
-        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'android')}
-        pushNotification={POST_AndroidPushNotification}
-      />
-      <TokenDataView
-        defaultAppMessage="IosAppMessage"
-        title="Ios Message Tokens"
-        messageTitle="Ios推播訊息"
-        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'ios')}
-        pushNotification={POST_IosPushNotification}
-      />
-      <TokenDataView
-        defaultAppMessage="WebAppMessage"
-        title="Web Message Tokens"
+        platform="web"
         messageTitle="Web推播訊息"
-        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'web')}
+        title="Web Message Tokens"
+        defaultAppMessage="WebAppMessage"
         pushNotification={POST_WebPushMessage}
+        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'web')}
+      />
+      <TokenDataView
+        platform="android"
+        messageTitle="Android推播訊息"
+        title="Android Message Tokens"
+        defaultAppMessage="AndroidAppMessage"
+        pushNotification={POST_AndroidPushNotification}
+        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'android')}
+      />
+      <TokenDataView
+        platform="ios"
+        messageTitle="Ios推播訊息"
+        title="Ios Message Tokens"
+        defaultAppMessage="IosAppMessage"
+        pushNotification={POST_IosPushNotification}
+        appMessageTokens={appMessageTokens.filter(({ os }) => os === 'ios')}
       />
     </div>
   );

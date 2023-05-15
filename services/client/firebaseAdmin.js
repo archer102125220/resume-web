@@ -21,6 +21,12 @@ export function DELETE_cancelMessageToken(payload) {
   );
 }
 
+export function DELETE_cancelAllMessageToken(payload) {
+  return request.delete(
+    `/firebase-admin/cancel-push-notification-token/all/${payload}`
+  );
+}
+
 export function POST_androidPushNotification(payload) {
   return request.post('/firebase-admin/android-push-notification', payload);
 }
