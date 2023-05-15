@@ -1,5 +1,4 @@
 import { removeToken, findAllToken } from '@serverServices/firebaseAdmin';
-import { cancelTokens } from '@/utils/firebase.server';
 
 export default async function cancelMessageToken(req, res) {
   try {
@@ -10,13 +9,12 @@ export default async function cancelMessageToken(req, res) {
       return;
     }
     const { platform } = req.query;
-    cancelTokens(platform);
     const tokens = await findAllToken();
     for (let i = 0; i < tokens.length; i++) {
       const { os, token } = tokens[i];
       if (os === platform) {
         const response = await removeToken(token);
-        console.log(response);
+        console.log({ ...response, platform });
       }
     }
 
