@@ -55,7 +55,9 @@ export async function firebaseClientInit() {
     firebaseApp = initializeApp(firebaseConfig);
     firebaseAnalytics = getAnalytics(firebaseApp);
     firebaseDB = getFirestore(firebaseApp);
-    firebaseMessaging = getMessaging(firebaseApp);
+    firebaseMessaging = getMessaging(firebaseApp, {
+      vapidKey: process.env.FIREBASE_VAPID_KEY
+    });
     try {
       const token = await getToken(firebaseMessaging);
       await POST_registerMessageToken({ token, os: 'web' });
@@ -64,7 +66,9 @@ export async function firebaseClientInit() {
     }
 
     await requestPermission();
-    firebaseClientMessage(firebaseMessaging);
+    firebaseClientMessage(firebaseMessaging, payload => {
+      new Notification(payload.data?.msg);
+    });
   }
 
   return { firebaseApp, firebaseAnalytics, firebaseDB };
