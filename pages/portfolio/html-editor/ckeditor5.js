@@ -443,7 +443,17 @@ function CKEditor5() {
 
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章內文</label>
-        <div ref={CKEditorBlockRef}>
+        <div
+          ref={CKEditorBlockRef}
+          style={
+            contextErrorMsg !== ''
+              ? {
+                  '--ck-color-base-border': '#dc3545',
+                  '--ck-color-toolbar-border': '#dc3545'
+                }
+              : {}
+          }
+        >
           {editorLoaded !== false ? (
             <CKEditor
               editor={ClassicEditor}
@@ -459,6 +469,18 @@ function CKEditor5() {
                   'imageUpload',
                   'ckfinder',
                   'mediaEmbed'
+
+                  // 'heading',
+                  // '|',
+                  // 'bold',
+                  // 'italic',
+                  // 'link',
+                  // 'imageUpload',
+                  // 'mediaEmbed',
+                  // 'fontSize',
+                  // 'fontBackgroundColor',
+                  // 'fontColor',
+                  // 'fontFamily'
                 ],
                 heading: {
                   options: [
