@@ -18,6 +18,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import { UploadAdapter } from '@/utils/CKEditorUploadAdapter';
 
 const m3 = {
   margin: '16px'
@@ -428,6 +429,10 @@ function CKEditor5() {
             <CKEditor
               editor={ClassicEditor}
               data={context}
+              onReady={editor => {
+                editor.plugins.get('FileRepository').createUploadAdapter =
+                  loader => new UploadAdapter(loader, '/upload-img');
+              }}
               onChange={handleContextChange}
               config={{
                 language: 'zh',
