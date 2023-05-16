@@ -88,6 +88,7 @@ export async function firebaseClientInit() {
 
     await requestPermission();
     firebaseClientMessage(firebaseMessaging, payload => {
+      alert(payload.data?.msg);
       new Notification(payload.data?.msg);
     });
   }
