@@ -88,9 +88,15 @@ export async function firebaseClientInit() {
     }
 
     await requestPermission();
+    const registration = await navigator.serviceWorker.ready;
     firebaseClientMessage(firebaseMessaging, payload => {
       try {
-        new Notification('測試', {
+        // new Notification('測試', {
+        //   body: payload.data?.msg,
+        //   icon: '/favicon.ico'
+        // });
+
+        registration.showNotification('測試', {
           body: payload.data?.msg,
           icon: '/favicon.ico'
         });
