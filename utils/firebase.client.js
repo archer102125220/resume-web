@@ -88,11 +88,15 @@ export async function firebaseClientInit() {
 
     await requestPermission();
     firebaseClientMessage(firebaseMessaging, payload => {
-      alert(payload.data?.msg);
-      new Notification('測試', {
-        body: payload.data?.msg,
-        icon: '/favicon.ico'
-      });
+      try {
+        new Notification('測試', {
+          body: payload.data?.msg,
+          icon: '/favicon.ico'
+        });
+      } catch (error) {
+        console.log(error);
+        alert(payload.data?.msg);
+      }
     });
   }
 
