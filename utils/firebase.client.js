@@ -72,15 +72,15 @@ export async function firebaseClientInit() {
     firebaseApp = initializeApp(firebaseConfig);
     firebaseAnalytics = getAnalytics(firebaseApp);
     firebaseDB = getFirestore(firebaseApp);
-    firebaseMessaging = getMessaging(firebaseApp, {
-      vapidKey: process.env.FIREBASE_VAPID_KEY
-    });
     try {
       const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+      await fetch(swUrl);
+      firebaseMessaging = getMessaging(firebaseApp, {
+        vapidKey: process.env.FIREBASE_VAPID_KEY
+      });
       const token = await getToken(firebaseMessaging, {
         serviceWorkerRegistration
       });
-      await fetch(swUrl);
       await POST_registerMessageToken({ token, os: 'web' });
     } catch (error) {
       console.log(error);
