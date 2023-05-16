@@ -7,7 +7,7 @@ import { getFirestore } from 'firebase/firestore/lite';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
-import { GET_appErrorLog } from '@/services/appErrorLog';
+import { POST_appErrorLog } from '@/services/appErrorLog';
 
 // https://firebase.google.com/docs/cloud-messaging/js/receive?hl=zh-cn#web-version-9_2
 
@@ -96,8 +96,8 @@ export async function firebaseClientInit() {
         });
       } catch (error) {
         console.log(error);
-        GET_appErrorLog(error);
-        GET_appErrorLog({ ...error });
+        POST_appErrorLog(error);
+        POST_appErrorLog({ ...error });
         alert(payload.data?.msg);
       }
     });

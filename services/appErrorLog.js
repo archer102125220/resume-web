@@ -1,5 +1,5 @@
 import request from '@/utils/request';
 
-export function GET_appErrorLog(payload) {
-  return request.get('/app-error-log', payload);
+export function POST_appErrorLog(payload) {
+  return request.post('/app-error-log', payload);
 }
