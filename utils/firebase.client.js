@@ -89,7 +89,10 @@ export async function firebaseClientInit() {
     await requestPermission();
     firebaseClientMessage(firebaseMessaging, payload => {
       alert(payload.data?.msg);
-      new Notification(payload.data?.msg);
+      new Notification('測試', {
+        body: payload.data?.msg,
+        icon: '/favicon.ico'
+      });
     });
   }
 

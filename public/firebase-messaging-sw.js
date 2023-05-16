@@ -60,7 +60,10 @@ function firebaseInitializeApp(firebaseConfig) {
 
       // self.registration.showNotification(notificationTitle, notificationOptions);
       if (typeof payload?.data?.msg === 'string' && payload?.data?.msg !== '') {
-        self.registration.showNotification(payload.data?.msg);
+        self.registration.showNotification('測試', {
+          body: payload.data?.msg,
+          icon: '/favicon.ico'
+        });
       }
     });
   } catch (error) {
