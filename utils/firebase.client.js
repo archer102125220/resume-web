@@ -96,8 +96,9 @@ export async function firebaseClientInit() {
         });
       } catch (error) {
         console.log(error);
-        POST_appErrorLog(error);
-        POST_appErrorLog({ ...error });
+        // POST_appErrorLog(error);
+        // POST_appErrorLog({ ...error });
+        POST_appErrorLog({ error });
         alert(payload.data?.msg);
       }
     });
