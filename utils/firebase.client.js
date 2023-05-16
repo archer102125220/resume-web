@@ -105,7 +105,6 @@ export async function firebaseClientInit() {
         // POST_appErrorLog(error);
         // POST_appErrorLog({ ...error });
         POST_appErrorLog({ error });
-        alert(payload.data?.msg);
       }
     });
   }
