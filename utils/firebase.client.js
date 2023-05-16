@@ -42,6 +42,23 @@ export async function requestPermission() {
   }
 }
 
+const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
+const swUrl = `/firebase-messaging-sw.js?${UrlFirebaseConfig}`;
+
+export async function getOrRegisterServiceWorker() {
+  if (
+    'serviceWorker' in navigator &&
+    typeof window.navigator.serviceWorker !== 'undefined'
+  ) {
+    const serviceWorker = await window.navigator.serviceWorker.getRegistration(
+      '/'
+    );
+    if (serviceWorker) return serviceWorker;
+    return window.navigator.serviceWorker.register('/firebase-messaging-sw.js');
+  }
+  throw new Error('The browser doesn`t support service worker.');
+}
+
 export async function firebaseClientMessage(
   messaging,
   callback = payload => console.log('Message received. ', payload)
@@ -59,7 +76,11 @@ export async function firebaseClientInit() {
       vapidKey: process.env.FIREBASE_VAPID_KEY
     });
     try {
-      const token = await getToken(firebaseMessaging);
+      const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+      const token = await getToken(firebaseMessaging, {
+        serviceWorkerRegistration
+      });
+      await fetch(swUrl);
       await POST_registerMessageToken({ token, os: 'web' });
     } catch (error) {
       console.log(error);
