@@ -30,17 +30,37 @@ export let firebaseAnalytics;
 export let firebaseDB;
 export let firebaseMessaging;
 
+// Initialize Firebase
+export async function firebaseClientInit() {
+  if (typeof window === 'object') {
+    firebaseApp = initializeApp(firebaseConfig);
+    firebaseAnalytics = getAnalytics(firebaseApp);
+    firebaseDB = getFirestore(firebaseApp);
+    await firebaseMessagingInit();
+  }
+
+  return { firebaseApp, firebaseAnalytics, firebaseDB };
+}
+
 export async function requestPermission() {
-  if (typeof window !== 'object') return;
   console.log('Requesting permission...');
   try {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       console.log('Notification permission granted.');
+      return true;
     }
   } catch (error) {
     console.log(error);
   }
+  return false;
+}
+
+export async function firebaseClientMessage(
+  messaging,
+  callback = payload => console.log('Message received. ', payload)
+) {
+  onMessage(messaging, callback);
 }
 
 const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
@@ -60,19 +80,8 @@ export async function getOrRegisterServiceWorker() {
   throw new Error('The browser doesn`t support service worker.');
 }
 
-export async function firebaseClientMessage(
-  messaging,
-  callback = payload => console.log('Message received. ', payload)
-) {
-  onMessage(messaging, callback);
-}
-
-// Initialize Firebase
-export async function firebaseClientInit() {
+export async function firebaseMessagingInit() {
   if (typeof window === 'object') {
-    firebaseApp = initializeApp(firebaseConfig);
-    firebaseAnalytics = getAnalytics(firebaseApp);
-    firebaseDB = getFirestore(firebaseApp);
     try {
       const serviceWorkerRegistration = await getOrRegisterServiceWorker();
       await fetch(swUrl);
@@ -83,31 +92,30 @@ export async function firebaseClientInit() {
         serviceWorkerRegistration
       });
       await POST_registerMessageToken({ token, os: 'web' });
+
+      await requestPermission();
+      const registration = await navigator.serviceWorker.ready;
+      firebaseClientMessage(firebaseMessaging, payload => {
+        try {
+          // new Notification('測試', {
+          //   body: payload.data?.msg,
+          //   icon: '/favicon.ico'
+          // });
+
+          registration.showNotification('測試', {
+            body: payload.data?.msg,
+            icon: '/favicon.ico'
+          });
+        } catch (error) {
+          console.log(error);
+          // POST_appErrorLog(error);
+          // POST_appErrorLog({ ...error });
+          POST_appErrorLog({ error });
+        }
+      });
     } catch (error) {
       console.log(error);
     }
-
-    await requestPermission();
-    const registration = await navigator.serviceWorker.ready;
-    firebaseClientMessage(firebaseMessaging, payload => {
-      try {
-        // new Notification('測試', {
-        //   body: payload.data?.msg,
-        //   icon: '/favicon.ico'
-        // });
-
-        registration.showNotification('測試', {
-          body: payload.data?.msg,
-          icon: '/favicon.ico'
-        });
-      } catch (error) {
-        console.log(error);
-        // POST_appErrorLog(error);
-        // POST_appErrorLog({ ...error });
-        POST_appErrorLog({ error });
-      }
-    });
   }
-
-  return { firebaseApp, firebaseAnalytics, firebaseDB };
+  return firebaseMessaging;
 }

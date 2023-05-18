@@ -7,10 +7,12 @@ import { enquireScreen } from 'enquire-js';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ThemeProvider } from '@mui/material/styles';
+
 import theme from '@/theme';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
 import PageLoading from '@/components/PageLoading';
+import NotificationPermission from '@/components/NotificationPermission';
 import { wrapper } from '@/redux/index';
 import { firebaseClientInit } from '@/utils/firebase.client';
 
@@ -70,6 +72,7 @@ function NextApp({ Component, pageProps, router }) {
         <LayoutSwitch router={router} pageProps={pageProps}>
           <Component {...pageProps} />
         </LayoutSwitch>
+        <NotificationPermission />
         <Message
           messageState={messageState}
           resetMessageState={resetMessageState}
