@@ -22,12 +22,15 @@ const useStyles = makeStyles(styles);
 function NotificationPermission({ anchorOrigin }) {
   const [open, setOpen] = useState(false);
 
-  useEffect(handleOpen, []);
+  useEffect(() => {
+    handleOpen();
+  }, []);
 
   const classes = useStyles();
 
-  function handleOpen() {
-    setOpen(requestPermission() !== true);
+  async function handleOpen() {
+    const _open = await requestPermission();
+    setOpen(_open !== true);
   }
   function handleClose() {
     setOpen(false);

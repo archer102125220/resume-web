@@ -45,10 +45,16 @@ export async function firebaseClientInit() {
 export async function requestPermission() {
   console.log('Requesting permission...');
   try {
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
+    if (Notification.permission === 'granted') {
       console.log('Notification permission granted.');
       return true;
+    } else if (Notification.permission !== 'denied') {
+      const permission = await Notification.requestPermission();
+      console.log(permission);
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+        return true;
+      }
     }
   } catch (error) {
     console.log(error);
