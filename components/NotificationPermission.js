@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
@@ -12,8 +13,9 @@ import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 
 const styles = {
   notificationPermission: {
+    width: '100%',
     display: 'flex',
-    padding: '2rem 0'
+    justifyContent: 'space-around'
   }
 };
 
@@ -41,34 +43,32 @@ function NotificationPermission({ anchorOrigin }) {
   }
 
   return (
-    <Snackbar
-      open={open}
-      anchorOrigin={anchorOrigin}
-      action={
-        <div className={classes.notificationPermission}>
-          <p>
-            這是一個啟用推播功能的詢問，目前仍在構想如不同意的情況，應於何處更改，所以每次都會做詢問
-          </p>
-          <Button
-            sx={buttonStyle}
-            variant="contained"
-            size="small"
-            onClick={handleFirebaseMessagingInit}
-          >
-            啟用
-          </Button>
-          <Button
-            sx={buttonLayout}
-            color="error"
-            variant="contained"
-            size="small"
-            onClick={handleClose}
-          >
-            不啟用
-          </Button>
-        </div>
-      }
-    />
+    <Snackbar open={open} anchorOrigin={anchorOrigin}>
+      <SnackbarContent
+        message="這是一個啟用推播功能的詢問，目前仍在構想如不同意的情況，應於何處更改，所以每次都會做詢問"
+        action={
+          <div className={classes.notificationPermission}>
+            <Button
+              sx={buttonStyle}
+              variant="contained"
+              size="small"
+              onClick={handleFirebaseMessagingInit}
+            >
+              啟用
+            </Button>
+            <Button
+              sx={buttonLayout}
+              color="error"
+              variant="contained"
+              size="small"
+              onClick={handleClose}
+            >
+              不啟用
+            </Button>
+          </div>
+        }
+      />
+    </Snackbar>
   );
 }
 

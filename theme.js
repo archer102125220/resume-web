@@ -11,10 +11,22 @@ export const themeObj = {
     },
     secondary: {
       main: '#ffe7c0'
-    },
+    }
     // inherit: {
     //   main: '#ffffff'
     // }
+  },
+  components: {
+    // Name of the component
+    MuiSnackbarContent: {
+      styleOverrides: {
+        // Name of the slot
+        action: {
+          // Some CSS
+          width: '100%'
+        }
+      }
+    }
   }
 };
 
