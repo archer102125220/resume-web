@@ -30,6 +30,12 @@ function TokenDataView({
     loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
     [dispatch]
   );
+  const successMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_success', payload });
+    },
+    [dispatch]
+  );
   const GET_GetMessageTokens = useCallback(() => {
     return dispatch(
       firebaseAdminAsyncThunk.GET_GetMessageTokens({
@@ -38,24 +44,24 @@ function TokenDataView({
     );
   }, [dispatch]);
   const DELETE_CancelMessageToken = useCallback(
-    token => {
+    ({ token, callback = GET_GetMessageTokens } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.DELETE_CancelMessageToken({
           loading: boloean => SAVE_loading(boloean),
           payload: token,
-          callback: GET_GetMessageTokens
+          callback
         })
       );
     },
     [dispatch]
   );
   const DELETE_cancelAllMessageToken = useCallback(
-    token => {
+    ({ _platform, callback = GET_GetMessageTokens } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.DELETE_CancelAllMessageToken({
           loading: boloean => SAVE_loading(boloean),
-          payload: token,
-          callback: GET_GetMessageTokens
+          payload: _platform,
+          callback
         })
       );
     },
@@ -64,12 +70,24 @@ function TokenDataView({
 
   function cancelMessageToken(cancelToken) {
     console.log({ cancelToken });
-    DELETE_CancelMessageToken(cancelToken);
+    DELETE_CancelMessageToken({
+      token: cancelToken,
+      callback() {
+        GET_GetMessageTokens();
+        successMessage('移除token成功');
+      }
+    });
   }
 
   function cancelAllMessageToken(_platform) {
     console.log({ _platform });
-    DELETE_cancelAllMessageToken(_platform);
+    DELETE_cancelAllMessageToken({
+      _platform,
+      callback() {
+        GET_GetMessageTokens();
+        successMessage('移除所有token成功');
+      }
+    });
   }
 
   return (

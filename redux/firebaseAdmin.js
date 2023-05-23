@@ -26,7 +26,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -42,7 +42,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -58,7 +58,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -74,7 +74,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -90,7 +90,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -106,7 +106,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -122,7 +122,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   ),
@@ -138,7 +138,7 @@ export const firebaseAdminAsyncThunk = {
         console.log(error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback();
+      if (typeof callback === 'function') callback(data);
       return data;
     }
   )

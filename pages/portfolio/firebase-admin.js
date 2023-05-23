@@ -22,6 +22,24 @@ function FirebaseAdmin() {
     loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
     [dispatch]
   );
+  const informationMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_information', payload });
+    },
+    [dispatch]
+  );
+  const successMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_success', payload });
+    },
+    [dispatch]
+  );
+  const errorMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_error', payload });
+    },
+    [dispatch]
+  );
   const GET_GetMessageTokens = useCallback(() => {
     return dispatch(
       firebaseAdminAsyncThunk.GET_GetMessageTokens({
@@ -30,75 +48,73 @@ function FirebaseAdmin() {
     );
   }, [dispatch]);
   const POST_RegisterMessageToken = useCallback(
-    token => {
+    ({ token, callback = GET_GetMessageTokens } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_RegisterMessageToken({
           loading: boloean => SAVE_loading(boloean),
           payload: { token },
-          callback: GET_GetMessageTokens
+          callback
         })
       );
     },
     [dispatch]
   );
   const POST_PushNotification = useCallback(
-    data => {
+    ({ data, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_PushNotification({
           loading: boloean => SAVE_loading(boloean),
-          payload: { data }
+          payload: { data },
+          callback
         })
       );
     },
     [dispatch]
   );
   const POST_AndroidPushNotification = useCallback(
-    data => {
+    ({ data, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_AndroidPushNotification({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('android'),
             data
-          }
+          },
+          callback
         })
       );
     },
     [dispatch, appMessageTokens]
   );
   const POST_IosPushNotification = useCallback(
-    data => {
+    ({ data, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_IosPushNotification({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('ios'),
             data
-          }
+          },
+          callback
         })
       );
     },
     [dispatch, appMessageTokens]
   );
   const POST_WebPushMessage = useCallback(
-    data => {
+    ({ data, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_WebPushMessage({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('web'),
             data
-          }
+          },
+          callback
         })
       );
     },
     [dispatch, appMessageTokens]
-  );
-  const errorMessage = useCallback(
-    payload => {
-      return dispatch({ type: 'system/message_error', payload });
-    },
-    [dispatch]
   );
 
   useEffect(() => {
@@ -123,10 +139,53 @@ function FirebaseAdmin() {
       setAppMessageTokenError(true);
       return;
     }
-    POST_RegisterMessageToken(appMessageToken);
+    POST_RegisterMessageToken({
+      token: appMessageToken,
+      callback: () => {
+        GET_GetMessageTokens();
+        successMessage('註冊token成功！');
+      }
+    });
   }
   function pushNotification() {
-    POST_PushNotification(appMessage);
+    POST_PushNotification({
+      data: appMessage,
+      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+        informationMessage(
+          `執行完畢，成功向${successCount}份裝置發送推播訊息，${failureCount}份裝置發送失敗`
+        );
+      }
+    });
+  }
+  function androidPushNotification(data) {
+    POST_AndroidPushNotification({
+      data,
+      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+        informationMessage(
+          `執行完畢，成功向${successCount}份android裝置發送推播訊息，${failureCount}份裝置發送失敗`
+        );
+      }
+    });
+  }
+  function webPushNotification(data) {
+    POST_WebPushMessage({
+      data,
+      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+        informationMessage(
+          `執行完畢，成功向${successCount}份網頁裝置發送推播訊息，${failureCount}份裝置發送失敗`
+        );
+      }
+    });
+  }
+  function iosPushNotification(data) {
+    POST_IosPushNotification({
+      data,
+      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+        informationMessage(
+          `執行完畢，成功向${successCount}份ios裝置發送推播訊息，${failureCount}份裝置發送失敗`
+        );
+      }
+    });
   }
 
   return (
@@ -180,7 +239,7 @@ function FirebaseAdmin() {
         messageTitle="Web推播訊息"
         title="Web Message Tokens"
         defaultAppMessage="WebAppMessage"
-        pushNotification={POST_WebPushMessage}
+        pushNotification={webPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'web')}
       />
       <TokenDataView
@@ -188,7 +247,7 @@ function FirebaseAdmin() {
         messageTitle="Android推播訊息"
         title="Android Message Tokens"
         defaultAppMessage="AndroidAppMessage"
-        pushNotification={POST_AndroidPushNotification}
+        pushNotification={androidPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'android')}
       />
       <TokenDataView
@@ -196,7 +255,7 @@ function FirebaseAdmin() {
         messageTitle="Ios推播訊息"
         title="Ios Message Tokens"
         defaultAppMessage="IosAppMessage"
-        pushNotification={POST_IosPushNotification}
+        pushNotification={iosPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'ios')}
       />
     </div>
