@@ -28,7 +28,7 @@ function Footer(props) {
     <footer className={classes.footer}>
       Powered by{' '}
       <span className={classes.logo}>
-        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+        <Image src="/img/vercel.svg" alt="Vercel Logo" width={72} height={16} />
       </span>
     </footer>
   );

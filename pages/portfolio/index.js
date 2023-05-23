@@ -61,7 +61,7 @@ function Portfolio() {
         >
           <p>Tappay串接</p>
           <Image
-            src="/tappay-logo.svg"
+            src="/img/tappay-logo.svg"
             alt="Tappay Logo"
             width={200}
             height={50}
