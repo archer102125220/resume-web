@@ -1,3 +1,45 @@
+export function importCKEditor(div, config = {}) {
+  if (div === null || div === undefined) {
+    throw new Error('HTMLDivElement is null or undefined');
+  }
+  if (document.querySelector('#ckEditor-script') === null) {
+    const script = document.createElement('script');
+    script.src = '/ckeditor5v2/ckeditor.js';
+    script.id = 'ckEditor-script';
+    document.head.appendChild(script);
+  }
+  return new Promise(resolve => {
+    setTimeout(async () => {
+      resolve(await createdCKEditor(div, config));
+    }, 20);
+  });
+}
+
+export function createdCKEditor(div, config = {}) {
+  if (div === null || div === undefined) {
+    throw new Error('HTMLDivElement is null or undefined');
+  }
+  return new Promise(resolve => {
+    const ClassicEditor = window.ClassicEditor || null;
+    if (typeof ClassicEditor?.create === 'function') {
+      resolve(ClassicEditor.create(div, config).then(CKEditor => CKEditor));
+    } else {
+      setTimeout(async () => {
+        resolve(await createdCKEditor(div, config));
+      }, 20);
+    }
+  });
+}
+
+export function removeCKEditor() {
+  const ckEditorScript = document.querySelector('#ckEditor-script');
+  if (ckEditorScript !== null) {
+    ckEditorScript.remove();
+  }
+  window.ClassicEditor = undefined;
+  window.CKEDITOR_VERSION = undefined;
+}
+
 // https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/upload-adapter.html#implementing-a-custom-upload-adapter
 export class UploadAdapter {
   loader;
@@ -12,16 +54,18 @@ export class UploadAdapter {
 
   // Starts the upload process.
   upload() {
-    return this.loader.file
-      .then((file) => new Promise((resolve, reject) => {
-        this._initRequest();
-        this._initListeners(resolve, reject, file);
-        this._sendRequest(file);
-      }));
+    return this.loader.file.then(
+      file =>
+        new Promise((resolve, reject) => {
+          this._initRequest();
+          this._initListeners(resolve, reject, file);
+          this._sendRequest(file);
+        })
+    );
   }
   // Initializes the XMLHttpRequest object using the URL passed to the constructor.
   _initRequest() {
-    const xhr = this.xhr = new XMLHttpRequest();
+    const xhr = (this.xhr = new XMLHttpRequest());
 
     // Note that your request may look different. It is up to you and your editor
     // integration to choose the right communication channel. This example uses
@@ -48,7 +92,9 @@ export class UploadAdapter {
       // Your integration may handle upload errors in a different way so make sure
       // it is done properly. The reject() function must be called when the upload fails.
       if (!response || response.error) {
-        return reject(response && response.error ? response.error.message : genericErrorText);
+        return reject(
+          response && response.error ? response.error.message : genericErrorText
+        );
       }
 
       // If the upload is successful, resolve the upload promise with an object containing
@@ -64,7 +110,7 @@ export class UploadAdapter {
     // properties which are used e.g. to display the upload progress bar in the editor
     // user interface.
     if (xhr.upload) {
-      xhr.upload.addEventListener('progress', (evt) => {
+      xhr.upload.addEventListener('progress', evt => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total;
           loader.uploaded = evt.loaded;

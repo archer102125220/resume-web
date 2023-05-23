@@ -1,21 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 
-const CKEditor = dynamic(
-  () => import('ckeditor4-react').then(({ CKEditor }) => CKEditor),
-  { ssr: false }
-);
-
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import {
+  importCKEditor,
+  UploadAdapter,
+  removeCKEditor
+} from '@/utils/createdCKEditor';
 
 const m3 = {
   margin: '16px'
@@ -147,8 +145,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function CKEditor4() {
-  const [CKEDITOR, set_CKEDITOR] = useState(null);
+function CKEditor5v2() {
+  const [CKEditor, setCKEditor] = useState(null);
   const [category, setCategory] = useState('');
   const [categoryError, setCategoryError] = useState(false);
   const [title, setTitle] = useState('');
@@ -156,7 +154,6 @@ function CKEditor4() {
   const [description, setDescription] = useState('Hello from CKEditor 5!');
   const [context, setContext] = useState('<p>Hello from CKEditor 5!</p>');
   const [contextErrorMsg, setContextErrorMsg] = useState('');
-  const [hasImg, setHasImg] = useState(false);
   const [articleVisible, setArticleVisible] = useState({
     status: true,
     message: '上架'
@@ -169,11 +166,14 @@ function CKEditor4() {
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
 
-  const CKEditorBlockRef = useRef(null);
+  const CKEditorRef = useRef(null);
+
   const classes = useStyles();
 
   useEffect(() => {
+    createdCKEditor();
     handleDescriptionChange(context);
+    return () => setTimeout(removeCKEditor, 100);
   }, []);
   useEffect(() => {
     handleDescriptionChange(context);
@@ -182,13 +182,92 @@ function CKEditor4() {
     dataTimeCheck(startDate, endDate);
   }, [articleVisible]);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor/ckeditor4' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor/ckeditor5v2' });
 
   function handleArticleVisibleChange(e) {
     if (e.target.checked) {
       setArticleVisible({ status: true, message: '上架' });
     } else {
       setArticleVisible({ status: false, message: '下架' });
+    }
+  }
+
+  async function createdCKEditor() {
+    try {
+      if (document.querySelector('#ckEditor-script')) return;
+      const _CKEditor = await importCKEditor(CKEditorRef.current, {
+        initialData: context,
+        language: 'zh',
+        toolbar: {
+          items: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'imageUpload',
+            'mediaEmbed',
+            'fontSize',
+            'fontBackgroundColor',
+            'fontColor',
+            'fontFamily'
+          ]
+        },
+        heading: {
+          options: [
+            {
+              model: 'paragraph',
+              title: 'Paragraph',
+              class: 'ck-heading_paragraph'
+            },
+            {
+              model: 'heading1',
+              view: 'h1',
+              title: 'Heading 1',
+              class: 'ck-heading_heading1'
+            },
+            {
+              model: 'heading2',
+              view: 'h2',
+              title: 'Heading 2',
+              class: 'ck-heading_heading2'
+            },
+            {
+              model: 'heading3',
+              view: 'h3',
+              title: 'Heading 3',
+              class: 'ck-heading_heading3'
+            },
+            {
+              model: 'heading4',
+              view: 'h4',
+              title: 'Heading 4',
+              class: 'ck-heading_heading4'
+            },
+            {
+              model: 'heading5',
+              view: 'h5',
+              title: 'Heading 5',
+              class: 'ck-heading_heading5'
+            },
+            {
+              model: 'heading6',
+              view: 'h6',
+              title: 'Heading 6',
+              class: 'ck-heading_heading6'
+            }
+          ]
+        }
+      });
+      _CKEditor.model.document.on('change:data', () =>
+        handleContextChange(_CKEditor)
+      );
+      _CKEditor.plugins.get('FileRepository').createUploadAdapter = loader => {
+        return new UploadAdapter(loader, '/upload-img');
+      };
+      setCKEditor(_CKEditor);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -202,10 +281,12 @@ function CKEditor4() {
     setTitleError(false);
   }
 
-  function handleContextChange({ editor }) {
-    const data = editor.getData();
-    setContext(data);
-    // console.log({ event: { ...event }, editor: { ...editor } });
+  function handleContextChange(editor) {
+    if (typeof editor?.getData === 'function') {
+      const data = editor.getData();
+      setContext(data);
+      // console.log({ event: { ...event }, editor: { ...editor } });
+    }
   }
 
   function handleDescriptionChange(newContext) {
@@ -213,28 +294,32 @@ function CKEditor4() {
     div.innerHTML = newContext;
 
     if (div.querySelector('img') !== null) {
-      setHasImg(true);
       setContextErrorMsg('');
-      const ckeditorDom =
-        CKEditorBlockRef.current.querySelector('#cke_editor1');
-      if (ckeditorDom !== null) {
-        ckeditorDom.style.borderColor = '';
-      }
     }
 
-    const descriptionElement = div.querySelectorAll(
-      'p, h1, h2, h3, h4, h5, h6'
-    );
+    const _description =
+      getDescription(div, 'p') || getDescription(div, 'h1,h2,h3,h4,h5,h6');
+
+    if (_description.trim() !== '') {
+      setDescription(_description.substring(0, 75));
+    }
+  }
+  function getDescription(div, query) {
     let _description = '';
-    for (let i = 0; i < descriptionElement.length; i++) {
-      const innerText = descriptionElement[i].innerText.trim();
-      if (_description.length >= 75) {
+    const descriptionElementList = div.querySelectorAll(query);
+    if (descriptionElementList.length === 0) return _description;
+
+    for (let i = 0; i <= descriptionElementList.length; i++) {
+      const descriptionElement = descriptionElementList[i];
+      if (
+        descriptionElement?.innerText &&
+        descriptionElement.innerText.trim() !== ''
+      ) {
+        _description = descriptionElement.innerText;
         break;
-      } else if (innerText !== '') {
-        _description += _description.length === 0 ? innerText : ' ' + innerText;
       }
     }
-    setDescription(_description.substring(0, 75));
+    return _description;
   }
 
   function handleKeyWordChange(newKeyWord) {
@@ -255,9 +340,12 @@ function CKEditor4() {
   }
 
   function dataTimeCheck(_startDate, _endDate) {
-    if (_startDate !== null && _endDate !== null) {
+    if (_startDate !== '' && _endDate !== '') {
+      const startDateObj = new Date(_startDate);
+      const endDateObj = new Date(_endDate);
       let _dateErrorMsg = '';
-      if (_startDate.valueOf() > _endDate.valueOf()) {
+      // console.log({ startDateObj: startDateObj.getTime(), endDateObj: endDateObj.getTime() });
+      if (startDateObj.getTime() > endDateObj.getTime()) {
         setStartDateError(true);
         setEndDateError(true);
 
@@ -290,28 +378,31 @@ function CKEditor4() {
     ];
 
     const fail = field.filter((element, index) => {
-      if (element === '' || element === null) {
-        errorFieldSetter[index](true);
+      if (element === '') {
+        if (typeof errorFieldSetter[index] === 'function') {
+          errorFieldSetter[index](true);
+        }
         return true;
       }
       return false;
     });
-
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
-
     let _contextErrorMsg = '';
-    if (description === '' && ckeditorDom !== null) {
+    if (context === '') {
       _contextErrorMsg += '請輸入文字';
-      ckeditorDom.style.borderColor = '#dc3545';
       fail.push(true);
     }
-    if (hasImg === false) {
+
+    const div = document.createElement('div');
+    div.innerHTML = context;
+
+    const img = div.querySelector('img');
+    let firstImage = '';
+    if (img === null) {
       _contextErrorMsg +=
         (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
-      if (ckeditorDom !== null) {
-        ckeditorDom.style.borderColor = '#dc3545';
-      }
       fail.push(true);
+    } else {
+      firstImage = img.src;
     }
     if (dataTimeCheck(startDate, endDate) === false) {
       fail.push(true);
@@ -320,6 +411,7 @@ function CKEditor4() {
     if (_contextErrorMsg !== '') {
       setContextErrorMsg(_contextErrorMsg);
     }
+
     if (fail.length > 0) {
       return;
     }
@@ -330,26 +422,25 @@ function CKEditor4() {
       title,
       description,
       context,
-      articleVisible: articleVisible.status,
+      visible: articleVisible.status,
       keyWord,
+      firstImage,
       startDate: startDate.valueOf(),
       endDate: endDate.valueOf()
     });
 
     // try {
-    //   await axios.post(
-    //     '/api/add-html',
-    //     {
-    //       category,
-    //       title,
-    //       description,
-    //       context,
-    //       articleVisible: articleVisible.status,
-    //       keyWord,
-    //       startDate,
-    //       endDate
-    //     }
-    //   );
+    //   await axios.post('/api/add-html', {
+    //     category,
+    //     title,
+    //     description,
+    //     context,
+    //     visible: articleVisible.status,
+    //     keyWord,
+    //     firstImage,
+    //     startDate,
+    //     endDate
+    //   });
     // } catch (error) {
     //   console.log('post error');
     // }
@@ -365,20 +456,14 @@ function CKEditor4() {
     setArticleVisible({ status: true, message: '上架' });
     setKeyWord('');
     setKeyWordError(false);
-    setStartDate(null);
+    setStartDate('');
     setStartDateError(false);
-    setEndDate(null);
+    setEndDate('');
     setEndDateError(false);
     setDateErrorMsg('');
-    setHasImg(false);
     setContextErrorMsg('');
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
-    if (ckeditorDom !== null) {
-      ckeditorDom.style.borderColor = '';
-    }
-
-    if (typeof CKEDITOR?.instances?.editor1?.setData === 'function') {
-      CKEDITOR.instances.editor1.setData('');
+    if (typeof CKEditor?.setData === 'function') {
+      CKEditor.setData('');
     }
   }
 
@@ -416,104 +501,17 @@ function CKEditor4() {
 
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章內文</label>
-        <div ref={CKEditorBlockRef}>
-          <CKEditor
-            editorUrl="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"
-            onNamespaceLoaded={_CKEDITOR => {
-              _CKEDITOR.plugins.addExternal(
-                'videoembed',
-                '/ckeditor/plugins/videoembed/plugin.js'
-              );
-              set_CKEDITOR(_CKEDITOR);
-            }}
-            initData={context}
-            onChange={handleContextChange}
-            config={{
-              language: 'zh',
-              filebrowserUploadUrl: '/upload-img?a',
-              plugins: [
-                'dialogui',
-                'dialog',
-                'format',
-                'basicstyles',
-                'button',
-                'toolbar',
-                'fakeobjects',
-                'link',
-                'popup',
-                'undo',
-                'contextmenu',
-                'floatpanel',
-                'wysiwygarea',
-                'resize',
-                'elementspath',
-                'image',
-                'xml',
-                'ajax',
-                'filetools',
-                'filebrowser',
-                'notificationaggregator',
-                'notification',
-                'widgetselection',
-                'widget',
-                'uploadwidget',
-                'uploadimage',
-                'htmlwriter',
-                'videoembed',
-                'panel',
-                'menu',
-                'enterkey',
-                'entities',
-                'floatingspace',
-                'listblock',
-                'richcombo',
-                'pastetools',
-                'pastefromgdocs',
-                'pastefromlibreoffice',
-                'menubutton',
-                'showborders',
-                'lineutils',
-                'colorbutton',
-                'font'
-                // 'stylescombo'
-              ],
-              format_tags: 'p;h1;h2;h3;h4;h5;h6',
-              toolbarGroups: [
-                { name: 'document', groups: ['mode', 'document', 'doctools'] },
-                { name: 'clipboard', groups: ['clipboard', 'undo'] },
-                {
-                  name: 'editing',
-                  groups: ['find', 'selection', 'spellchecker']
-                },
-                { name: 'forms' },
-                { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-                {
-                  name: 'paragraph',
-                  groups: ['list', 'indent', 'blocks', 'align', 'bidi']
-                },
-                { name: 'links' },
-                { name: 'insert' },
-                { name: 'styles' },
-                { name: 'colors' },
-                { name: 'tools' },
-                { name: 'others' },
-                { name: 'about' }
-              ],
-              removeButtons: [
-                'Cut',
-                'Copy',
-                'Paste',
-                'Undo',
-                'Redo',
-                'Anchor',
-                'Underline',
-                'Strike',
-                'Subscript',
-                'Superscript'
-              ],
-              removeDialogTabs: 'image:advanced;image:Link'
-            }}
-          />
+        <div
+          style={
+            contextErrorMsg !== ''
+              ? {
+                  '--ck-color-base-border': '#dc3545',
+                  '--ck-color-toolbar-border': '#dc3545'
+                }
+              : {}
+          }
+        >
+          <div ref={CKEditorRef} />
         </div>
         <div
           className={classes.invalidFeedback}
@@ -553,7 +551,6 @@ function CKEditor4() {
         />
       </div>
       <div className={classes.md3}>
-        <label className={classes.formLabel}>文章狀態</label>
         {/* <div className="form-check form-switch">
           <input
             className="form-check-input"
@@ -592,11 +589,10 @@ function CKEditor4() {
             /> */}
             <DatePicker
               value={startDate}
+              onChange={handleStartDateChange}
               minDate={dayjs()}
               maxDate={endDate ? endDate : ''}
               className={[startDateError ? classes.isInvalid : ''].join(' ')}
-              onChange={handleStartDateChange}
-              renderInput={params => <TextField {...params} />}
             />
           </div>
           <div className={classes.dataTimeBetween}>~</div>
@@ -612,10 +608,9 @@ function CKEditor4() {
             /> */}
             <DatePicker
               value={endDate}
+              onChange={handleEndDateChange}
               minDate={dayjs()}
               className={[endDateError ? classes.isInvalid : ''].join(' ')}
-              onChange={handleEndDateChange}
-              renderInput={params => <TextField {...params} />}
             />
           </div>
         </div>
@@ -643,4 +638,4 @@ function CKEditor4() {
   );
 }
 
-export default CKEditor4;
+export default CKEditor5v2;

@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
 import { buttonStyle } from '@/styles/buttonStyle';
+import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
@@ -17,7 +18,11 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  htmlEditorButton: buttonStyle
+  htmlEditorButton: buttonStyle,
+  htmlEditorLink: linkStyle,
+  htmlEditorSecondParagraph: {
+    display: 'inline'
+  }
 };
 
 const useStyles = makeStyles(styles);
@@ -38,6 +43,10 @@ function HTMLEditor() {
     e.preventDefault();
     nextRouter.push('/portfolio/html-editor/ckeditor5');
   }
+  function handleGoToCKEditor5v2(e) {
+    e.preventDefault();
+    nextRouter.push('/portfolio/html-editor/ckeditor5v2');
+  }
 
   return (
     <div>
@@ -45,11 +54,35 @@ function HTMLEditor() {
         <title>Parker Chan 的作品集 - HTML編輯器</title>
       </Head>
       <p>
-        html編輯器最初是用ckeditor5，後來發現疑似不合公司需求，所以才會出現ckeditor4版本～
+        html編輯器最初是用ckeditor5，後來發現ckeditor5的ckfinder疑似需要付費，所以才會出現ckeditor4版本
       </p>
-      <p>
-        不過正式用在工作上的ckeditor4有配合後端做圖檔上傳功能，為了節省伺服器維運成本，所以作品集版的就將上傳功能移除了
-      </p>
+      <Image
+        src="/img/a-few-moment-later.jpg"
+        alt="a-few-moment-later"
+        width={300}
+        height={200}
+      />
+      <div>
+        <p className={classes.htmlEditorSecondParagraph}>
+          然後後來又說其實ckeditor5就算沒有ckfinder也沒關係，最後才又出現了使用透過
+        </p>
+        <a
+          target="_blank"
+          className={[
+            classes.htmlEditorSecondParagraph,
+            classes.htmlEditorLink
+          ].join(' ')}
+          href="https://ckeditor.com/ckeditor-5/online-builder/"
+        >
+          ckeditor5線上打包器
+        </a>
+        <p className={classes.htmlEditorSecondParagraph}>
+          打包好的js再使用的版本（ckeditor5v2），不過原本的ckeditor4有配合後端做圖檔上傳功能，為了節省伺服器維運成本，所以作品集版的就將上傳功能無法正常上傳了
+        </p>
+        <del className={classes.htmlEditorSecondParagraph}>
+          （之後又說要改用wordpress，所以沒有上線）
+        </del>
+      </div>
       <div className={classes.htmlEditor}>
         <Button
           sx={styles.htmlEditorButton}
@@ -75,6 +108,22 @@ function HTMLEditor() {
           href="/portfolio/html-editor/ckeditor5"
         >
           <p>CKEditor5</p>
+          <Image
+            src="/ckeditor/img/ckeditor-5.svg"
+            alt="CKEditor5"
+            width={200}
+            height={200}
+          />
+        </Button>
+
+        <Button
+          sx={styles.htmlEditorButton}
+          variant="contained"
+          onClick={handleGoToCKEditor5v2}
+          component="a"
+          href="/portfolio/html-editor/ckeditor5v2"
+        >
+          <p>CKEditor5v2</p>
           <Image
             src="/ckeditor/img/ckeditor-5.svg"
             alt="CKEditor5"

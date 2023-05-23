@@ -18,7 +18,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { UploadAdapter } from '@/utils/CKEditorUploadAdapter';
+import { UploadAdapter, removeCKEditor } from '@/utils/createdCKEditor';
 
 const m3 = {
   margin: '16px'
@@ -182,6 +182,7 @@ function CKEditor5() {
       const { default: ClassicEditor } = await import(
         '@ckeditor/ckeditor5-build-classic'
       );
+      console.log(ClassicEditor);
       await import('@ckeditor/ckeditor5-build-classic/build/translations/zh');
       if (document.querySelector('#ckfinder-script') === null) {
         const script = document.createElement('script');
@@ -195,6 +196,7 @@ function CKEditor5() {
       setEditorLoaded(true);
     })();
     handleDescriptionChange(context);
+    return removeCKEditor;
   }, []);
   useEffect(() => {
     handleDescriptionChange(context);
@@ -203,7 +205,7 @@ function CKEditor5() {
     dataTimeCheck(startDate, endDate);
   }, [articleVisible]);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor/ckeditor5' });
 
   function handleArticleVisibleChange(e) {
     if (e.target.checked) {
@@ -346,7 +348,7 @@ function CKEditor5() {
     });
 
     // try {
-    //   await axios.post(POST_URL, {
+    //   await axios.post('/api/add-html', {
     //     category,
     //     title,
     //     description,
