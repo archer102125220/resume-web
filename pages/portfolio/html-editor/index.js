@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 // import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
@@ -28,6 +29,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function HTMLEditor() {
+  const isMobile = useSelector(({ system }) => system.isMobile);
   const nextRouter = useRouter();
 
   const classes = useStyles();
@@ -59,7 +61,7 @@ function HTMLEditor() {
       <Image
         src="/img/a-few-moment-later.jpg"
         alt="a-few-moment-later"
-        width={300}
+        width={isMobile ? 250 : 300}
         height={200}
       />
       <div>
