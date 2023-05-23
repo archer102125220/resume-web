@@ -77,7 +77,7 @@ function Portfolio() {
         >
           <p>Firebase Admin SDK</p>
           <Image
-            src="/firebase_logo.png"
+            src="/img/firebase_logo.png"
             alt="Firebase Logo"
             width={200}
             height={50}
