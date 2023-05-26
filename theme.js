@@ -26,6 +26,13 @@ export const themeObj = {
           width: '100%'
         }
       }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'unset'
+        }
+      }
     }
   }
 };

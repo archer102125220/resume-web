@@ -3,6 +3,8 @@ import { useRef, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import anime from 'animejs';
+
+import { mediaMobile } from '@/styles/globals';
 import { tableStyle } from '@/styles/tableStyle';
 import Menu from '@/components/layout/Menu';
 
@@ -15,8 +17,8 @@ const styles = theme => ({
   table: {
     ...tableStyle,
     top: '5%',
-    left: '5%',
-    width: '90%',
+    left: '2.5%',
+    width: '95%',
     height: '90%'
   },
   tableclothAnimeContent: {
@@ -31,11 +33,18 @@ const styles = theme => ({
     padding: '15px',
     // textAlign: 'center',
     backgroundColor: 'rgb(255 226 177)',
-    overflow: 'auto'
+    overflow: 'auto',
+    [mediaMobile]: {
+      width: '70%',
+      padding: '15px 5px',
+    }
   },
   tableclothAnimeContentMenu: {
     position: 'absolute',
-    left: '-100%'
+    left: '-100%',
+    [mediaMobile]: {
+      width: '15%'
+    }
   }
 });
 

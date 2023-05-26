@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
+import { mediaMobile } from '@/styles/globals';
 import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
@@ -17,7 +18,20 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  portfolioButton: buttonStyle
+  portfolioButton: {
+    ...buttonStyle,
+    textAlign: 'center',
+    [mediaMobile]: {
+      padding: '6px 10px'
+    }
+  },
+  portfolioImg: {
+    width: '200px'
+  },
+  portfolioCKeditorImg: {
+    width: '100px',
+    height: '100px'
+  }
 };
 
 const useStyles = makeStyles(styles);
@@ -63,6 +77,7 @@ function Portfolio() {
           <Image
             src="/img/tappay-logo.svg"
             alt="Tappay Logo"
+            className={classes.portfolioImg}
             width={200}
             height={50}
           />
@@ -79,6 +94,7 @@ function Portfolio() {
           <Image
             src="/img/firebase_logo.png"
             alt="Firebase Logo"
+            className={classes.portfolioImg}
             width={200}
             height={50}
           />
@@ -95,12 +111,14 @@ function Portfolio() {
           <Image
             src="/ckeditor/img/ckeditor-4.svg"
             alt="CKEditor4"
+            className={classes.portfolioCKeditorImg}
             width={100}
             height={100}
           />
           <Image
             src="/ckeditor/img/ckeditor-5.svg"
             alt="CKEditor5"
+            className={classes.portfolioCKeditorImg}
             width={100}
             height={100}
           />

@@ -48,6 +48,12 @@ export const globalStyle = {
   '#__next': {
     overflow: 'hidden'
   },
+  img: {
+    [mediaMobile]: {
+      width: '100%',
+      height: 'auto'
+    }
+  },
   ...scrollbar
 };
 

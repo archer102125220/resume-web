@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 // import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
@@ -23,13 +22,16 @@ const styles = {
   htmlEditorLink: linkStyle,
   htmlEditorSecondParagraph: {
     display: 'inline'
+  },
+  htmlEditorImg: {
+    width: '100%',
+    height: 'auto'
   }
 };
 
 const useStyles = makeStyles(styles);
 
 function HTMLEditor() {
-  const isMobile = useSelector(({ system }) => system.isMobile);
   const nextRouter = useRouter();
 
   const classes = useStyles();
@@ -61,7 +63,8 @@ function HTMLEditor() {
       <Image
         src="/img/a-few-moment-later.jpg"
         alt="a-few-moment-later"
-        width={isMobile ? 250 : 300}
+        className={classes.htmlEditorImg}
+        width={300}
         height={200}
       />
       <div>
@@ -79,10 +82,10 @@ function HTMLEditor() {
           ckeditor5線上打包器
         </a>
         <p className={classes.htmlEditorSecondParagraph}>
-          打包好的js再使用的版本（ckeditor5v2），不過原本的ckeditor4有配合後端做圖檔上傳功能，為了節省伺服器維運成本，所以作品集版的就將上傳功能無法正常上傳了
+          打包好的js再使用的版本（ckeditor5v2），不過原本有配合後端做圖檔上傳功能，為了節省伺服器維運成本，目前作品集版的上傳功能雖然可以選擇圖片，但無法正常上傳
         </p>
         <del className={classes.htmlEditorSecondParagraph}>
-          （之後又說要改用wordpress，所以沒有上線）
+          （之後又說要改用wordpress，所以全都沒有上線，呵呵真開心）
         </del>
       </div>
       <div className={classes.htmlEditor}>

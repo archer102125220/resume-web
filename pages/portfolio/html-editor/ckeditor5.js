@@ -237,6 +237,11 @@ function CKEditor5() {
 
     if (div.querySelector('img') !== null) {
       setContextErrorMsg('');
+      if (CKEditorBlockRef.current) {
+        CKEditorBlockRef.current.style.borderColor = '';
+        CKEditorBlockRef.current.style.borderWidth = '';
+        CKEditorBlockRef.current.style.borderStyle = '';
+      }
     }
 
     const descriptionElement = div.querySelector('p');
@@ -329,6 +334,11 @@ function CKEditor5() {
 
     if (_contextErrorMsg !== '') {
       setContextErrorMsg(_contextErrorMsg);
+      if (CKEditorBlockRef.current) {
+        CKEditorBlockRef.current.style.borderColor = '#dc3545';
+        CKEditorBlockRef.current.style.borderWidth = '1px';
+        CKEditorBlockRef.current.style.borderStyle = 'solid';
+      }
     }
     if (fail.length > 0) {
       return;
@@ -380,6 +390,11 @@ function CKEditor5() {
     setEndDateError(false);
     setDateErrorMsg('');
     setContextErrorMsg('');
+    if (CKEditorBlockRef.current) {
+      CKEditorBlockRef.current.style.borderColor = '';
+      CKEditorBlockRef.current.style.borderWidth = '';
+      CKEditorBlockRef.current.style.borderStyle = '';
+    }
   }
 
   return (
@@ -416,17 +431,7 @@ function CKEditor5() {
 
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章內文</label>
-        <div
-          ref={CKEditorBlockRef}
-          style={
-            contextErrorMsg !== ''
-              ? {
-                  '--ck-color-base-border': '#dc3545',
-                  '--ck-color-toolbar-border': '#dc3545'
-                }
-              : {}
-          }
-        >
+        <div ref={CKEditorBlockRef}>
           {editorLoaded !== false ? (
             <CKEditor
               editor={ClassicEditor}
