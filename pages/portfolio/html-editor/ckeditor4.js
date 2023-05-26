@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -153,8 +154,8 @@ function CKEditor4() {
   const [categoryError, setCategoryError] = useState(false);
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState(false);
-  const [description, setDescription] = useState('Hello from CKEditor 5!');
-  const [context, setContext] = useState('<p>Hello from CKEditor 5!</p>');
+  const [description, setDescription] = useState('Hello from CKEditor 4!');
+  const [context, setContext] = useState('<p>Hello from CKEditor 4!</p>');
   const [contextErrorMsg, setContextErrorMsg] = useState('');
   const [hasImg, setHasImg] = useState(false);
   const [articleVisible, setArticleVisible] = useState({
@@ -168,6 +169,7 @@ function CKEditor4() {
   const [endDate, setEndDate] = useState(null);
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
+  const nextRouter = useRouter();
 
   const CKEditorBlockRef = useRef(null);
   const classes = useStyles();
@@ -216,7 +218,7 @@ function CKEditor4() {
       setHasImg(true);
       setContextErrorMsg('');
       const ckeditorDom =
-        CKEditorBlockRef.current.querySelector('#cke_editor1');
+        CKEditorBlockRef.current.querySelector('[id^=cke_editor]');
       if (ckeditorDom !== null) {
         ckeditorDom.style.borderColor = '';
       }
@@ -279,7 +281,7 @@ function CKEditor4() {
     return true;
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     const field = [category, title, keyWord, startDate, endDate];
     const errorFieldSetter = [
       setCategoryError,
@@ -297,7 +299,8 @@ function CKEditor4() {
       return false;
     });
 
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
+    const ckeditorDom =
+      CKEditorBlockRef.current.querySelector('[id^=cke_editor]');
 
     let _contextErrorMsg = '';
     if (description === '' && ckeditorDom !== null) {
@@ -336,23 +339,20 @@ function CKEditor4() {
       endDate: endDate.valueOf()
     });
 
-    // try {
-    //   await axios.post(
-    //     '/api/add-html',
-    //     {
-    //       category,
-    //       title,
-    //       description,
-    //       context,
-    //       articleVisible: articleVisible.status,
-    //       keyWord,
-    //       startDate,
-    //       endDate
-    //     }
-    //   );
-    // } catch (error) {
-    //   console.log('post error');
-    // }
+    nextRouter.push({
+      pathname: '/portfolio/html-editor/ckeditor4-view',
+      query: {
+        category,
+        title,
+        description,
+        context,
+        articleVisible: articleVisible.status,
+        keyWord,
+        startDate: startDate.valueOf(),
+        endDate: endDate.valueOf()
+      }
+    });
+    // CKEDITOR.editor.setReadOnly(true);
   }
 
   function handleReset() {
@@ -372,7 +372,8 @@ function CKEditor4() {
     setDateErrorMsg('');
     setHasImg(false);
     setContextErrorMsg('');
-    const ckeditorDom = CKEditorBlockRef.current.querySelector('#cke_editor1');
+    const ckeditorDom =
+      CKEditorBlockRef.current.querySelector('[id^=cke_editor]');
     if (ckeditorDom !== null) {
       ckeditorDom.style.borderColor = '';
     }
@@ -535,7 +536,7 @@ function CKEditor4() {
           onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
           className={[
             classes.formControl,
-            contextErrorMsg !== '' ? classes.isInvalid : ''
+            description === '' ? classes.isInvalid : ''
           ].join(' ')}
         />
       </div>
@@ -628,7 +629,7 @@ function CKEditor4() {
       </div>
       <div className={classes.buttonBlock}>
         <Button sx={buttonStyle} variant="contained" onClick={handleSubmit}>
-          發布文章
+          預覽文章
         </Button>
         <Button
           sx={buttonLayout}

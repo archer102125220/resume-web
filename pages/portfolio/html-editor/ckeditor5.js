@@ -630,7 +630,7 @@ function CKEditor5() {
       </div>
       <div className={classes.buttonBlock}>
         <Button sx={buttonStyle} variant="contained" onClick={handleSubmit}>
-          發布文章
+          預覽文章
         </Button>
         <Button
           sx={buttonLayout}
