@@ -29,8 +29,22 @@ export const themeObj = {
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          textTransform: 'unset'
+        root: ({ ownerState }) => {
+          const { variant, children, color, component, size } = ownerState;
+          let style = {
+            textTransform: 'unset'
+          };
+
+          if (
+            (children === '确认' || children === '取消') &&
+            color === 'primary' &&
+            component === 'button' &&
+            size === 'medium' &&
+            variant === 'text'
+          ) {
+            style = { ...style, color: '#d7904e' };
+          }
+          return style;
         }
       }
     }
