@@ -157,36 +157,6 @@ function FirebaseAdmin() {
       }
     });
   }
-  function androidPushNotification(data) {
-    POST_AndroidPushNotification({
-      data,
-      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
-        informationMessage(
-          `執行完畢，成功向${successCount}份android裝置發送推播訊息，${failureCount}份裝置發送失敗`
-        );
-      }
-    });
-  }
-  function webPushNotification(data) {
-    POST_WebPushMessage({
-      data,
-      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
-        informationMessage(
-          `執行完畢，成功向${successCount}份網頁裝置發送推播訊息，${failureCount}份裝置發送失敗`
-        );
-      }
-    });
-  }
-  function iosPushNotification(data) {
-    POST_IosPushNotification({
-      data,
-      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
-        informationMessage(
-          `執行完畢，成功向${successCount}份ios裝置發送推播訊息，${failureCount}份裝置發送失敗`
-        );
-      }
-    });
-  }
 
   return (
     <div>
@@ -239,7 +209,7 @@ function FirebaseAdmin() {
         messageTitle="Web推播訊息"
         title="Web Message Tokens"
         defaultAppMessage="WebAppMessage"
-        pushNotification={webPushNotification}
+        pushNotification={POST_WebPushMessage}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'web')}
       />
       <TokenDataView
@@ -247,7 +217,7 @@ function FirebaseAdmin() {
         messageTitle="Android推播訊息"
         title="Android Message Tokens"
         defaultAppMessage="AndroidAppMessage"
-        pushNotification={androidPushNotification}
+        pushNotification={POST_AndroidPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'android')}
       />
       <TokenDataView
@@ -255,7 +225,7 @@ function FirebaseAdmin() {
         messageTitle="Ios推播訊息"
         title="Ios Message Tokens"
         defaultAppMessage="IosAppMessage"
-        pushNotification={iosPushNotification}
+        pushNotification={POST_IosPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'ios')}
       />
     </div>

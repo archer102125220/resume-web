@@ -36,6 +36,12 @@ function TokenDataView({
     },
     [dispatch]
   );
+  const informationMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_information', payload });
+    },
+    [dispatch]
+  );
   const GET_GetMessageTokens = useCallback(() => {
     return dispatch(
       firebaseAdminAsyncThunk.GET_GetMessageTokens({
@@ -69,7 +75,7 @@ function TokenDataView({
   );
 
   function cancelMessageToken(cancelToken) {
-    console.log({ cancelToken });
+    // console.log({ cancelToken });
     DELETE_CancelMessageToken({
       token: cancelToken,
       callback() {
@@ -80,12 +86,23 @@ function TokenDataView({
   }
 
   function cancelAllMessageToken(_platform) {
-    console.log({ _platform });
+    // console.log({ _platform });
     DELETE_cancelAllMessageToken({
       _platform,
       callback() {
         GET_GetMessageTokens();
         successMessage('移除所有token成功');
+      }
+    });
+  }
+
+  function handlePushNotification(appMessage) {
+    pushNotification({
+      data: appMessage,
+      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+        informationMessage(
+          `執行完畢，成功向${successCount}份${platform}裝置發送推播訊息，${failureCount}份裝置發送失敗`
+        );
       }
     });
   }
@@ -98,7 +115,7 @@ function TokenDataView({
         sx={{ ...buttonLayout, width: '100%', display: 'inline-flex' }}
         onClick={(...e) => cancelAllMessageToken(platform, ...e)}
       >
-        <p>清空{platform}token</p>
+        <p>清空{platform} token</p>
         <DeleteIcon color="#808080" />
       </Button>
       <Grid
@@ -119,7 +136,7 @@ function TokenDataView({
           <Button
             sx={{ ...buttonStyle, width: '100%' }}
             variant="contained"
-            onClick={(...e) => pushNotification(appMessage, ...e)}
+            onClick={(...e) => handlePushNotification(appMessage, ...e)}
           >
             <p>發送推播訊息</p>
           </Button>
