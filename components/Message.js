@@ -23,7 +23,7 @@ function Message({
     }
 
     setOpen(false);
-    resetMessageState();
+    setTimeout(() => resetMessageState(), 80);
   };
   useEffect(handleOpen, [messageState]);
 
