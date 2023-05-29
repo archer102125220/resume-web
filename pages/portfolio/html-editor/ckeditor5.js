@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -171,6 +172,7 @@ function CKEditor5() {
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
   const CKEditorBlockRef = useRef(null);
+  const nextRouter = useRouter();
 
   const editorRef = useRef();
   const { ClassicEditor = null } = editorRef.current || {};
@@ -182,7 +184,6 @@ function CKEditor5() {
       const { default: ClassicEditor } = await import(
         '@ckeditor/ckeditor5-build-classic'
       );
-      console.log(ClassicEditor);
       await import('@ckeditor/ckeditor5-build-classic/build/translations/zh');
       if (document.querySelector('#ckfinder-script') === null) {
         const script = document.createElement('script');
@@ -292,7 +293,7 @@ function CKEditor5() {
     return true;
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     const field = [category, title, keyWord, startDate, endDate];
     const errorFieldSetter = [
       setCategoryError,
@@ -357,21 +358,19 @@ function CKEditor5() {
       endDate: endDate.valueOf()
     });
 
-    // try {
-    //   await axios.post('/api/add-html', {
-    //     category,
-    //     title,
-    //     description,
-    //     context,
-    //     visible: articleVisible.status,
-    //     keyWord,
-    //     firstImage,
-    //     startDate: startDate.valueOf(),
-    //     endDate: endDate.valueOf()
-    //   });
-    // } catch (error) {
-    //   console.log('post error');
-    // }
+    nextRouter.push({
+      pathname: '/portfolio/html-editor/ckeditor5-view',
+      query: {
+        category,
+        title,
+        description,
+        context,
+        articleVisible: articleVisible.status,
+        keyWord,
+        startDate: startDate.valueOf(),
+        endDate: endDate.valueOf()
+      }
+    });
   }
 
   function handleReset() {
