@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -165,6 +166,7 @@ function CKEditor5v2() {
   const [endDate, setEndDate] = useState(null);
   const [endDateError, setEndDateError] = useState(false);
   const [dateErrorMsg, setDateErrorMsg] = useState('');
+  const nextRouter = useRouter();
 
   const CKEditorRef = useRef(null);
 
@@ -367,7 +369,7 @@ function CKEditor5v2() {
     return true;
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     const field = [category, title, keyWord, startDate, endDate];
     const errorFieldSetter = [
       setCategoryError,
@@ -400,7 +402,8 @@ function CKEditor5v2() {
     if (img === null) {
       _contextErrorMsg +=
         (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
-      fail.push(true);
+      console.log('ckeditor5v2版因無法透過上傳以外方式插入圖片，故品集版不做無圖片阻擋');
+      // fail.push(true);
     } else {
       firstImage = img.src;
     }
@@ -429,21 +432,19 @@ function CKEditor5v2() {
       endDate: endDate.valueOf()
     });
 
-    // try {
-    //   await axios.post('/api/add-html', {
-    //     category,
-    //     title,
-    //     description,
-    //     context,
-    //     visible: articleVisible.status,
-    //     keyWord,
-    //     firstImage,
-    //     startDate,
-    //     endDate
-    //   });
-    // } catch (error) {
-    //   console.log('post error');
-    // }
+    nextRouter.push({
+      pathname: '/portfolio/html-editor/ckeditor5v2-view',
+      query: {
+        category,
+        title,
+        description,
+        context,
+        articleVisible: articleVisible.status,
+        keyWord,
+        startDate: startDate.valueOf(),
+        endDate: endDate.valueOf()
+      }
+    });
   }
 
   function handleReset() {
