@@ -11,10 +11,10 @@ import dayjs from 'dayjs';
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import {
-  importCKEditor,
+  importCKEditor5,
   UploadAdapter,
-  removeCKEditor
-} from '@/utils/createdCKEditor';
+  removeCKEditor5
+} from '@/utils/CKEditor5';
 
 const m3 = {
   margin: '16px'
@@ -175,7 +175,7 @@ function CKEditor5v2() {
   useEffect(() => {
     createdCKEditor();
     handleDescriptionChange(context);
-    return () => setTimeout(removeCKEditor, 100);
+    return () => setTimeout(removeCKEditor5, 100);
   }, []);
   useEffect(() => {
     handleDescriptionChange(context);
@@ -197,7 +197,7 @@ function CKEditor5v2() {
   async function createdCKEditor() {
     try {
       if (document.querySelector('#ckEditor-script')) return;
-      const _CKEditor = await importCKEditor(CKEditorRef.current, {
+      const _CKEditor = await importCKEditor5(CKEditorRef.current, {
         initialData: context,
         language: 'zh',
         toolbar: {

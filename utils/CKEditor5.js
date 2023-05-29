@@ -1,4 +1,4 @@
-export function importCKEditor(div, config = {}) {
+export function importCKEditor5(div, config = {}) {
   if (div === null || div === undefined) {
     throw new Error('HTMLDivElement is null or undefined');
   }
@@ -10,12 +10,12 @@ export function importCKEditor(div, config = {}) {
   }
   return new Promise(resolve => {
     setTimeout(async () => {
-      resolve(await createdCKEditor(div, config));
+      resolve(await createdCKEditor5(div, config));
     }, 20);
   });
 }
 
-export function createdCKEditor(div, config = {}) {
+export function createdCKEditor5(div, config = {}) {
   if (div === null || div === undefined) {
     throw new Error('HTMLDivElement is null or undefined');
   }
@@ -25,13 +25,13 @@ export function createdCKEditor(div, config = {}) {
       resolve(ClassicEditor.create(div, config).then(CKEditor => CKEditor));
     } else {
       setTimeout(async () => {
-        resolve(await createdCKEditor(div, config));
+        resolve(await createdCKEditor5(div, config));
       }, 20);
     }
   });
 }
 
-export function removeCKEditor() {
+export function removeCKEditor5() {
   const ckEditorScript = document.querySelector('#ckEditor-script');
   if (ckEditorScript !== null) {
     ckEditorScript.remove();

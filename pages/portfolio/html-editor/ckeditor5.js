@@ -19,7 +19,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { UploadAdapter, removeCKEditor } from '@/utils/createdCKEditor';
+import { UploadAdapter, removeCKEditor5 } from '@/utils/CKEditor5';
 
 const m3 = {
   margin: '16px'
@@ -197,7 +197,7 @@ function CKEditor5() {
       setEditorLoaded(true);
     })();
     handleDescriptionChange(context);
-    return removeCKEditor;
+    return removeCKEditor5;
   }, []);
   useEffect(() => {
     handleDescriptionChange(context);

@@ -15,7 +15,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { removeCKEditor } from '@/utils/createdCKEditor';
+import { removeCKEditor5 } from '@/utils/CKEditor5';
 
 const styles = {
   root: {
@@ -74,7 +74,7 @@ function CKEditor5View() {
       };
       setEditorLoaded(true);
     })();
-    return removeCKEditor;
+    return removeCKEditor5;
   }, []);
 
   useEffect(() => {
