@@ -11,6 +11,9 @@ export const themeObj = {
     },
     secondary: {
       main: '#ffe7c0'
+    },
+    thirdly: {
+      main: '#d7904e'
     }
     // inherit: {
     //   main: '#ffffff'
@@ -47,7 +50,14 @@ export const themeObj = {
           return style;
         }
       }
-    }
+    },
+    // MuiLinearProgress: {
+    //   styleOverrides: {
+    //     bar: {
+    //       backgroundColor: '#d7904e'
+    //     }
+    //   }
+    // }
   }
 };
 
