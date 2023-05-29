@@ -135,6 +135,9 @@ function CKEditor5View() {
           {editorLoaded !== false ? (
             <CKEditor
               editor={ClassicEditor}
+              onReady={(editor) => {
+                editor.enableReadOnlyMode(editor.id);
+              }}
               data={context}
               config={{
                 language: 'zh',
