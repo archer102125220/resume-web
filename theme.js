@@ -14,6 +14,9 @@ export const themeObj = {
     },
     thirdly: {
       main: '#d7904e'
+    },
+    fourthly: {
+      main: '#ffd07b'
     }
     // inherit: {
     //   main: '#ffffff'
