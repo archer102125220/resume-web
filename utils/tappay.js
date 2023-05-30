@@ -1,4 +1,4 @@
-export function importTapPay(APP_ID, APP_KEY, isPord = false) {
+export function importTappay(APP_ID, APP_KEY, isPord = false) {
   if (
     (typeof APP_ID !== 'number' && typeof APP_ID !== 'string') ||
     APP_ID === ''
@@ -19,12 +19,12 @@ export function importTapPay(APP_ID, APP_KEY, isPord = false) {
 
   return new Promise(resolve => {
     setTimeout(async () => {
-      resolve(await tapPayInit(APP_ID, APP_KEY, isPord));
+      resolve(await tappayInit(APP_ID, APP_KEY, isPord));
     }, 20);
   });
 }
 
-export function tapPayInit(APP_ID, APP_KEY, isPord = false) {
+export function tappayInit(APP_ID, APP_KEY, isPord = false) {
   if (document.querySelector('iframe[src*="tappaysdk.com"]') !== null) {
     console.log('Tappay has been initialized!');
   }
@@ -40,13 +40,13 @@ export function tapPayInit(APP_ID, APP_KEY, isPord = false) {
       resolve(TPDirect);
     } else {
       setTimeout(async () => {
-        resolve(await tapPayInit(APP_ID, APP_KEY, isPord));
+        resolve(await tappayInit(APP_ID, APP_KEY, isPord));
       }, 20);
     }
   });
 }
 
-export function tapPayDirectPayInit(config, onUpdate) {
+export function tappayDirectPayInit(config, onUpdate) {
   const TPDirect = window.TPDirect || {};
   if (typeof TPDirect?.card?.setup !== 'function') {
     throw new Error('Tappay has not been initialized!');
@@ -56,7 +56,7 @@ export function tapPayDirectPayInit(config, onUpdate) {
   return TPDirect.card;
 }
 
-export function tapPayValidateCardNumber(cardNumber, ...arg) {
+export function tappayValidateCardNumber(cardNumber, ...arg) {
   const TPDirect = window.TPDirect || {};
   if (typeof TPDirect?.card?.validate?.cardNumber !== 'function') {
     throw new Error('Tappay has not been initialized!');
@@ -64,7 +64,7 @@ export function tapPayValidateCardNumber(cardNumber, ...arg) {
   return TPDirect.validate.cardNumber(cardNumber, ...arg);
 }
 
-export function tapPayValidateCardType(cardNumber, ...arg) {
+export function tappayValidateCardType(cardNumber, ...arg) {
   const TPDirect = window.TPDirect || {};
   if (typeof TPDirect?.card?.validate?.cardType !== 'function') {
     throw new Error('Tappay has not been initialized!');
@@ -72,7 +72,7 @@ export function tapPayValidateCardType(cardNumber, ...arg) {
   return TPDirect.validate.cardType(cardNumber, ...arg);
 }
 
-export function tapPayValidateCCV(ccv, ...arg) {
+export function tappayValidateCCV(ccv, ...arg) {
   const TPDirect = window.TPDirect || {};
   if (typeof TPDirect?.card?.validate?.ccv !== 'function') {
     throw new Error('Tappay has not been initialized!');
@@ -80,10 +80,102 @@ export function tapPayValidateCCV(ccv, ...arg) {
   return TPDirect.validate.ccv(ccv, ...arg);
 }
 
-export function tapPayValidateExpiry(expiry, ...arg) {
+export function tappayValidateExpiry(expiry, ...arg) {
   const TPDirect = window.TPDirect || {};
   if (typeof TPDirect?.card?.validate?.expiry !== 'function') {
     throw new Error('Tappay has not been initialized!');
   }
   return TPDirect.validate.expiry(expiry, ...arg);
+}
+
+export function tappayDirectPayGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.card?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.card.getPrime(result => {
+      resolve(result);
+    });
+  });
+}
+
+export function importGooglePay(googlePaySetting, paymentRequest) {
+  if (googlePaySetting === null || googlePaySetting === undefined) {
+    throw new Error('googlePaySetting is invalid');
+  } else if (paymentRequest === null || paymentRequest === undefined) {
+    throw new Error('paymentRequest is invalid');
+  }
+
+  if (document.querySelector('#google-pay-script') === null) {
+    const googlePayScript = document.createElement('script');
+    googlePayScript.src = 'https://pay.google.com/gp/p/js/pay.js';
+    googlePayScript.id = 'google-pay-script';
+    document.head.appendChild(googlePayScript);
+  }
+
+  return new Promise(resolve => {
+    setTimeout(async () => {
+      resolve(await tappayGooglePayInit(googlePaySetting, paymentRequest));
+    }, 20);
+  });
+}
+
+export function tappayGooglePayInit(googlePaySetting, paymentRequest) {
+  return new Promise(resolve => {
+    const google = window.google;
+    if (google === undefined) {
+      return setTimeout(async () => {
+        resolve(await tappayGooglePayInit(googlePaySetting, paymentRequest));
+      }, 20);
+    }
+
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.googlePay?.setupGooglePay !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.googlePay.setupGooglePay(googlePaySetting);
+
+    TPDirect.googlePay.setupPaymentRequest(paymentRequest, (error, result) => {
+      resolve({ error, result, tappayGooglePay: TPDirect.googlePay });
+    });
+  });
+}
+export function tappayGooglePaySetupPrice(price) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.googlePay?.setupTransactionPrice !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  TPDirect.googlePay.setupTransactionPrice(price);
+}
+
+export function tappayGooglePayButtonInit(
+  googlePayButtonSetting = {},
+  getPrimeCallback = (err, prime) => console.log(err, prime)
+) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.googlePay?.setupGooglePayButton !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  TPDirect.googlePay.setupGooglePayButton({
+    ...googlePayButtonSetting,
+    getPrimeCallback
+  });
+}
+
+export function tappayGooglePayGetPrime(price) {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.googlePay?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    tappayGooglePaySetupPrice(price);
+    TPDirect.googlePay.getPrime((error, prime, result) => {
+      resolve({ error, prime, result });
+    });
+  });
+}
+
+export function tappayApplePayInit() {
+  
 }

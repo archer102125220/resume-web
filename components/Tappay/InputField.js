@@ -16,7 +16,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const InputField = forwardRef(function TappayInputField(props, ref) {
+const TappayInputField = forwardRef(function InputField(props, ref) {
   const { label, labelClassName, inputClassName, inputStatusClassName } = props;
 
   const classes = useStyles();
@@ -38,18 +38,18 @@ const InputField = forwardRef(function TappayInputField(props, ref) {
   );
 });
 
-InputField.propTypes = {
+TappayInputField.propTypes = {
   label: PropTypes.string,
   labelClassName: PropTypes.string,
   inputClassName: PropTypes.string,
   inputStatusClassName: PropTypes.string
 };
 
-InputField.defaultProps = {
+TappayInputField.defaultProps = {
   label: '',
   labelClassName: '',
   inputClassName: '',
   inputStatusClassName: ''
 };
 
-export default InputField;
+export default TappayInputField;

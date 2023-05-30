@@ -98,7 +98,7 @@ function HTMLEditor() {
         >
           <p>CKEditor4</p>
           <Image
-            src="/ckeditor/img/ckeditor-4.svg"
+            src="/img/ckeditor/ckeditor-4.svg"
             alt="CKEditor4"
             width={200}
             height={200}
@@ -114,7 +114,7 @@ function HTMLEditor() {
         >
           <p>CKEditor5</p>
           <Image
-            src="/ckeditor/img/ckeditor-5.svg"
+            src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
             width={200}
             height={200}
@@ -130,7 +130,7 @@ function HTMLEditor() {
         >
           <p>CKEditor5v2</p>
           <Image
-            src="/ckeditor/img/ckeditor-5.svg"
+            src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
             width={200}
             height={200}

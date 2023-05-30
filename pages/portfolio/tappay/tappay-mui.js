@@ -8,17 +8,18 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { importTapPay } from '@/utils/tappay';
+import { importTappay } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 
 const styles = {
   tappayMuiTitlLogo: {
     margin: 'auto',
-    display: 'block'
+    display: 'block',
+    maxWidth: '300px'
   },
   tappayMuiRow: {
     margin: '10px',
-    overflow: 'hidden'
+    // overflow: 'hidden'
   },
   tappayMuiButton: {
     ...buttonStyle,
@@ -29,7 +30,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function TappayMui() {
-  const [tapPay, setTapPay] = useState(null);
+  const [tappay, setTapPay] = useState(null);
   const [cardNumber, setCardNumber] = useState('6224314183841750');
   const [expirationDate, setExpirationDate] = useState('10/27');
   const [ccv, setCcv] = useState('048');
@@ -44,24 +45,24 @@ function TappayMui() {
 
   async function createdTapPay() {
     try {
-      const _tapPay = await importTapPay(
+      const _tappay = await importTappay(
         process.env.TAPPAY_APP_ID,
         process.env.TAPPAY_APP_KEY,
         process.env.TAPPAY_PROD
       );
-      console.log(_tapPay);
-      console.dir(_tapPay.card);
-      setTapPay(_tapPay);
+      console.log(_tappay);
+      console.dir(_tappay.card);
+      setTapPay(_tappay);
     } catch (error) {
       console.log(error);
     }
   }
 
   function getPrime() {
-    const tappayStatus = tapPay.card.getTappayFieldsStatus();
+    const tappayStatus = tappay.card.getTappayFieldsStatus();
     console.log(tappayStatus);
 
-    tapPay.getPrime(result => {
+    tappay.getPrime(result => {
       console.log(result);
     });
   }
@@ -74,9 +75,9 @@ function TappayMui() {
       <Box>
         <Image
           className={classes.tappayMuiTitlLogo}
-          src="/img/tappay-logo.svg"
+          src="/img/tappay/tappay-logo.svg"
           alt="tappay"
-          width={500}
+          width={300}
           height={100}
         />
       </Box>
@@ -109,7 +110,7 @@ function TappayMui() {
         <Button
           variant="contained"
           onClick={getPrime}
-          className={classes.tappayIframeButton}
+          className={classes.tappayMuiButton}
         >
           <p>取得交易金鑰</p>
         </Button>

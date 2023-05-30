@@ -92,7 +92,7 @@ function Tappay() {
         >
           <p>tappay-tappayUi</p>
           <Image
-            src="/img/tappay-logo.svg"
+            src="/img/tappay/tappay-logo.svg"
             alt="tappay"
             width={200}
             height={200}
@@ -109,7 +109,7 @@ function Tappay() {
           <p>tappay-mui</p>
           <div>
             <Image
-              src="/img/tappay-logo.svg"
+              src="/img/tappay/tappay-logo.svg"
               alt="tappay"
               className={classes.tappayListMuiTappayLogo}
               width={200}

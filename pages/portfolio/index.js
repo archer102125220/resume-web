@@ -75,7 +75,7 @@ function Portfolio() {
         >
           <p>Tappay串接</p>
           <Image
-            src="/img/tappay-logo.svg"
+            src="/img/tappay/tappay-logo.svg"
             alt="Tappay Logo"
             className={classes.portfolioImg}
             width={200}
@@ -109,14 +109,14 @@ function Portfolio() {
         >
           <p>HTML編輯器</p>
           <Image
-            src="/ckeditor/img/ckeditor-4.svg"
+            src="/img/ckeditor/ckeditor-4.svg"
             alt="CKEditor4"
             className={classes.portfolioCKeditorImg}
             width={100}
             height={100}
           />
           <Image
-            src="/ckeditor/img/ckeditor-5.svg"
+            src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
             className={classes.portfolioCKeditorImg}
             width={100}
