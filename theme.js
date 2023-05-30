@@ -17,6 +17,12 @@ export const themeObj = {
     },
     fourthly: {
       main: '#ffd07b'
+    },
+    white: {
+      main: '#ffffff'
+    },
+    black: {
+      main: '#000'
     }
     // inherit: {
     //   main: '#ffffff'
@@ -53,7 +59,7 @@ export const themeObj = {
           return style;
         }
       }
-    },
+    }
     // MuiLinearProgress: {
     //   styleOverrides: {
     //     bar: {
