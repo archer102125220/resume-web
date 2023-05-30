@@ -1,24 +1,58 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import TextField from '@mui/material/TextField';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
 import { importTapPay, tapPayDirectPayInit } from '@/utils/tappay';
+import { buttonStyle } from '@/styles/buttonStyle';
+import TappayInputField from '@/components/Tappay/InputField';
 
-const rowStyle = {
-  margin: '10px'
-};
+const styles = theme => ({
+  tappayIframeTitlLogo: {
+    margin: 'auto',
+    display: 'block'
+  },
+  tappayIframeRow: {
+    margin: '10px',
+    overflow: 'hidden'
+  },
+  tappayIframeButton: {
+    ...buttonStyle,
+    margin: 'auto'
+  },
+  tappayIframeInputSuccess: {
+    color: theme.palette.success.main,
+    borderColor: theme.palette.success.main
+  },
+  tappayIframeInputError: {
+    color: theme.palette.error.main,
+    borderColor: theme.palette.error.main
+  }
+});
+
+const useStyles = makeStyles(styles);
 
 function TappayIframe() {
   const [tapPay, setTapPay] = useState(null);
-  const [cardNumber, setCardNumber] = useState('6224314183841750');
-  const [expirationDate, setExpirationDate] = useState('10/27');
-  const [ccv, setCcv] = useState('048');
+  const [cardNumberStatus, setCardNumberStatus] = useState('');
+  const [expirationDateStatus, setExpirationDateStatus] = useState('');
+  const [ccvStatus, setCcvStatus] = useState('');
+  const [canGetPrime, setCanGetPrime] = useState(false);
+  // const [cardNumber, setCardNumber] = useState('6224314183841750');
+  // const [expirationDate, setExpirationDate] = useState('10/27');
+  // const [ccv, setCcv] = useState('048');
 
   const cardNumberRef = useRef(null);
   const expirationDateRef = useRef(null);
   const ccvRef = useRef(null);
+  const theme = useTheme();
+
+  const classes = useStyles();
 
   useEffect(() => {
     createdTapPay();
@@ -29,21 +63,24 @@ function TappayIframe() {
         {
           fields: {
             number: {
-              element: cardNumberRef.current
+              element: cardNumberRef.current,
+              placeholder: '**** **** **** ****'
             },
             expirationDate: {
-              element: expirationDateRef.current
+              element: expirationDateRef.current,
+              placeholder: 'MM / YY'
             },
             ccv: {
-              element: ccvRef.current
+              element: ccvRef.current,
+              placeholder: '驗證碼'
             }
           },
           styles: {
             '.valid': {
-              color: 'green'
+              color: theme.palette.success.main
             },
             '.invalid': {
-              color: 'red'
+              color: theme.palette.error.main
             }
           },
           isMaskCreditCardNumber: true,
@@ -56,7 +93,8 @@ function TappayIframe() {
       );
     }
   }, [tapPay]);
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay' });
+
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-iframe' });
 
   async function createdTapPay() {
     try {
@@ -74,41 +112,88 @@ function TappayIframe() {
   }
 
   function tapPayUpdate(update) {
+    if (update.status.number === 2) {
+      setCardNumberStatus(classes.tappayIframeInputError);
+    } else if (update.status.number === 0) {
+      setCardNumberStatus(classes.tappayIframeInputSuccess);
+    } else {
+      setCardNumberStatus('');
+    }
+
+    if (update.status.expiry === 2) {
+      setExpirationDateStatus(classes.tappayIframeInputError);
+    } else if (update.status.expiry === 0) {
+      setExpirationDateStatus(classes.tappayIframeInputSuccess);
+    } else {
+      setExpirationDateStatus('');
+    }
+
+    if (update.status.ccv === 2) {
+      setCcvStatus(classes.tappayIframeInputError);
+    } else if (update.status.ccv === 0) {
+      setCcvStatus(classes.tappayIframeInputSuccess);
+    } else {
+      setCcvStatus('');
+    }
+
+    setCanGetPrime(update.canGetPrime);
     console.log(update);
+  }
+
+  function getPrime() {
+    const tappayStatus = tapPay.card.getTappayFieldsStatus();
+    console.log(tappayStatus);
+
+    tapPay.getPrime(result => {
+      console.log(result);
+    });
   }
 
   return (
     <div>
       <Head>
-        <title>Parker Chan 的作品集 - Tappay串接</title>
+        <title>Parker Chan 的作品集 - Tappay Ui</title>
       </Head>
-      <Box sx={rowStyle}>
-        {/* <TextField
+      <Box>
+        <Image
+          className={classes.tappayIframeTitlLogo}
+          src="/img/tappay-logo.svg"
+          alt="tappay"
+          width={500}
+          height={100}
+        />
+      </Box>
+      <Divider>DirectPay</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TappayInputField
           label="卡號"
-          value={cardNumber}
-          inputRef={cardNumberRef}
-          placeholder="**** **** **** ****"
-          onChange={e => setCardNumber(e.target.value)}
-        /> */}
-        <div ref={cardNumberRef} />
+          ref={cardNumberRef}
+          inputStatusClassName={cardNumberStatus}
+        />
       </Box>
-      <Box sx={rowStyle}>
-        <TextField
+      <Box className={classes.tappayIframeRow}>
+        <TappayInputField
           label="卡片到期日"
-          value={expirationDate}
-          inputRef={expirationDateRef}
-          placeholder="MM / YY"
-          onChange={e => setExpirationDate(e.target.value)}
+          ref={expirationDateRef}
+          inputStatusClassName={expirationDateStatus}
         />
       </Box>
-      <Box sx={rowStyle}>
-        <TextField
-          label="卡片後三碼"
-          value={ccv}
-          inputRef={ccvRef}
-          placeholder="後三碼"
-          onChange={e => setCcv(e.target.value)}
+      <Box className={classes.tappayIframeRow}>
+        <TappayInputField
+          label="卡片驗證碼"
+          ref={ccvRef}
+          inputStatusClassName={ccvStatus}
         />
+      </Box>
+      <Box>
+        <Button
+          variant="contained"
+          onClick={getPrime}
+          disabled={canGetPrime === false}
+          className={classes.tappayIframeButton}
+        >
+          <p>取得交易金鑰</p>
+        </Button>
       </Box>
     </div>
   );

@@ -1,14 +1,32 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { importTapPay, tapPayDirectPayInit } from '@/utils/tappay';
+import { importTapPay } from '@/utils/tappay';
+import { buttonStyle } from '@/styles/buttonStyle';
 
-const rowStyle = {
-  margin: '10px'
+const styles = {
+  tappayMuiTitlLogo: {
+    margin: 'auto',
+    display: 'block'
+  },
+  tappayMuiRow: {
+    margin: '10px',
+    overflow: 'hidden'
+  },
+  tappayMuiButton: {
+    ...buttonStyle,
+    margin: 'auto'
+  }
 };
+
+const useStyles = makeStyles(styles);
 
 function TappayMui() {
   const [tapPay, setTapPay] = useState(null);
@@ -16,47 +34,13 @@ function TappayMui() {
   const [expirationDate, setExpirationDate] = useState('10/27');
   const [ccv, setCcv] = useState('048');
 
-  const cardNumberRef = useRef(null);
-  const expirationDateRef = useRef(null);
-  const ccvRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     createdTapPay();
   }, []);
-  useEffect(() => {
-    if (tapPay !== null) {
-      tapPayDirectPayInit(
-        {
-          fields: {
-            number: {
-              element: cardNumberRef.current
-            },
-            expirationDate: {
-              element: expirationDateRef.current
-            },
-            ccv: {
-              element: ccvRef.current
-            }
-          },
-          styles: {
-            '.valid': {
-              color: 'green'
-            },
-            '.invalid': {
-              color: 'red'
-            }
-          },
-          isMaskCreditCardNumber: true,
-          maskCreditCardNumberRange: {
-            beginIndex: 6,
-            endIndex: 11
-          }
-        },
-        tapPayUpdate
-      );
-    }
-  }, [tapPay]);
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay' });
+
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-mui' });
 
   async function createdTapPay() {
     try {
@@ -73,42 +57,62 @@ function TappayMui() {
     }
   }
 
-  function tapPayUpdate(update) {
-    console.log(update);
+  function getPrime() {
+    const tappayStatus = tapPay.card.getTappayFieldsStatus();
+    console.log(tappayStatus);
+
+    tapPay.getPrime(result => {
+      console.log(result);
+    });
   }
 
   return (
     <div>
       <Head>
-        <title>Parker Chan 的作品集 - Tappay串接</title>
+        <title>Parker Chan 的作品集 - Tappay Mui</title>
       </Head>
-      <Box sx={rowStyle}>
-        {/* <TextField
+      <Box>
+        <Image
+          className={classes.tappayMuiTitlLogo}
+          src="/img/tappay-logo.svg"
+          alt="tappay"
+          width={500}
+          height={100}
+        />
+      </Box>
+      <Divider>DirectPay</Divider>
+      <Box className={classes.tappayMuiRow}>
+        <TextField
           label="卡號"
           value={cardNumber}
-          inputRef={cardNumberRef}
           placeholder="**** **** **** ****"
           onChange={e => setCardNumber(e.target.value)}
-        /> */}
-        <div ref={cardNumberRef} />
+        />
       </Box>
-      <Box sx={rowStyle}>
+      <Box className={classes.tappayMuiRow}>
         <TextField
           label="卡片到期日"
           value={expirationDate}
-          inputRef={expirationDateRef}
           placeholder="MM / YY"
           onChange={e => setExpirationDate(e.target.value)}
         />
       </Box>
-      <Box sx={rowStyle}>
+      <Box className={classes.tappayMuiRow}>
         <TextField
           label="卡片後三碼"
           value={ccv}
-          inputRef={ccvRef}
           placeholder="後三碼"
           onChange={e => setCcv(e.target.value)}
         />
+      </Box>
+      <Box>
+        <Button
+          variant="contained"
+          onClick={getPrime}
+          className={classes.tappayIframeButton}
+        >
+          <p>取得交易金鑰</p>
+        </Button>
       </Box>
     </div>
   );

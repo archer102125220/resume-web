@@ -65,7 +65,7 @@ function Tappay() {
       <div>
         <p className={classes.tappayListSecondParagraph}>
           tappay原先是因為公司的React
-          Native需要使用，但礙於npm上沒有整合好的又合喜好的套件，所以就直接自己研究整合並做了
+          Native需要使用，但礙於npm上沒有整合好的又合喜好的套件，所以就直接自己研究整合並了
           ，也順便研究了如何發布React Native的套件上npm（
         </p>
         <a
