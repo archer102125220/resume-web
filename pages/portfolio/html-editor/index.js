@@ -36,7 +36,7 @@ function HTMLEditor() {
 
   const classes = useStyles();
 
-  useGTMTrack({ event: 'scnOpen', url: '/htmlEditor' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor' });
 
   function handleGoToCKEditor4(e) {
     console.log(e);
