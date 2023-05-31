@@ -4,7 +4,12 @@ import { getAnalytics } from 'firebase/analytics';
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from 'firebase/firestore/lite';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  isSupported
+} from 'firebase/messaging';
 
 import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
 import { POST_appErrorLog } from '@/services/appErrorLog';
@@ -87,7 +92,9 @@ export async function getOrRegisterServiceWorker() {
 }
 
 export async function firebaseMessagingInit() {
-  if (typeof window === 'object') {
+  const isSupport = await isSupported();
+  if (isSupport === false) console.log('FCM is not Supported');
+  if (typeof window === 'object' && isSupport) {
     try {
       const serviceWorkerRegistration = await getOrRegisterServiceWorker();
       await fetch(swUrl);
