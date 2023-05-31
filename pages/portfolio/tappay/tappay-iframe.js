@@ -119,7 +119,7 @@ function TappayIframe() {
   const expirationDateRef = useRef(null);
   const ccvRef = useRef(null);
   const googlePayButtonId = useId();
-  const samsungPayButtonId = useId();
+  const samsungPayButtonRef = useRef(null);
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -241,7 +241,7 @@ function TappayIframe() {
       setCanGetApplePayPrime(success);
       setApplePay(tappayPaymentRequestApi);
       tappaySamsungPayInit({ country_code: 'tw' });
-      tappaySamsungPayButtonInit(`[id="${samsungPayButtonId}"]`, {
+      tappaySamsungPayButtonInit(samsungPayButtonRef.current, {
         // black, white
         color: 'white',
         // pay, buy
@@ -509,8 +509,8 @@ function TappayIframe() {
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
         <div
+          ref={samsungPayButtonRef}
           className={classes.tappayDivButton}
-          id={samsungPayButtonId}
           onClick={handleSamsungPayGetPrime}
         />
       </Box>
