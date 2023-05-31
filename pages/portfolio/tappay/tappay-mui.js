@@ -12,7 +12,7 @@ import { importTappay } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
 
-const styles = {
+const styles = theme => ({
   tappayMuiTitlLogo: {
     margin: 'auto',
     display: 'block',
@@ -20,6 +20,9 @@ const styles = {
   },
   tappayMuiParagraph: {
     display: 'inline'
+  },
+  tappayMuiParagraphWarning: {
+    color: theme.palette.error.main
   },
   tappayMuiLink: linkStyle,
   tappayMuiRow: {
@@ -30,7 +33,7 @@ const styles = {
     ...buttonStyle,
     margin: 'auto'
   }
-};
+});
 
 const useStyles = makeStyles(styles);
 
@@ -97,6 +100,14 @@ function TappayMui() {
         >
           測試卡號生成器
         </a>
+        <p
+          className={[
+            classes.tappayMuiParagraphWarning,
+            classes.tappayMuiParagraph
+          ].join(' ')}
+        >
+          （不建議使用真實卡號）
+        </p>
       </Box>
       <Divider>DirectPay</Divider>
       <Box className={classes.tappayMuiRow}>

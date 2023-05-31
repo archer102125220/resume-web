@@ -55,6 +55,9 @@ const styles = theme => ({
   tappayIframeParagraph: {
     display: 'inline'
   },
+  tappayIframeParagraphWarning: {
+    color: theme.palette.error.main
+  },
   tappayIframeLink: linkStyle,
   tappayIframeRow: {
     margin: '10px'
@@ -418,6 +421,14 @@ function TappayIframe() {
         >
           測試卡號生成器
         </a>
+        <p
+          className={[
+            classes.tappayIframeParagraphWarning,
+            classes.tappayIframeParagraph
+          ].join(' ')}
+        >
+          （不建議使用真實卡號）
+        </p>
       </Box>
       <Divider>DirectPay</Divider>
       <Box className={classes.tappayIframeRow}>
