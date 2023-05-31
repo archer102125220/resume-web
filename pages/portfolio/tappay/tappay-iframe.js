@@ -24,7 +24,10 @@ import {
   tappaySamsungPayButtonInit,
   tappaySamsungPaySetupPayment,
   tappaySamsungPayGetPrime,
-  tappayJkoPayGetPrime
+  tappayJkoPayGetPrime,
+  tappayEasyWalletGetPrime,
+  tappayAtomeGetPrime,
+  tappayPiWalletGetPrime
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
@@ -33,6 +36,9 @@ import TappayInputField from '@/components/Tappay/InputField';
 import ApplePayBtn from '@/components/Tappay/ApplePayBtn';
 import LinePayBtn from '@/components/Tappay/LinePayBtn';
 import JkoPayBtn from '@/components/Tappay/JkoPayBtn';
+import EasyWalletBtn from '@/components/Tappay/EasyWalletBtn';
+import AtomeBtn from '@/components/Tappay/AtomeBtn';
+import PiWalletBtn from '@/components/Tappay/PiWalletBtn';
 
 const tappayIframePayButton = {
   margin: 'auto',
@@ -114,6 +120,12 @@ function TappayIframe() {
   const [samsungPayError, setSamsungPayError] = useState(false);
   const [jkoPayAmount, setJkoPayAmount] = useState('');
   const [jkoPayError, setJkoPayError] = useState(false);
+  const [easyWalletAmount, setEasyWalletAmount] = useState('');
+  const [easyWalletError, setEasyWalletError] = useState(false);
+  const [atomeAmount, setAtomeAmount] = useState('');
+  const [atomeError, setAtomeError] = useState(false);
+  const [piWalletAmount, setPiWalletAmount] = useState('');
+  const [piWalletError, setPiWalletError] = useState(false);
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -388,10 +400,55 @@ function TappayIframe() {
   async function handleJkoPayGetPrime() {
     if (Number(jkoPayAmount) <= 0) {
       setJkoPayError(true);
-      warningMessage('請輸入JkoPay金額');
+      warningMessage('請輸入街口支付金額');
       return;
     }
     const result = await tappayJkoPayGetPrime();
+    console.log(result);
+  }
+
+  function handleEeasyWalletAmount(e) {
+    setEasyWalletAmount(e.target.value);
+    setEasyWalletError(false);
+  }
+
+  async function handleEeasyWalletGetPrime() {
+    if (Number(easyWalletAmount) <= 0) {
+      setEasyWalletError(true);
+      warningMessage('請輸入悠遊付金額');
+      return;
+    }
+    const result = await tappayEasyWalletGetPrime();
+    console.log(result);
+  }
+
+  function handleAtomeAmount(e) {
+    setAtomeAmount(e.target.value);
+    setAtomeError(false);
+  }
+
+  async function handleAtomeGetPrime() {
+    if (Number(atomeAmount) <= 0) {
+      setAtomeError(true);
+      warningMessage('請輸入悠遊付金額');
+      return;
+    }
+    const result = await tappayAtomeGetPrime();
+    console.log(result);
+  }
+
+  function handlePiWalletAmount(e) {
+    setPiWalletAmount(e.target.value);
+    setPiWalletError(false);
+  }
+
+  async function handlePiWalletGetPrime() {
+    if (Number(piWalletAmount) <= 0) {
+      setPiWalletError(true);
+      warningMessage('請輸入Pi錢包金額');
+      return;
+    }
+    const result = await tappayPiWalletGetPrime();
     console.log(result);
   }
 
@@ -536,8 +593,56 @@ function TappayIframe() {
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
         <JkoPayBtn
-          className={classes.tappayIframeButton}
+          className={classes.tappayIframePayButton}
           onClick={handleJkoPayGetPrime}
+        />
+      </Box>
+      <Divider>悠遊付</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="悠遊付金額"
+          value={easyWalletAmount}
+          error={easyWalletError}
+          onChange={handleEeasyWalletAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <EasyWalletBtn
+          className={classes.tappayIframePayButton}
+          onClick={handleEeasyWalletGetPrime}
+        />
+      </Box>
+      <Divider>Atome</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="Atome金額"
+          value={atomeAmount}
+          error={atomeError}
+          onChange={handleAtomeAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <AtomeBtn
+          className={classes.tappayIframeButton}
+          onClick={handleAtomeGetPrime}
+        />
+      </Box>
+      <Divider>Pi錢包</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="Pi錢包金額"
+          value={piWalletAmount}
+          error={piWalletError}
+          onChange={handlePiWalletAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <PiWalletBtn
+          onClick={handlePiWalletGetPrime}
+          className={classes.tappayIframePayButton}
         />
       </Box>
     </div>

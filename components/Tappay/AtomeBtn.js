@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
 const styles = {
-  jkoPayBtn: {
+  atomeBtn: {
     display: 'flex',
     alignItems: 'center',
     margin: 'auto',
@@ -18,22 +18,21 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function JkoPayBtn(props) {
+function AtomeBtn(props) {
   const { disabled, onClick, className, ...ortherProps } = props;
   const classes = useStyles();
 
   return (
     <Button
-      color="white"
       disabled={disabled}
       variant="contained"
-      className={[classes.jkoPayBtn, className].join(' ')}
+      className={[classes.atomeBtn, className].join(' ')}
       onClick={onClick}
       {...ortherProps}
     >
       <Image
-        src="/img/tappay/jko_pay_btn.png"
-        alt="jko_pay_btn"
+        src="/img/tappay/atome_btn.png"
+        alt="atome_btn"
         width={100}
         height={40}
       />
@@ -41,15 +40,15 @@ function JkoPayBtn(props) {
   );
 }
 
-JkoPayBtn.propTypes = {
+AtomeBtn.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string
 };
 
-JkoPayBtn.defaultProps = {
+AtomeBtn.defaultProps = {
   disabled: false,
   className: ''
 };
 
-export default JkoPayBtn;
+export default AtomeBtn;

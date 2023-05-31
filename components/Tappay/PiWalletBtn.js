@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 
 const styles = {
-  jkoPayBtn: {
+  piWalletBtn: {
     display: 'flex',
     alignItems: 'center',
     margin: 'auto',
@@ -18,22 +18,26 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function JkoPayBtn(props) {
+function PiWalletBtn(props) {
   const { disabled, onClick, className, ...ortherProps } = props;
   const classes = useStyles();
 
   return (
     <Button
-      color="white"
+      color="blue"
       disabled={disabled}
       variant="contained"
-      className={[classes.jkoPayBtn, className].join(' ')}
+      className={[classes.piWalletBtn, className].join(' ')}
       onClick={onClick}
       {...ortherProps}
     >
       <Image
-        src="/img/tappay/jko_pay_btn.png"
-        alt="jko_pay_btn"
+        src={
+          disabled === true
+            ? '/img/tappay/pi_wallet_disabled_btn.png'
+            : '/img/tappay/pi_wallet_btn.png'
+        }
+        alt="pi_wallet_btn"
         width={100}
         height={40}
       />
@@ -41,15 +45,15 @@ function JkoPayBtn(props) {
   );
 }
 
-JkoPayBtn.propTypes = {
+PiWalletBtn.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string
 };
 
-JkoPayBtn.defaultProps = {
+PiWalletBtn.defaultProps = {
   disabled: false,
   className: ''
 };
 
-export default JkoPayBtn;
+export default PiWalletBtn;

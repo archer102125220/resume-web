@@ -297,3 +297,39 @@ export function tappayJkoPayGetPrime() {
     });
   });
 }
+
+export function tappayEasyWalletGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.easyWallet?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.easyWallet.getPrime((error, result) => {
+      resolve({ error, result });
+    });
+  });
+}
+
+export function tappayAtomeGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.atome?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.atome.getPrime((error, result) => {
+      resolve({ error, result });
+    });
+  });
+}
+
+export function tappayPiWalletGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.piWallet?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.piWallet.getPrime((error, result) => {
+      resolve({ error, result });
+    });
+  });
+}
