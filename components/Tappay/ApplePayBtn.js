@@ -8,9 +8,10 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     margin: 'auto',
+    height: '40px',
     '& img': {
-      width: '100px',
-      height: '40px'
+      width: '75px',
+      height: 'auto'
     }
   }
 };
