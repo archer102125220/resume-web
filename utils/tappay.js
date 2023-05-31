@@ -285,3 +285,15 @@ export function tappaySamsungPayGetPrime() {
     });
   });
 }
+
+export function tappayJkoPayGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.jkoPay?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.jkoPay.getPrime(result => {
+      resolve(result);
+    });
+  });
+}

@@ -23,13 +23,16 @@ import {
   tappaySamsungPayInit,
   tappaySamsungPayButtonInit,
   tappaySamsungPaySetupPayment,
-  tappaySamsungPayGetPrime
+  tappaySamsungPayGetPrime,
+  tappayJkoPayGetPrime
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
+import { linkStyle } from '@/styles/linkStyle';
 import { mediaMobile } from '@/styles/globals';
 import TappayInputField from '@/components/Tappay/InputField';
 import ApplePayBtn from '@/components/Tappay/ApplePayBtn';
 import LinePayBtn from '@/components/Tappay/LinePayBtn';
+import JkoPayBtn from '@/components/Tappay/JkoPayBtn';
 
 const tappayIframePayButton = {
   margin: 'auto',
@@ -49,6 +52,10 @@ const styles = theme => ({
     display: 'block',
     maxWidth: '300px'
   },
+  tappayIframeParagraph: {
+    display: 'inline'
+  },
+  tappayIframeLink: linkStyle,
   tappayIframeRow: {
     margin: '10px'
     // overflow: 'hidden'
@@ -99,8 +106,11 @@ function TappayIframe() {
   const [canGetApplePayPrime, setCanGetApplePayPrime] = useState(false);
   const [applePayError, setApplePayError] = useState(false);
   const [linePayAmount, setLinePayAmount] = useState('');
+  const [linePayError, setLinePayError] = useState(false);
   const [samsungPayAmount, setSamsungPayAmount] = useState('');
   const [samsungPayError, setSamsungPayError] = useState(false);
+  const [jkoPayAmount, setJkoPayAmount] = useState('');
+  const [jkoPayError, setJkoPayError] = useState(false);
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -329,7 +339,17 @@ function TappayIframe() {
     }
   }
 
+  function handleLinePayAmount(e) {
+    setLinePayAmount(e.target.value);
+    setLinePayError(false);
+  }
+
   async function handleLinePayGetPrime() {
+    if (Number(linePayAmount) <= 0) {
+      setLinePayError(true);
+      warningMessage('請輸入LinePay金額');
+      return;
+    }
     const result = await tappayLinePayGetPrime();
     console.log(result);
   }
@@ -358,6 +378,21 @@ function TappayIframe() {
     console.log(result);
   }
 
+  function handleJkoPayAmount(e) {
+    setJkoPayAmount(e.target.value);
+    setJkoPayError(false);
+  }
+
+  async function handleJkoPayGetPrime() {
+    if (Number(jkoPayAmount) <= 0) {
+      setJkoPayError(true);
+      warningMessage('請輸入JkoPay金額');
+      return;
+    }
+    const result = await tappayJkoPayGetPrime();
+    console.log(result);
+  }
+
   return (
     <div className={classes.tappayIframe}>
       <Head>
@@ -371,6 +406,19 @@ function TappayIframe() {
           width={300}
           height={100}
         />
+      </Box>
+      <Box>
+        <p className={classes.tappayIframeParagraph}>沒有測試卡號？試試</p>
+        <a
+          target="_blank"
+          className={[
+            classes.tappayIframeLink,
+            classes.tappayIframeParagraph
+          ].join(' ')}
+          href="https://www.suijidaquan.com/zh-tw/credit-card-generator"
+        >
+          測試卡號生成器
+        </a>
       </Box>
       <Divider>DirectPay</Divider>
       <Box className={classes.tappayIframeRow}>
@@ -439,7 +487,8 @@ function TappayIframe() {
           fullWidth={true}
           label="LinePay金額"
           value={linePayAmount}
-          onChange={setLinePayAmount}
+          error={linePayError}
+          onChange={handleLinePayAmount}
         />
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
@@ -454,6 +503,7 @@ function TappayIframe() {
           fullWidth={true}
           label="SamsungPay金額"
           value={samsungPayAmount}
+          error={samsungPayError}
           onChange={handleSamsungPayAmount}
         />
       </Box>
@@ -462,6 +512,24 @@ function TappayIframe() {
           className={classes.tappayDivButton}
           id={samsungPayButtonId}
           onClick={handleSamsungPayGetPrime}
+        />
+      </Box>
+      <Divider>街口支付</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="街口支付金額"
+          value={jkoPayAmount}
+          error={jkoPayError}
+          onChange={handleJkoPayAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <JkoPayBtn
+          className={[classes.tappayDivButton, classes.tappayIframeButton].join(
+            ' '
+          )}
+          onClick={handleJkoPayGetPrime}
         />
       </Box>
     </div>

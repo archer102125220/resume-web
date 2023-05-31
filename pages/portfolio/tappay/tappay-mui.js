@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import { importTappay } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
+import { linkStyle } from '@/styles/linkStyle';
 
 const styles = {
   tappayMuiTitlLogo: {
@@ -17,8 +18,12 @@ const styles = {
     display: 'block',
     maxWidth: '300px'
   },
+  tappayMuiParagraph: {
+    display: 'inline'
+  },
+  tappayMuiLink: linkStyle,
   tappayMuiRow: {
-    margin: '10px',
+    margin: '10px'
     // overflow: 'hidden'
   },
   tappayMuiButton: {
@@ -80,6 +85,18 @@ function TappayMui() {
           width={300}
           height={100}
         />
+      </Box>
+      <Box>
+        <p className={classes.tappayMuiParagraph}>沒有測試卡號？試試</p>
+        <a
+          target="_blank"
+          className={[classes.tappayMuiLink, classes.tappayMuiParagraph].join(
+            ' '
+          )}
+          href="https://www.suijidaquan.com/zh-tw/credit-card-generator"
+        >
+          測試卡號生成器
+        </a>
       </Box>
       <Divider>DirectPay</Divider>
       <Box className={classes.tappayMuiRow}>
