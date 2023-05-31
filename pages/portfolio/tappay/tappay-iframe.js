@@ -18,10 +18,24 @@ import {
   tappayGooglePayButtonInit
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
+import { mediaMobile } from '@/styles/globals';
 import TappayInputField from '@/components/Tappay/InputField';
 import ApplePayBtn from '@/components/Tappay/ApplePayBtn';
 
+const tappayIframePayButton = {
+  margin: 'auto',
+  display: 'block',
+  maxWidth: '100%',
+  [mediaMobile]: {
+    minWidth: '100%'
+  }
+};
+
 const styles = theme => ({
+  tappayIframe: {
+    width: '100%',
+    height: '100%'
+  },
   tappayIframeTitlLogo: {
     margin: 'auto',
     display: 'block',
@@ -29,6 +43,11 @@ const styles = theme => ({
   },
   tappayIframeRow: {
     margin: '10px'
+    // overflow: 'hidden'
+  },
+  tappayIframeBtnRow: {
+    marginTop: '10px',
+    marginBottom: '10px'
     // overflow: 'hidden'
   },
   tappayIframeButton: {
@@ -44,11 +63,13 @@ const styles = theme => ({
     borderColor: theme.palette.error.main
   },
   tappayGooglePayButton: {
-    '& button': {
-      margin: 'auto',
-      display: 'block'
-    }
-  }
+    width: '100%',
+    '& > div': {
+      width: '100%'
+    },
+    '& button': tappayIframePayButton
+  },
+  tappayIframePayButton
 });
 
 const useStyles = makeStyles(styles);
@@ -214,7 +235,7 @@ function TappayIframe() {
   }
 
   return (
-    <div>
+    <div className={classes.tappayIframe}>
       <Head>
         <title>Parker Chan 的作品集 - Tappay Ui</title>
       </Head>
@@ -268,7 +289,7 @@ function TappayIframe() {
           onChange={handleGooglePayAmount}
         />
       </Box>
-      <Box className={classes.tappayIframeRow}>
+      <Box className={classes.tappayIframeBtnRow}>
         <div className={classes.tappayGooglePayButton} id={googlePayButtonId} />
       </Box>
       <Divider>ApplePay</Divider>
@@ -280,8 +301,8 @@ function TappayIframe() {
           onChange={e => setApplePayAmount(e.target.value)}
         />
       </Box>
-      <Box>
-        <ApplePayBtn />
+      <Box className={classes.tappayIframeBtnRow}>
+        <ApplePayBtn className={classes.tappayIframePayButton} />
       </Box>
     </div>
   );

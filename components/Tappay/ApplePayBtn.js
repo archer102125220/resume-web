@@ -7,12 +7,10 @@ const styles = {
   applePayBtn: {
     display: 'flex',
     alignItems: 'center',
-    width: '20%',
-    height: '40px',
     margin: 'auto',
     '& img': {
-      width: '100%',
-      height: '100%'
+      width: '100px',
+      height: '40px'
     }
   }
 };
@@ -35,8 +33,8 @@ function ApplePayBtn(props) {
       <Image
         src="/img/tappay/apple_pay_btn.png"
         alt="apple_pay_btn"
-        width={200}
-        height={200}
+        width={100}
+        height={40}
       />
     </Button>
   );

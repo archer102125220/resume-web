@@ -2,13 +2,15 @@ import { memo } from 'react';
 import theme from '@/theme';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
-export const mediaMobile = '@media (max-width: 1080px)';
+export const mediaTablet = '@media (min-width: 381px) and (max-width: 1080px)';
+export const mediaMobile = '@media (max-width: 380px)';
 
 const scrollbar = {
   '::-webkit-scrollbar': {
     width: '10px',
     height: '10px',
     [mediaMobile]: {
+      width: '7px',
       height: '5px'
     }
   },

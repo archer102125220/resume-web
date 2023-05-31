@@ -36,7 +36,8 @@ const styles = theme => ({
     overflow: 'auto',
     [mediaMobile]: {
       width: '70%',
-      padding: '15px 5px',
+      // padding: '15px 5px',
+      padding: '15px 2px',
     }
   },
   tableclothAnimeContentMenu: {
