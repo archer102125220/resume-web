@@ -95,7 +95,7 @@ export function tappayDirectPayGetPrime() {
       throw new Error('Tappay has not been initialized!');
     }
     TPDirect.card.getPrime(result => {
-      resolve(result);
+      resolve({ result, tappayStatus: TPDirect.card.getTappayFieldsStatus() });
     });
   });
 }

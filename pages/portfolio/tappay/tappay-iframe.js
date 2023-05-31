@@ -67,8 +67,8 @@ const styles = theme => ({
     // overflow: 'hidden'
   },
   tappayIframeButton: {
-    ...buttonStyle,
-    margin: 'auto'
+    ...tappayIframePayButton,
+    ...buttonStyle
   },
   tappayIframeInputSuccess: {
     color: theme.palette.success.main,
@@ -284,9 +284,8 @@ function TappayIframe() {
   }
 
   async function directPayGetPrime() {
-    const tappayStatus = tappay.card.getTappayFieldsStatus();
-    const prime = await tappayDirectPayGetPrime();
-    console.log({ prime, tappayStatus });
+    const result = await tappayDirectPayGetPrime();
+    console.log(result);
   }
 
   function handleGooglePayAmount(e) {
@@ -526,9 +525,7 @@ function TappayIframe() {
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
         <JkoPayBtn
-          className={[classes.tappayDivButton, classes.tappayIframeButton].join(
-            ' '
-          )}
+          className={classes.tappayIframeButton}
           onClick={handleJkoPayGetPrime}
         />
       </Box>
