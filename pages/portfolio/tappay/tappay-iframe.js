@@ -19,7 +19,11 @@ import {
   tappayGooglePayButtonInit,
   tappayApplePayInit,
   tappayApplePaySetupPayment,
-  tappayLinePayGetPrime
+  tappayLinePayGetPrime,
+  tappaySamsungPayInit,
+  tappaySamsungPayButtonInit,
+  tappaySamsungPaySetupPayment,
+  tappaySamsungPayGetPrime
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { mediaMobile } from '@/styles/globals';
@@ -29,7 +33,6 @@ import LinePayBtn from '@/components/Tappay/LinePayBtn';
 
 const tappayIframePayButton = {
   margin: 'auto',
-  display: 'block',
   maxWidth: '100%',
   [mediaMobile]: {
     minWidth: '100%'
@@ -51,6 +54,7 @@ const styles = theme => ({
     // overflow: 'hidden'
   },
   tappayIframeBtnRow: {
+    width: '100%',
     marginTop: '10px',
     marginBottom: '10px'
     // overflow: 'hidden'
@@ -67,12 +71,16 @@ const styles = theme => ({
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main
   },
-  tappayGooglePayButton: {
+  tappayDivButton: {
     width: '100%',
+    height: '40px',
     '& > div': {
       width: '100%'
     },
-    '& button': tappayIframePayButton
+    '& button': {
+      ...tappayIframePayButton,
+      display: 'block'
+    }
   },
   tappayIframePayButton
 });
@@ -91,6 +99,8 @@ function TappayIframe() {
   const [canGetApplePayPrime, setCanGetApplePayPrime] = useState(false);
   const [applePayError, setApplePayError] = useState(false);
   const [linePayAmount, setLinePayAmount] = useState('');
+  const [samsungPayAmount, setSamsungPayAmount] = useState('');
+  const [samsungPayError, setSamsungPayError] = useState(false);
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -99,6 +109,7 @@ function TappayIframe() {
   const expirationDateRef = useRef(null);
   const ccvRef = useRef(null);
   const googlePayButtonId = useId();
+  const samsungPayButtonId = useId();
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -219,6 +230,15 @@ function TappayIframe() {
       );
       setCanGetApplePayPrime(success);
       setApplePay(tappayPaymentRequestApi);
+      tappaySamsungPayInit({ country_code: 'tw' });
+      tappaySamsungPayButtonInit(`[id="${samsungPayButtonId}"]`, {
+        // black, white
+        color: 'white',
+        // pay, buy
+        type: 'pay',
+        // rectangular, pill
+        shape: 'rectangular'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -314,6 +334,30 @@ function TappayIframe() {
     console.log(result);
   }
 
+  function handleSamsungPayAmount(e) {
+    setSamsungPayAmount(e.target.value);
+    setSamsungPayError(false);
+  }
+
+  async function handleSamsungPayGetPrime() {
+    if (Number(samsungPayAmount) <= 0) {
+      setSamsungPayError(true);
+      warningMessage('請輸入SamsungPay金額');
+      return;
+    }
+    tappaySamsungPaySetupPayment({
+      total: {
+        label: 'SamsungPay 測試',
+        amount: {
+          currency: 'TWD',
+          value: samsungPayAmount
+        }
+      }
+    });
+    const result = await tappaySamsungPayGetPrime();
+    console.log(result);
+  }
+
   return (
     <div className={classes.tappayIframe}>
       <Head>
@@ -370,7 +414,7 @@ function TappayIframe() {
         />
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
-        <div className={classes.tappayGooglePayButton} id={googlePayButtonId} />
+        <div className={classes.tappayDivButton} id={googlePayButtonId} />
       </Box>
       <Divider>ApplePay</Divider>
       <Box className={classes.tappayIframeRow}>
@@ -402,6 +446,22 @@ function TappayIframe() {
         <LinePayBtn
           onClick={handleLinePayGetPrime}
           className={classes.tappayIframePayButton}
+        />
+      </Box>
+      <Divider>SamsungPay</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="SamsungPay金額"
+          value={samsungPayAmount}
+          onChange={handleSamsungPayAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <div
+          className={classes.tappayDivButton}
+          id={samsungPayButtonId}
+          onClick={handleSamsungPayGetPrime}
         />
       </Box>
     </div>

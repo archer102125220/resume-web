@@ -56,7 +56,7 @@ const nextConfig = {
     PARTNER_KEY: process.env.PARTNER_KEY,
     MERCHANT_ID: process.env.MERCHANT_ID,
     MERCHANT_NAME: process.env.MERCHANT_NAME,
-    TAPPAY_APP_ID: process.env.TAPPAY_APP_ID,
+    TAPPAY_APP_ID: Number(process.env.TAPPAY_APP_ID),
     TAPPAY_APP_KEY: process.env.TAPPAY_APP_KEY,
     TAPPAY_PROD: process.env.TAPPAY_PROD === 'true'
   }

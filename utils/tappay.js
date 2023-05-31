@@ -242,3 +242,46 @@ export function tappayLinePayGetPrime() {
     });
   });
 }
+
+export function tappaySamsungPayInit(samsungPaySetting) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.samsungPay?.setup !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  TPDirect.samsungPay.setup(samsungPaySetting);
+  return TPDirect.samsungPay;
+}
+
+export function tappaySamsungPaySetupPayment(paymentRequest) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.samsungPay?.setupPaymentRequest !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  TPDirect.samsungPay.setupPaymentRequest(paymentRequest);
+}
+
+export function tappaySamsungPayButtonInit(
+  HTMLElement,
+  samsungPayButtonSetting = {}
+) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.samsungPay?.setupSamsungPayButton !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  TPDirect.samsungPay.setupSamsungPayButton(
+    HTMLElement,
+    samsungPayButtonSetting
+  );
+}
+
+export function tappaySamsungPayGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.samsungPay?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.samsungPay.getPrime(result => {
+      resolve(result);
+    });
+  });
+}
