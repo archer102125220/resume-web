@@ -18,12 +18,14 @@ import {
   tappayGooglePaySetupPrice,
   tappayGooglePayButtonInit,
   tappayApplePayInit,
-  tappayApplePaySetupPayment
+  tappayApplePaySetupPayment,
+  tappayLinePayGetPrime
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { mediaMobile } from '@/styles/globals';
 import TappayInputField from '@/components/Tappay/InputField';
 import ApplePayBtn from '@/components/Tappay/ApplePayBtn';
+import LinePayBtn from '@/components/Tappay/LinePayBtn';
 
 const tappayIframePayButton = {
   margin: 'auto',
@@ -88,6 +90,7 @@ function TappayIframe() {
   const [applePayAmount, setApplePayAmount] = useState('');
   const [canGetApplePayPrime, setCanGetApplePayPrime] = useState(false);
   const [applePayError, setApplePayError] = useState(false);
+  const [linePayAmount, setLinePayAmount] = useState('');
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -306,6 +309,11 @@ function TappayIframe() {
     }
   }
 
+  async function handleLinePayGetPrime() {
+    const result = await tappayLinePayGetPrime();
+    console.log(result);
+  }
+
   return (
     <div className={classes.tappayIframe}>
       <Head>
@@ -378,6 +386,21 @@ function TappayIframe() {
         <ApplePayBtn
           onClick={handleApplePayGetPrime}
           disabled={canGetApplePayPrime === false}
+          className={classes.tappayIframePayButton}
+        />
+      </Box>
+      <Divider>LinePay</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="LinePay金額"
+          value={linePayAmount}
+          onChange={setLinePayAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <LinePayBtn
+          onClick={handleLinePayGetPrime}
           className={classes.tappayIframePayButton}
         />
       </Box>

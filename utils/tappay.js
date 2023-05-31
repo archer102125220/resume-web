@@ -230,3 +230,15 @@ export function tappayApplePaySetupPayment(
     );
   });
 }
+
+export function tappayLinePayGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.linePay?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.linePay.getPrime(result => {
+      resolve(result);
+    });
+  });
+}

@@ -23,6 +23,9 @@ export const themeObj = {
     },
     black: {
       main: '#000'
+    },
+    green: {
+      main: '#00be3b'
     }
     // inherit: {
     //   main: '#ffffff'
