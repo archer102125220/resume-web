@@ -79,7 +79,7 @@ function Tappay() {
           react-native-tappay-hook
         </a>
         <p className={classes.tappayListSecondParagraph}>
-          ），想說一不做二不休，就直接連同網頁的部分也一併做研究，不過中途發現可能是涉及安全性問題，tappay官方並沒有提及純資料流的做法，但API裡有疑似的方法可以用，因此才會出現直接使用tappay提供的UI版跟搭配mui的版本．
+          ），想說一不做二不休，就直接連同網頁的部分也一併做研究，不過中途發現可能是涉及安全性問題，tappay官方並沒有提及純資料流的做法．
         </p>
       </div>
       <div className={classes.tappayList}>
@@ -97,32 +97,6 @@ function Tappay() {
             width={200}
             height={200}
           />
-        </Button>
-
-        <Button
-          sx={styles.tappayListButton}
-          variant="contained"
-          onClick={handleGoToTappayMui}
-          component="a"
-          href="/portfolio/tappay/tappay-mui"
-        >
-          <p>tappay-mui</p>
-          <div>
-            <Image
-              src="/img/tappay/tappay-logo.svg"
-              alt="tappay"
-              className={classes.tappayListMuiTappayLogo}
-              width={200}
-              height={200}
-            />
-            <Image
-              src="/img/mui-logo.svg"
-              alt="mui"
-              className={classes.tappayListMuiLogo}
-              width={200}
-              height={200}
-            />
-          </div>
         </Button>
       </div>
     </div>
