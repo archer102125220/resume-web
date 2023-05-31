@@ -48,8 +48,15 @@ export async function firebaseClientInit() {
 }
 
 export async function requestPermission() {
-  console.log('Requesting permission...');
   try {
+    const isSupport = await isSupported();
+    if (isSupport === false) {
+      console.log('FCM is not Supported');
+      // return true的方式略過詢問匡
+      return true;
+    }
+    console.log('Requesting permission...');
+
     if (Notification.permission === 'granted') {
       console.log('Notification permission granted.');
       return true;
