@@ -27,7 +27,8 @@ import {
   tappayJkoPayGetPrime,
   tappayEasyWalletGetPrime,
   tappayAtomeGetPrime,
-  tappayPiWalletGetPrime
+  tappayPiWalletGetPrime,
+  tappayPlusPayGetPrime
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
@@ -39,6 +40,7 @@ import JkoPayBtn from '@/components/Tappay/JkoPayBtn';
 import EasyWalletBtn from '@/components/Tappay/EasyWalletBtn';
 import AtomeBtn from '@/components/Tappay/AtomeBtn';
 import PiWalletBtn from '@/components/Tappay/PiWalletBtn';
+import PlusPayBtn from '@/components/Tappay/PlusPayBtn';
 
 const tappayIframePayButton = {
   margin: 'auto',
@@ -126,6 +128,8 @@ function TappayIframe() {
   const [atomeError, setAtomeError] = useState(false);
   const [piWalletAmount, setPiWalletAmount] = useState('');
   const [piWalletError, setPiWalletError] = useState(false);
+  const [plusPayAmount, setPlusPayAmount] = useState('');
+  const [plusPayError, setPlusPayError] = useState(false);
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -452,6 +456,21 @@ function TappayIframe() {
     console.log(result);
   }
 
+  function handlePlusPayAmount(e) {
+    setPlusPayAmount(e.target.value);
+    setPlusPayError(false);
+  }
+
+  async function handlePlusPayGetPrime() {
+    if (Number(plusPayAmount) <= 0) {
+      setPlusPayError(true);
+      warningMessage('請輸入全盈+PAY金額');
+      return;
+    }
+    const result = await tappayPlusPayGetPrime();
+    console.log(result);
+  }
+
   return (
     <div className={classes.tappayIframe}>
       <Head>
@@ -625,8 +644,8 @@ function TappayIframe() {
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
         <AtomeBtn
-          className={classes.tappayIframeButton}
           onClick={handleAtomeGetPrime}
+          className={classes.tappayIframeButton}
         />
       </Box>
       <Divider>Pi錢包</Divider>
@@ -643,6 +662,22 @@ function TappayIframe() {
         <PiWalletBtn
           onClick={handlePiWalletGetPrime}
           className={classes.tappayIframePayButton}
+        />
+      </Box>
+      <Divider>全盈+PAY</Divider>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="全盈+PAY金額"
+          value={plusPayAmount}
+          error={plusPayError}
+          onChange={handlePlusPayAmount}
+        />
+      </Box>
+      <Box className={classes.tappayIframeBtnRow}>
+        <PlusPayBtn
+          onClick={handlePlusPayGetPrime}
+          className={classes.tappayIframeButton}
         />
       </Box>
     </div>

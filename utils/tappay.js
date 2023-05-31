@@ -333,3 +333,15 @@ export function tappayPiWalletGetPrime() {
     });
   });
 }
+
+export function tappayPlusPayGetPrime() {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (typeof TPDirect?.plusPay?.getPrime !== 'function') {
+      throw new Error('Tappay has not been initialized!');
+    }
+    TPDirect.plusPay.getPrime((error, result) => {
+      resolve({ error, result });
+    });
+  });
+}
