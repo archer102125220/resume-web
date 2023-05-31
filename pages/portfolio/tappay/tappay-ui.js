@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useId, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 
+import { tappayAsyncThunk } from '@/redux/tappay';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import {
   importTappay,
@@ -107,6 +108,8 @@ const useStyles = makeStyles(styles);
 
 function TappayIframe() {
   const [tappay, setTapPay] = useState(null);
+  const [directPayAmount, setDirectPayAmount] = useState('');
+  const [directPayError, setDirectPayError] = useState(false);
   const [cardNumberStatus, setCardNumberStatus] = useState('');
   const [expirationDateStatus, setExpirationDateStatus] = useState('');
   const [ccvStatus, setCcvStatus] = useState('');
@@ -139,6 +142,10 @@ function TappayIframe() {
   const ccvRef = useRef(null);
   const googlePayButtonId = useId();
   const samsungPayButtonRef = useRef(null);
+  const appId = useSelector(({ tappay }) => tappay.appId || -1);
+  const appKey = useSelector(({ tappay }) => tappay.appKey || '');
+  const prod = useSelector(({ tappay }) => tappay.prod || false);
+  const partnerKey = useSelector(({ tappay }) => tappay.partnerKey || '');
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -153,22 +160,47 @@ function TappayIframe() {
     }
   }, [tappay]);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-iframe' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-ui' });
 
+  const successMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_success', payload });
+    },
+    [dispatch]
+  );
   const warningMessage = useCallback(
     payload => {
       return dispatch({ type: 'system/message_warning', payload });
     },
     [dispatch]
   );
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
+  const POST_PayByPrime = useCallback(
+    (payload, callBack) => {
+      return dispatch(
+        tappayAsyncThunk.POST_PayByPrime({
+          payload,
+          loading: boloean => SAVE_loading(boloean),
+          callBack
+        })
+      );
+    },
+    [dispatch]
+  );
+  // const POST_Refund = useCallback(() => {
+  //   return dispatch(
+  //     tappayAsyncThunk.POST_Refund({
+  //       loading: boloean => SAVE_loading(boloean)
+  //     })
+  //   );
+  // }, [dispatch]);
 
   async function createdTapPay() {
     try {
-      const _tappay = await importTappay(
-        process.env.TAPPAY_APP_ID,
-        process.env.TAPPAY_APP_KEY,
-        process.env.TAPPAY_PROD
-      );
+      const _tappay = await importTappay(appId, appKey, prod);
       setTapPay(_tappay);
     } catch (error) {
       console.log(error);
@@ -302,9 +334,43 @@ function TappayIframe() {
     console.log(update);
   }
 
+  function handleDirectPayAmount(e) {
+    setDirectPayAmount(e.target.value);
+    setDirectPayError(false);
+  }
+
   async function directPayGetPrime() {
-    const result = await tappayDirectPayGetPrime();
-    console.log(result);
+    const _directPayAmount = Number(directPayAmount);
+    if (_directPayAmount <= 0) {
+      setDirectPayAmount(true);
+      warningMessage('請輸入直接付款金額');
+      return;
+    }
+    const primeData = await tappayDirectPayGetPrime();
+    console.log(primeData);
+    const {
+      result: {
+        card: { prime }
+      }
+    } = primeData;
+    POST_PayByPrime(
+      {
+        prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        details: 'TapPay DirectPay Test',
+        amount: _directPayAmount,
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        }
+      },
+      () => successMessage('直接付款測試成功！')
+    );
   }
 
   function handleGooglePayAmount(e) {
@@ -316,7 +382,24 @@ function TappayIframe() {
   }
 
   function handleGooglePayGetPrime(err, prime) {
-    console.log(prime);
+    POST_PayByPrime(
+      {
+        prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        details: 'TapPay DirectPay Test',
+        amount: Number(googlePayAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        }
+      },
+      () => successMessage('GooglePay測試成功！')
+    );
   }
 
   async function handleApplePaySetupPayment(e) {
@@ -526,6 +609,14 @@ function TappayIframe() {
           label="卡片驗證碼"
           ref={ccvRef}
           inputStatusClassName={ccvStatus}
+        />
+      </Box>
+      <Box className={classes.tappayIframeRow}>
+        <TextField
+          fullWidth={true}
+          label="直接付款金額"
+          value={directPayAmount}
+          onChange={handleDirectPayAmount}
         />
       </Box>
       <Box>

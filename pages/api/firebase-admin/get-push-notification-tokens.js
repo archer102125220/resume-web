@@ -1,4 +1,4 @@
-import { findAllToken } from '@serverServices/firebaseAdmin';
+import { findAllToken } from '@servicesServices/firebaseAdmin';
 // import { getTokens } from '@/utils/firebase.server';
 
 export default async function getMessageTokens(req, res) {

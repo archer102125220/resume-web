@@ -5,10 +5,10 @@
       "@/*": [
         "./*"
       ],
-      "@serverClient/*": [
+      "@servicesClient/*": [
         "./services/client/*"
       ],
-      "@serverServices/*": [
+      "@servicesServices/*": [
         "./services/server/*"
       ]
     }

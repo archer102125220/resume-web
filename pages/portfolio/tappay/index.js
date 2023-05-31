@@ -50,11 +50,7 @@ function Tappay() {
   function handleGoToTappayIframe(e) {
     console.log(e);
     e.preventDefault();
-    nextRouter.push('/portfolio/tappay/tappay-iframe');
-  }
-  function handleGoToTappayMui(e) {
-    e.preventDefault();
-    nextRouter.push('/portfolio/tappay/tappay-mui');
+    nextRouter.push('/portfolio/tappay/tappay-ui');
   }
 
   return (
@@ -88,7 +84,7 @@ function Tappay() {
           variant="contained"
           onClick={handleGoToTappayIframe}
           component="a"
-          href="/portfolio/tappay/tappay-iframe"
+          href="/portfolio/tappay/tappay-ui"
         >
           <p>tappay-tappayUi</p>
           <Image

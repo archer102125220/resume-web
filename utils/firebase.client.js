@@ -11,7 +11,7 @@ import {
   isSupported
 } from 'firebase/messaging';
 
-import { POST_registerMessageToken } from '@serverClient/firebaseAdmin';
+import { POST_registerMessageToken } from '@servicesClient/firebaseAdmin';
 import { POST_appErrorLog } from '@/services/appErrorLog';
 
 // https://firebase.google.com/docs/cloud-messaging/js/receive?hl=zh-cn#web-version-9_2

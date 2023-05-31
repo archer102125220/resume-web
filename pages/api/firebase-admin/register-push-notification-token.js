@@ -1,4 +1,4 @@
-import { addToken } from '@serverServices/firebaseAdmin';
+import { addToken } from '@servicesServices/firebaseAdmin';
 // import { registerTokens } from '@/utils/firebase.server';
 
 export default async function registerMessageToken(req, res) {

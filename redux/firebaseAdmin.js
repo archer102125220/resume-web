@@ -8,7 +8,7 @@ import {
   POST_androidPushNotification,
   POST_iosPushNotification,
   POST_webPushMessage
-} from '@serverClient/firebaseAdmin';
+} from '@servicesClient/firebaseAdmin';
 
 const name = 'firebaseAdmin';
 

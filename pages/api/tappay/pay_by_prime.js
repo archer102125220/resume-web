@@ -1,4 +1,4 @@
-import { POST_PayByPrime } from '@serverServices/tappay';
+import { POST_PayByPrime } from '@servicesServices/tappay';
 
 export default async function payByPrime(req, res) {
   try {

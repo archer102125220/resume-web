@@ -1,4 +1,4 @@
-import { findAllToken } from '@serverServices/firebaseAdmin';
+import { findAllToken } from '@servicesServices/firebaseAdmin';
 import {
   // getTokens,
   firebaseApp,

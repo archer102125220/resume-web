@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import system from '@/redux/system';
 import firebaseAdmin from '@/redux/firebaseAdmin';
+import tappay from '@/redux/tappay';
 
 export const wrapper = createWrapper(function (appContext) {
   const combinedReducer = combineReducers({
     system,
-    firebaseAdmin
+    firebaseAdmin,
+    tappay
   });
 
   const reducer = (state, action) => {

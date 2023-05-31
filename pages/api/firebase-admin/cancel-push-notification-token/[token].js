@@ -1,4 +1,4 @@
-import { removeToken } from '@serverServices/firebaseAdmin';
+import { removeToken } from '@servicesServices/firebaseAdmin';
 import { cancelTokens } from '@/utils/firebase.server';
 
 export default async function cancelMessageToken(req, res) {

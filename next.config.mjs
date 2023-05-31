@@ -10,12 +10,12 @@ const nextConfig = {
   swcMinify: true,
   webpack: config => {
     config.resolve.alias['@'] = resolve(__dirname);
-    config.resolve.alias['@serverClient'] = join(
+    config.resolve.alias['@servicesClient'] = join(
       __dirname,
       'services',
       'client'
     );
-    config.resolve.alias['@serverServices'] = join(
+    config.resolve.alias['@servicesServices'] = join(
       __dirname,
       'services',
       'server'
@@ -53,12 +53,12 @@ const nextConfig = {
     MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
     APP_ID: process.env.APP_ID,
     TAPPAY_DOMAIN: process.env.TAPPAY_DOMAIN,
-    PARTNER_KEY: process.env.PARTNER_KEY,
     MERCHANT_ID: process.env.MERCHANT_ID,
     MERCHANT_NAME: process.env.MERCHANT_NAME,
     TAPPAY_APP_ID: Number(process.env.TAPPAY_APP_ID),
     TAPPAY_APP_KEY: process.env.TAPPAY_APP_KEY,
-    TAPPAY_PROD: process.env.TAPPAY_PROD === 'true'
+    TAPPAY_PROD: process.env.TAPPAY_PROD === 'true',
+    TAPPAY_PARTNER_KEY: process.env.TAPPAY_PARTNER_KEY
   }
 };
 

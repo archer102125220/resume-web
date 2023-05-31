@@ -1,4 +1,4 @@
-import { POST_Record } from '@serverServices/tappay';
+import { POST_Record } from '@servicesServices/tappay';
 
 export default async function record(req, res) {
   try {
