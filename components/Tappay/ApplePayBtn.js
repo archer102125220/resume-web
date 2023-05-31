@@ -32,7 +32,11 @@ function ApplePayBtn(props) {
       {...ortherProps}
     >
       <Image
-        src="/img/tappay/apple_pay_btn.png"
+        src={
+          disabled === true
+            ? '/img/tappay/apple_pay_disabled_btn.png'
+            : '/img/tappay/apple_pay_btn.png'
+        }
         alt="apple_pay_btn"
         width={100}
         height={40}

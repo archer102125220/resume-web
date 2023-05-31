@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useId } from 'react';
+import { useState, useEffect, useRef, useId, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
@@ -15,7 +16,9 @@ import {
   tappayDirectPayGetPrime,
   importGooglePay,
   tappayGooglePaySetupPrice,
-  tappayGooglePayButtonInit
+  tappayGooglePayButtonInit,
+  tappayApplePayInit,
+  tappayApplePaySetupPayment
 } from '@/utils/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { mediaMobile } from '@/styles/globals';
@@ -81,7 +84,10 @@ function TappayIframe() {
   const [ccvStatus, setCcvStatus] = useState('');
   const [canGetPrime, setCanGetPrime] = useState(false);
   const [googlePayAmount, setGooglePayAmount] = useState('');
+  const [applePay, setApplePay] = useState(null);
   const [applePayAmount, setApplePayAmount] = useState('');
+  const [canGetApplePayPrime, setCanGetApplePayPrime] = useState(false);
+  const [applePayError, setApplePayError] = useState(false);
   // const [cardNumber, setCardNumber] = useState('6224314183841750');
   // const [expirationDate, setExpirationDate] = useState('10/27');
   // const [ccv, setCcv] = useState('048');
@@ -91,6 +97,7 @@ function TappayIframe() {
   const ccvRef = useRef(null);
   const googlePayButtonId = useId();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -104,6 +111,13 @@ function TappayIframe() {
   }, [tappay]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-iframe' });
+
+  const warningMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_warning', payload });
+    },
+    [dispatch]
+  );
 
   async function createdTapPay() {
     try {
@@ -179,9 +193,29 @@ function TappayIframe() {
             color: 'white',
             type: 'long'
           },
-          googlePayGetPrime
+          handleGooglePayGetPrime
         );
       }
+      const { success, tappayPaymentRequestApi } = await tappayApplePayInit(
+        {
+          // Apple Developer 註冊的 Merchant Id
+          merchantIdentifier: 'merchant.tech.cherri',
+          countryCode: 'TW'
+        },
+        {
+          supportedNetworks: ['AMEX', 'JCB', 'MASTERCARD', 'VISA'],
+          supportedMethods: ['apple_pay'],
+          total: {
+            label: '付給 TapPay',
+            amount: {
+              currency: 'TWD',
+              value: '1.00'
+            }
+          }
+        }
+      );
+      setCanGetApplePayPrime(success);
+      setApplePay(tappayPaymentRequestApi);
     } catch (error) {
       console.log(error);
     }
@@ -230,8 +264,46 @@ function TappayIframe() {
     });
   }
 
-  function googlePayGetPrime(err, prime) {
+  function handleGooglePayGetPrime(err, prime) {
     console.log(prime);
+  }
+
+  async function handleApplePaySetupPayment(e) {
+    setApplePayAmount(e.target.value);
+    setApplePayError(false);
+    await tappayApplePaySetupPayment({
+      displayItems: [
+        {
+          label: 'iPhone8',
+          amount: {
+            currency: 'TWD',
+            value: e.target.value
+          }
+        }
+      ],
+      total: {
+        label: 'Apple pay 測試',
+        amount: {
+          currency: 'TWD',
+          value: e.target.value
+        }
+      }
+    });
+  }
+
+  function handleApplePayGetPrime() {
+    if (Number(applePayAmount) <= 0) {
+      setApplePayError(true);
+      warningMessage('請輸入ApplePay金額');
+      return;
+    }
+    try {
+      applePay.getPrime(result => {
+        console.log(result);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -298,11 +370,16 @@ function TappayIframe() {
           fullWidth={true}
           label="ApplePay金額"
           value={applePayAmount}
-          onChange={e => setApplePayAmount(e.target.value)}
+          error={applePayError}
+          onChange={handleApplePaySetupPayment}
         />
       </Box>
       <Box className={classes.tappayIframeBtnRow}>
-        <ApplePayBtn className={classes.tappayIframePayButton} />
+        <ApplePayBtn
+          onClick={handleApplePayGetPrime}
+          disabled={canGetApplePayPrime === false}
+          className={classes.tappayIframePayButton}
+        />
       </Box>
     </div>
   );

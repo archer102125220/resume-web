@@ -169,13 +169,64 @@ export function tappayGooglePayGetPrime(price) {
     if (typeof TPDirect?.googlePay?.getPrime !== 'function') {
       throw new Error('Tappay has not been initialized!');
     }
-    tappayGooglePaySetupPrice(price);
+    if (typeof price?.price === 'string') {
+      tappayGooglePaySetupPrice(price);
+    }
     TPDirect.googlePay.getPrime((error, prime, result) => {
       resolve({ error, prime, result });
     });
   });
 }
 
-export function tappayApplePayInit() {
-  
+let tappayApplePayPaymentRequest = {};
+export async function tappayApplePayInit(
+  setting,
+  paymentRequest = tappayApplePayPaymentRequest
+) {
+  const TPDirect = window.TPDirect || {};
+  if (typeof TPDirect?.paymentRequestApi?.checkAvailability !== 'function') {
+    throw new Error('Tappay has not been initialized!');
+  }
+  const checkAvailability = TPDirect.paymentRequestApi.checkAvailability();
+  let result = {};
+  if (checkAvailability === true) {
+    TPDirect.paymentRequestApi.setupApplePay(setting);
+    result = await tappayApplePaySetupPayment(paymentRequest);
+  }
+  const hasApplePaySession = typeof window.ApplePaySession === 'function';
+  tappayApplePayPaymentRequest = {
+    ...paymentRequest,
+    tappayApplePayPaymentRequest
+  };
+  return {
+    ...result,
+    hasApplePaySession,
+    success: checkAvailability && hasApplePaySession,
+    tappayPaymentRequestApi: TPDirect.paymentRequestApi
+  };
+}
+
+export function tappayApplePaySetupPayment(
+  paymentRequest = tappayApplePayPaymentRequest
+) {
+  return new Promise(resolve => {
+    const TPDirect = window.TPDirect || {};
+    if (
+      typeof TPDirect?.paymentRequestApi?.setupPaymentRequest !== 'function'
+    ) {
+      throw new Error('Tappay has not been initialized!');
+    }
+
+    tappayApplePayPaymentRequest = {
+      ...paymentRequest,
+      ...tappayApplePayPaymentRequest
+    };
+
+    TPDirect.paymentRequestApi.setupPaymentRequest(
+      tappayApplePayPaymentRequest,
+      result => {
+        resolve({ ...result, paymentRequest: tappayApplePayPaymentRequest });
+      }
+    );
+  });
 }
