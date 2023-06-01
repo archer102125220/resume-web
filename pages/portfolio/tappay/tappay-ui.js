@@ -114,7 +114,9 @@ function TappayIframe() {
   const [expirationDateStatus, setExpirationDateStatus] = useState('');
   const [ccvStatus, setCcvStatus] = useState('');
   const [canGetPrime, setCanGetPrime] = useState(false);
+  const [canUseGooglePay, setCanUseGooglePay] = useState(false);
   const [googlePayAmount, setGooglePayAmount] = useState('');
+  const [googlePayError, setGooglePayError] = useState(false);
   const [applePay, setApplePay] = useState(null);
   const [applePayAmount, setApplePayAmount] = useState('');
   const [canGetApplePayPrime, setCanGetApplePayPrime] = useState(false);
@@ -159,6 +161,19 @@ function TappayIframe() {
       tappayInit();
     }
   }, [tappay]);
+  useEffect(() => {
+    if (canUseGooglePay === true) {
+      document.querySelector(`[id="${googlePayButtonId}"]`).innerHTML = '';
+      tappayGooglePayButtonInit(
+        {
+          el: `[id="${googlePayButtonId}"]`,
+          color: 'white',
+          type: 'long'
+        },
+        handleGooglePayGetPrime
+      );
+    }
+  }, [canUseGooglePay, googlePayAmount]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-ui' });
 
@@ -261,16 +276,7 @@ function TappayIframe() {
           allowedNetworks: ['AMEX', 'JCB', 'MASTERCARD', 'VISA']
         }
       );
-      if (result.canUseGooglePay === true) {
-        tappayGooglePayButtonInit(
-          {
-            el: `[id="${googlePayButtonId}"]`,
-            color: 'white',
-            type: 'long'
-          },
-          handleGooglePayGetPrime
-        );
-      }
+      setCanUseGooglePay(result.canUseGooglePay);
       const { success, tappayPaymentRequestApi } = await tappayApplePayInit(
         {
           // Apple Developer 註冊的 Merchant Id
@@ -374,6 +380,7 @@ function TappayIframe() {
   }
 
   function handleGooglePayAmount(e) {
+    setGooglePayError(false);
     setGooglePayAmount(e.target.value);
     tappayGooglePaySetupPrice({
       price: e.target.value,
@@ -381,13 +388,19 @@ function TappayIframe() {
     });
   }
 
-  function handleGooglePayGetPrime(err, prime) {
+  function handleGooglePayGetPrime(err, prime, result) {
+    console.log({ googlePayAmount, err, prime, result });
+    if (err?.status === 2200) {
+      setGooglePayError(true);
+      warningMessage('請輸入GooglePay金額');
+      return;
+    }
     POST_PayByPrime(
       {
         prime,
         partner_key: partnerKey,
         merchant_id: 'tappayTest_CTBC_Union_Pay',
-        details: 'TapPay DirectPay Test',
+        details: 'TapPay GooglePay Test',
         amount: Number(googlePayAmount),
         cardholder: {
           phone_number: '+886923456789',
@@ -434,6 +447,24 @@ function TappayIframe() {
     try {
       applePay.getPrime(result => {
         console.log(result);
+        // POST_PayByPrime(
+        //   {
+        //     prime,
+        //     partner_key: partnerKey,
+        //     merchant_id: 'tappayTest_CTBC_Union_Pay',
+        //     details: 'TapPay ApplePay Test',
+        //     amount: Number(applePayAmount),
+        //     cardholder: {
+        //       phone_number: '+886923456789',
+        //       name: '王小明',
+        //       email: 'LittleMing@Wang.com',
+        //       zip_code: '100',
+        //       address: '台北市天龍區芝麻街1號1樓',
+        //       national_id: 'A123456789'
+        //     }
+        //   },
+        //   () => successMessage('ApplePay測試成功！')
+        // );
       });
     } catch (error) {
       console.log(error);
@@ -616,6 +647,7 @@ function TappayIframe() {
           fullWidth={true}
           label="直接付款金額"
           value={directPayAmount}
+          error={directPayError}
           onChange={handleDirectPayAmount}
         />
       </Box>
@@ -635,6 +667,7 @@ function TappayIframe() {
           fullWidth={true}
           label="GooglePay金額"
           value={googlePayAmount}
+          error={googlePayError}
           onChange={handleGooglePayAmount}
         />
       </Box>
