@@ -516,8 +516,8 @@ function TappayIframe() {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_DOMAIN}/tappay`,
-          backend_notify_url: `${process.env.TAPPAY_DOMAIN}/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/tappay/backend_notify`
         }
       },
       tappayResult => {
