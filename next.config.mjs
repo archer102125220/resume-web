@@ -58,7 +58,8 @@ const nextConfig = {
     TAPPAY_APP_ID: Number(process.env.TAPPAY_APP_ID),
     TAPPAY_APP_KEY: process.env.TAPPAY_APP_KEY,
     TAPPAY_PROD: process.env.TAPPAY_PROD === 'true',
-    TAPPAY_PARTNER_KEY: process.env.TAPPAY_PARTNER_KEY
+    TAPPAY_PARTNER_KEY: process.env.TAPPAY_PARTNER_KEY,
+    TAPPAY_FRONTEND_DOMAIN: process.env.TAPPAY_FRONTEND_DOMAIN
   }
 };
 

@@ -423,7 +423,11 @@ function TappayIframe() {
           national_id: 'A123456789'
         }
       },
-      () => successMessage('GooglePay測試成功！')
+      (tappayResult, error) => {
+        if (error === undefined) {
+          successMessage('GooglePay測試成功！');
+        }
+      }
     );
   }
 
@@ -459,24 +463,32 @@ function TappayIframe() {
     try {
       applePay.getPrime(result => {
         console.log(result);
-        // POST_PayByPrime(
-        //   {
-        //     prime,
-        //     partner_key: partnerKey,
-        //     merchant_id: 'tappayTest_CTBC_Union_Pay',
-        //     details: 'TapPay ApplePay Test',
-        //     amount: Number(applePayAmount),
-        //     cardholder: {
-        //       phone_number: '+886923456789',
-        //       name: '王小明',
-        //       email: 'LittleMing@Wang.com',
-        //       zip_code: '100',
-        //       address: '台北市天龍區芝麻街1號1樓',
-        //       national_id: 'A123456789'
-        //     }
-        //   },
-        //   () => successMessage('ApplePay測試成功！')
-        // );
+        if (result.status !== 0) {
+          errorMessage('ApplePay 錯誤');
+          return;
+        }
+        POST_PayByPrime(
+          {
+            prime: result.prime,
+            partner_key: partnerKey,
+            merchant_id: 'tappayTest_CTBC_Union_Pay',
+            details: 'TapPay ApplePay Test',
+            amount: Number(applePayAmount),
+            cardholder: {
+              phone_number: '+886923456789',
+              name: '王小明',
+              email: 'LittleMing@Wang.com',
+              zip_code: '100',
+              address: '台北市天龍區芝麻街1號1樓',
+              national_id: 'A123456789'
+            }
+          },
+          (tappayResult, error) => {
+            if (error === undefined) {
+              successMessage('ApplePay測試成功！');
+            }
+          }
+        );
       });
     } catch (error) {
       console.log(error);
