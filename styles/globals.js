@@ -56,12 +56,13 @@ export const globalStyle = {
       height: 'auto'
     }
   },
-  '.MuiFormLabel-root.Mui-focused': {
+  '.MuiFormControl-root .MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
     color: theme.palette.thirdly.main
   },
-  '.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: theme.palette.fourthly.main
-  },
+  '.MuiFormControl-root .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+    {
+      borderColor: theme.palette.fourthly.main
+    },
   ...scrollbar
 };
 

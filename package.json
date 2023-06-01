@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0",
-    "dev-https": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first yarn local-ssl-proxy --key local-ssh/key.pem --cert local-ssh/cert.pem --source 3002 --target 3000",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
+    "dev-https": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first yarn local-ssl-proxy --key local-ssh/key.pem --cert local-ssh/cert.pem --source 3001 --target 3000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3002",
     "lint": "next lint",
     "export": "next build && next export",
     "stress": "babel-node ./stress-testing"
@@ -40,7 +40,8 @@
     "react-redux": "^8.0.5",
     "react-transition-group": "^4.4.5",
     "redux": "^4.2.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "sharp": "^0.32.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",

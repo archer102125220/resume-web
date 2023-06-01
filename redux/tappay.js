@@ -10,14 +10,16 @@ export const tappayAsyncThunk = {
       const { payload, callback, loading } = arg || {};
       if (typeof loading === 'function') loading(true);
       let data;
+      let error;
       try {
         data = await POST_payByPrime(payload);
         dispatch({ type: `${name}/SAVE_app_message_token`, payload: data });
-      } catch (error) {
-        console.log(error);
+      } catch (_error) {
+        error = _error;
+        console.log(_error);
       }
       if (typeof loading === 'function') loading(false);
-      if (typeof callback === 'function') callback(data);
+      if (typeof callback === 'function') callback(data, error);
       return data;
     }
   ),
@@ -25,13 +27,15 @@ export const tappayAsyncThunk = {
     const { payload, callback, loading } = arg || {};
     if (typeof loading === 'function') loading(true);
     let data;
+    let error;
     try {
       data = await POST_refund(payload);
-    } catch (error) {
-      console.log(error);
+    } catch (_error) {
+      error = _error;
+      console.log(_error);
     }
     if (typeof loading === 'function') loading(false);
-    if (typeof callback === 'function') callback(data);
+    if (typeof callback === 'function') callback(data, error);
     return data;
   })
 };
