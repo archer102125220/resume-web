@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -8,7 +9,7 @@ import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
-  result: {
+  tappayResult: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -16,7 +17,7 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  resultButton: {
+  tappayResultButton: {
     ...buttonStyle,
     textAlign: 'center'
   }
@@ -24,10 +25,14 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function Result() {
+function TappayResult() {
   const nextRouter = useRouter();
 
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log(nextRouter.query);
+  }, [nextRouter]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/result' });
 
@@ -46,9 +51,9 @@ function Result() {
         <p>付款成功！</p>
         <p>若實際有收到扣款通知，將於當日晚上自動退款．</p>
       </div>
-      <div className={classes.result}>
+      <div className={classes.tappayResult}>
         <Button
-          className={styles.resultButton}
+          className={classes.tappayResultButton}
           variant="contained"
           onClick={handleGoToTappayUi}
           component="a"
@@ -67,4 +72,4 @@ function Result() {
   );
 }
 
-export default Result;
+export default TappayResult;
