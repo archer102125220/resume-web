@@ -177,6 +177,12 @@ function TappayIframe() {
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/tappay-ui' });
 
+  const informationMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_information', payload });
+    },
+    [dispatch]
+  );
   const successMessage = useCallback(
     payload => {
       return dispatch({ type: 'system/message_success', payload });
@@ -518,7 +524,7 @@ function TappayIframe() {
         console.log(tappayResult);
         console.log(tappayResult.payment_url);
         location.href = tappayResult.payment_url;
-        successMessage('LinePay測試成功！');
+        informationMessage('即將跳轉LinePay頁面！');
       }
     );
   }

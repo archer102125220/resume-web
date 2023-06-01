@@ -47,7 +47,7 @@ function Tappay() {
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay' });
 
-  function handleGoToTappayIframe(e) {
+  function handleGoToTappayUi(e) {
     console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/tappay/tappay-ui');
@@ -80,9 +80,9 @@ function Tappay() {
       </div>
       <div className={classes.tappayList}>
         <Button
-          sx={styles.tappayListButton}
+          className={classes.tappayListButton}
           variant="contained"
-          onClick={handleGoToTappayIframe}
+          onClick={handleGoToTappayUi}
           component="a"
           href="/portfolio/tappay/tappay-ui"
         >
