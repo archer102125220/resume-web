@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
+import Image from 'next/image';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,9 +10,9 @@ import Button from '@mui/material/Button';
 import { firebaseAdminAsyncThunk } from '@/redux/firebaseAdmin';
 import buttonStyle from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import TokenDataView from '@/components/FirebaseAdmin/TokenDataView';
+import TokenDataView from '@/components/Firebase/TokenDataView';
 
-function FirebaseAdmin() {
+function FirebaseCloudMessaging() {
   const [appMessageToken, setAppMessageToken] = useState('');
   const [appMessage, setAppMessage] = useState('appMessage');
   const [appMessageTokenError, setAppMessageTokenError] = useState(false);
@@ -121,7 +123,10 @@ function FirebaseAdmin() {
     GET_GetMessageTokens();
   }, []);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
+  useGTMTrack({
+    event: 'scnOpen',
+    url: '/portfolio/firebase-admin/cloud-messaging'
+  });
 
   function handleSetAppMessageToken(e) {
     setAppMessageToken(e.target.value);
@@ -161,8 +166,21 @@ function FirebaseAdmin() {
   return (
     <div>
       <Head>
-        <title>Parker Chan 的作品集 - FirebaseAdmin</title>
+        <title>Parker Chan 的作品集 - FirebaseCloudMessaging</title>
       </Head>
+      <Box>
+        <Image
+          xs={{
+            margin: 'auto',
+            display: 'block',
+            maxWidth: '300px'
+          }}
+          src="/img/firebase/firebase_logo.png"
+          alt="Firebase Logo"
+          width={200}
+          height={200}
+        />
+      </Box>
       <Grid container spacing={2} sx={{ marginBottom: '10px' }}>
         <Grid xs={6} md={8}>
           <TextField
@@ -232,4 +250,4 @@ function FirebaseAdmin() {
   );
 }
 
-export default FirebaseAdmin;
+export default FirebaseCloudMessaging;

@@ -92,7 +92,7 @@ function Portfolio() {
         >
           <p>Firebase Admin SDK</p>
           <Image
-            src="/img/firebase_logo.png"
+            src="/img/firebase/firebase_logo.png"
             alt="Firebase Logo"
             className={classes.portfolioImg}
             width={200}
