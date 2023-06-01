@@ -183,6 +183,12 @@ function TappayIframe() {
     },
     [dispatch]
   );
+  const errorMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_error', payload });
+    },
+    [dispatch]
+  );
   const warningMessage = useCallback(
     payload => {
       return dispatch({ type: 'system/message_warning', payload });
@@ -194,12 +200,12 @@ function TappayIframe() {
     [dispatch]
   );
   const POST_PayByPrime = useCallback(
-    (payload, callBack) => {
+    (payload, callback) => {
       return dispatch(
         tappayAsyncThunk.POST_PayByPrime({
           payload,
           loading: boloean => SAVE_loading(boloean),
-          callBack
+          callback
         })
       );
     },
@@ -484,6 +490,37 @@ function TappayIframe() {
     }
     const result = await tappayLinePayGetPrime();
     console.log(result);
+    if (result.err) {
+      errorMessage('LinePay 錯誤');
+      return;
+    }
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_LINEPAY',
+        details: 'TapPay LinePay Test',
+        amount: Number(linePayAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_DOMAIN}/tappay`,
+          backend_notify_url: `${process.env.TAPPAY_DOMAIN}/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        successMessage('LinePay測試成功！');
+      }
+    );
   }
 
   function handleSamsungPayAmount(e) {

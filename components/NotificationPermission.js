@@ -38,7 +38,10 @@ function NotificationPermission({ anchorOrigin }) {
     setOpen(false);
   }
   async function handleFirebaseMessagingInit() {
-    await firebaseMessagingInit();
+    const result = await requestPermission();
+    if (result === true) {
+      await firebaseMessagingInit();
+    }
     handleClose();
   }
 

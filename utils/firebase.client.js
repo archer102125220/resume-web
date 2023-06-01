@@ -62,7 +62,7 @@ export async function requestPermission() {
       return true;
     } else if (Notification.permission !== 'denied') {
       const permission = await Notification.requestPermission();
-      console.log(permission);
+      console.log({ permission });
       if (permission === 'granted') {
         console.log('Notification permission granted.');
         return true;
