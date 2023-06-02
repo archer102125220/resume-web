@@ -71,14 +71,21 @@ const styles = theme => ({
   tappayUiRow: {
     margin: '10px',
     flex: 1,
-    // overflow: 'hidden'
     [mediaMobile]: {
       flex: 'unset'
     }
   },
+  tappayUiDirectPayAmount: {
+    marginTop: '30px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    [mediaMobile]: {
+      marginTop: 'unset'
+    }
+  },
   tappayUiBtnRow: {
-    marginTop: '10px',
-    marginBottom: '10px',
+    // marginTop: '10px',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -89,7 +96,8 @@ const styles = theme => ({
       flex: 'unset',
       display: 'unset',
       flexDirection: 'unset',
-      justifyContent: 'unset'
+      justifyContent: 'unset',
+      marginBottom: '10px'
     }
   },
   tappayUiButton: {
@@ -581,6 +589,33 @@ function TappayUi() {
     });
     const result = await tappaySamsungPayGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        details: 'TapPay SamsungPay Test',
+        amount: Number(samsungPayAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉SamsungPay頁面！');
+      }
+    );
   }
 
   function handleJkoPayAmount(e) {
@@ -596,6 +631,33 @@ function TappayUi() {
     }
     const result = await tappayJkoPayGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_JKOPAY',
+        details: 'TapPay JkoPay Test',
+        amount: Number(jkoPayAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉街口支付頁面！');
+      }
+    );
   }
 
   function handleEeasyWalletAmount(e) {
@@ -611,6 +673,33 @@ function TappayUi() {
     }
     const result = await tappayEasyWalletGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_EASY_WALLET',
+        details: 'TapPay EasyWallet Test',
+        amount: Number(easyWalletAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉悠遊付頁面！');
+      }
+    );
   }
 
   function handleAtomeAmount(e) {
@@ -626,6 +715,33 @@ function TappayUi() {
     }
     const result = await tappayAtomeGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        details: 'TapPay Atome Test',
+        amount: Number(atomeAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉Atome頁面！');
+      }
+    );
   }
 
   function handlePiWalletAmount(e) {
@@ -641,6 +757,33 @@ function TappayUi() {
     }
     const result = await tappayPiWalletGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_PI_WALLET_AUTO_CAP',
+        details: 'TapPay PiWallet Test',
+        amount: Number(piWalletAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉Pi錢包頁面！');
+      }
+    );
   }
 
   function handlePlusPayAmount(e) {
@@ -656,6 +799,33 @@ function TappayUi() {
     }
     const result = await tappayPlusPayGetPrime();
     console.log(result);
+    POST_PayByPrime(
+      {
+        prime: result.prime,
+        partner_key: partnerKey,
+        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        details: 'TapPay PlusPay Test',
+        amount: Number(plusPayAmount),
+        cardholder: {
+          phone_number: '+886923456789',
+          name: '王小明',
+          email: 'LittleMing@Wang.com',
+          zip_code: '100',
+          address: '台北市天龍區芝麻街1號1樓',
+          national_id: 'A123456789'
+        },
+        result_url: {
+          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+        }
+      },
+      tappayResult => {
+        console.log(tappayResult);
+        console.log(tappayResult.payment_url);
+        location.href = tappayResult.payment_url;
+        informationMessage('即將跳轉全盈+PAY頁面！');
+      }
+    );
   }
 
   return (
@@ -676,10 +846,9 @@ function TappayUi() {
         <p className={classes.tappayUiParagraph}>沒有測試卡號？試試</p>
         <a
           target="_blank"
-          className={[
-            classes.tappayUiLink,
-            classes.tappayUiParagraph
-          ].join(' ')}
+          className={[classes.tappayUiLink, classes.tappayUiParagraph].join(
+            ' '
+          )}
           href="https://www.suijidaquan.com/zh-tw/credit-card-generator"
         >
           測試卡號生成器
@@ -694,36 +863,45 @@ function TappayUi() {
         </p>
       </Box>
       <Divider>DirectPay</Divider>
-      <Box className={classes.tappayUiRow}>
-        <TappayInputField
-          label="卡號"
-          ref={cardNumberRef}
-          inputStatusClassName={cardNumberStatus}
-        />
-      </Box>
-      <Box className={classes.tappayUiRow}>
-        <TappayInputField
-          label="卡片到期日"
-          ref={expirationDateRef}
-          inputStatusClassName={expirationDateStatus}
-        />
-      </Box>
-      <Box className={classes.tappayUiRow}>
-        <TappayInputField
-          label="卡片驗證碼"
-          ref={ccvRef}
-          inputStatusClassName={ccvStatus}
-        />
-      </Box>
-      <Box className={classes.tappayUiRow}>
-        <TextField
-          fullWidth={true}
-          label="直接付款金額"
-          value={directPayAmount}
-          error={directPayError}
-          onChange={handleDirectPayAmount}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayUiRow}>
+          <TappayInputField
+            label="卡號"
+            ref={cardNumberRef}
+            inputStatusClassName={cardNumberStatus}
+          />
+        </Box>
+        <Box className={classes.tappayUiRow}>
+          <TappayInputField
+            label="卡片到期日"
+            ref={expirationDateRef}
+            inputStatusClassName={expirationDateStatus}
+          />
+        </Box>
+      </Stack>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayUiRow}>
+          <TappayInputField
+            label="卡片驗證碼"
+            ref={ccvRef}
+            inputStatusClassName={ccvStatus}
+          />
+        </Box>
+        <Box
+          className={[
+            classes.tappayUiRow,
+            classes.tappayUiDirectPayAmount
+          ].join(' ')}
+        >
+          <TextField
+            fullWidth={true}
+            label="直接付款金額"
+            value={directPayAmount}
+            error={directPayError}
+            onChange={handleDirectPayAmount}
+          />
+        </Box>
+      </Stack>
       <Box>
         <Button
           variant="contained"
