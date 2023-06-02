@@ -316,6 +316,7 @@ function TappayUi() {
         {
           // Apple Developer 註冊的 Merchant Id
           // merchantIdentifier: 'merchant.tech.cherri',
+          // https://portal.tappaysdk.com/apple-pay-me  於TapPay Portal 上設置的識別碼
           merchantIdentifier: 'APMEreUl9YKPFBwIuMP6',
           countryCode: 'TW'
         },
