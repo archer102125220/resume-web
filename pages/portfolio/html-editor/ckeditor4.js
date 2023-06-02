@@ -353,6 +353,7 @@ function CKEditor4() {
         <FormControl className={classes.formSelect} error={categoryError}>
           <InputLabel>文章類別</InputLabel>
           <Select
+            label="文章類別"
             value={category}
             onChange={e => handleCategoryChange(e.target.value)}
           >
