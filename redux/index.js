@@ -36,7 +36,7 @@ export const wrapper = createWrapper(function (appContext) {
   });
 
   if (typeof window !== 'object') {
-    const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
+    const userAgent = appContext?.req?.headers?.['user-agent'] || '';
     const isMobile =
       userAgent.includes('Android') || userAgent.includes('iPhone');
     reduxStore.dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });

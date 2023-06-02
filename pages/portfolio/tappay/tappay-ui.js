@@ -8,7 +8,9 @@ import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
+import { wrapper } from '@/redux/index';
 import { tappayAsyncThunk } from '@/redux/tappay';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import {
@@ -69,14 +71,28 @@ const styles = theme => ({
   },
   tappayIframeLink: linkStyle,
   tappayIframeRow: {
-    margin: '10px'
+    margin: '10px',
+    flex: 1,
     // overflow: 'hidden'
+    [mediaMobile]: {
+      flex: 'unset'
+    }
   },
   tappayIframeBtnRow: {
-    width: '100%',
     marginTop: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     // overflow: 'hidden'
+    [mediaMobile]: {
+      width: '100%',
+      flex: 'unset',
+      display: 'unset',
+      flexDirection: 'unset',
+      justifyContent: 'unset'
+    }
   },
   tappayIframeButton: {
     ...tappayIframePayButton,
@@ -91,14 +107,19 @@ const styles = theme => ({
     borderColor: theme.palette.error.main
   },
   tappayDivButton: {
-    width: '100%',
+    [mediaMobile]: {
+      width: '100%'
+    },
     height: '40px',
     '& > div': {
-      width: '100%'
+      [mediaMobile]: {
+        width: '100%'
+      }
     },
     '& button': {
       ...tappayIframePayButton,
-      display: 'block'
+      display: 'block',
+      width: '100%'
     }
   },
   tappayIframePayButton
@@ -148,9 +169,9 @@ function TappayIframe() {
   const appKey = useSelector(({ tappay }) => tappay.appKey || '');
   const prod = useSelector(({ tappay }) => tappay.prod || false);
   const partnerKey = useSelector(({ tappay }) => tappay.partnerKey || '');
+  const isMobile = useSelector(({ system }) => system.isMobile);
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const classes = useStyles();
 
   useEffect(() => {
@@ -717,18 +738,20 @@ function TappayIframe() {
         </Button>
       </Box>
       <Divider>GooglePay</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="GooglePay金額"
-          value={googlePayAmount}
-          error={googlePayError}
-          onChange={handleGooglePayAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <div className={classes.tappayDivButton} id={googlePayButtonId} />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="GooglePay金額"
+            value={googlePayAmount}
+            error={googlePayError}
+            onChange={handleGooglePayAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <div className={classes.tappayDivButton} id={googlePayButtonId} />
+        </Box>
+      </Stack>
       <Divider>ApplePay</Divider>
       <Box className={classes.tappayIframeRow}>
         <TextField
@@ -862,5 +885,15 @@ function TappayIframe() {
     </div>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  reduxStore =>
+    function () {
+      const isMobile = reduxStore.getState()?.system?.isMobile || false;
+      console.log(isMobile);
+      // 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
+      return { props: {} };
+    }
+);
 
 export default TappayIframe;

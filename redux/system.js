@@ -27,7 +27,7 @@ export const systemAsyncThunk = {
 const systemSlice = createSlice({
   name,
   initialState: {
-    message: { text: '', type: '' },
+    message: { text: '', type: 'success' },
     isMobile: false,
     pageInfo: {},
     loading: false
@@ -35,7 +35,7 @@ const systemSlice = createSlice({
   },
   reducers: {
     message_reset(state) {
-      return { ...state, message: { text: '', type: '' } };
+      return { ...state, message: { text: '', type: 'success' } };
     },
     message_success(state, { payload }) {
       return { ...state, message: { text: payload, type: 'success' } };

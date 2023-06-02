@@ -1,8 +1,8 @@
 // import App from 'next/app';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import { useEffect, useCallback, useMemo } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Provider } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,31 +20,35 @@ import 'dayjs/locale/zh-cn';
 
 firebaseClientInit();
 
-function NextApp({ Component, pageProps, router }) {
-  const messageState = useSelector(state => state.system.message);
-  const loading = useSelector(state => state.system.loading);
-  const dispatch = useDispatch();
+function App({ ...rest }) {
+  const wrapperData = wrapper.useWrappedStore(rest);
+  const { props } = wrapperData;
+  const { Component, pageProps, router } = props;
+
+  const [messageState, setMessageState] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const store = useMemo(() => wrapperData.store, [wrapperData.store]);
 
   const resetMessageState = useCallback(
-    callback => {
-      return dispatch({ type: 'system/message_reset', callback });
-    },
-    [dispatch]
+    callback => store.dispatch({ type: 'system/message_reset', callback }),
+    [store.dispatch]
   );
+
   const SAVE_is_mobile = useCallback(
     (payload, callback) => {
-      return dispatch({
+      return store.dispatch({
         type: 'system/SAVE_is_mobile',
         payload,
         callback
       });
     },
-    [dispatch]
+    [store.dispatch]
   );
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
+    if (jssStyles !== null) {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
     function windowWidthListener() {
@@ -58,50 +62,50 @@ function NextApp({ Component, pageProps, router }) {
       window.removeEventListener('resize', windowWidthListener);
     };
   }, []);
+  useEffect(() => {
+    const unsubscribe = store.subscribe(function () {
+      const state = store.getState();
+
+      const newMessage = state.system.message;
+      if (messageState !== newMessage) {
+        setMessageState(newMessage);
+      }
+
+      const newLoading = state.system.loading;
+      if (loading !== newLoading) {
+        setLoading(newLoading);
+      }
+    });
+    return unsubscribe;
+  }, [messageState, loading]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <meta name="description" content="Parker Chan 的個人資料" />
-        <meta name="theme-color" content={theme.palette.primary.main} />
-        <title>Parker Chan 的個人資料</title>
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
-        <LayoutSwitch router={router} pageProps={pageProps}>
-          <Component {...pageProps} />
-        </LayoutSwitch>
-        <NotificationPermission />
-        <Message
-          messageState={messageState}
-          resetMessageState={resetMessageState}
-        />
-        <PageLoading
-          loading={loading}
-          // loading={true}
-          style={{
-            position: 'absolute',
-            width: '20vw',
-            height: '20vw',
-            top: '40%',
-            left: '40%'
-          }}
-          size="100%"
-        />
-      </LocalizationProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Head>
+          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <meta name="description" content="Parker Chan 的個人資料" />
+          <meta name="theme-color" content={theme.palette.primary.main} />
+          <title>Parker Chan 的個人資料</title>
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
+          <LayoutSwitch router={router} pageProps={pageProps}>
+            <Component {...pageProps} />
+          </LayoutSwitch>
+          <NotificationPermission />
+          <Message
+            messageState={messageState}
+            resetMessageState={resetMessageState}
+          />
+          <PageLoading loading={loading} />
+        </LocalizationProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }
-
-NextApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
-  router: PropTypes.object,
-  err: PropTypes.object
-};
 // https://github.com/kirill-konshin/next-redux-wrapper
-// NextApp.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
+// App.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => {
 //   return async (appContext) => {
 //     if (typeof window === 'undefined') {
 //       const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
@@ -115,17 +119,13 @@ NextApp.propTypes = {
 //   };
 // });
 
-// export default wrapper.withRedux(NextApp);
+// export default wrapper.withRedux(App);
 
-function App({ ...rest }) {
-  const wrapperData = wrapper.useWrappedStore(rest);
-  const { props } = wrapperData;
-  const store = useMemo(() => wrapperData.store, [wrapperData.store]);
-  return (
-    <Provider store={store}>
-      <NextApp {...props} />
-    </Provider>
-  );
-}
+App.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object.isRequired,
+  router: PropTypes.object,
+  err: PropTypes.object
+};
 
 export default App;

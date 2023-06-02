@@ -11,21 +11,26 @@ function Message({
   resetMessageState
 }) {
   const [open, setOpen] = useState(false);
-  const { text = '', type = '' } = messageState || {};
-  const handleOpen = () => {
-    if (text === '' || type === '') return;
-    setOpen(true);
-  };
+  const [messageText, setMessageText] = useState('');
+  const [messageType, setMessageType] = useState('success');
 
-  const handleClose = (event, reason) => {
+  useEffect(() => {
+    const { text: _text = '', type: _type = 'success' } = messageState || {};
+    setMessageText(_text);
+    setMessageType(_type || 'success');
+    if (_text !== '' && _type !== '') {
+      setOpen(true);
+    }
+  }, [messageState]);
+
+  function handleClose(event, reason) {
     if (reason === 'clickaway') {
       return;
     }
 
     setOpen(false);
     setTimeout(() => resetMessageState(), 80);
-  };
-  useEffect(handleOpen, [messageState]);
+  }
 
   return (
     <Snackbar
@@ -38,10 +43,10 @@ function Message({
         elevation={6}
         variant="filled"
         onClose={handleClose}
-        severity={type || 'success'}
+        severity={messageType}
         sx={{ width }}
       >
-        {text}
+        {messageText}
       </MuiAlert>
     </Snackbar>
   );
@@ -56,6 +61,7 @@ Message.propTypes = {
 };
 
 Message.defaultProps = {
+  messageState: { text: '', type: 'success' },
   anchorOrigin: { vertical: 'top', horizontal: 'center' },
   autoHideDuration: 6000,
   width: '100%',
