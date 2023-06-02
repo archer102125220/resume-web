@@ -4,6 +4,7 @@ import system from '@/redux/system';
 import firebaseAdmin from '@/redux/firebaseAdmin';
 import tappay from '@/redux/tappay';
 
+// 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面不觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
 export const wrapper = createWrapper(function (appContext) {
   const combinedReducer = combineReducers({
     system,

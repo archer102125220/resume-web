@@ -1079,10 +1079,22 @@ function TappayUi() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   reduxStore =>
-    function () {
-      const isMobile = reduxStore.getState()?.system?.isMobile || false;
-      console.log(isMobile);
-      // 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
+    function (ctx) {
+      // 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面不觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
+      const reduxIsMobile = reduxStore.getState()?.system?.isMobile || false;
+
+      const userAgent = ctx?.req?.headers?.['user-agent'] || '';
+      const isMobile =
+        userAgent.includes('Android') || userAgent.includes('iPhone');
+
+      if (reduxIsMobile !== isMobile) {
+        reduxStore.dispatch({
+          type: 'system/SAVE_is_mobile',
+          payload: isMobile
+        });
+      }
+
+      console.log({ reduxIsMobile, isMobile });
       return { props: {} };
     }
 );
