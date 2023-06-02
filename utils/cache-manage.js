@@ -27,5 +27,3 @@ export class pageCacheManage {
     this.cacheTTL = cacheTTL;
   }
 }
-
-export default new pageCacheManage();

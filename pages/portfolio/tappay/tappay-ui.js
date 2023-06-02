@@ -48,9 +48,7 @@ import PlusPayBtn from '@/components/Tappay/PlusPayBtn';
 const tappayIframePayButton = {
   margin: 'auto',
   maxWidth: '100%',
-  [mediaMobile]: {
-    minWidth: '100%'
-  }
+  minWidth: '100%'
 };
 
 const styles = theme => ({
@@ -118,8 +116,7 @@ const styles = theme => ({
     },
     '& button': {
       ...tappayIframePayButton,
-      display: 'block',
-      width: '100%'
+      display: 'block'
     }
   },
   tappayIframePayButton
@@ -753,135 +750,151 @@ function TappayIframe() {
         </Box>
       </Stack>
       <Divider>ApplePay</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="ApplePay金額"
-          value={applePayAmount}
-          error={applePayError}
-          onChange={handleApplePaySetupPayment}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <ApplePayBtn
-          onClick={handleApplePayGetPrime}
-          disabled={canGetApplePayPrime === false}
-          className={classes.tappayIframePayButton}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="ApplePay金額"
+            value={applePayAmount}
+            error={applePayError}
+            onChange={handleApplePaySetupPayment}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <ApplePayBtn
+            onClick={handleApplePayGetPrime}
+            disabled={canGetApplePayPrime === false}
+            className={classes.tappayIframePayButton}
+          />
+        </Box>
+      </Stack>
       <Divider>LinePay</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="LinePay金額"
-          value={linePayAmount}
-          error={linePayError}
-          onChange={handleLinePayAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <LinePayBtn
-          onClick={handleLinePayGetPrime}
-          className={classes.tappayIframePayButton}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="LinePay金額"
+            value={linePayAmount}
+            error={linePayError}
+            onChange={handleLinePayAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <LinePayBtn
+            onClick={handleLinePayGetPrime}
+            className={classes.tappayIframePayButton}
+          />
+        </Box>
+      </Stack>
       <Divider>SamsungPay</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="SamsungPay金額"
-          value={samsungPayAmount}
-          error={samsungPayError}
-          onChange={handleSamsungPayAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <div
-          ref={samsungPayButtonRef}
-          className={classes.tappayDivButton}
-          onClick={handleSamsungPayGetPrime}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="SamsungPay金額"
+            value={samsungPayAmount}
+            error={samsungPayError}
+            onChange={handleSamsungPayAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <div
+            ref={samsungPayButtonRef}
+            className={classes.tappayDivButton}
+            onClick={handleSamsungPayGetPrime}
+          />
+        </Box>
+      </Stack>
       <Divider>街口支付</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="街口支付金額"
-          value={jkoPayAmount}
-          error={jkoPayError}
-          onChange={handleJkoPayAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <JkoPayBtn
-          className={classes.tappayIframePayButton}
-          onClick={handleJkoPayGetPrime}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="街口支付金額"
+            value={jkoPayAmount}
+            error={jkoPayError}
+            onChange={handleJkoPayAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <JkoPayBtn
+            className={classes.tappayIframePayButton}
+            onClick={handleJkoPayGetPrime}
+          />
+        </Box>
+      </Stack>
       <Divider>悠遊付</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="悠遊付金額"
-          value={easyWalletAmount}
-          error={easyWalletError}
-          onChange={handleEeasyWalletAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <EasyWalletBtn
-          className={classes.tappayIframePayButton}
-          onClick={handleEeasyWalletGetPrime}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="悠遊付金額"
+            value={easyWalletAmount}
+            error={easyWalletError}
+            onChange={handleEeasyWalletAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <EasyWalletBtn
+            className={classes.tappayIframePayButton}
+            onClick={handleEeasyWalletGetPrime}
+          />
+        </Box>
+      </Stack>
       <Divider>Atome</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="Atome金額"
-          value={atomeAmount}
-          error={atomeError}
-          onChange={handleAtomeAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <AtomeBtn
-          onClick={handleAtomeGetPrime}
-          className={classes.tappayIframeButton}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="Atome金額"
+            value={atomeAmount}
+            error={atomeError}
+            onChange={handleAtomeAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <AtomeBtn
+            onClick={handleAtomeGetPrime}
+            className={classes.tappayIframeButton}
+          />
+        </Box>
+      </Stack>
       <Divider>Pi錢包</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="Pi錢包金額"
-          value={piWalletAmount}
-          error={piWalletError}
-          onChange={handlePiWalletAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <PiWalletBtn
-          onClick={handlePiWalletGetPrime}
-          className={classes.tappayIframePayButton}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="Pi錢包金額"
+            value={piWalletAmount}
+            error={piWalletError}
+            onChange={handlePiWalletAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <PiWalletBtn
+            onClick={handlePiWalletGetPrime}
+            className={classes.tappayIframePayButton}
+          />
+        </Box>
+      </Stack>
       <Divider>全盈+PAY</Divider>
-      <Box className={classes.tappayIframeRow}>
-        <TextField
-          fullWidth={true}
-          label="全盈+PAY金額"
-          value={plusPayAmount}
-          error={plusPayError}
-          onChange={handlePlusPayAmount}
-        />
-      </Box>
-      <Box className={classes.tappayIframeBtnRow}>
-        <PlusPayBtn
-          onClick={handlePlusPayGetPrime}
-          className={classes.tappayIframeButton}
-        />
-      </Box>
+      <Stack direction={isMobile === false ? 'row' : undefined}>
+        <Box className={classes.tappayIframeRow}>
+          <TextField
+            fullWidth={true}
+            label="全盈+PAY金額"
+            value={plusPayAmount}
+            error={plusPayError}
+            onChange={handlePlusPayAmount}
+          />
+        </Box>
+        <Box className={classes.tappayIframeBtnRow}>
+          <PlusPayBtn
+            onClick={handlePlusPayGetPrime}
+            className={classes.tappayIframeButton}
+          />
+        </Box>
+      </Stack>
     </div>
   );
 }

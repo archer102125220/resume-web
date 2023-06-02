@@ -2,15 +2,17 @@ import { Children } from 'react';
 import Script from 'next/script';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
-import pageCacheManage from '@/utils/cache-manage.js';
+import { pageCacheManage as _pageCacheManage } from '@/utils/cache-manage.js';
 import GlobalStyles from '@/styles/globals';
 
+const pageCacheManage = new _pageCacheManage();
+
 const linkTagList = [
-  { rel: 'icon', href: '/favicon.ico' }
-  // {
-  //   rel: 'stylesheet',
-  //   href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
-  // }
+  { rel: 'icon', href: '/favicon.ico' },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+  }
 ];
 
 export default class NextDocument extends Document {
@@ -20,23 +22,29 @@ export default class NextDocument extends Document {
     ctx.originalRenderPage = ctx.renderPage;
 
     ctx.renderPage = async function () {
+      const userAgent = this.req?.headers?.['user-agent'] || '';
+      const isMobile =
+        userAgent.includes('Android') || userAgent.includes('iPhone');
+      const pathname = this.pathname + (isMobile === true ? '_is_mobile' : '');
       const clearCache = this.query?.clearCache;
+
       if (clearCache === '') {
         pageCacheManage.clearAllPageCache();
       } else if (typeof clearCache === 'string') {
-        pageCacheManage.clearPageCache(this.pathname);
+        pageCacheManage.clearPageCache(pathname);
       }
 
-      if (clearCache !== this.pathname) {
-        const pageCache = pageCacheManage.getPageCache(this.pathname);
-        if (typeof pageCache === 'object' && pageCache !== null)
+      if (clearCache !== pathname) {
+        const pageCache = pageCacheManage.getPageCache(pathname);
+        if (typeof pageCache === 'object' && pageCache !== null) {
           return pageCache;
+        }
       }
 
       const page = await this.originalRenderPage({
         enhanceApp: App => props => sheets.collect(<App {...props} />)
       });
-      pageCacheManage.addPageCache(page, this.pathname);
+      pageCacheManage.addPageCache(page, pathname);
 
       return page;
     };
