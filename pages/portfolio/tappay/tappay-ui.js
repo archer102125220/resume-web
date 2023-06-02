@@ -45,30 +45,30 @@ import AtomeBtn from '@/components/Tappay/AtomeBtn';
 import PiWalletBtn from '@/components/Tappay/PiWalletBtn';
 import PlusPayBtn from '@/components/Tappay/PlusPayBtn';
 
-const tappayIframePayButton = {
+const tappayUiPayButton = {
   margin: 'auto',
   maxWidth: '100%',
   minWidth: '100%'
 };
 
 const styles = theme => ({
-  tappayIframe: {
+  tappayUi: {
     width: '100%',
     height: '100%'
   },
-  tappayIframeTitlLogo: {
+  tappayUiTitlLogo: {
     margin: 'auto',
     display: 'block',
     maxWidth: '300px'
   },
-  tappayIframeParagraph: {
+  tappayUiParagraph: {
     display: 'inline'
   },
-  tappayIframeParagraphWarning: {
+  tappayUiParagraphWarning: {
     color: theme.palette.error.main
   },
-  tappayIframeLink: linkStyle,
-  tappayIframeRow: {
+  tappayUiLink: linkStyle,
+  tappayUiRow: {
     margin: '10px',
     flex: 1,
     // overflow: 'hidden'
@@ -76,7 +76,7 @@ const styles = theme => ({
       flex: 'unset'
     }
   },
-  tappayIframeBtnRow: {
+  tappayUiBtnRow: {
     marginTop: '10px',
     marginBottom: '10px',
     flex: 1,
@@ -92,15 +92,15 @@ const styles = theme => ({
       justifyContent: 'unset'
     }
   },
-  tappayIframeButton: {
-    ...tappayIframePayButton,
+  tappayUiButton: {
+    ...tappayUiPayButton,
     ...buttonStyle
   },
-  tappayIframeInputSuccess: {
+  tappayUiInputSuccess: {
     color: theme.palette.success.main,
     borderColor: theme.palette.success.main
   },
-  tappayIframeInputError: {
+  tappayUiInputError: {
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main
   },
@@ -115,16 +115,16 @@ const styles = theme => ({
       }
     },
     '& button': {
-      ...tappayIframePayButton,
+      ...tappayUiPayButton,
       display: 'block'
     }
   },
-  tappayIframePayButton
+  tappayUiPayButton
 });
 
 const useStyles = makeStyles(styles);
 
-function TappayIframe() {
+function TappayUi() {
   const [tappay, setTapPay] = useState(null);
   const [directPayAmount, setDirectPayAmount] = useState('');
   const [directPayError, setDirectPayError] = useState(false);
@@ -343,25 +343,25 @@ function TappayIframe() {
 
   function tappayUpdate(update) {
     if (update.status.number === 2) {
-      setCardNumberStatus(classes.tappayIframeInputError);
+      setCardNumberStatus(classes.tappayUiInputError);
     } else if (update.status.number === 0) {
-      setCardNumberStatus(classes.tappayIframeInputSuccess);
+      setCardNumberStatus(classes.tappayUiInputSuccess);
     } else {
       setCardNumberStatus('');
     }
 
     if (update.status.expiry === 2) {
-      setExpirationDateStatus(classes.tappayIframeInputError);
+      setExpirationDateStatus(classes.tappayUiInputError);
     } else if (update.status.expiry === 0) {
-      setExpirationDateStatus(classes.tappayIframeInputSuccess);
+      setExpirationDateStatus(classes.tappayUiInputSuccess);
     } else {
       setExpirationDateStatus('');
     }
 
     if (update.status.ccv === 2) {
-      setCcvStatus(classes.tappayIframeInputError);
+      setCcvStatus(classes.tappayUiInputError);
     } else if (update.status.ccv === 0) {
-      setCcvStatus(classes.tappayIframeInputSuccess);
+      setCcvStatus(classes.tappayUiInputSuccess);
     } else {
       setCcvStatus('');
     }
@@ -659,13 +659,13 @@ function TappayIframe() {
   }
 
   return (
-    <div className={classes.tappayIframe}>
+    <div className={classes.tappayUi}>
       <Head>
         <title>Parker Chan 的作品集 - Tappay Ui</title>
       </Head>
       <Box>
         <Image
-          className={classes.tappayIframeTitlLogo}
+          className={classes.tappayUiTitlLogo}
           src="/img/tappay/tappay-logo.svg"
           alt="tappay"
           width={300}
@@ -673,12 +673,12 @@ function TappayIframe() {
         />
       </Box>
       <Box>
-        <p className={classes.tappayIframeParagraph}>沒有測試卡號？試試</p>
+        <p className={classes.tappayUiParagraph}>沒有測試卡號？試試</p>
         <a
           target="_blank"
           className={[
-            classes.tappayIframeLink,
-            classes.tappayIframeParagraph
+            classes.tappayUiLink,
+            classes.tappayUiParagraph
           ].join(' ')}
           href="https://www.suijidaquan.com/zh-tw/credit-card-generator"
         >
@@ -686,36 +686,36 @@ function TappayIframe() {
         </a>
         <p
           className={[
-            classes.tappayIframeParagraphWarning,
-            classes.tappayIframeParagraph
+            classes.tappayUiParagraphWarning,
+            classes.tappayUiParagraph
           ].join(' ')}
         >
           （不建議使用真實卡號）
         </p>
       </Box>
       <Divider>DirectPay</Divider>
-      <Box className={classes.tappayIframeRow}>
+      <Box className={classes.tappayUiRow}>
         <TappayInputField
           label="卡號"
           ref={cardNumberRef}
           inputStatusClassName={cardNumberStatus}
         />
       </Box>
-      <Box className={classes.tappayIframeRow}>
+      <Box className={classes.tappayUiRow}>
         <TappayInputField
           label="卡片到期日"
           ref={expirationDateRef}
           inputStatusClassName={expirationDateStatus}
         />
       </Box>
-      <Box className={classes.tappayIframeRow}>
+      <Box className={classes.tappayUiRow}>
         <TappayInputField
           label="卡片驗證碼"
           ref={ccvRef}
           inputStatusClassName={ccvStatus}
         />
       </Box>
-      <Box className={classes.tappayIframeRow}>
+      <Box className={classes.tappayUiRow}>
         <TextField
           fullWidth={true}
           label="直接付款金額"
@@ -729,14 +729,14 @@ function TappayIframe() {
           variant="contained"
           onClick={directPayGetPrime}
           disabled={canGetPrime === false}
-          className={classes.tappayIframeButton}
+          className={classes.tappayUiButton}
         >
           <p>直接付款</p>
         </Button>
       </Box>
       <Divider>GooglePay</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="GooglePay金額"
@@ -745,13 +745,13 @@ function TappayIframe() {
             onChange={handleGooglePayAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <div className={classes.tappayDivButton} id={googlePayButtonId} />
         </Box>
       </Stack>
       <Divider>ApplePay</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="ApplePay金額"
@@ -760,17 +760,17 @@ function TappayIframe() {
             onChange={handleApplePaySetupPayment}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <ApplePayBtn
             onClick={handleApplePayGetPrime}
             disabled={canGetApplePayPrime === false}
-            className={classes.tappayIframePayButton}
+            className={classes.tappayUiPayButton}
           />
         </Box>
       </Stack>
       <Divider>LinePay</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="LinePay金額"
@@ -779,16 +779,16 @@ function TappayIframe() {
             onChange={handleLinePayAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <LinePayBtn
             onClick={handleLinePayGetPrime}
-            className={classes.tappayIframePayButton}
+            className={classes.tappayUiPayButton}
           />
         </Box>
       </Stack>
       <Divider>SamsungPay</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="SamsungPay金額"
@@ -797,7 +797,7 @@ function TappayIframe() {
             onChange={handleSamsungPayAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <div
             ref={samsungPayButtonRef}
             className={classes.tappayDivButton}
@@ -807,7 +807,7 @@ function TappayIframe() {
       </Stack>
       <Divider>街口支付</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="街口支付金額"
@@ -816,16 +816,16 @@ function TappayIframe() {
             onChange={handleJkoPayAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <JkoPayBtn
-            className={classes.tappayIframePayButton}
+            className={classes.tappayUiPayButton}
             onClick={handleJkoPayGetPrime}
           />
         </Box>
       </Stack>
       <Divider>悠遊付</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="悠遊付金額"
@@ -834,16 +834,16 @@ function TappayIframe() {
             onChange={handleEeasyWalletAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <EasyWalletBtn
-            className={classes.tappayIframePayButton}
+            className={classes.tappayUiPayButton}
             onClick={handleEeasyWalletGetPrime}
           />
         </Box>
       </Stack>
       <Divider>Atome</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="Atome金額"
@@ -852,16 +852,16 @@ function TappayIframe() {
             onChange={handleAtomeAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <AtomeBtn
             onClick={handleAtomeGetPrime}
-            className={classes.tappayIframeButton}
+            className={classes.tappayUiButton}
           />
         </Box>
       </Stack>
       <Divider>Pi錢包</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="Pi錢包金額"
@@ -870,16 +870,16 @@ function TappayIframe() {
             onChange={handlePiWalletAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <PiWalletBtn
             onClick={handlePiWalletGetPrime}
-            className={classes.tappayIframePayButton}
+            className={classes.tappayUiPayButton}
           />
         </Box>
       </Stack>
       <Divider>全盈+PAY</Divider>
       <Stack direction={isMobile === false ? 'row' : undefined}>
-        <Box className={classes.tappayIframeRow}>
+        <Box className={classes.tappayUiRow}>
           <TextField
             fullWidth={true}
             label="全盈+PAY金額"
@@ -888,10 +888,10 @@ function TappayIframe() {
             onChange={handlePlusPayAmount}
           />
         </Box>
-        <Box className={classes.tappayIframeBtnRow}>
+        <Box className={classes.tappayUiBtnRow}>
           <PlusPayBtn
             onClick={handlePlusPayGetPrime}
-            className={classes.tappayIframeButton}
+            className={classes.tappayUiButton}
           />
         </Box>
       </Stack>
@@ -909,4 +909,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
 );
 
-export default TappayIframe;
+export default TappayUi;
