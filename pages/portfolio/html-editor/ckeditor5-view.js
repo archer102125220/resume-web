@@ -55,7 +55,7 @@ function CKEditor5View() {
 
   useGTMTrack({
     event: 'scnOpen',
-    url: '/portfolio/html-editor/ckeditor4-view'
+    url: '/portfolio/html-editor/ckeditor5-view'
   });
   useEffect(() => {
     (async () => {
