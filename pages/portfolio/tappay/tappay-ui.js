@@ -45,6 +45,8 @@ import AtomeBtn from '@/components/Tappay/AtomeBtn';
 import PiWalletBtn from '@/components/Tappay/PiWalletBtn';
 import PlusPayBtn from '@/components/Tappay/PlusPayBtn';
 
+const GOOGLE_MERCHANT_ID = 'tappayTest_CTBC';
+
 const tappayUiPayButton = {
   margin: 'auto',
   maxWidth: '100%',
@@ -81,7 +83,7 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     [mediaMobile]: {
-      marginTop: 'unset'
+      marginTop: '10px'
     }
   },
   tappayUiBtnRow: {
@@ -103,14 +105,6 @@ const styles = theme => ({
   tappayUiButton: {
     ...tappayUiPayButton,
     ...buttonStyle
-  },
-  tappayUiInputSuccess: {
-    color: theme.palette.success.main,
-    borderColor: theme.palette.success.main
-  },
-  tappayUiInputError: {
-    color: theme.palette.error.main,
-    borderColor: theme.palette.error.main
   },
   tappayDivButton: {
     [mediaMobile]: {
@@ -136,9 +130,12 @@ function TappayUi() {
   const [tappay, setTapPay] = useState(null);
   const [directPayAmount, setDirectPayAmount] = useState('');
   const [directPayError, setDirectPayError] = useState(false);
-  const [cardNumberStatus, setCardNumberStatus] = useState('');
-  const [expirationDateStatus, setExpirationDateStatus] = useState('');
-  const [ccvStatus, setCcvStatus] = useState('');
+  const [cardNumberError, setCardNumberError] = useState(false);
+  const [cardNumberSuccess, setCardNumberSuccess] = useState(false);
+  const [expirationDateError, setExpirationDateError] = useState(false);
+  const [expirationDateSuccess, setExpirationDateSuccess] = useState(false);
+  const [ccvError, setCcvError] = useState(false);
+  const [ccvSuccess, setCcvSuccess] = useState(false);
   const [canGetPrime, setCanGetPrime] = useState(false);
   const [canUseGooglePay, setCanUseGooglePay] = useState(false);
   const [googlePayAmount, setGooglePayAmount] = useState('');
@@ -296,7 +293,7 @@ function TappayUi() {
       );
       const { result } = await importGooglePay(
         {
-          googleMerchantId: 'tappayTest_CTBC_Union_Pay',
+          googleMerchantId: GOOGLE_MERCHANT_ID,
           allowedCardAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
           merchantName: process.env.TAPPAY_MERCHANT_NAME,
 
@@ -351,27 +348,36 @@ function TappayUi() {
 
   function tappayUpdate(update) {
     if (update.status.number === 2) {
-      setCardNumberStatus(classes.tappayUiInputError);
+      setCardNumberError(true);
+      setCardNumberSuccess(false);
     } else if (update.status.number === 0) {
-      setCardNumberStatus(classes.tappayUiInputSuccess);
+      setCardNumberError(false);
+      setCardNumberSuccess(true);
     } else {
-      setCardNumberStatus('');
+      setCardNumberError(false);
+      setCardNumberSuccess(false);
     }
 
     if (update.status.expiry === 2) {
-      setExpirationDateStatus(classes.tappayUiInputError);
+      setExpirationDateError(true);
+      setExpirationDateSuccess(false);
     } else if (update.status.expiry === 0) {
-      setExpirationDateStatus(classes.tappayUiInputSuccess);
+      setExpirationDateError(false);
+      setExpirationDateSuccess(true);
     } else {
-      setExpirationDateStatus('');
+      setExpirationDateError(false);
+      setExpirationDateSuccess(false);
     }
 
     if (update.status.ccv === 2) {
-      setCcvStatus(classes.tappayUiInputError);
+      setCcvError(true);
+      setCcvSuccess(false);
     } else if (update.status.ccv === 0) {
-      setCcvStatus(classes.tappayUiInputSuccess);
+      setCcvError(false);
+      setCcvSuccess(true);
     } else {
-      setCcvStatus('');
+      setCcvError(false);
+      setCcvSuccess(false);
     }
 
     setCanGetPrime(update.canGetPrime);
@@ -386,7 +392,7 @@ function TappayUi() {
   async function directPayGetPrime() {
     const _directPayAmount = Number(directPayAmount);
     if (_directPayAmount <= 0) {
-      setDirectPayAmount(true);
+      setDirectPayError(true);
       warningMessage('請輸入直接付款金額');
       return;
     }
@@ -413,7 +419,14 @@ function TappayUi() {
           national_id: 'A123456789'
         }
       },
-      () => successMessage('直接付款測試成功！')
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          successMessage('直接付款測試成功！');
+        } else {
+          errorMessage('直接付款錯誤');
+        }
+      }
     );
   }
 
@@ -437,7 +450,7 @@ function TappayUi() {
       {
         prime,
         partner_key: partnerKey,
-        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        merchant_id: GOOGLE_MERCHANT_ID,
         details: 'TapPay GooglePay Test',
         amount: Number(googlePayAmount),
         cardholder: {
@@ -450,8 +463,11 @@ function TappayUi() {
         }
       },
       (tappayResult, error) => {
-        if (error === undefined) {
+        if (error === null) {
+          console.log(tappayResult);
           successMessage('GooglePay測試成功！');
+        } else {
+          errorMessage('GooglePay錯誤');
         }
       }
     );
@@ -497,7 +513,7 @@ function TappayUi() {
           {
             prime: result.prime,
             partner_key: partnerKey,
-            merchant_id: 'tappayTest_CTBC_Union_Pay',
+            merchant_id: 'tappayTest_CTBC',
             details: 'TapPay ApplePay Test',
             amount: Number(applePayAmount),
             cardholder: {
@@ -510,8 +526,11 @@ function TappayUi() {
             }
           },
           (tappayResult, error) => {
-            if (error === undefined) {
+            if (error === null) {
+              console.log(tappayResult);
               successMessage('ApplePay測試成功！');
+            } else {
+              errorMessage('ApplePay錯誤');
             }
           }
         );
@@ -558,11 +577,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉LinePay頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉LinePay頁面！');
+        } else {
+          errorMessage('LinePay錯誤');
+        }
       }
     );
   }
@@ -609,11 +632,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉SamsungPay頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉SamsungPay頁面！');
+        } else {
+          errorMessage('SamsungPay錯誤');
+        }
       }
     );
   }
@@ -651,11 +678,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉街口支付頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉街口支付頁面！');
+        } else {
+          errorMessage('街口支付錯誤');
+        }
       }
     );
   }
@@ -671,11 +702,14 @@ function TappayUi() {
       warningMessage('請輸入悠遊付金額');
       return;
     }
-    const result = await tappayEasyWalletGetPrime();
-    console.log(result);
+    const primeData = await tappayEasyWalletGetPrime();
+    console.log(primeData);
+    const {
+      result: { prime }
+    } = primeData;
     POST_PayByPrime(
       {
-        prime: result.prime,
+        prime,
         partner_key: partnerKey,
         merchant_id: 'tappayTest_EASY_WALLET',
         details: 'TapPay EasyWallet Test',
@@ -693,11 +727,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉悠遊付頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉悠遊付頁面！');
+        } else {
+          errorMessage('悠遊付錯誤');
+        }
       }
     );
   }
@@ -713,14 +751,29 @@ function TappayUi() {
       warningMessage('請輸入悠遊付金額');
       return;
     }
-    const result = await tappayAtomeGetPrime();
-    console.log(result);
+    const primeData = await tappayAtomeGetPrime();
+    console.log(primeData);
+    const {
+      result: { prime },
+      error
+    } = primeData;
+    if (error) {
+      errorMessage('Atome錯誤');
+      return;
+    }
     POST_PayByPrime(
       {
-        prime: result.prime,
+        prime,
         partner_key: partnerKey,
-        merchant_id: 'tappayTest_CTBC_Union_Pay',
-        details: 'TapPay Atome Test',
+        merchant_id: 'tappayTest_ATOME',
+        details: JSON.stringify([
+          {
+            item_id: 'TapPayAtomeTest',
+            item_name: 'TapPayAtomeTest',
+            item_quantity: 1,
+            item_price: Number(atomeAmount)
+          }
+        ]),
         amount: Number(atomeAmount),
         cardholder: {
           phone_number: '+886923456789',
@@ -730,16 +783,34 @@ function TappayUi() {
           address: '台北市天龍區芝麻街1號1樓',
           national_id: 'A123456789'
         },
+        extra_info: {
+          shopper_info: {
+            shipping_address: {
+              country_code: 'TW',
+              lines: '台北市天龍區芝麻街2號2樓',
+              postcode: '200'
+            },
+            billing_address: {
+              country_code: 'TW',
+              lines: '台北市天龍區芝麻街2號2樓',
+              postcode: '200'
+            }
+          }
+        },
         result_url: {
           frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉Atome頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉Atome頁面！');
+        } else {
+          errorMessage('Atome錯誤');
+        }
       }
     );
   }
@@ -755,14 +826,29 @@ function TappayUi() {
       warningMessage('請輸入Pi錢包金額');
       return;
     }
-    const result = await tappayPiWalletGetPrime();
-    console.log(result);
+    const primeData = await tappayPiWalletGetPrime();
+    console.log(primeData);
+    const {
+      result: { prime },
+      error
+    } = primeData;
+    if (error) {
+      errorMessage('Pi錢包錯誤');
+      return;
+    }
     POST_PayByPrime(
       {
-        prime: result.prime,
+        prime,
         partner_key: partnerKey,
         merchant_id: 'tappayTest_PI_WALLET_AUTO_CAP',
-        details: 'TapPay PiWallet Test',
+        details: JSON.stringify([
+          {
+            item_id: 'TapPayPiWalletTest',
+            item_name: 'TapPayPiWalletTest',
+            item_quantity: 1,
+            item_price: Number(piWalletAmount)
+          }
+        ]),
         amount: Number(piWalletAmount),
         cardholder: {
           phone_number: '+886923456789',
@@ -777,11 +863,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉Pi錢包頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉Pi錢包頁面！');
+        } else {
+          errorMessage('Pi錢包錯誤');
+        }
       }
     );
   }
@@ -797,13 +887,21 @@ function TappayUi() {
       warningMessage('請輸入全盈+PAY金額');
       return;
     }
-    const result = await tappayPlusPayGetPrime();
-    console.log(result);
+    const primeData = await tappayPlusPayGetPrime();
+    console.log(primeData);
+    const {
+      result: { prime },
+      error
+    } = primeData;
+    if (error) {
+      errorMessage('全盈+PAY錯誤');
+      return;
+    }
     POST_PayByPrime(
       {
-        prime: result.prime,
+        prime,
         partner_key: partnerKey,
-        merchant_id: 'tappayTest_CTBC_Union_Pay',
+        merchant_id: 'tappayTest_PLUSPAY',
         details: 'TapPay PlusPay Test',
         amount: Number(plusPayAmount),
         cardholder: {
@@ -819,11 +917,15 @@ function TappayUi() {
           backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
-      tappayResult => {
-        console.log(tappayResult);
-        console.log(tappayResult.payment_url);
-        location.href = tappayResult.payment_url;
-        informationMessage('即將跳轉全盈+PAY頁面！');
+      (tappayResult, error) => {
+        if (error === null) {
+          console.log(tappayResult);
+          console.log(tappayResult.payment_url);
+          location.href = tappayResult.payment_url;
+          informationMessage('即將跳轉全盈+PAY頁面！');
+        } else {
+          errorMessage('全盈+PAY錯誤');
+        }
       }
     );
   }
@@ -868,14 +970,16 @@ function TappayUi() {
           <TappayInputField
             label="卡號"
             ref={cardNumberRef}
-            inputStatusClassName={cardNumberStatus}
+            error={cardNumberError}
+            success={cardNumberSuccess}
           />
         </Box>
         <Box className={classes.tappayUiRow}>
           <TappayInputField
             label="卡片到期日"
             ref={expirationDateRef}
-            inputStatusClassName={expirationDateStatus}
+            error={expirationDateError}
+            success={expirationDateSuccess}
           />
         </Box>
       </Stack>
@@ -884,7 +988,8 @@ function TappayUi() {
           <TappayInputField
             label="卡片驗證碼"
             ref={ccvRef}
-            inputStatusClassName={ccvStatus}
+            error={ccvError}
+            success={ccvSuccess}
           />
         </Box>
         <Box
@@ -894,10 +999,12 @@ function TappayUi() {
           ].join(' ')}
         >
           <TextField
+            type="number"
             fullWidth={true}
             label="直接付款金額"
-            value={directPayAmount}
             error={directPayError}
+            value={directPayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleDirectPayAmount}
           />
         </Box>
@@ -916,10 +1023,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="GooglePay金額"
-            value={googlePayAmount}
             error={googlePayError}
+            value={googlePayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleGooglePayAmount}
           />
         </Box>
@@ -931,10 +1040,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="ApplePay金額"
-            value={applePayAmount}
             error={applePayError}
+            value={applePayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleApplePaySetupPayment}
           />
         </Box>
@@ -950,10 +1061,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="LinePay金額"
-            value={linePayAmount}
             error={linePayError}
+            value={linePayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleLinePayAmount}
           />
         </Box>
@@ -968,10 +1081,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="SamsungPay金額"
-            value={samsungPayAmount}
             error={samsungPayError}
+            value={samsungPayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleSamsungPayAmount}
           />
         </Box>
@@ -987,10 +1102,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="街口支付金額"
-            value={jkoPayAmount}
             error={jkoPayError}
+            value={jkoPayAmount}
+            inputProps={{ min: 0 }}
             onChange={handleJkoPayAmount}
           />
         </Box>
@@ -1005,10 +1122,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="悠遊付金額"
-            value={easyWalletAmount}
             error={easyWalletError}
+            value={easyWalletAmount}
+            inputProps={{ min: 0 }}
             onChange={handleEeasyWalletAmount}
           />
         </Box>
@@ -1023,10 +1142,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="Atome金額"
-            value={atomeAmount}
             error={atomeError}
+            value={atomeAmount}
+            inputProps={{ min: 0 }}
             onChange={handleAtomeAmount}
           />
         </Box>
@@ -1041,10 +1162,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="Pi錢包金額"
-            value={piWalletAmount}
             error={piWalletError}
+            value={piWalletAmount}
+            inputProps={{ min: 0 }}
             onChange={handlePiWalletAmount}
           />
         </Box>
@@ -1059,10 +1182,12 @@ function TappayUi() {
       <Stack direction={isMobile === false ? 'row' : undefined}>
         <Box className={classes.tappayUiRow}>
           <TextField
+            type="number"
             fullWidth={true}
             label="全盈+PAY金額"
-            value={plusPayAmount}
             error={plusPayError}
+            value={plusPayAmount}
+            inputProps={{ min: 0 }}
             onChange={handlePlusPayAmount}
           />
         </Box>
@@ -1094,7 +1219,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         });
       }
 
-      console.log({ reduxIsMobile, isMobile });
       return { props: {} };
     }
 );

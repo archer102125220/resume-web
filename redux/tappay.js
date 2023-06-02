@@ -10,7 +10,7 @@ export const tappayAsyncThunk = {
       const { payload, callback, loading } = arg || {};
       if (typeof loading === 'function') loading(true);
       let data;
-      let error;
+      let error = null;
       try {
         data = await POST_payByPrime(payload);
         dispatch({ type: `${name}/SAVE_app_message_token`, payload: data });
