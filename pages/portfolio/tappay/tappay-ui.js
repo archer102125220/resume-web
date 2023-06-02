@@ -315,7 +315,8 @@ function TappayUi() {
       const { success, tappayPaymentRequestApi } = await tappayApplePayInit(
         {
           // Apple Developer 註冊的 Merchant Id
-          merchantIdentifier: 'merchant.tech.cherri',
+          // merchantIdentifier: 'merchant.tech.cherri',
+          merchantIdentifier: 'APMEreUl9YKPFBwIuMP6',
           countryCode: 'TW'
         },
         {
