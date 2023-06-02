@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 
@@ -120,6 +122,12 @@ const styles = {
   root: {
     ...m3
     // minWidth: 1200
+  },
+  ckeditorTitlLogo: {
+    width: '100px'
+  },
+  ckeditorTitlText: {
+    fontSize: '24px'
   },
   dataTime: {
     ...mb3,
@@ -402,7 +410,9 @@ function CKEditor5v2() {
     if (img === null) {
       _contextErrorMsg +=
         (_contextErrorMsg !== '' ? '；' : '') + '請插入圖片，以利建立文章縮圖';
-      console.log('ckeditor5v2版因無法透過上傳以外方式插入圖片，故品集版不做無圖片阻擋');
+      console.log(
+        'ckeditor5v2版因無法透過上傳以外方式插入圖片，故品集版不做無圖片阻擋'
+      );
       // fail.push(true);
     } else {
       firstImage = img.src;
@@ -473,6 +483,16 @@ function CKEditor5v2() {
       <Head>
         <title>Parker Chan 的作品集 - HTML編輯器</title>
       </Head>
+      <Stack direction="row" justifyContent="center" alignItems="center">
+        <Image
+          className={classes.ckeditorTitlLogo}
+          src="/img/ckeditor/ckeditor-5.svg"
+          alt="tappay"
+          width={100}
+          height={100}
+        />
+        <p className={classes.ckeditorTitlText}>CKEditor5</p>
+      </Stack>
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章類別</label>
         <select

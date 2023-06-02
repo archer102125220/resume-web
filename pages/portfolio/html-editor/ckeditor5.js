@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 
@@ -125,6 +127,12 @@ const styles = {
   root: {
     ...m3
     // minWidth: 1200
+  },
+  ckeditorTitlLogo: {
+    width: '100px'
+  },
+  ckeditorTitlText: {
+    fontSize: '24px'
   },
   dataTime: {
     ...mb3,
@@ -401,6 +409,16 @@ function CKEditor5() {
       <Head>
         <title>Parker Chan 的作品集 - HTML編輯器</title>
       </Head>
+      <Stack direction="row" justifyContent="center" alignItems="center">
+        <Image
+          className={classes.ckeditorTitlLogo}
+          src="/img/ckeditor/ckeditor-5.svg"
+          alt="tappay"
+          width={100}
+          height={100}
+        />
+        <p className={classes.ckeditorTitlText}>CKEditor5</p>
+      </Stack>
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章類別</label>
         <select
@@ -598,7 +616,11 @@ function CKEditor5() {
               onChange={handleStartDateChange}
               minDate={dayjs()}
               maxDate={endDate ? endDate : ''}
-              className={[startDateError ? classes.isInvalid : ''].join(' ')}
+              slotProps={{
+                field: {
+                  error: endDateError
+                }
+              }}
             />
           </div>
           <div className={classes.dataTimeBetween}>~</div>
@@ -616,7 +638,11 @@ function CKEditor5() {
               value={endDate}
               onChange={handleEndDateChange}
               minDate={dayjs()}
-              className={[endDateError ? classes.isInvalid : ''].join(' ')}
+              slotProps={{
+                field: {
+                  error: endDateError
+                }
+              }}
             />
           </div>
         </div>
