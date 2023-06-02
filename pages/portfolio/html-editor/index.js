@@ -100,8 +100,8 @@ function HTMLEditor() {
           <Image
             src="/img/ckeditor/ckeditor-4.svg"
             alt="CKEditor4"
-            width={200}
-            height={200}
+            width={120}
+            height={120}
           />
         </Button>
 
@@ -116,8 +116,8 @@ function HTMLEditor() {
           <Image
             src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
-            width={200}
-            height={200}
+            width={120}
+            height={120}
           />
         </Button>
 
@@ -132,8 +132,8 @@ function HTMLEditor() {
           <Image
             src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
-            width={200}
-            height={200}
+            width={120}
+            height={120}
           />
         </Button>
       </div>

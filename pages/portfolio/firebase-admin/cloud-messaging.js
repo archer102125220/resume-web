@@ -172,8 +172,9 @@ function FirebaseCloudMessaging() {
         <Image
           style={{
             margin: 'auto',
+            marginBottom: '10px',
             display: 'block',
-            maxWidth: '300px'
+            width: '150px'
           }}
           src="/img/firebase/firebase-cloud-messaging.png"
           alt="Firebase Logo"
