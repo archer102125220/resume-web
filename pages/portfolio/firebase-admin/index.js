@@ -75,8 +75,8 @@ function FirebaseAdmin() {
           <Image
             src="/img/firebase/firebase-cloud-messaging.png"
             alt="firebase-cloud-messaging"
-            width={200}
-            height={200}
+            width={150}
+            height={150}
           />
         </Button>
       </div>

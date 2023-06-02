@@ -170,12 +170,12 @@ function FirebaseCloudMessaging() {
       </Head>
       <Box>
         <Image
-          xs={{
+          style={{
             margin: 'auto',
             display: 'block',
             maxWidth: '300px'
           }}
-          src="/img/firebase/firebase_logo.png"
+          src="/img/firebase/firebase-cloud-messaging.png"
           alt="Firebase Logo"
           width={200}
           height={200}

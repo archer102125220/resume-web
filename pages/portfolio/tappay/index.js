@@ -90,8 +90,8 @@ function Tappay() {
           <Image
             src="/img/tappay/tappay-logo.svg"
             alt="tappay"
-            width={200}
-            height={200}
+            width={300}
+            height={100}
           />
         </Button>
       </div>
