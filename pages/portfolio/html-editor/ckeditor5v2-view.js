@@ -25,6 +25,9 @@ const styles = {
   buttonBlock: {
     display: 'flex',
     justifyContent: 'space-around'
+  },
+  htmlView: {
+    width: '100%'
   }
 };
 
@@ -53,10 +56,6 @@ function CKEditor5View() {
   }, []);
 
   useEffect(() => {
-    console.log({ CKEditor });
-  }, [CKEditor]);
-
-  useEffect(() => {
     const {
       title: queryTitle = '',
       context: queryContext = '',
@@ -82,27 +81,21 @@ function CKEditor5View() {
     }
   }, [context]);
 
+  useEffect(() => {
+    console.log({ CKEditor });
+    if (CKEditor !== null) {
+      CKEditor.setData(context);
+      CKEditor.enableReadOnlyMode(CKEditor.id);
+    }
+  }, [CKEditor, context]);
+
   async function createdCKEditor() {
     try {
       if (document.querySelector('#ckEditor-script')) return;
       const _CKEditor = await importCKEditor5(CKEditorRef.current, {
         initialData: context,
         language: 'zh',
-        toolbar: {
-          items: [
-            'heading',
-            '|',
-            'bold',
-            'italic',
-            'link',
-            'imageUpload',
-            'mediaEmbed',
-            'fontSize',
-            'fontBackgroundColor',
-            'fontColor',
-            'fontFamily'
-          ]
-        },
+        toolbar: [],
         heading: {
           options: [
             {
@@ -149,7 +142,7 @@ function CKEditor5View() {
           ]
         }
       });
-      CKEditor.enableReadOnlyMode(CKEditor.id);
+      console.log(_CKEditor);
       setCKEditor(_CKEditor);
     } catch (error) {
       console.log(error);
@@ -184,7 +177,7 @@ function CKEditor5View() {
       </div>
       <div className={classes.row}>
         <label>文章內文： </label>
-        <div>
+        <div className={classes.htmlView}>
           <div ref={CKEditorRef} />
         </div>
       </div>

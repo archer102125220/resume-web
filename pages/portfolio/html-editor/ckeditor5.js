@@ -4,9 +4,14 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
@@ -23,111 +28,49 @@ import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import { UploadAdapter, removeCKEditor5 } from '@/utils/CKEditor5';
 
-const m3 = {
-  margin: '16px'
-};
 const mb3 = {
   marginBottom: '16px'
-};
-const formLabel = {
-  display: 'inline-block',
-  marginBottom: '8px'
-};
-const formSelect = {
-  // eslint-disable-next-line quotes
-  '--bs-form-select-bg-img': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")`,
-  display: 'block',
-  width: '100%',
-  padding: '6px 36px 6px 12px',
-  fontSize: '16px',
-  fontWeight: '400',
-  lineHeight: '1.5',
-  color: '#212529',
-  backgroundColor: '#fff',
-  backgroundImage:
-    'var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none)',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right 12px center',
-  backgroundSize: '16px 12px',
-  border: '1px solid #dee2e6',
-  borderRadius: '6px',
-  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
-  '-webkit-appearance': 'none',
-  '-moz-appearance': 'none',
-  appearance: 'none',
-  '&:focus': {
-    borderColor: '#86b7fe',
-    outline: 0,
-    boxShadow: '0 0 0 4px rgba(13,110,253,.25)'
-  }
-};
-const formControl = {
-  display: 'block',
-  width: '100%',
-  padding: '6px 12px',
-  fontSize: '16px',
-  fontWeight: '400',
-  lineHeight: '1.5',
-  color: '#212529',
-  backgroundColor: '#fff',
-  backgroundClip: 'padding-box',
-  border: '1px solid #dee2e6',
-  '-webkit-appearance': 'none',
-  '-moz-appearance': 'none',
-  appearance: 'none',
-  borderRadius: '6px',
-  transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
-};
-const invalidFeedback = {
-  display: 'none',
-  width: '100%',
-  marginTop: '4px',
-  fontSize: '.875em',
-  color: '#dc3545'
-};
-const row = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  marginTop: 'calc(-1 * 16px)',
-  marginRight: 'calc(-.5 * 16px)',
-  marginLeft: 'calc(-.5 * 16px)',
-  '& > *': {
-    flexShrink: '0',
-    width: '100%',
-    maxWidth: '100%',
-    paddingRight: 'calc(16px * .5)',
-    paddingLeft: 'calc(16px * .5)',
-    marginTop: '16px'
-  }
 };
 const colAuto = {
   flex: '0 0 auto',
   width: 'auto'
 };
-const isInvalid = {
-  borderColor: '#dc3545',
-  paddingRight: 'calc(1.5em + 12px)',
-  // eslint-disable-next-line quotes
-  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e")`,
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right calc(0.375em + 3px) center',
-  backgroundSize: 'calc(0.75em + 6px) calc(0.75em + 6px)'
-};
 
 const styles = {
-  m3,
-  mb3,
-  formLabel,
-  formSelect,
-  formControl,
-  invalidFeedback,
-  row,
-  colAuto,
-  isInvalid,
-  root: {
-    ...m3
-    // minWidth: 1200
+  m3: {
+    margin: '16px'
   },
+  mb3,
+  formLabel: {
+    display: 'inline-block',
+    marginBottom: '8px'
+  },
+  formSelect: {
+    width: '100%'
+  },
+  invalidFeedback: {
+    display: 'none',
+    width: '100%',
+    marginTop: '4px',
+    fontSize: '.875em',
+    color: '#dc3545'
+  },
+  row: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginTop: 'calc(-1 * 16px)',
+    marginRight: 'calc(-.5 * 16px)',
+    marginLeft: 'calc(-.5 * 16px)',
+    '& > *': {
+      flexShrink: '0',
+      width: '100%',
+      maxWidth: '100%',
+      paddingRight: 'calc(16px * .5)',
+      paddingLeft: 'calc(16px * .5)',
+      marginTop: '16px'
+    }
+  },
+  colAuto,
   ckeditorTitlLogo: {
     width: '100px'
   },
@@ -421,28 +364,25 @@ function CKEditor5() {
       </Stack>
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章類別</label>
-        <select
-          className={[
-            classes.formSelect,
-            categoryError ? classes.isInvalid : ''
-          ].join(' ')}
-          onChange={e => handleCategoryChange(e.target.value)}
-          value={category}
-        >
-          <option value="">請選擇</option>
-          <option value="test">測試</option>
-        </select>
+        <FormControl className={classes.formSelect} error={categoryError}>
+          <InputLabel>文章類別</InputLabel>
+          <Select
+            label="文章類別"
+            value={category}
+            onChange={e => handleCategoryChange(e.target.value)}
+          >
+            <MenuItem value="">請選擇</MenuItem>
+            <MenuItem value="test">測試</MenuItem>
+          </Select>
+        </FormControl>
       </div>
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章標題</label>
-        <input
-          type="text"
-          className={[
-            classes.formControl,
-            titleError ? classes.isInvalid : ''
-          ].join(' ')}
-          onChange={e => handleTitleChange(e.target.value)}
+        <TextField
+          label="文章標題"
           value={title}
+          error={titleError}
+          onChange={e => handleTitleChange(e.target.value)}
         />
       </div>
 
@@ -550,28 +490,22 @@ function CKEditor5() {
           文章描述(自動節錄文章內文內容，最多75字)
         </label>
         {/* <dd className="col-sm-9">{description}</dd> */}
-        <input
-          type="text"
-          // readOnly={true}
+        <TextField
+          label="文章描述"
           value={description}
+          error={description === ''}
+          // readOnly={true}
           onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
-          className={[
-            classes.formControl,
-            contextErrorMsg !== '' ? classes.isInvalid : ''
-          ].join(' ')}
         />
       </div>
 
       <div className={classes.md3}>
         <label className={classes.formLabel}>文章關鍵字</label>
-        <input
-          type="text"
+        <TextField
+          label="文章關鍵字"
           value={keyWord}
+          error={keyWordError}
           onChange={e => handleKeyWordChange(e.target.value)}
-          className={[
-            classes.formControl,
-            keyWordError ? classes.isInvalid : ''
-          ].join(' ')}
         />
       </div>
       <div className={classes.md3}>
@@ -602,20 +536,11 @@ function CKEditor5() {
         <label className={classes.formLabel}>上架時間</label>
         <div className={classes.row}>
           <div className={classes.dataTimeInput}>
-            {/* <input
-              type="date"
-              className={[
-                classes.formControl,
-                startDateError ? classes.isInvalid : ''
-              ].join(' ')}
-              value={startDate}
-              onChange={e => handleStartDateChange(e.target.value)}
-            /> */}
             <DatePicker
               value={startDate}
-              onChange={handleStartDateChange}
               minDate={dayjs()}
               maxDate={endDate ? endDate : ''}
+              onChange={handleStartDateChange}
               slotProps={{
                 field: {
                   error: endDateError
@@ -625,19 +550,10 @@ function CKEditor5() {
           </div>
           <div className={classes.dataTimeBetween}>~</div>
           <div className={classes.dataTimeInput}>
-            {/* <input
-              type="date"
-              className={[
-                classes.formControl,
-                endDateError ? classes.isInvalid : ''
-              ].join(' ')}
-              value={endDate}
-              onChange={e => handleEndDateChange(e.target.value)}
-            /> */}
             <DatePicker
               value={endDate}
-              onChange={handleEndDateChange}
               minDate={dayjs()}
+              onChange={handleEndDateChange}
               slotProps={{
                 field: {
                   error: endDateError
