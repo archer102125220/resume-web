@@ -20,6 +20,7 @@ const nextConfig = {
       'services',
       'server'
     );
+    config.resolve.alias['@models'] = join(__dirname, 'models');
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
