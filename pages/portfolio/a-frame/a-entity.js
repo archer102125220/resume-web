@@ -7,7 +7,7 @@ import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 
-function AFrameHelloWorkd() {
+function AFrameTest() {
   const dispatch = useDispatch();
   const SAVE_defalutLayoutFullScreen = useCallback(
     payload =>
@@ -32,28 +32,30 @@ function AFrameHelloWorkd() {
   return (
     <div>
       <Head>
-        <title>Parker Chan 的作品集 - a-frame(Hello, World!)</title>
+        <title>Parker Chan 的作品集 - a-frame(a-entity)</title>
       </Head>
       <Box>
         <AFrameContent>
           <a-scene>
-            <a-text value="Hello, World!" position="-0.5 2.5 -3" />
-            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" />
-            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" />
+            <a-box position="-1 1 -5" color="#4CC3D9" />
+            <a-sphere position="0 1 -5" radius="1.25" color="#EF2D5E" />
             <a-cylinder
-              position="1 0.75 -3"
+              position="1 1 -5"
               radius="0.5"
               height="1.5"
               color="#FFC65D"
             />
-            <a-plane
-              position="0 0 -4"
-              rotation="-90 0 0"
-              width="4"
-              height="4"
-              color="#7BC8A4"
-            />
-            <a-sky color="#ECECEC" />
+
+            <a-entity position="2 2 -5">
+              <a-box position="-1 1 0" color="#4CC3D9" />
+              <a-sphere position="0 1 0" radius="1.25" color="#EF2D5E" />
+              <a-cylinder
+                position="1 1 0"
+                radius="0.5"
+                height="1.5"
+                color="#FFC65D"
+              />
+            </a-entity>
           </a-scene>
         </AFrameContent>
       </Box>
@@ -61,4 +63,4 @@ function AFrameHelloWorkd() {
   );
 }
 
-export default AFrameHelloWorkd;
+export default AFrameTest;

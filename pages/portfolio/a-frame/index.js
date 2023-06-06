@@ -67,6 +67,36 @@ function AFrame() {
     });
   }
 
+  function handleGoToNpmExample(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutFullScreen({
+      payload: true,
+      callback() {
+        nextRouter.push('/portfolio/a-frame/npm-example');
+      }
+    });
+  }
+
+  function handleGoToAFrameReact(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutFullScreen({
+      payload: true,
+      callback() {
+        nextRouter.push('/portfolio/a-frame/aframe-react');
+      }
+    });
+  }
+
+  function handleGoToAEntity(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutFullScreen({
+      payload: true,
+      callback() {
+        nextRouter.push('/portfolio/a-frame/a-entity');
+      }
+    });
+  }
+
   return (
     <div>
       <Head>
@@ -92,6 +122,33 @@ function AFrame() {
           href="/portfolio/a-frame/hello-workd"
         >
           <p>Hello, World!</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToNpmExample}
+          component="a"
+          href="/portfolio/a-frame/npm-example"
+        >
+          <p>npm 範例</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToAFrameReact}
+          component="a"
+          href="/portfolio/a-frame/aframe-react"
+        >
+          <p>aframe-react</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToAEntity}
+          component="a"
+          href="/portfolio/a-frame/a-entity"
+        >
+          <p>a-entity</p>
         </Button>
       </div>
     </div>

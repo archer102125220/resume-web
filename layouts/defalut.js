@@ -168,7 +168,7 @@ function DefalutLayout({ isMobile, children }) {
           }
           if (defalutLayoutFullScreen === false) {
             setTimeout(() => {
-              // tableclothRef.current.style = '';
+              tableclothRef.current.style = '';
             }, 10);
           }
         }
