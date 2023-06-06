@@ -1,14 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
-import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+import AFrameContent from '@/components/AFrame/AFrameContent';
 
 function AFrameHelloWorkd() {
-  const [AFrameLoaded, setAFrameLoaded] = useState(false);
-
   const dispatch = useDispatch();
   const SAVE_defalutLayoutFullScreen = useCallback(
     payload =>
@@ -25,13 +23,6 @@ function AFrameHelloWorkd() {
     };
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
-    (async () => {
-      await import('aframe');
-      setAFrameLoaded(true);
-    })();
-  }, []);
-
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/hello-workd' });
 
   return (
@@ -40,7 +31,7 @@ function AFrameHelloWorkd() {
         <title>Parker Chan 的作品集 - a-frame(Hello, World!)</title>
       </Head>
       <Box>
-        {AFrameLoaded === true && (
+        <AFrameContent>
           <a-scene>
             <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" />
             <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" />
@@ -59,7 +50,7 @@ function AFrameHelloWorkd() {
             />
             <a-sky color="#ECECEC" />
           </a-scene>
-        )}
+        </AFrameContent>
       </Box>
     </div>
   );
