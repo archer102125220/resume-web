@@ -28,10 +28,17 @@ const systemSlice = createSlice({
   name,
   initialState: {
     message: { text: '', type: 'success' },
+    isClient: false,
     isMobile: false,
     pageInfo: {},
-    loading: false
-    // gtm: typeof window === 'object' ? (window?.dataLayer || null) : null
+    loading: false,
+    windowWidth: 1080,
+    windowHeight: 1080,
+    defalutLayout: null,
+    indexLayout: null,
+    layoutName: 'defalut',
+    defalutLayoutFullScreen: false,
+    defalutLayoutFullScreenCallback: null
   },
   reducers: {
     message_reset(state) {
@@ -50,9 +57,6 @@ const systemSlice = createSlice({
       return { ...state, message: { text: payload, type: 'warning' } };
     },
 
-    // SAVE_gtm(state, { payload }) {
-    //   return { ...state, gtm: payload };
-    // },
     SAVE_message(state, { payload }) {
       return { ...state, message: payload };
     },
@@ -64,6 +68,34 @@ const systemSlice = createSlice({
     },
     SAVE_loading(state, { payload }) {
       return { ...state, loading: payload };
+    },
+    SAVE_windowWidth(state, { payload }) {
+      return { ...state, windowWidth: payload };
+    },
+    SAVE_windowHeight(state, { payload }) {
+      return { ...state, windowHeight: payload };
+    },
+    SAVE_layoutName(state, { payload }) {
+      return { ...state, layoutName: payload };
+    },
+    SAVE_defalutLayout(state, { payload }) {
+      return { ...state, defalutLayout: payload };
+    },
+    SAVE_indexLayout(state, { payload }) {
+      return { ...state, indexLayout: payload };
+    },
+    SAVE_defalutLayoutFullScreen(state, { payload, callback }) {
+      return {
+        ...state,
+        defalutLayoutFullScreen: payload,
+        defalutLayoutFullScreenCallback: callback
+      };
+    },
+    SAVE_defalutLayoutFullScreenCallback(state, { payload }) {
+      return { ...state, defalutLayoutFullScreenCallback: payload };
+    },
+    SAVE_isClient(state, { payload }) {
+      return { ...state, isClient: payload };
     }
   }
   // extraReducers: builder => {

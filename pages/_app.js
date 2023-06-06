@@ -1,4 +1,4 @@
-// import App from 'next/app';
+// import _App from 'next/app';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -27,6 +27,7 @@ function App({ ...rest }) {
 
   const [messageState, setMessageState] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const store = useMemo(() => wrapperData.store, [wrapperData.store]);
 
@@ -45,6 +46,35 @@ function App({ ...rest }) {
     },
     [store.dispatch]
   );
+  const SAVE_windowWidth = useCallback(
+    (payload, callback) => {
+      return store.dispatch({
+        type: 'system/SAVE_windowWidth',
+        payload,
+        callback
+      });
+    },
+    [store.dispatch]
+  );
+  const SAVE_windowHeight = useCallback(
+    (payload, callback) => {
+      return store.dispatch({
+        type: 'system/SAVE_windowHeight',
+        payload,
+        callback
+      });
+    },
+    [store.dispatch]
+  );
+  const SAVE_isClient = useCallback(
+    payload => {
+      return store.dispatch({
+        type: 'system/SAVE_isClient',
+        payload
+      });
+    },
+    [store.dispatch]
+  );
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
@@ -55,8 +85,12 @@ function App({ ...rest }) {
       enquireScreen(mobile => {
         SAVE_is_mobile(mobile ? true : false);
       });
+      SAVE_windowWidth(window.innerWidth);
+      SAVE_windowHeight(window.innerHeight);
     }
+    windowWidthListener();
     window.addEventListener('resize', windowWidthListener);
+    SAVE_isClient(true);
 
     return () => {
       window.removeEventListener('resize', windowWidthListener);
@@ -75,6 +109,13 @@ function App({ ...rest }) {
       if (loading !== newLoading) {
         setLoading(newLoading);
       }
+
+      // next-redux-wrapper 目前在前後端資料持同步上仍有bug，gitHub上寫預計9.x版會修復，目前尚未發布，尚無官方文件資料．
+      // https://github.com/kirill-konshin/next-redux-wrapper/pull/523
+      const newIsMobile = state.system.isMobile;
+      if (isMobile !== newIsMobile) {
+        setIsMobile(newIsMobile);
+      }
     });
     return unsubscribe;
   }, [messageState, loading]);
@@ -90,8 +131,12 @@ function App({ ...rest }) {
           <title>Parker Chan 的個人資料</title>
         </Head>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
-          <LayoutSwitch router={router} pageProps={pageProps}>
-            <Component {...pageProps} />
+          <LayoutSwitch
+            router={router}
+            isMobile={isMobile}
+            pageProps={pageProps}
+          >
+            <Component {...pageProps} isMobile={isMobile} />
           </LayoutSwitch>
           <NotificationPermission />
           <Message
@@ -113,7 +158,7 @@ function App({ ...rest }) {
 //         userAgent.includes('Android') || userAgent.includes('iPhone');
 //       dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
 //     }
-//     const appProps = await App.getInitialProps(appContext);
+//     const appProps = await _App.getInitialProps(appContext);
 
 //     return { ...appProps };
 //   };

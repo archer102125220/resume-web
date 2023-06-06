@@ -39,7 +39,6 @@ function HTMLEditor() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/html-editor' });
 
   function handleGoToCKEditor4(e) {
-    console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/html-editor/ckeditor4');
   }

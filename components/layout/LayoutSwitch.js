@@ -9,6 +9,14 @@ import DefalutLayout from '@/layouts/defalut';
 import IndexLayout from '@/layouts/index';
 import ErrorLayout from '@/layouts/error';
 
+export const LAYOUT_SETTING = [
+  { path: '/', layout: IndexLayout, layoutName: 'index', exact: true },
+  { path: '/index', layout: IndexLayout, layoutName: 'index' },
+  { path: '/404', layout: ErrorLayout, layoutName: 'error' },
+  { path: '/500', layout: ErrorLayout, layoutName: 'error' }
+];
+export const DEFALUT_LAYOUT = { layout: DefalutLayout, layoutName: 'defalut' };
+
 const styles = {
   transitionRoot: {
     minHeight: 'inherit',
@@ -37,26 +45,27 @@ const pageTransition = {
     transition: 'all  300ms'
   }
 };
-function LayoutSwitch({ router, children, pageProps }) {
+function LayoutSwitch({ router, isMobile, children, pageProps }) {
   const nextRouter = useRouter();
   const nodeRef = useRef(null);
+
   const dispatch = useDispatch();
   const SAVE_loading = useCallback(
     loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
     [dispatch]
   );
+  const SAVE_layoutName = useCallback(
+    loading => dispatch({ type: 'system/SAVE_layoutName', payload: loading }),
+    [dispatch]
+  );
+
   const classes = useStyles();
 
-  const layoutSetting = [
-    { path: '/', layout: IndexLayout, exact: true },
-    { path: '/index', layout: IndexLayout },
-    { path: '/404', layout: ErrorLayout },
-    { path: '/500', layout: ErrorLayout }
-  ];
-  const Layout =
-    layoutSetting.find(({ path, exact }) =>
+  const layoutSetting =
+    LAYOUT_SETTING.find(({ path, exact }) =>
       exact === true ? path === router.route : router.route.includes(path)
-    )?.layout || DefalutLayout;
+    ) || DEFALUT_LAYOUT;
+  const Layout = layoutSetting.layout;
 
   useEffect(() => {
     const handleStart = url => url !== router.asPath && SAVE_loading(true);
@@ -72,11 +81,14 @@ function LayoutSwitch({ router, children, pageProps }) {
       nextRouter.events.off('routeChangeError', handleComplete);
     };
   }, []);
+  useEffect(() => {
+    SAVE_layoutName(layoutSetting.layoutName);
+  }, [layoutSetting.layoutName]);
 
   return (
     <>
       <GlobalStyles styles={pageTransition} />
-      <Layout {...pageProps}>
+      <Layout {...pageProps} isMobile={isMobile}>
         <SwitchTransition>
           <CSSTransition
             key={router.pathname}
@@ -99,6 +111,7 @@ function LayoutSwitch({ router, children, pageProps }) {
 LayoutSwitch.propTypes = {
   router: PropTypes.object,
   children: PropTypes.any,
+  isMobile: PropTypes.bool,
   pageProps: PropTypes.object.isRequired
 };
 

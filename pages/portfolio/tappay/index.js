@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Image from 'next/image';
-// import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
@@ -48,7 +47,6 @@ function Tappay() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay' });
 
   function handleGoToTappayUi(e) {
-    console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/tappay/tappay-ui');
   }

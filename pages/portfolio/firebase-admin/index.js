@@ -48,7 +48,6 @@ function FirebaseAdmin() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/firebase-admin' });
 
   function handleGoToFirebaseCloudMessaging(e) {
-    console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/firebase-admin/cloud-messaging');
   }

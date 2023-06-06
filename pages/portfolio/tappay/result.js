@@ -37,7 +37,6 @@ function TappayResult() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/tappay/result' });
 
   function handleGoToTappayUi(e) {
-    console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/tappay/tappay-ui');
   }

@@ -44,7 +44,6 @@ function Portfolio() {
   useGTMTrack({ event: 'scnOpen', url: '/portfolio' });
 
   function handleGoToTappay(e) {
-    console.log(e);
     e.preventDefault();
     nextRouter.push('/portfolio/tappay');
   }
@@ -57,6 +56,11 @@ function Portfolio() {
     nextRouter.push('/portfolio/html-editor');
   }
 
+  function handleGoToAFrame(e) {
+    e.preventDefault();
+    nextRouter.push('/portfolio/a-frame');
+  }
+
   return (
     <div>
       <Head>
@@ -67,7 +71,7 @@ function Portfolio() {
       </p>
       <div className={classes.portfolio}>
         <Button
-          sx={styles.portfolioButton}
+          className={classes.portfolioButton}
           variant="contained"
           onClick={handleGoToTappay}
           component="a"
@@ -84,7 +88,7 @@ function Portfolio() {
         </Button>
 
         <Button
-          sx={styles.portfolioButton}
+          className={classes.portfolioButton}
           variant="contained"
           onClick={handleGoToFirebaseAdmin}
           component="a"
@@ -101,7 +105,7 @@ function Portfolio() {
         </Button>
 
         <Button
-          sx={styles.portfolioButton}
+          className={classes.portfolioButton}
           variant="contained"
           onClick={handleGoToHTMLEditor}
           component="a"
@@ -119,6 +123,23 @@ function Portfolio() {
             src="/img/ckeditor/ckeditor-5.svg"
             alt="CKEditor5"
             className={classes.portfolioCKeditorImg}
+            width={100}
+            height={100}
+          />
+        </Button>
+
+        <Button
+          className={classes.portfolioButton}
+          variant="contained"
+          onClick={handleGoToAFrame}
+          component="a"
+          href="/portfolio/a-frame"
+        >
+          <p>a-frame</p>
+          <Image
+            src="/img/aframe-name-pink.svg"
+            alt="a-frame"
+            className={classes.portfolioImg}
             width={100}
             height={100}
           />
