@@ -20,6 +20,10 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
+  AFrameListImage: {
+    margin: 'auto',
+    display: 'block'
+  },
   AFrameListButton: {
     ...buttonStyle,
     textAlign: 'center'
@@ -99,11 +103,11 @@ function AFrame() {
     });
   }
 
-  function handleGoToUiEaxmple(e) {
+  function handleGoToEventEaxmple(e) {
     e.preventDefault();
     SAVE_defalutLayoutSetting({
       fullScreen: true,
-      fullScreenTargetUrl: '/portfolio/a-frame/ui-example',
+      fullScreenTargetUrl: '/portfolio/a-frame/event-example',
       fullScreenGoBack
     });
   }
@@ -115,6 +119,7 @@ function AFrame() {
       </Head>
       <Box>
         <Image
+          className={classes.AFrameListImage}
           src="/img/aframe-name-pink.svg"
           alt="a-frame"
           width={300}
@@ -125,7 +130,7 @@ function AFrame() {
         <p className={classes.AFrameListSecondParagraph}>
           a-frame是換工作時，新公司在使用的技術，在這裡做測試結果的紀錄！
           <br />
-          其中UI範例是官網上的其中一項範例，不過看起來好像不是官方自己做的，所以把
+          原本在官網上有看到
         </p>
         <a
           target="_blank"
@@ -135,9 +140,11 @@ function AFrame() {
           ].join(' ')}
           href="https://github.com/supermedium/moonrider/tree/master"
         >
-          源碼網址
+          UI範例
         </a>
-        <p className={classes.AFrameListSecondParagraph}>也一併作紀錄</p>
+        <p className={classes.AFrameListSecondParagraph}>
+          ，可惜該範例有用到firebase的資源，就只能直接自己做一份了
+        </p>
       </Box>
       <div className={classes.AFrameList}>
         <Button
@@ -179,11 +186,11 @@ function AFrame() {
         <Button
           className={classes.AFrameListButton}
           variant="contained"
-          onClick={handleGoToUiEaxmple}
+          onClick={handleGoToEventEaxmple}
           component="a"
-          href="/portfolio/a-frame/ui-example"
+          href="/portfolio/a-frame/event-example"
         >
-          <p>UI範例</p>
+          <p>事件範例</p>
         </Button>
       </div>
     </div>

@@ -1,17 +1,37 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
-function AFrameContent({ children, getAframe }) {
+const _AFrameContent = forwardRef(function AFrameContent(
+  {
+    children,
+    renderBeforeAFrameLoad,
+    beforeAFrameLoad,
+    getAframe,
+    afterAFrameLoad
+  },
+  aFrameRoot
+) {
   const [AFrameLoaded, setAFrameLoaded] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     (async () => {
-      await import('aframe');
+      if (typeof beforeAFrameLoad === 'function') {
+        await beforeAFrameLoad();
+      }
 
-      const AFRAME = window.AFRAME;
+      try {
+        await import('aframe');
+        await Promise.all([
+          import('aframe-event-set-component'),
+          import('aframe-environment-component')
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+
       if (typeof getAframe === 'function') {
-        await getAframe(AFRAME);
+        await getAframe(window.AFRAME);
       }
 
       const html = document.querySelector('html');
@@ -19,28 +39,41 @@ function AFrameContent({ children, getAframe }) {
       if (hasClassName === false) {
         html.classList.add('a-fullscreen');
       }
-
       setAFrameLoaded(true);
     })();
   }, []);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    return () => {
       const html = document.querySelector('html');
       html.classList.remove('a-fullscreen');
-    },
-    []
+    };
+  }, []);
+  useEffect(() => {
+    if (AFrameLoaded === true && typeof afterAFrameLoad === 'function') {
+      afterAFrameLoad(window.AFRAME);
+    }
+  }, [AFrameLoaded]);
+
+  return renderBeforeAFrameLoad || AFrameLoaded ? (
+    <div ref={aFrameRoot}>{children}</div>
+  ) : (
+    <></>
   );
+});
 
-  return AFrameLoaded ? children : <></>;
-}
-
-AFrameContent.propTypes = {
+_AFrameContent.propTypes = {
   children: PropTypes.any,
-  getAframe: PropTypes.func
+  renderBeforeAFrameLoad: PropTypes.bool,
+  beforeAFrameLoad: PropTypes.func,
+  getAframe: PropTypes.func,
+  afterAFrameLoad: PropTypes.func
 };
 
-AFrameContent.propTypes = {
-  getAframe() {}
+_AFrameContent.defaultProps = {
+  renderBeforeAFrameLoad: false,
+  beforeAFrameLoad() {},
+  getAframe() {},
+  afterAFrameLoad() {}
 };
 
-export default AFrameContent;
+export default _AFrameContent;
