@@ -27,12 +27,12 @@ function AFrameHelloWorkd() {
     };
   }, []);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/hello-workd' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/ui-example' });
 
   return (
     <div>
       <Head>
-        <title>Parker Chan 的作品集 - a-frame(Hello, World!)</title>
+        <title>Parker Chan 的作品集 - a-frame(UI範例)</title>
       </Head>
       <Box>
         <AFrameContent>

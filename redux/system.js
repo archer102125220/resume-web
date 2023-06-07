@@ -28,17 +28,14 @@ const systemSlice = createSlice({
   name,
   initialState: {
     message: { text: '', type: 'success' },
-    isClient: false,
     isMobile: false,
-    pageInfo: {},
     loading: false,
-    windowWidth: 1080,
-    windowHeight: 1080,
     defalutLayout: null,
-    indexLayout: null,
-    layoutName: 'defalut',
-    defalutLayoutFullScreen: false,
-    defalutLayoutFullScreenCallback: null
+    defalutLayoutSetting: {
+      fullScreen: false,
+      fullScreenTargetUrl: '',
+      fullScreenGoBack: ''
+    }
   },
   reducers: {
     message_reset(state) {
@@ -60,42 +57,22 @@ const systemSlice = createSlice({
     SAVE_message(state, { payload }) {
       return { ...state, message: payload };
     },
-    SAVE_is_mobile(state, { payload }) {
+    SAVE_isMobile(state, { payload }) {
       return { ...state, isMobile: payload };
-    },
-    SAVE_page_info(state, { payload }) {
-      return { ...state, pageInfo: payload };
     },
     SAVE_loading(state, { payload }) {
       return { ...state, loading: payload };
     },
-    SAVE_windowWidth(state, { payload }) {
-      return { ...state, windowWidth: payload };
-    },
-    SAVE_windowHeight(state, { payload }) {
-      return { ...state, windowHeight: payload };
-    },
-    SAVE_layoutName(state, { payload }) {
-      return { ...state, layoutName: payload };
-    },
     SAVE_defalutLayout(state, { payload }) {
       return { ...state, defalutLayout: payload };
     },
-    SAVE_indexLayout(state, { payload }) {
-      return { ...state, indexLayout: payload };
-    },
-    SAVE_defalutLayoutFullScreen(state, { payload, callback }) {
+    SAVE_defalutLayoutSetting(state, { payload }) {
+      const defalutLayoutSetting = state.defalutLayoutSetting || {};
+
       return {
         ...state,
-        defalutLayoutFullScreen: payload,
-        defalutLayoutFullScreenCallback: callback
+        defalutLayoutSetting: { ...defalutLayoutSetting, ...payload }
       };
-    },
-    SAVE_defalutLayoutFullScreenCallback(state, { payload }) {
-      return { ...state, defalutLayoutFullScreenCallback: payload };
-    },
-    SAVE_isClient(state, { payload }) {
-      return { ...state, isClient: payload };
     }
   }
   // extraReducers: builder => {
@@ -156,7 +133,7 @@ export default systemSlice.reducer;
 //       });
 //     },
 //     *enquireScreen({ payload }, { put }) {
-//       yield put({ type: 'SAVE_is_mobile', payload });
+//       yield put({ type: 'SAVE_isMobile', payload });
 //     },
 //     *GET_HomePage({ payload }, { call, put }) {
 //       const data = yield call(GET_homePage, payload);
@@ -168,7 +145,7 @@ export default systemSlice.reducer;
 //   SAVE_message(state, { payload }) {
 //     return { ...state, message: payload };
 //   },
-//   SAVE_is_mobile(state, { payload }) {
+//   SAVE_isMobile(state, { payload }) {
 //     return { ...state, isMobile: payload };
 //   },
 //   SAVE_page_info(state, { payload }) {

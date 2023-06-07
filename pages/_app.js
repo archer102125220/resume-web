@@ -36,41 +36,12 @@ function App({ ...rest }) {
     [store.dispatch]
   );
 
-  const SAVE_is_mobile = useCallback(
+  const SAVE_isMobile = useCallback(
     (payload, callback) => {
       return store.dispatch({
-        type: 'system/SAVE_is_mobile',
+        type: 'system/SAVE_isMobile',
         payload,
         callback
-      });
-    },
-    [store.dispatch]
-  );
-  const SAVE_windowWidth = useCallback(
-    (payload, callback) => {
-      return store.dispatch({
-        type: 'system/SAVE_windowWidth',
-        payload,
-        callback
-      });
-    },
-    [store.dispatch]
-  );
-  const SAVE_windowHeight = useCallback(
-    (payload, callback) => {
-      return store.dispatch({
-        type: 'system/SAVE_windowHeight',
-        payload,
-        callback
-      });
-    },
-    [store.dispatch]
-  );
-  const SAVE_isClient = useCallback(
-    payload => {
-      return store.dispatch({
-        type: 'system/SAVE_isClient',
-        payload
       });
     },
     [store.dispatch]
@@ -83,14 +54,11 @@ function App({ ...rest }) {
     }
     function windowWidthListener() {
       enquireScreen(mobile => {
-        SAVE_is_mobile(mobile ? true : false);
+        SAVE_isMobile(mobile ? true : false);
       });
-      SAVE_windowWidth(window.innerWidth);
-      SAVE_windowHeight(window.innerHeight);
     }
     windowWidthListener();
     window.addEventListener('resize', windowWidthListener);
-    SAVE_isClient(true);
 
     return () => {
       window.removeEventListener('resize', windowWidthListener);
@@ -156,7 +124,7 @@ function App({ ...rest }) {
 //       const userAgent = appContext?.ctx?.req?.headers?.['user-agent'] || '';
 //       const isMobile =
 //         userAgent.includes('Android') || userAgent.includes('iPhone');
-//       dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
+//       dispatch({ type: 'system/SAVE_isMobile', payload: isMobile });
 //     }
 //     const appProps = await _App.getInitialProps(appContext);
 

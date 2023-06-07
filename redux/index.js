@@ -40,7 +40,7 @@ export const wrapper = createWrapper(function (appContext) {
     const userAgent = appContext?.req?.headers?.['user-agent'] || '';
     const isMobile =
       userAgent.includes('Android') || userAgent.includes('iPhone');
-    reduxStore.dispatch({ type: 'system/SAVE_is_mobile', payload: isMobile });
+    reduxStore.dispatch({ type: 'system/SAVE_isMobile', payload: isMobile });
   }
 
   return reduxStore;

@@ -1216,7 +1216,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       if (reduxIsMobile !== isMobile) {
         reduxStore.dispatch({
-          type: 'system/SAVE_is_mobile',
+          type: 'system/SAVE_isMobile',
           payload: isMobile
         });
       }

@@ -10,12 +10,12 @@ import IndexLayout from '@/layouts/index';
 import ErrorLayout from '@/layouts/error';
 
 export const LAYOUT_SETTING = [
-  { path: '/', layout: IndexLayout, layoutName: 'index', exact: true },
-  { path: '/index', layout: IndexLayout, layoutName: 'index' },
-  { path: '/404', layout: ErrorLayout, layoutName: 'error' },
-  { path: '/500', layout: ErrorLayout, layoutName: 'error' }
+  { path: '/', layout: IndexLayout, exact: true },
+  { path: '/index', layout: IndexLayout },
+  { path: '/404', layout: ErrorLayout },
+  { path: '/500', layout: ErrorLayout }
 ];
-export const DEFALUT_LAYOUT = { layout: DefalutLayout, layoutName: 'defalut' };
+export const DEFALUT_LAYOUT = { layout: DefalutLayout };
 
 const styles = {
   transitionRoot: {
@@ -54,10 +54,6 @@ function LayoutSwitch({ router, isMobile, children, pageProps }) {
     loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
     [dispatch]
   );
-  const SAVE_layoutName = useCallback(
-    loading => dispatch({ type: 'system/SAVE_layoutName', payload: loading }),
-    [dispatch]
-  );
 
   const classes = useStyles();
 
@@ -81,9 +77,6 @@ function LayoutSwitch({ router, isMobile, children, pageProps }) {
       nextRouter.events.off('routeChangeError', handleComplete);
     };
   }, []);
-  useEffect(() => {
-    SAVE_layoutName(layoutSetting.layoutName);
-  }, [layoutSetting.layoutName]);
 
   return (
     <>

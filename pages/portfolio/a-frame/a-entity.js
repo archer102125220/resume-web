@@ -9,21 +9,21 @@ import AFrameContent from '@/components/AFrame/AFrameContent';
 
 function AFrameTest() {
   const dispatch = useDispatch();
-  const SAVE_defalutLayoutFullScreen = useCallback(
+  const SAVE_defalutLayoutSetting = useCallback(
     payload =>
       dispatch({
-        type: 'system/SAVE_defalutLayoutFullScreen',
-        payload: payload
+        type: 'system/SAVE_defalutLayoutSetting',
+        payload
       }),
     [dispatch]
   );
 
   useIsomorphicLayoutEffect(() => {
-    SAVE_defalutLayoutFullScreen(true);
+    SAVE_defalutLayoutSetting({ fullScreen: true });
   }, []);
   useEffect(() => {
     return () => {
-      SAVE_defalutLayoutFullScreen(false);
+      SAVE_defalutLayoutSetting({ fullScreen: false });
     };
   }, []);
 

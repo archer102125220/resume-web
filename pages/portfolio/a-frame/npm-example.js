@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
@@ -8,41 +8,36 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 
 function AFrameNpmExample() {
-  const [AFrame, setAFrame] = useState(null);
   const dispatch = useDispatch();
-  const SAVE_defalutLayoutFullScreen = useCallback(
+  const SAVE_defalutLayoutSetting = useCallback(
     payload =>
       dispatch({
-        type: 'system/SAVE_defalutLayoutFullScreen',
-        payload: payload
+        type: 'system/SAVE_defalutLayoutSetting',
+        payload
       }),
     [dispatch]
   );
 
   useIsomorphicLayoutEffect(() => {
-    SAVE_defalutLayoutFullScreen(true);
+    SAVE_defalutLayoutSetting({ fullScreen: true });
   }, []);
   useEffect(() => {
     return () => {
-      SAVE_defalutLayoutFullScreen(false);
+      SAVE_defalutLayoutSetting({ fullScreen: false });
     };
   }, []);
-  useEffect(() => {
-    console.log(AFrame);
-  }, [AFrame]);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/test' });
 
-  function getAframe(_AFrame) {
-    console.log(_AFrame);
+  function getAframe(AFrame) {
     try {
-      // _AFrame.registerComponent('bar', {
+      // AFrame.registerComponent('bar', {
       //   schema: {
       //     color: { default: '#FFF' },
       //     size: { type: 'int', default: 5 }
       //   }
       // });
-      _AFrame.registerShader('gradient', {
+      AFrame.registerShader('gradient', {
         schema: {
           topColor: {
             type: 'vec3',
@@ -77,7 +72,7 @@ function AFrameNpmExample() {
             }
         `
       });
-      _AFrame.registerPrimitive('a-gradient-sky', {
+      AFrame.registerPrimitive('a-gradient-sky', {
         defaultComponents: {
           geometry: {
             primitive: 'sphere',
@@ -101,7 +96,6 @@ function AFrameNpmExample() {
     } catch (error) {
       console.log(error);
     }
-    setAFrame(_AFrame);
   }
 
   return (

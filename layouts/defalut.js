@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import anime from 'animejs';
 
 import { mediaMobile } from '@/styles/globals';
 import { tableStyle } from '@/styles/tableStyle';
+import { buttonColor } from '@/styles/buttonStyle';
 import Menu from '@/components/layout/Menu';
 
 const styles = theme => ({
@@ -52,25 +56,28 @@ const styles = theme => ({
   main: {
     height: '100%',
     width: '100%'
+  },
+  goBackButton: {
+    ...buttonColor,
+    position: 'absolute',
+    zIndex: 100,
+    left: '-100%'
   }
 });
 
 const useStyles = makeStyles(styles);
 
 function DefalutLayout({ isMobile, children }) {
-  const [isClient, setIsClient] = useState(false);
-
   const tableTopRef = useRef(null);
   const mainRef = useRef(null);
   const menuRef = useRef(null);
   const tableclothRef = useRef(null);
+  const iconButtonRef = useRef(null);
 
+  const nextRouter = useRouter();
   const defalutLayout = useSelector(({ system }) => system.defalutLayout);
-  const defalutLayoutFullScreen = useSelector(
-    ({ system }) => system.defalutLayoutFullScreen
-  );
-  const defalutLayoutFullScreenCallback = useSelector(
-    ({ system }) => system.defalutLayoutFullScreenCallback
+  const defalutLayoutSetting = useSelector(
+    ({ system }) => system.defalutLayoutSetting
   );
   const dispatch = useDispatch();
   const SAVE_defalutLayout = useCallback(
@@ -78,11 +85,11 @@ function DefalutLayout({ isMobile, children }) {
       dispatch({ type: 'system/SAVE_defalutLayout', payload: payload }),
     [dispatch]
   );
-  const SAVE_defalutLayoutFullScreenCallback = useCallback(
+  const SAVE_defalutLayoutSetting = useCallback(
     payload =>
       dispatch({
-        type: 'system/SAVE_defalutLayoutFullScreenCallback',
-        payload: payload
+        type: 'system/SAVE_defalutLayoutSetting',
+        payload
       }),
     [dispatch]
   );
@@ -115,38 +122,37 @@ function DefalutLayout({ isMobile, children }) {
     }
     window.addEventListener('resize', setDefalutLayout);
     setDefalutLayout();
-    setIsClient(true);
 
     return () => {
       window.removeEventListener('resize', setDefalutLayout);
     };
-  }, []);
+  }, [mainRef]);
 
   useEffect(() => {
     const layoutLeft = defalutLayout?.left;
-    const layoutWidth = parseInt(window.innerWidth * (isMobile ? 0.7 : 0.8));
 
-    const top =
-      defalutLayoutFullScreen === true ? ['0%', '-6%'] : ['-6%', '0%'];
+    if (typeof layoutLeft === 'number') {
+      const isFullScreen = defalutLayoutSetting.fullScreen;
+      const fullScreenTargetUrl = defalutLayoutSetting.fullScreenTargetUrl;
+      const layoutWidth = parseInt(window.innerWidth * (isMobile ? 0.7 : 0.8));
+      console.log({ layoutWidth, isMobile, innerWidth: window.innerWidth });
 
-    const left =
-      defalutLayoutFullScreen === true
-        ? [`${layoutLeft}px`, `${0 - window.innerWidth * 0.03}px`]
-        : [`${0 - window.innerWidth * 0.03}px`, `${layoutLeft}px`];
+      const top = isFullScreen === true ? ['0%', '-6%'] : ['-6%', '0%'];
 
-    const width =
-      defalutLayoutFullScreen === true
-        ? [`${layoutWidth}px`, `${window.innerWidth}`]
-        : [`${window.innerWidth}`, `${layoutWidth}px`];
+      const left =
+        isFullScreen === true
+          ? [`${layoutLeft}px`, `${0 - window.innerWidth * 0.03}px`]
+          : [`${0 - window.innerWidth * 0.03}px`, `${layoutLeft}px`];
 
-    const height =
-      defalutLayoutFullScreen === true ? ['100%', '100vh'] : ['100vh', '100%'];
+      const width =
+        isFullScreen === true
+          ? [`${layoutWidth}px`, `${window.innerWidth}`]
+          : [`${window.innerWidth}`, `${layoutWidth}px`];
 
-    if (isClient === true && typeof layoutLeft === 'number') {
-      if (
-        defalutLayoutFullScreen === true &&
-        typeof defalutLayoutFullScreenCallback === 'function'
-      ) {
+      const height =
+        isFullScreen === true ? ['100%', '100vh'] : ['100vh', '100%'];
+
+      if (isFullScreen === true) {
         tableclothRef.current.style.position = 'absolute';
       }
 
@@ -159,27 +165,48 @@ function DefalutLayout({ isMobile, children }) {
         duration: 500,
         easing: 'easeOutQuint',
         complete() {
-          if (typeof defalutLayoutFullScreenCallback === 'function') {
-            defalutLayoutFullScreenCallback();
-          } else {
-            setTimeout(() => {
-              tableclothRef.current.style.position = '';
-            }, 10);
-          }
-          if (defalutLayoutFullScreen === false) {
+          if (
+            typeof fullScreenTargetUrl === 'string' &&
+            fullScreenTargetUrl !== ''
+          ) {
+            nextRouter.push(fullScreenTargetUrl);
+          } else if (isFullScreen === false) {
             setTimeout(() => {
               tableclothRef.current.style = '';
             }, 10);
           }
         }
       });
+      anime({
+        targets: iconButtonRef.current,
+        left: isFullScreen === true ? ['-100%', '0%'] : ['0%', '-100%'],
+        duration: 1000,
+        easing: 'easeOutQuint'
+      });
     }
-    SAVE_defalutLayoutFullScreenCallback(null);
-  }, [defalutLayoutFullScreen]);
+    SAVE_defalutLayoutSetting({ fullScreenTargetUrl: '' });
+  }, [defalutLayoutSetting.fullScreen]);
+
+  function handleGoBack() {
+    const fullScreenGoBack = defalutLayoutSetting.fullScreenGoBack;
+    if (typeof fullScreenGoBack === 'string' && fullScreenGoBack !== '') {
+      nextRouter.push(fullScreenGoBack);
+    } else {
+      nextRouter.back();
+    }
+  }
 
   return (
     <div className={classes.content}>
       <div className={classes.table}>
+        <IconButton
+          ref={iconButtonRef}
+          className={classes.goBackButton}
+          aria-label="arrow circle left"
+          onClick={handleGoBack}
+        >
+          <ArrowCircleLeftOutlinedIcon />
+        </IconButton>
         <div ref={tableTopRef} className={classes.tableTop}>
           <Menu ref={menuRef} className={classes.tableTopMenu} />
           <div ref={tableclothRef} className={classes.tablecloth}>

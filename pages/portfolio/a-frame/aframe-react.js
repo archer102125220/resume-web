@@ -10,21 +10,21 @@ import AFrameContent from '@/components/AFrame/AFrameContent';
 
 function AFrameReact() {
   const dispatch = useDispatch();
-  const SAVE_defalutLayoutFullScreen = useCallback(
+  const SAVE_defalutLayoutSetting = useCallback(
     payload =>
       dispatch({
-        type: 'system/SAVE_defalutLayoutFullScreen',
-        payload: payload
+        type: 'system/SAVE_defalutLayoutSetting',
+        payload
       }),
     [dispatch]
   );
 
   useIsomorphicLayoutEffect(() => {
-    SAVE_defalutLayoutFullScreen(true);
+    SAVE_defalutLayoutSetting({ fullScreen: true });
   }, []);
   useEffect(() => {
     return () => {
-      SAVE_defalutLayoutFullScreen(false);
+      SAVE_defalutLayoutSetting({ fullScreen: false });
     };
   }, []);
 
@@ -49,7 +49,7 @@ function AFrameReact() {
               material={{ color: 'red' }}
               position={{ x: 0, y: 0, z: -5 }}
             />
-            <Entity particle-system='preset: snow;' />
+            <Entity particle-system="preset: snow;" />
             <Entity light={{ type: 'point' }} />
             {/* <Entity gltf-model={{ src: 'virtualcity.gltf' }} /> */}
             <Entity

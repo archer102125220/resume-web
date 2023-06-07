@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -25,6 +25,9 @@ const styles = {
     textAlign: 'center'
   },
   AFrameListLink: linkStyle,
+  AFrameListSecondParagraph: {
+    display: 'inline'
+  },
   AFrameListMuiAFrameLogo: {
     display: 'inline',
     marginRight: '5px',
@@ -40,60 +43,68 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function AFrame() {
+  const [fullScreenGoBack, setFullScreenGoBack] = useState('');
   const nextRouter = useRouter();
 
   const dispatch = useDispatch();
-  const SAVE_defalutLayoutFullScreen = useCallback(
-    ({ payload, callback }) =>
+  const SAVE_defalutLayoutSetting = useCallback(
+    payload =>
       dispatch({
-        type: 'system/SAVE_defalutLayoutFullScreen',
-        payload: payload,
-        callback
+        type: 'system/SAVE_defalutLayoutSetting',
+        payload
       }),
     [dispatch]
   );
 
   const classes = useStyles();
 
+  useEffect(() => {
+    setFullScreenGoBack(nextRouter.pathname);
+  }, []);
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame' });
 
   function handleGoToHelloWorkd(e) {
     e.preventDefault();
-    SAVE_defalutLayoutFullScreen({
-      payload: true,
-      callback() {
-        nextRouter.push('/portfolio/a-frame/hello-workd');
-      }
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/hello-workd',
+      fullScreenGoBack
     });
   }
 
   function handleGoToNpmExample(e) {
     e.preventDefault();
-    SAVE_defalutLayoutFullScreen({
-      payload: true,
-      callback() {
-        nextRouter.push('/portfolio/a-frame/npm-example');
-      }
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/npm-example',
+      fullScreenGoBack
     });
   }
 
   function handleGoToAFrameReact(e) {
     e.preventDefault();
-    SAVE_defalutLayoutFullScreen({
-      payload: true,
-      callback() {
-        nextRouter.push('/portfolio/a-frame/aframe-react');
-      }
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/aframe-react',
+      fullScreenGoBack
     });
   }
 
   function handleGoToAEntity(e) {
     e.preventDefault();
-    SAVE_defalutLayoutFullScreen({
-      payload: true,
-      callback() {
-        nextRouter.push('/portfolio/a-frame/a-entity');
-      }
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/a-entity',
+      fullScreenGoBack
+    });
+  }
+
+  function handleGoToUiEaxmple(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/ui-example',
+      fullScreenGoBack
     });
   }
 
@@ -110,9 +121,24 @@ function AFrame() {
           height={100}
         />
       </Box>
-      <p className={classes.AFrameListSecondParagraph}>
-        a-frame是換工作時，新公司在使用的技術，在這裡做測試結果的紀錄！
-      </p>
+      <Box>
+        <p className={classes.AFrameListSecondParagraph}>
+          a-frame是換工作時，新公司在使用的技術，在這裡做測試結果的紀錄！
+          <br />
+          其中UI範例是官網上的其中一項範例，不過看起來好像不是官方自己做的，所以把
+        </p>
+        <a
+          target="_blank"
+          className={[
+            classes.AFrameListSecondParagraph,
+            classes.AFrameListLink
+          ].join(' ')}
+          href="https://github.com/supermedium/moonrider/tree/master"
+        >
+          源碼網址
+        </a>
+        <p className={classes.AFrameListSecondParagraph}>也一併作紀錄</p>
+      </Box>
       <div className={classes.AFrameList}>
         <Button
           className={classes.AFrameListButton}
@@ -149,6 +175,15 @@ function AFrame() {
           href="/portfolio/a-frame/a-entity"
         >
           <p>a-entity</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToUiEaxmple}
+          component="a"
+          href="/portfolio/a-frame/ui-example"
+        >
+          <p>UI範例</p>
         </Button>
       </div>
     </div>
