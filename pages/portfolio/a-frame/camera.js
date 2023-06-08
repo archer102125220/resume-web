@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useId, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
@@ -9,6 +9,10 @@ import AFrameContent from '@/components/AFrame/AFrameContent';
 import AFrameHideOnClick from '@/components/AFrame/HideOnClick';
 
 function AFrameCamera() {
+  const anotherCubeId = useId();
+  const aSphereId = 'a_sphere';
+  const cursorId = 'cursor';
+
   const dispatch = useDispatch();
   const SAVE_defalutLayoutSetting = useCallback(
     payload =>
@@ -38,10 +42,14 @@ function AFrameCamera() {
       <Box>
         <AFrameContent>
           <a-scene>
-            <a-sky src="/a-frame/img/c8f7c63e7912f9c386e02a6b9ba6861c6847bc8c.png"></a-sky>
-            <AFrameHideOnClick />
+            <a-sky src="/a-frame/img/c8f7c63e7912f9c386e02a6b9ba6861c6847bc8c.png" />
+            <AFrameHideOnClick
+              anotherCubeId={anotherCubeId}
+              aSphereId={aSphereId}
+              cursorId={cursorId}
+            />
             <a-box
-              id="another_cube"
+              id={anotherCubeId}
               visible="false"
               position="-1 1.5 -4"
               rotation="0 45 0"
@@ -55,8 +63,8 @@ function AFrameCamera() {
             <a-entity look-controls>
               <a-camera active>
                 <a-cursor
-                  id="cursor"
-                  raycaster="objects: [raycaster]"
+                  id={cursorId}
+                  raycaster={`objects: #${aSphereId}`}
                   animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
                   animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
                   event-set__1="_event: mouseenter; color: #0092d8"

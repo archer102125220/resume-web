@@ -135,7 +135,6 @@ function DefalutLayout({ isMobile, children }) {
       const isFullScreen = defalutLayoutSetting.fullScreen;
       const fullScreenTargetUrl = defalutLayoutSetting.fullScreenTargetUrl;
       const layoutWidth = parseInt(window.innerWidth * (isMobile ? 0.7 : 0.8));
-      console.log({ layoutWidth, isMobile, innerWidth: window.innerWidth });
 
       const top = isFullScreen === true ? ['0%', '-6%'] : ['-6%', '0%'];
 
