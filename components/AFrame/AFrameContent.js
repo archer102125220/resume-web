@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, forwardRef } from 'react';
+import {
+  useState,
+  useEffect,
+  forwardRef,
+  createContext,
+  useContext,
+  useReducer
+} from 'react';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 const _AFrameContent = forwardRef(function AFrameContent(
@@ -10,9 +17,11 @@ const _AFrameContent = forwardRef(function AFrameContent(
     getAframe,
     afterAFrameLoad
   },
-  aFrameRoot
+  AFrameRoot
 ) {
   const [AFrameLoaded, setAFrameLoaded] = useState(false);
+
+  const [AFrame, dispatch] = useReducer(AFrameReducer, initialAFrame);
 
   useIsomorphicLayoutEffect(() => {
     (async () => {
@@ -39,6 +48,11 @@ const _AFrameContent = forwardRef(function AFrameContent(
       if (hasClassName === false) {
         html.classList.add('a-fullscreen');
       }
+
+      dispatch({
+        type: 'insert',
+        payload: window.AFRAME
+      });
       setAFrameLoaded(true);
     })();
   }, []);
@@ -54,10 +68,14 @@ const _AFrameContent = forwardRef(function AFrameContent(
     }
   }, [AFrameLoaded]);
 
-  return renderBeforeAFrameLoad || AFrameLoaded ? (
-    <div ref={aFrameRoot}>{children}</div>
-  ) : (
-    <></>
+  return (
+    <AFrameContext.Provider value={AFrame}>
+      <AFrameDispatchContext.Provider value={dispatch}>
+        <div ref={AFrameRoot}>
+          {renderBeforeAFrameLoad || AFrameLoaded ? children : <></>}
+        </div>
+      </AFrameDispatchContext.Provider>
+    </AFrameContext.Provider>
   );
 });
 
@@ -75,5 +93,30 @@ _AFrameContent.defaultProps = {
   getAframe() {},
   afterAFrameLoad() {}
 };
+
+const AFrameContext = createContext(null);
+
+const AFrameDispatchContext = createContext(null);
+
+function AFrameReducer(AFrame, action) {
+  switch (action.type) {
+    case 'insert': {
+      return action.payload;
+    }
+    default: {
+      return AFrame;
+    }
+  }
+}
+
+const initialAFrame = null;
+
+export function useAFrame() {
+  return [useContext(AFrameContext), useContext(AFrameDispatchContext)];
+}
+
+// export function useAFrameDispatch() {
+//   return useContext(AFrameDispatchContext);
+// }
 
 export default _AFrameContent;
