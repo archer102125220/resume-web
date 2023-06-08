@@ -1,9 +1,7 @@
-/* eslint-disable quotes */
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useId, useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
@@ -67,43 +65,67 @@ function AFrameEventEaxmple() {
                 Image source: http://www.ghibli.jp/works/kazetachinu/#frame&gid=1&pid=1
                 Image author: Studio Ghibli
                */}
-              <img
+              <Image
                 id={kazetachinuId}
                 src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg"
+                alt="kazetachinu"
                 crossOrigin="anonymous"
+                priority={true}
+                width={1024}
+                height={554}
               />
-              <img
+              <Image
                 id={kazetachinuPosterId}
                 src="https://cdn.aframe.io/examples/ui/kazetachinuPoster.jpg"
+                alt="kazetachinuPoster"
                 crossOrigin="anonymous"
+                priority={true}
+                width={400}
+                height={566}
               />
               {/*
                 Image source: http://www.ghibli.jp/works/ponyo/#frame&gid=1&pid=36
                 Image author: Studio Ghibli
                */}
-              <img
+              <Image
                 id={ponyoId}
                 src="https://cdn.aframe.io/examples/ui/ponyo.jpg"
+                alt="ponyo"
                 crossOrigin="anonymous"
+                priority={true}
+                width={1024}
+                height={554}
               />
-              <img
+              <Image
                 id={ponyoPosterId}
                 src="https://cdn.aframe.io/examples/ui/ponyoPoster.jpg"
+                alt="ponyoPoster"
                 crossOrigin="anonymous"
+                priority={true}
+                width={400}
+                height={566}
               />
-              {/* <!--
-              Image source: http://www.ghibli.jp/works/karigurashi/#frame&gid=1&pid=32
-              Image author: Studio Ghibli
-            --> */}
-              <img
+              {/*
+                Image source: http://www.ghibli.jp/works/karigurashi/#frame&gid=1&pid=32
+                Image author: Studio Ghibli
+              */}
+              <Image
                 id={karigurashiId}
                 src="https://cdn.aframe.io/examples/ui/karigurashi.jpg"
+                alt="karigurashi"
                 crossOrigin="anonymous"
+                priority={true}
+                width={1024}
+                height={554}
               />
-              <img
+              <Image
                 id={karigurashiPosterId}
                 src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg"
+                alt="karigurashiPoster"
                 crossOrigin="anonymous"
+                priority={true}
+                width={400}
+                height={566}
               />
               <a-mixin
                 id={mixinFrameId}

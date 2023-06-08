@@ -8,6 +8,16 @@ const nextConfig = {
   reactStrictMode: true,
   distDir: process.env.NODE_ENV === 'development' ? '.next' : 'build',
   swcMinify: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.aframe.io',
+        port: '',
+        pathname: '/examples/ui/**',
+      },
+    ],
+  },
   webpack: config => {
     config.resolve.alias['@'] = resolve(__dirname);
     config.resolve.alias['@servicesClient'] = join(
