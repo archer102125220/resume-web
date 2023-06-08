@@ -112,6 +112,15 @@ function AFrame() {
     });
   }
 
+  function handleGoToCamera(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/camera',
+      fullScreenGoBack
+    });
+  }
+
   return (
     <div>
       <Head>
@@ -191,6 +200,15 @@ function AFrame() {
           href="/portfolio/a-frame/event-example"
         >
           <p>事件範例</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToCamera}
+          component="a"
+          href="/portfolio/a-frame/camera"
+        >
+          <p>camera</p>
         </Button>
       </div>
     </div>

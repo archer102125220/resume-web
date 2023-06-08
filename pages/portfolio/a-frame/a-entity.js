@@ -7,7 +7,7 @@ import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 
-function AFrameTest() {
+function AFrameAEntity() {
   const dispatch = useDispatch();
   const SAVE_defalutLayoutSetting = useCallback(
     payload =>
@@ -63,4 +63,4 @@ function AFrameTest() {
   );
 }
 
-export default AFrameTest;
+export default AFrameAEntity;
