@@ -167,13 +167,17 @@ function AFrameInfoPanel({
         <a-entity
           id={movieTitleId}
           position="-0.68 -0.1 0"
-          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/zh-msdf.json; color: white; value: Ponyo (2003)"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Ponyo (2003)"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Ponyo (2003)"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Ponyo (2003)"
           text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"
         />
         <a-entity
           id={movieDescriptionId}
           position="-0.68 -0.2 0"
-          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/zh-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         />
       </a-entity>
