@@ -29,8 +29,8 @@ const styles = {
     width: '200px'
   },
   portfolioCKeditorImg: {
-    width: '100px',
-    height: '100px'
+    width: '80px',
+    height: '80px'
   }
 };
 
@@ -116,8 +116,8 @@ function Portfolio() {
             src="/img/ckeditor/ckeditor-4.svg"
             alt="CKEditor4"
             className={classes.portfolioCKeditorImg}
-            width={100}
-            height={100}
+            width={80}
+            height={80}
           />
           <Image
             src="/img/ckeditor/ckeditor-5.svg"
@@ -140,8 +140,8 @@ function Portfolio() {
             src="/img/aframe-name-pink.svg"
             alt="a-frame"
             className={classes.portfolioImg}
-            width={100}
-            height={100}
+            width={200}
+            height={50}
           />
         </Button>
       </div>
