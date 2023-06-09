@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -124,7 +125,14 @@ function CKEditor4() {
   const CKEditorBlockRef = useRef(null);
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
+
   useEffect(() => {
+    SAVE_loading(true);
     handleDescriptionChange(context);
   }, []);
   useEffect(() => {
@@ -383,6 +391,9 @@ function CKEditor4() {
                 '/ckeditor/plugins/videoembed/plugin.js'
               );
               set_CKEDITOR(_CKEDITOR);
+            }}
+            onInstanceReady={() => {
+              SAVE_loading(false);
             }}
             initData={context}
             onChange={handleContextChange}

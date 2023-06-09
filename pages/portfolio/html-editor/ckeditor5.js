@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -130,7 +131,14 @@ function CKEditor5() {
 
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
+
   useEffect(() => {
+    SAVE_loading(true);
     (async () => {
       const { default: ClassicEditor } = await import(
         '@ckeditor/ckeditor5-build-classic'
@@ -396,6 +404,7 @@ function CKEditor5() {
               onReady={editor => {
                 editor.plugins.get('FileRepository').createUploadAdapter =
                   loader => new UploadAdapter(loader, '/upload-img');
+                SAVE_loading(false);
               }}
               onChange={handleContextChange}
               config={{

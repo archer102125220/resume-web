@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
@@ -42,15 +43,22 @@ function CKEditor5View() {
   const [context, setContext] = useState('');
   const nextRouter = useRouter();
 
+  const CKEditorRef = useRef(null);
+
   const classes = useStyles();
 
-  const CKEditorRef = useRef(null);
+  const dispatch = useDispatch();
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
 
   useGTMTrack({
     event: 'scnOpen',
     url: '/portfolio/html-editor/ckeditor5v2-view'
   });
   useEffect(() => {
+    SAVE_loading(true);
     createdCKEditor();
     return () => setTimeout(removeCKEditor5, 100);
   }, []);
@@ -142,7 +150,7 @@ function CKEditor5View() {
           ]
         }
       });
-      console.log(_CKEditor);
+      SAVE_loading(false);
       setCKEditor(_CKEditor);
     } catch (error) {
       console.log(error);

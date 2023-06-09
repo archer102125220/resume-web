@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -123,7 +124,14 @@ function CKEditor5v2() {
 
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
+
   useEffect(() => {
+    SAVE_loading(true);
     createdCKEditor();
     handleDescriptionChange(context);
     return () => setTimeout(removeCKEditor5, 100);
@@ -218,6 +226,7 @@ function CKEditor5v2() {
       _CKEditor.plugins.get('FileRepository').createUploadAdapter = loader => {
         return new UploadAdapter(loader, '/upload-img');
       };
+      SAVE_loading(false);
       setCKEditor(_CKEditor);
     } catch (error) {
       console.log(error);

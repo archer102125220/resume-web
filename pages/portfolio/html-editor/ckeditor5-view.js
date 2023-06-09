@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -48,16 +49,23 @@ function CKEditor5View() {
   const [context, setContext] = useState('');
   const nextRouter = useRouter();
 
-  const classes = useStyles();
-
   const editorRef = useRef();
   const { ClassicEditor = null } = editorRef.current || {};
+
+  const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const SAVE_loading = useCallback(
+    loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
+    [dispatch]
+  );
 
   useGTMTrack({
     event: 'scnOpen',
     url: '/portfolio/html-editor/ckeditor5-view'
   });
   useEffect(() => {
+    SAVE_loading(true);
     (async () => {
       const { default: ClassicEditor } = await import(
         '@ckeditor/ckeditor5-build-classic'
@@ -135,8 +143,9 @@ function CKEditor5View() {
           {editorLoaded !== false ? (
             <CKEditor
               editor={ClassicEditor}
-              onReady={(editor) => {
+              onReady={editor => {
                 editor.enableReadOnlyMode(editor.id);
+                SAVE_loading(false);
               }}
               data={context}
               config={{
