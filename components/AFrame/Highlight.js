@@ -12,7 +12,7 @@ function AFrameHighlight({
   kazetachinuPosterId,
   ponyoPosterId
 }) {
-  const [AFrame] = useAFrame();
+  const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
     if (AFrame !== null && AFrame.components['highlight'] === undefined) {

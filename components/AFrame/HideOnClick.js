@@ -4,7 +4,7 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/components/AFrame/AFrameContent';
 
 export function AFrameHideOnClick({ anotherCubeId, aSphereId, cursorId }) {
-  const [AFrame] = useAFrame();
+  const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
     if (AFrame !== null && AFrame.components['hide-on-click'] === undefined) {

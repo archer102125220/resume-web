@@ -1,12 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  useState,
-  useEffect,
-  forwardRef,
-  createContext,
-  useContext,
-  useReducer
-} from 'react';
+import { useState, useEffect, forwardRef, useSyncExternalStore } from 'react';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 const _AFrameContent = forwardRef(function AFrameContent(
@@ -17,11 +10,9 @@ const _AFrameContent = forwardRef(function AFrameContent(
     getAframe,
     afterAFrameLoad
   },
-  AFrameRoot
+  AFrameRootRef
 ) {
   const [AFrameLoaded, setAFrameLoaded] = useState(false);
-
-  const [AFrame, dispatch] = useReducer(AFrameReducer, initialAFrame);
 
   useIsomorphicLayoutEffect(() => {
     (async () => {
@@ -49,10 +40,7 @@ const _AFrameContent = forwardRef(function AFrameContent(
         html.classList.add('a-fullscreen');
       }
 
-      dispatch({
-        type: 'insert',
-        payload: window.AFRAME
-      });
+      AFrameStore.insert(window.AFRAME);
       setAFrameLoaded(true);
     })();
   }, []);
@@ -69,13 +57,9 @@ const _AFrameContent = forwardRef(function AFrameContent(
   }, [AFrameLoaded]);
 
   return (
-    <AFrameContext.Provider value={AFrame}>
-      <AFrameDispatchContext.Provider value={dispatch}>
-        <div ref={AFrameRoot}>
-          {renderBeforeAFrameLoad || AFrameLoaded ? children : <></>}
-        </div>
-      </AFrameDispatchContext.Provider>
-    </AFrameContext.Provider>
+    <div ref={AFrameRootRef}>
+      {renderBeforeAFrameLoad || AFrameLoaded ? children : <></>}
+    </div>
   );
 });
 
@@ -94,29 +78,27 @@ _AFrameContent.defaultProps = {
   afterAFrameLoad() {}
 };
 
-const AFrameContext = createContext(null);
-
-const AFrameDispatchContext = createContext(null);
-
-function AFrameReducer(AFrame, action) {
-  switch (action.type) {
-    case 'insert': {
-      return action.payload;
+let AFrame = null;
+let listeners = [];
+const AFrameStore = {
+  insert(newAFrame) {
+    AFrame = newAFrame;
+    for (const listener of listeners) {
+      listener();
     }
-    default: {
-      return AFrame;
-    }
+  },
+  subscribe(listener) {
+    listeners = [...listeners, listener];
+    return () => {
+      listeners = listeners.filter(l => l !== listener);
+    };
+  },
+  getSnapshot() {
+    return AFrame;
   }
-}
-
-const initialAFrame = null;
-
+};
 export function useAFrame() {
-  return [useContext(AFrameContext), useContext(AFrameDispatchContext)];
+  return useSyncExternalStore(AFrameStore.subscribe, AFrameStore.getSnapshot);
 }
-
-// export function useAFrameDispatch() {
-//   return useContext(AFrameDispatchContext);
-// }
 
 export default _AFrameContent;

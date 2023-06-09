@@ -19,7 +19,7 @@ function AFrameInfoPanel({
   const kazetachinuMovieImageId = useId();
   const ponyoMovieImageId = useId();
 
-  const [AFrame] = useAFrame();
+  const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
     if (AFrame !== null && AFrame.components['info-panel'] === undefined) {
