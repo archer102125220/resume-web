@@ -265,8 +265,8 @@ function Index() {
     tabletopAnime.current = anime({
       targets: tabletopRef.current,
       top: ['25%', '5%'],
-      left: ['25%', '5%'],
-      width: ['50%', '90%'],
+      left: ['25%', '2.5%'],
+      width: ['50%', '95%'],
       height: ['20%', '90%'],
       perspective: ['0.5em', '0.5em'],
       rotateX: [1, 0],

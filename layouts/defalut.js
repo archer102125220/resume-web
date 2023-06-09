@@ -115,8 +115,8 @@ function DefalutLayout({ isMobile, children }) {
     function setDefalutLayout() {
       if (mainRef.current !== null) {
         const height = mainRef.current.scrollHeight;
-        const width = mainRef.current.scrollWidth;
-        const left = mainRef.current.offsetLeft;
+        const width = tableclothRef.current.scrollWidth;
+        const left = tableclothRef.current.offsetLeft;
         SAVE_defalutLayout({ height, width, left });
       }
     }
