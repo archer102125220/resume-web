@@ -1,4 +1,4 @@
-import { useEffect, useId, useCallback, useRef } from 'react';
+import { useEffect, useId, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
-import AFrameInfoPanel from '@/components/AFrame/InfoPanel';
-import AFrameHighlight from '@/components/AFrame/Highlight';
+import AFrameInfoPanel from '@/components/AFrame/EventEaxmple/InfoPanel';
+import AFrameHighlight from '@/components/AFrame/EventEaxmple/Highlight';
 
 function AFrameEventEaxmple() {
   const kazetachinuId = useId();
@@ -22,8 +22,11 @@ function AFrameEventEaxmple() {
   const mixinMovieImageId = 'mixinMovieImage';
   const backgroundId = useId();
   const fadeBackgroundId = useId();
-
-  const aFrameRoot = useRef(null);
+  const menuButtonClassName = 'menu-button';
+  const raycasterClassName = 'raycastable';
+  const karigurashiButtonId = useId();
+  const kazetachinuButtonId = useId();
+  const ponyoButtonId = useId();
 
   const dispatch = useDispatch();
   const SAVE_defalutLayoutSetting = useCallback(
@@ -53,12 +56,12 @@ function AFrameEventEaxmple() {
         <title>Parker Chan 的作品集 - a-frame(事件範例)</title>
       </Head>
       <Box>
-        <AFrameContent ref={aFrameRoot}>
+        <AFrameContent>
           <a-scene
             background="color: #212"
             environment=""
             cursor="rayOrigin: mouse; fuse: false"
-            raycaster="objects: .raycastable"
+            raycaster={`objects: .${raycasterClassName}`}
           >
             <a-assets>
               {/*
@@ -155,7 +158,7 @@ function AFrameEventEaxmple() {
               material="color: red; side: back; shader: flat"
               scale="0.001 0.001 0.001"
               visible="false"
-              class="raycastable"
+              class={raycasterClassName}
             />
 
             <a-entity look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false">
@@ -168,29 +171,37 @@ function AFrameEventEaxmple() {
               />
             </a-entity>
 
-            {/* <!-- Hand controls --> */}
+            {/* Hand controls */}
 
             <a-entity id="ui" position="0 1.6 -2.5">
-              {/* <!-- Poster menu --> */}
+              {/* Poster menu */}
               <AFrameHighlight
-                menuButtonClassName="menu-button"
+                menuButtonClassName={menuButtonClassName}
                 backgroundId={backgroundId}
                 mixinFrameId={mixinFrameId}
                 karigurashiPosterId={`#${karigurashiPosterId}`}
                 mixinPosterId={mixinPosterId}
                 kazetachinuPosterId={`#${kazetachinuPosterId}`}
                 ponyoPosterId={`#${ponyoPosterId}`}
+                raycasterClassName={raycasterClassName}
+                karigurashiButtonId={karigurashiButtonId}
+                kazetachinuButtonId={kazetachinuButtonId}
+                ponyoButtonId={ponyoButtonId}
               />
 
-              {/* <!-- Info panel of the selected movie. --> */}
+              {/* Info panel of the selected movie. */}
               <AFrameInfoPanel
-                menuButtonClassName="menu-button"
+                menuButtonClassName={menuButtonClassName}
                 fadeBackgroundId={fadeBackgroundId}
                 backgroundId={backgroundId}
                 mixinMovieImageId={mixinMovieImageId}
                 ponyoId={`#${ponyoId}`}
                 kazetachinuId={`#${kazetachinuId}`}
                 karigurashiId={`#${karigurashiId}`}
+                raycasterClassName={raycasterClassName}
+                karigurashiButtonId={karigurashiButtonId}
+                kazetachinuButtonId={kazetachinuButtonId}
+                ponyoButtonId={ponyoButtonId}
               />
             </a-entity>
           </a-scene>

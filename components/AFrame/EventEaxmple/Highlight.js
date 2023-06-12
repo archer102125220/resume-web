@@ -10,7 +10,11 @@ function AFrameHighlight({
   karigurashiPosterId,
   mixinPosterId,
   kazetachinuPosterId,
-  ponyoPosterId
+  ponyoPosterId,
+  raycasterClassName,
+  karigurashiButtonId,
+  kazetachinuButtonId,
+  ponyoButtonId
 }) {
   const AFrame = useAFrame();
 
@@ -79,10 +83,10 @@ function AFrameHighlight({
         highlight={`menuButtonClassName: .${menuButtonClassName}; background: [id="${backgroundId}"];`}
       >
         <a-entity
-          id="karigurashiButton"
+          id={karigurashiButtonId}
           position="-0.8 0 0"
           mixin={mixinFrameId}
-          class={['raycastable', menuButtonClassName].join(' ')}
+          class={[raycasterClassName, menuButtonClassName].join(' ')}
         >
           <a-entity
             material={`src: ${karigurashiPosterId};`}
@@ -91,10 +95,10 @@ function AFrameHighlight({
         </a-entity>
 
         <a-entity
-          id="kazetachinuButton"
+          id={kazetachinuButtonId}
           position="0 0 0"
           mixin={mixinFrameId}
-          class={['raycastable', menuButtonClassName].join(' ')}
+          class={[raycasterClassName, menuButtonClassName].join(' ')}
         >
           <a-entity
             material={`src: ${kazetachinuPosterId}`}
@@ -103,10 +107,10 @@ function AFrameHighlight({
         </a-entity>
 
         <a-entity
-          id="ponyoButton"
+          id={ponyoButtonId}
           position="0.8 0 0"
           mixin={mixinFrameId}
-          class={['raycastable', menuButtonClassName].join(' ')}
+          class={[raycasterClassName, menuButtonClassName].join(' ')}
         >
           <a-entity material={`src: ${ponyoPosterId}`} mixin={mixinPosterId} />
         </a-entity>
@@ -122,7 +126,11 @@ AFrameHighlight.propTypes = {
   karigurashiPosterId: PropTypes.string.isRequired,
   mixinPosterId: PropTypes.string.isRequired,
   kazetachinuPosterId: PropTypes.string.isRequired,
-  ponyoPosterId: PropTypes.string.isRequired
+  ponyoPosterId: PropTypes.string.isRequired,
+  raycasterClassName: PropTypes.string.isRequired,
+  karigurashiButtonId: PropTypes.string.isRequired,
+  kazetachinuButtonId: PropTypes.string.isRequired,
+  ponyoButtonId: PropTypes.string.isRequired
 };
 
 AFrameHighlight.defaultProps = {

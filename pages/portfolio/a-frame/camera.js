@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
-import AFrameHideOnClick from '@/components/AFrame/HideOnClick';
+import AFrameHideOnClick from '@/components/AFrame/Camera/HideOnClick';
 
 function AFrameCamera() {
   const anotherCubeId = useId();

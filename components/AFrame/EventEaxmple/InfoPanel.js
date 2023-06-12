@@ -11,7 +11,11 @@ function AFrameInfoPanel({
   mixinMovieImageId,
   ponyoId,
   kazetachinuId,
-  karigurashiId
+  karigurashiId,
+  raycasterClassName,
+  karigurashiButtonId,
+  kazetachinuButtonId,
+  ponyoButtonId
 }) {
   const movieTitleId = useId();
   const movieDescriptionId = useId();
@@ -43,7 +47,10 @@ function AFrameInfoPanel({
             karigurashiMovieImage,
             kazetachinuMovieImage,
             ponyoMovieImage,
-            background
+            background,
+            karigurashiButtonId,
+            kazetachinuButtonId,
+            ponyoButtonId
           } = this.data;
 
           const buttonEls = document.querySelectorAll(menuButtonClassName);
@@ -52,7 +59,7 @@ function AFrameInfoPanel({
           this.movieTitleEl = document.querySelector(movieTitle);
           this.movieDescriptionEl = document.querySelector(movieDescription);
           this.movieInfo = {
-            karigurashiButton: {
+            [karigurashiButtonId]: {
               // title: '《借物少女艾莉緹》（2010年）',
               title: 'The Secret World of Arrietty (2010)',
               imgEl: document.querySelector(karigurashiMovieImage),
@@ -60,7 +67,7 @@ function AFrameInfoPanel({
               //   '根據瑪麗·諾頓（Mary Norton）於1952年所著的兒童小說《借物小人一家》改編，故事描述一個微小的家庭秘密地生活在典型住宅的牆壁和地板之間，他們從人類借用物品以求生存。'
               description: 'Based on the 1952 novel The Borrowers by Mary Norton, an English author of children\'s books, about a family of tiny people who live secretly in the walls and floors of a typical household, borrowing items from humans to survive.'
             },
-            kazetachinuButton: {
+            [kazetachinuButtonId]: {
               // title: '《風起》（2013年）',
               title: 'The Wind Rises (2013)',
               imgEl: document.querySelector(kazetachinuMovieImage),
@@ -68,7 +75,7 @@ function AFrameInfoPanel({
               //   '《風起》是關於堀越二郎（1903年-1982年）的虛構傳記電影，他是三菱A5M戰鬥機及其後繼機種三菱A6M零式戰鬥機的設計師，這些戰鬥機在第二次世界大戰期間由日本帝國使用。電影改編自宮崎駿同名的漫畫，而該漫畫則部分基於堀達夫的1937年小說《風已起》以及堀越二郎的生平故事。'
               description: 'The Wind Rises is a fictionalised biographical film of Jiro Horikoshi (1903, 1982), designer of the Mitsubishi A5M fighter aircraft and its successor, the Mitsubishi A6M Zero, used by the Empire of Japan during World War II. The film is adapted from Miyazaki\'s manga of the same name, which was in turn loosely based on both the 1937 novel The Wind Has Risen by Tatsuo Hori and the life of Jiro Horikoshi.'
             },
-            ponyoButton: {
+            [ponyoButtonId]: {
               // title: '《崖上的波妞》（2003年）',
               title: 'Ponyo (2003)',
               imgEl: document.querySelector(ponyoMovieImage),
@@ -138,12 +145,15 @@ function AFrameInfoPanel({
           kazetachinuMovieImage: [id="${kazetachinuMovieImageId}"];
           ponyoMovieImage: [id="${ponyoMovieImageId}"];
           background: [id="${backgroundId}"];
+          karigurashiButtonId: ${karigurashiButtonId};
+          kazetachinuButtonId: ${kazetachinuButtonId};
+          ponyoButtonId: ${ponyoButtonId};
         `}
         visible="false"
         scale="0.001 0.001 0.001"
         geometry="primitive: plane; width: 1.5; height: 1.8"
         material="color: #333333; shader: flat; transparent: false"
-        class="raycastable"
+        class={raycasterClassName}
       >
         <a-entity
           id={ponyoMovieImageId}
@@ -191,7 +201,11 @@ AFrameInfoPanel.propTypes = {
   mixinMovieImageId: PropTypes.string.isRequired,
   ponyoId: PropTypes.string.isRequired,
   kazetachinuId: PropTypes.string.isRequired,
-  karigurashiId: PropTypes.string.isRequired
+  karigurashiId: PropTypes.string.isRequired,
+  raycasterClassName: PropTypes.string.isRequired,
+  karigurashiButtonId: PropTypes.string.isRequired,
+  kazetachinuButtonId: PropTypes.string.isRequired,
+  ponyoButtonId: PropTypes.string.isRequired
 };
 
 AFrameInfoPanel.defaultProps = {
