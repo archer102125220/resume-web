@@ -27,7 +27,7 @@ function AFrameAEntity() {
     };
   }, []);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/hello-workd' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/a-entity' });
 
   return (
     <div>

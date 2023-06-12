@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
+import { useAFrameGradient } from '@/hooks/AFrame/shader/useAFrameGradient';
+import { useAFrameAGradientSky } from '@/hooks/AFrame/primitive/useAFrameAGradientSky';
 
 function AFrameNpmExample() {
   const dispatch = useDispatch();
@@ -27,76 +29,10 @@ function AFrameNpmExample() {
     };
   }, []);
 
-  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/test' });
+  useGTMTrack({ event: 'scnOpen', url: '/portfolio/a-frame/npm-example' });
 
-  function getAframe(AFrame) {
-    try {
-      // AFrame.registerComponent('bar', {
-      //   schema: {
-      //     color: { default: '#FFF' },
-      //     size: { type: 'int', default: 5 }
-      //   }
-      // });
-      AFrame.registerShader('gradient', {
-        schema: {
-          topColor: {
-            type: 'vec3',
-            default: { x: 1, y: 0, z: 0 },
-            is: 'uniform'
-          },
-          bottomColor: {
-            type: 'vec3',
-            default: { x: 0, y: 0, z: 1 },
-            is: 'uniform'
-          },
-          offset: { type: 'float', default: 400, is: 'uniform' },
-          exponent: { type: 'float', default: 0.6, is: 'uniform' }
-        },
-        vertexShader: `
-          varying vec3 vWorldPosition;
-          void main() {
-            vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-            vWorldPosition = worldPosition.xyz;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
-          }
-        `,
-        fragmentShader: `
-            uniform vec3 bottomColor;
-            uniform vec3 topColor;
-            uniform float offset;
-            uniform float exponent;
-            varying vec3 vWorldPosition;
-            void main() {
-              float h = normalize( vWorldPosition + offset ).y;
-              gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max(h, 0.0 ), exponent ), 0.0 ) ), 1.0 );
-            }
-        `
-      });
-      AFrame.registerPrimitive('a-gradient-sky', {
-        defaultComponents: {
-          geometry: {
-            primitive: 'sphere',
-            radius: 5000,
-            segmentsWidth: 64,
-            segmentsHeight: 20
-          },
-          material: {
-            shader: 'gradient'
-          },
-          scale: '-1 1 1'
-        },
-
-        mappings: {
-          topColor: 'material.topColor',
-          bottomColor: 'material.bottomColor',
-          offset: 'material.offset',
-          exponent: 'material.exponent'
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  useAFrameGradient();
+  useAFrameAGradientSky();
 
   return (
     <div>
@@ -104,7 +40,7 @@ function AFrameNpmExample() {
         <title>Parker Chan 的作品集 - a-frame(npm 範例)</title>
       </Head>
       <Box>
-        <AFrameContent getAframe={getAframe}>
+        <AFrameContent>
           <a-scene>
             <a-entity
               id="rain"

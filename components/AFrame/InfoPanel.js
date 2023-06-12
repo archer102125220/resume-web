@@ -2,7 +2,7 @@ import { useId } from 'react';
 import PropTypes from 'prop-types';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
-import { useAFrame } from '@/components/AFrame/AFrameContent';
+import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 function AFrameInfoPanel({
   menuButtonClassName,
@@ -96,7 +96,6 @@ function AFrameInfoPanel({
           this.backgroundEl.object3D.scale.set(1, 1, 1);
           this.el.object3D.scale.set(1, 1, 1);
 
-          console.log(AFrame.utils.device.isMobile());
           if (AFrame.utils.device.isMobile()) {
             this.el.object3D.scale.set(1.4, 1.4, 1.4);
           }

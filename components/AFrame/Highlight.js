@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
-import { useAFrame } from '@/components/AFrame/AFrameContent';
+import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 function AFrameHighlight({
   menuButtonClassName,

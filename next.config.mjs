@@ -14,9 +14,9 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.aframe.io',
         port: '',
-        pathname: '/examples/ui/**',
-      },
-    ],
+        pathname: '/examples/ui/**'
+      }
+    ]
   },
   webpack: config => {
     config.resolve.alias['@'] = resolve(__dirname);
@@ -58,6 +58,7 @@ const nextConfig = {
   },
   env: {
     AXIOS_BASE_URL: '/api',
+    IS_DEV: process.env.NODE_ENV === 'development',
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     GA_ID: process.env.GA_ID,
     GTM_ID: process.env.GTM_ID,
