@@ -1,5 +1,5 @@
-import { useId } from 'react';
 import PropTypes from 'prop-types';
+import { useId } from 'react';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/hooks/AFrame/useAFrame';
@@ -23,6 +23,90 @@ function AFrameInfoPanel({
   const kazetachinuMovieImageId = useId();
   const ponyoMovieImageId = useId();
 
+  const AFrame = useAFrameInfoPanel();
+
+  return (
+    AFrame !== null && (
+      // Info panel of the selected movie.
+      <a-entity
+        id="infoPanel"
+        position="0 0 0.5"
+        info-panel={`menuButtonClassName: .${menuButtonClassName};
+          fadeBackground: [id="${fadeBackgroundId}"];
+          movieTitle: [id="${movieTitleId}"];
+          movieDescription: [id="${movieDescriptionId}"];
+          karigurashiMovieImage: [id="${karigurashiMovieImageId}"];
+          kazetachinuMovieImage: [id="${kazetachinuMovieImageId}"];
+          ponyoMovieImage: [id="${ponyoMovieImageId}"];
+          background: [id="${backgroundId}"];
+          karigurashiButtonId: ${karigurashiButtonId};
+          kazetachinuButtonId: ${kazetachinuButtonId};
+          ponyoButtonId: ${ponyoButtonId};
+        `}
+        visible="false"
+        scale="0.001 0.001 0.001"
+        geometry="primitive: plane; width: 1.5; height: 1.8"
+        material="color: #333333; shader: flat; transparent: false"
+        class={raycasterClassName}
+      >
+        <a-entity
+          id={ponyoMovieImageId}
+          mixin={mixinMovieImageId}
+          material={`src: ${ponyoId}`}
+          visible="false"
+        />
+        <a-entity
+          id={kazetachinuMovieImageId}
+          mixin={mixinMovieImageId}
+          material={`src: ${kazetachinuId}`}
+          visible="false"
+        />
+        <a-entity
+          id={karigurashiMovieImageId}
+          mixin={mixinMovieImageId}
+          material={`src: ${karigurashiId}`}
+          visible="false"
+        />
+        <a-entity
+          id={movieTitleId}
+          position="-0.68 -0.1 0"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Ponyo (2003)"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Ponyo (2003)"
+          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Ponyo (2003)"
+          text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"
+        />
+        <a-entity
+          id={movieDescriptionId}
+          position="-0.68 -0.2 0"
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        />
+      </a-entity>
+    )
+  );
+}
+
+AFrameInfoPanel.propTypes = {
+  menuButtonClassName: PropTypes.string.isRequired,
+  fadeBackgroundId: PropTypes.string.isRequired,
+  backgroundId: PropTypes.string.isRequired,
+  mixinMovieImageId: PropTypes.string.isRequired,
+  ponyoId: PropTypes.string.isRequired,
+  kazetachinuId: PropTypes.string.isRequired,
+  karigurashiId: PropTypes.string.isRequired,
+  raycasterClassName: PropTypes.string.isRequired,
+  karigurashiButtonId: PropTypes.string.isRequired,
+  kazetachinuButtonId: PropTypes.string.isRequired,
+  ponyoButtonId: PropTypes.string.isRequired
+};
+
+AFrameInfoPanel.defaultProps = {
+  menuButtonClassName: 'menu-button'
+};
+
+export function useAFrameInfoPanel() {
   const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
@@ -36,7 +120,10 @@ function AFrameInfoPanel({
           karigurashiMovieImage: { type: 'string', default: '' },
           kazetachinuMovieImage: { type: 'string', default: '' },
           ponyoMovieImage: { type: 'string', default: '' },
-          background: { type: 'string', default: '' }
+          background: { type: 'string', default: '' },
+          karigurashiButtonId: { type: 'string', default: '' },
+          kazetachinuButtonId: { type: 'string', default: '' },
+          ponyoButtonId: { type: 'string', default: '' }
         },
         init: function () {
           const {
@@ -131,85 +218,7 @@ function AFrameInfoPanel({
     }
   }, [AFrame]);
 
-  return (
-    AFrame !== null && (
-      // Info panel of the selected movie.
-      <a-entity
-        id="infoPanel"
-        position="0 0 0.5"
-        info-panel={`menuButtonClassName: .${menuButtonClassName};
-          fadeBackground: [id="${fadeBackgroundId}"];
-          movieTitle: [id="${movieTitleId}"];
-          movieDescription: [id="${movieDescriptionId}"];
-          karigurashiMovieImage: [id="${karigurashiMovieImageId}"];
-          kazetachinuMovieImage: [id="${kazetachinuMovieImageId}"];
-          ponyoMovieImage: [id="${ponyoMovieImageId}"];
-          background: [id="${backgroundId}"];
-          karigurashiButtonId: ${karigurashiButtonId};
-          kazetachinuButtonId: ${kazetachinuButtonId};
-          ponyoButtonId: ${ponyoButtonId};
-        `}
-        visible="false"
-        scale="0.001 0.001 0.001"
-        geometry="primitive: plane; width: 1.5; height: 1.8"
-        material="color: #333333; shader: flat; transparent: false"
-        class={raycasterClassName}
-      >
-        <a-entity
-          id={ponyoMovieImageId}
-          mixin={mixinMovieImageId}
-          material={`src: ${ponyoId}`}
-          visible="false"
-        />
-        <a-entity
-          id={kazetachinuMovieImageId}
-          mixin={mixinMovieImageId}
-          material={`src: ${kazetachinuId}`}
-          visible="false"
-        />
-        <a-entity
-          id={karigurashiMovieImageId}
-          mixin={mixinMovieImageId}
-          material={`src: ${karigurashiId}`}
-          visible="false"
-        />
-        <a-entity
-          id={movieTitleId}
-          position="-0.68 -0.1 0"
-          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Ponyo (2003)"
-          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Ponyo (2003)"
-          // text="shader: msdf; anchor: left; width: 1.5; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Ponyo (2003)"
-          text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"
-        />
-        <a-entity
-          id={movieDescriptionId}
-          position="-0.68 -0.2 0"
-          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/custom/zh-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/cubic_11/fonts/msdf/cubic_11_1.010_R-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-          // text="baseline: top; shader: msdf; anchor: left; font: /a-frame/font/zcool/msdf/zcool-W03-msdf.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-          text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        />
-      </a-entity>
-    )
-  );
+  return AFrame;
 }
-
-AFrameInfoPanel.propTypes = {
-  menuButtonClassName: PropTypes.string.isRequired,
-  fadeBackgroundId: PropTypes.string.isRequired,
-  backgroundId: PropTypes.string.isRequired,
-  mixinMovieImageId: PropTypes.string.isRequired,
-  ponyoId: PropTypes.string.isRequired,
-  kazetachinuId: PropTypes.string.isRequired,
-  karigurashiId: PropTypes.string.isRequired,
-  raycasterClassName: PropTypes.string.isRequired,
-  karigurashiButtonId: PropTypes.string.isRequired,
-  kazetachinuButtonId: PropTypes.string.isRequired,
-  ponyoButtonId: PropTypes.string.isRequired
-};
-
-AFrameInfoPanel.defaultProps = {
-  menuButtonClassName: 'menu-button'
-};
 
 export default AFrameInfoPanel;

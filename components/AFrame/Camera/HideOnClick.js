@@ -4,6 +4,29 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 export function AFrameHideOnClick({ anotherCubeId, aSphereId, cursorId }) {
+  const AFrame = useAFrameHideOnClick();
+
+  return (
+    AFrame !== null && (
+      <a-sphere
+        id={aSphereId}
+        raycaster={`objects: #${cursorId}`}
+        hide-on-click={`target: [id="${anotherCubeId}"]`}
+        position="0 1.25 -5"
+        radius="1.25"
+        src="/a-frame/img/cork-board.webp"
+      />
+    )
+  );
+}
+
+AFrameHideOnClick.propTypes = {
+  anotherCubeId: PropTypes.string.isRequired,
+  aSphereId: PropTypes.string.isRequired,
+  cursorId: PropTypes.string.isRequired
+};
+
+export function useAFrameHideOnClick() {
   const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
@@ -30,24 +53,7 @@ export function AFrameHideOnClick({ anotherCubeId, aSphereId, cursorId }) {
     }
   }, [AFrame]);
 
-  return (
-    AFrame !== null && (
-      <a-sphere
-        id={aSphereId}
-        raycaster={`objects: #${cursorId}`}
-        hide-on-click={`target: [id="${anotherCubeId}"]`}
-        position="0 1.25 -5"
-        radius="1.25"
-        src="/a-frame/img/cork-board.webp"
-      />
-    )
-  );
+  return AFrame;
 }
-
-AFrameHideOnClick.propTypes = {
-  anotherCubeId: PropTypes.string.isRequired,
-  aSphereId: PropTypes.string.isRequired,
-  cursorId: PropTypes.string.isRequired
-};
 
 export default AFrameHideOnClick;

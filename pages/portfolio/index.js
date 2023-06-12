@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
-// import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
 
 import { mediaMobile } from '@/styles/globals';
 import { buttonStyle } from '@/styles/buttonStyle';
@@ -99,6 +98,7 @@ function Portfolio() {
             src="/img/firebase/firebase_logo.png"
             alt="Firebase Logo"
             className={classes.portfolioImg}
+            priority={true}
             width={200}
             height={50}
           />
@@ -140,6 +140,7 @@ function Portfolio() {
             src="/img/aframe-name-pink.svg"
             alt="a-frame"
             className={classes.portfolioImg}
+            priority={true}
             width={200}
             height={50}
           />

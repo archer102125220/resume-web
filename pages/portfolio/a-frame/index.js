@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
@@ -131,6 +131,7 @@ function AFrame() {
           className={classes.AFrameListImage}
           src="/img/aframe-name-pink.svg"
           alt="a-frame"
+          priority={true}
           width={300}
           height={100}
         />

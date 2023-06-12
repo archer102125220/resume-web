@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect, useRef, useId, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
@@ -10,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
-import { wrapper } from '@/redux/index';
+// import { wrapper } from '@/redux/index';
 import { tappayAsyncThunk } from '@/redux/tappay';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import {
@@ -126,7 +127,7 @@ const styles = theme => ({
 
 const useStyles = makeStyles(styles);
 
-function TappayUi() {
+function TappayUi({ isMobile }) {
   const [tappay, setTapPay] = useState(null);
   const [directPayAmount, setDirectPayAmount] = useState('');
   const [directPayError, setDirectPayError] = useState(false);
@@ -171,7 +172,6 @@ function TappayUi() {
   const appKey = useSelector(({ tappay }) => tappay.appKey || '');
   const prod = useSelector(({ tappay }) => tappay.prod || false);
   const partnerKey = useSelector(({ tappay }) => tappay.partnerKey || '');
-  const isMobile = useSelector(({ system }) => system.isMobile);
   const theme = useTheme();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -1204,25 +1204,32 @@ function TappayUi() {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  reduxStore =>
-    function (ctx) {
-      // 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面不觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
-      const reduxIsMobile = reduxStore.getState()?.system?.isMobile || false;
+TappayUi.propTypes = {
+  isMobile: PropTypes.bool
+};
+TappayUi.defaultProps = {
+  isMobile: false
+};
 
-      const userAgent = ctx?.req?.headers?.['user-agent'] || '';
-      const isMobile =
-        userAgent.includes('Android') || userAgent.includes('iPhone');
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   reduxStore =>
+//     function (ctx) {
+//       // 經過數次測試，若伺服端需要透過req等連線資訊初始化資料池，若頁面不觸發wrapper.getServerSideProps，則createWrapper內的function無法接到相關餐數
+//       const reduxIsMobile = reduxStore.getState()?.system?.isMobile || false;
 
-      if (reduxIsMobile !== isMobile) {
-        reduxStore.dispatch({
-          type: 'system/SAVE_isMobile',
-          payload: isMobile
-        });
-      }
+//       const userAgent = ctx?.req?.headers?.['user-agent'] || '';
+//       const isMobile =
+//         userAgent.includes('Android') || userAgent.includes('iPhone');
 
-      return { props: {} };
-    }
-);
+//       if (reduxIsMobile !== isMobile) {
+//         reduxStore.dispatch({
+//           type: 'system/SAVE_isMobile',
+//           payload: isMobile
+//         });
+//       }
+
+//       return { props: {} };
+//     }
+// );
 
 export default TappayUi;
