@@ -24,8 +24,10 @@ const styles = {
     display: 'inline'
   },
   htmlEditorImg: {
-    width: '100%',
-    height: 'auto'
+    margin: 'auto',
+    display: 'block'
+    // width: '100%',
+    // height: 'auto'
   }
 };
 
@@ -63,8 +65,8 @@ function HTMLEditor() {
         src="/img/a-few-moment-later.jpg"
         alt="a-few-moment-later"
         className={classes.htmlEditorImg}
-        width={300}
-        height={200}
+        width={640}
+        height={360}
       />
       <div>
         <p className={classes.htmlEditorSecondParagraph}>

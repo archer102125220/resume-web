@@ -25,9 +25,6 @@ const CKEditor = dynamic(
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
-const mb3 = {
-  marginBottom: '16px'
-};
 const colAuto = {
   flex: '0 0 auto',
   width: 'auto'
@@ -37,10 +34,14 @@ const styles = {
   m3: {
     margin: '16px'
   },
-  mb3,
   formLabel: {
     display: 'inline-block',
-    marginBottom: '8px'
+    marginRight: '8px',
+    marginBottom: '8px',
+  },
+  inputBlock: {
+    width: '100%',
+    marginBottom: '16px',
   },
   formSelect: {
     width: '100%'
@@ -75,7 +76,7 @@ const styles = {
     fontSize: '24px'
   },
   dataTime: {
-    ...mb3,
+    marginBottom: '16px',
     minHeight: '6.25em'
   },
   dataTimeInput: {
@@ -356,9 +357,9 @@ function CKEditor4() {
         />
         <p className={classes.ckeditorTitlText}>CKEditor4</p>
       </Stack>
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>文章類別</label>
-        <FormControl className={classes.formSelect} error={categoryError}>
+        <FormControl className={[classes.formSelect,classes.inputBlock].join(' ')} error={categoryError}>
           <InputLabel>文章類別</InputLabel>
           <Select
             label="文章類別"
@@ -370,19 +371,19 @@ function CKEditor4() {
           </Select>
         </FormControl>
       </div>
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>文章標題</label>
         <TextField
           label="文章標題"
           value={title}
-          error={titleError}
+          error={titleError} className={classes.inputBlock}
           onChange={e => handleTitleChange(e.target.value)}
         />
       </div>
 
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>文章內文</label>
-        <div ref={CKEditorBlockRef}>
+        <div ref={CKEditorBlockRef} className={classes.inputBlock}>
           <CKEditor
             editorUrl="https://cdn.ckeditor.com/4.21.0/full-all/ckeditor.js"
             onNamespaceLoaded={_CKEDITOR => {
@@ -492,7 +493,7 @@ function CKEditor4() {
         </div>
       </div>
 
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>
           文章描述(自動節錄文章內文內容，最多75字)
         </label>
@@ -502,22 +503,23 @@ function CKEditor4() {
           value={description}
           error={description === ''}
           // readOnly={true}
+          className={classes.inputBlock}
           onChange={e => setDescription(`${e.target.value}`.substring(0, 75))}
         />
       </div>
 
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>文章關鍵字</label>
         <TextField
           label="文章關鍵字"
           value={keyWord}
-          error={keyWordError}
+          error={keyWordError} className={classes.inputBlock}
           onChange={e => handleKeyWordChange(e.target.value)}
         />
       </div>
-      <div className={classes.md3}>
+      <div>
         <label className={classes.formLabel}>文章狀態</label>
-        <div>
+        <div className={classes.inputBlock}>
           <FormControlLabel
             control={
               <Switch

@@ -12,7 +12,7 @@ const styles = {
     margin: 'auto',
     marginTop: '10px'
   },
-  mb3: {
+  inputBlock: {
     marginBottom: '16px'
   },
   row: {
@@ -80,7 +80,7 @@ function CKEditor4View() {
       <Head>
         <title>Parker Chan 的作品集 - HTML編輯器-預覽</title>
       </Head>
-      <div className={[classes.md3, classes.row].join(' ')}>
+      <div className={[classes.inputBlock, classes.row].join(' ')}>
         {/* <label>文章標題： </label> */}
         <p>{title}</p>
       </div>
