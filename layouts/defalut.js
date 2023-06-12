@@ -164,12 +164,7 @@ function DefalutLayout({ isMobile, children }) {
         duration: 500,
         easing: 'easeOutQuint',
         complete() {
-          if (
-            typeof fullScreenTargetUrl === 'string' &&
-            fullScreenTargetUrl !== ''
-          ) {
-            nextRouter.push(fullScreenTargetUrl);
-          } else if (isFullScreen === false) {
+          if (isFullScreen === false) {
             setTimeout(() => {
               tableclothRef.current.style = '';
             }, 10);
@@ -182,6 +177,12 @@ function DefalutLayout({ isMobile, children }) {
         duration: 1000,
         easing: 'easeOutQuint'
       });
+      if (
+        typeof fullScreenTargetUrl === 'string' &&
+        fullScreenTargetUrl !== ''
+      ) {
+        nextRouter.push(fullScreenTargetUrl);
+      }
     }
     SAVE_defalutLayoutSetting({ fullScreenTargetUrl: '' });
   }, [defalutLayoutSetting.fullScreen]);
