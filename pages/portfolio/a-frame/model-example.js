@@ -125,7 +125,7 @@ function AFrameModelExample() {
             webxr="optionalFeatures: hit-test, local-floor;"
             raycaster="objects: .raycastable"
             model-viewer="gltfModel: #triceratops; title: Triceratops;"
-            ar-hit-test_="targetEl: #modelPivot;"
+            ar-hit-test="targetEl: #modelPivot;"
             class={classes.modelExampleScene}
           >
             <a-assets>
