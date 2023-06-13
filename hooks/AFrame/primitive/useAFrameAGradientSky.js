@@ -1,7 +1,11 @@
+import { useState } from 'react';
+
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 export function useAFrameAGradientSky() {
+  const [aGradientSkyIsLoaded, setAGradientSkyIsLoaded] = useState(false);
+
   const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
@@ -31,5 +35,10 @@ export function useAFrameAGradientSky() {
         }
       });
     }
+    if (AFrame?.primitives?.primitives?.['a-gradient-sky'] !== undefined) {
+      setAGradientSkyIsLoaded(true);
+    }
   }, [AFrame]);
+
+  return aGradientSkyIsLoaded;
 }

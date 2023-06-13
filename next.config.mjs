@@ -15,6 +15,12 @@ const nextConfig = {
         hostname: 'cdn.aframe.io',
         port: '',
         pathname: '/examples/ui/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.glitch.com',
+        port: '',
+        pathname: '/**'
       }
     ]
   },

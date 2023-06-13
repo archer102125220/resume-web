@@ -121,6 +121,15 @@ function AFrame() {
     });
   }
 
+  function handleGoToModelExample(e) {
+    e.preventDefault();
+    SAVE_defalutLayoutSetting({
+      fullScreen: true,
+      fullScreenTargetUrl: '/portfolio/a-frame/model-example',
+      fullScreenGoBack
+    });
+  }
+
   return (
     <div>
       <Head>
@@ -210,6 +219,15 @@ function AFrame() {
           href="/portfolio/a-frame/camera"
         >
           <p>camera</p>
+        </Button>
+        <Button
+          className={classes.AFrameListButton}
+          variant="contained"
+          onClick={handleGoToModelExample}
+          component="a"
+          href="/portfolio/a-frame/model-example"
+        >
+          <p>model 範例</p>
         </Button>
       </div>
     </div>

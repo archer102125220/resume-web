@@ -1,7 +1,11 @@
+import { useState } from 'react';
+
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 export function useAFrameGradient() {
+  const [gradientIsLoaded, setGradientIsLoaded] = useState(false);
+
   const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
@@ -42,5 +46,10 @@ export function useAFrameGradient() {
         `
       });
     }
+    if (AFrame?.shaders?.['gradient'] !== undefined) {
+      setGradientIsLoaded(true);
+    }
   }, [AFrame]);
+
+  return gradientIsLoaded;
 }

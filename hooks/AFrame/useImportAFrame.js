@@ -5,7 +5,7 @@ import { useAFrame, AFrameStore } from '@/hooks/AFrame/useAFrame';
 
 export function useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad) {
   const [AFrameLoaded, setAFrameLoaded] = useState(false);
-  const _AFrame = useAFrame();
+  const AFrame = useAFrame();
 
   useIsomorphicLayoutEffect(() => {
     (async () => {
@@ -20,7 +20,8 @@ export function useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad) {
       await import('aframe');
       await Promise.all([
         import('aframe-event-set-component'),
-        import('aframe-environment-component')
+        import('aframe-environment-component'),
+        import('aframe-extras')
       ]);
 
       if (typeof getAframe === 'function') {
@@ -49,5 +50,5 @@ export function useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad) {
     }
   }, [AFrameLoaded]);
 
-  return AFrameLoaded === true ? _AFrame : null;
+  return AFrameLoaded === true ? AFrame : null;
 }

@@ -2588,6 +2588,13 @@ aframe-event-set-component@^5.0.0:
   dependencies:
     debug "^2.6.9"
 
+aframe-extras@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/aframe-extras/-/aframe-extras-7.0.0.tgz#ed0f20c4a5c222493d0f843911dfd1e89da269a8"
+  integrity sha512-SYmvmcoWPB4LsPNIn98EBmyXFF04iq7VLRsN4hI8vMo21j+jaihSvFX61j1V0HHNz5BRuGJhNma+jSkYJXU+XQ==
+  dependencies:
+    three-pathfinding "^1.1.0"
+
 aframe-react@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/aframe-react/-/aframe-react-4.4.0.tgz#f8af660bc4f64746d7cddb065ad9cc5e88f358b9"
@@ -7268,6 +7275,16 @@ three-buffer-vertex-data@dmarcos/three-buffer-vertex-data#69378fc58daf27d3b1d930
   resolved "https://codeload.github.com/dmarcos/three-buffer-vertex-data/tar.gz/69378fc58daf27d3b1d930df9f233473e4a4818c"
   dependencies:
     flatten-vertex-data "^1.0.0"
+
+three-pathfinding@^1.1.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/three-pathfinding/-/three-pathfinding-1.2.0.tgz#83b936104e22bc23b34bcf9d15574bbba21257ae"
+  integrity sha512-TlIfy+mLOdP7OhQG4Mn1dNONYbhu2Xe+AD7jL8SbdKdAHxH/TF68svpk2c8UrSfR/3YWQ87Tq/lp5HQO/QuaMw==
+
+three@^0.153.0:
+  version "0.153.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.153.0.tgz#d8f2aab7b49ae4ac947fd0e24cebec11378758f0"
+  integrity sha512-OCP2/uQR6GcDpSLnJt/3a4mdS0kNWcbfUXIwLoEMgLzEUIVIYsSDwskpmOii/AkDM+BBwrl6+CKgrjX9+E2aWg==
 
 timed-out@^4.0.1:
   version "4.0.1"
