@@ -12,23 +12,20 @@ const nextConfig = {
   swcMinify: true,
   images: {
     unoptimized: isStatic === true,
-    remotePatterns:
-      isStatic === false
-        ? [
-            {
-              protocol: 'https',
-              hostname: 'cdn.aframe.io',
-              port: '',
-              pathname: '/examples/ui/**'
-            },
-            {
-              protocol: 'https',
-              hostname: 'cdn.glitch.com',
-              port: '',
-              pathname: '/**'
-            }
-          ]
-        : undefined
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.aframe.io',
+        port: '',
+        pathname: '/examples/ui/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.glitch.com',
+        port: '',
+        pathname: '/**'
+      }
+    ]
   },
   webpack: config => {
     config.resolve.alias['@'] = resolve(__dirname);
