@@ -60,9 +60,12 @@ export const globalStyle = {
       height: 'auto'
     }
   },
-  // '.a-enter-vr-button, .a-enter-ar-button': {
-  //   position: 'fixed !important'
-  // },
+  '.a-fullscreen .a-enter-vr,.a-fullscreen  .a-enter-ar': {
+    bottom: '-95vh',
+    [mediaMobile]: {
+      bottom: '-90vh'
+    }
+  },
   '.MuiFormControl-root .MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
     color: theme.palette.thirdly.main
   },

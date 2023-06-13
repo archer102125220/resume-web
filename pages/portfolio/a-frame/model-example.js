@@ -10,7 +10,6 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 import { useAFrameBackgroundGradient } from '@/hooks/AFrame/shader/useAFrameBackgroundGradient';
 import { useAFrameModelViewer } from '@/hooks/AFrame/components/useAFrameModelViewer';
-import { mediaMobile } from '@/styles/globals';
 
 const styles = {
   modelExampleScene: {
@@ -72,18 +71,6 @@ const styles = {
         '@media only screen and (max-width: 800px)': {
           width: '70%'
         }
-      }
-    },
-    '& .a-enter-vr': {
-      bottom: '-95vh',
-      [mediaMobile]: {
-        bottom: '-90vh',
-      }
-    },
-    '& .a-enter-ar': {
-      bottom: '-95vh',
-      [mediaMobile]: {
-        bottom: '-90vh',
       }
     }
   }
