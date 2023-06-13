@@ -1,7 +1,7 @@
 'use strict';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
+module.exports = {
   up: queryInterface => {
     const { database, dialectOptions, dialect } =
       queryInterface.sequelize.config;
@@ -13,7 +13,7 @@ export default {
     };`;
     const msSql = 'SELECT 11';
 
-    return queryInterface.sequelize.query(dialect === 'mysql' ? mySql : msSql);
+    return queryInterface.sequelize.query(dialect === 'msSql' ? mySql : msSql);
   }
   // down: (queryInterface, Sequelize) => { }
 };

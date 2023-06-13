@@ -7,14 +7,12 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const envConfig = {
   dialect: process.env.DB_CONNECTION,
   host: process.env.POSTGRES_HOST,
-  // host: process.env.POSTGRES_URL + '?sslmode=require',
-  // port: parseInt(process.env.DB_PORT),
 
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
 
-  operatorsAliases: false,
+  operatorsAliases: '0',
   define: {
     charset: process.env.DB_DEFINE_CHARSET,
     collate: process.env.DB_DEFINE_COLLATE
