@@ -1,10 +1,13 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
+import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
@@ -16,7 +19,7 @@ const styles = {
     position: 'relative',
     '& .a-upload-model': {
       boxSizing: 'border-box',
-      display: 'inline-block',
+      display: 'flex',
       height: '34px',
       padding: '0',
       width: '70vw',
@@ -30,6 +33,8 @@ const styles = {
       border: 'none',
       borderRadius: '5px',
       top: '90vh',
+      alignItems: 'center',
+      justifyContent: 'center',
       '@media only screen and (max-width: 800px)': {
         margin: 'auto'
       },
@@ -39,34 +44,9 @@ const styles = {
       '&.hidden': {
         display: 'none'
       },
-      '&-button': {
-        cursor: 'pointer',
-        padding: '0px 2px 0 2px',
-        fontWeight: 'bold',
-        color: '#666',
-        border: '3px solid #666',
-        boxSizing: 'border-box',
-        verticalAlign: 'middle',
-        width: '25%',
-        maxWidth: '110px',
-        borderRadius: '10px',
-        height: '34px',
-        backgroundColor: 'white',
-        margin: '0',
-        '&:hover': {
-          borderColor: '#ef2d5e',
-          color: '#ef2d5e'
-        }
-      },
+      '&-button': buttonStyle,
       '&-input': {
-        color: '#666',
-        verticalAlign: 'middle',
-        padding: '0px 10px 0 10px',
-        textTransform: 'uppercase',
-        border: '0',
         width: '75%',
-        height: '100%',
-        borderRadius: '10px',
         marginRight: '10px',
         '@media only screen and (max-width: 800px)': {
           width: '70%'
@@ -78,7 +58,29 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+const INPUT_DEFAULT_VALUE = 'Copy URL to glTF or glb model';
+
 function AFrameModelExample() {
+  const [modelUrl, setModelUrl] = useState('');
+  const [gltfModel, setGltfModel] = useState('#triceratops');
+
+  const cameraRigId = 'cameraRigEl';
+  const cameraId = 'cameraEl';
+  const rightHandId = 'rightHandEl';
+  const leftHandId = 'leftHandEl';
+  const containerId = 'containerEl';
+  const laserHitPanelId = 'laserHitPanel';
+  const modelPivotId = 'modelPivot';
+  const modelId = 'model';
+  const shadowId = 'shadowEl';
+  const arShadowId = 'arShadowEl';
+  const titleId = 'title';
+  const reticleId = 'reticleEl';
+  const lightId = 'light';
+  const sceneLightId = 'sceneLightEl';
+  const backgroundId = 'backgroundEl';
+  const uploadContainerId = 'uploadContainerEl';
+
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -105,6 +107,16 @@ function AFrameModelExample() {
   useAFrameBackgroundGradient();
   useAFrameModelViewer();
 
+  function handleChange(e) {
+    const newValue = e.target.value;
+    setModelUrl(newValue);
+  }
+  function submitURLButtonClicked() {
+    if (modelUrl !== INPUT_DEFAULT_VALUE) {
+      setGltfModel(modelUrl);
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -117,8 +129,29 @@ function AFrameModelExample() {
             cursor="rayOrigin: mouse; fuse: false;"
             webxr="optionalFeatures: hit-test, local-floor;"
             raycaster="objects: .raycastable"
-            model-viewer="gltfModel: #triceratops; title: Triceratops;"
-            ar-hit-test="targetEl: #modelPivot;"
+            model-viewer={`
+              gltfModel: ${gltfModel};
+              title: Triceratops;
+              uploadUIEnabled: true;
+
+              cameraRigId: ${cameraRigId};
+              cameraId: ${cameraId};
+              rightHandId: ${rightHandId};
+              leftHandId: ${leftHandId};
+              containerId: ${containerId};
+              laserHitPanelId: ${laserHitPanelId};
+              modelPivotId: ${modelPivotId};
+              modelId: ${modelId};
+              shadowId: ${shadowId};
+              arShadowId: ${arShadowId};
+              titleId: ${titleId};
+              reticleId: ${reticleId};
+              lightId: ${lightId};
+              sceneLightId: ${sceneLightId};
+              backgroundId: ${backgroundId};
+              uploadContainerId: ${uploadContainerId};
+            `}
+            ar-hit-test={`target: #${modelPivotId};`}
             class={classes.modelExampleScene}
           >
             <a-assets>
@@ -129,76 +162,76 @@ function AFrameModelExample() {
               */}
               <a-asset-item
                 id="triceratops"
-                src="https://cdn.aframe.io/examples/ar/models/triceratops/scene.gltf"
-                response-type="arraybuffer"
                 crossorigin="anonymous"
+                response-type="arraybuffer"
+                src="https://cdn.aframe.io/examples/ar/models/triceratops/scene.gltf"
               />
 
               <a-asset-item
                 id="reticle"
-                src="https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf"
-                response-type="arraybuffer"
                 crossorigin="anonymous"
+                response-type="arraybuffer"
+                src="https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf"
               />
 
               <Image
-                id="shadow"
-                src="https://cdn.glitch.com/20600112-c04b-492c-8190-8a5ccc06f37d%2Fshadow.png?v=1606338852399"
                 alt=""
-                crossOrigin="anonymous"
-                priority={true}
+                id="shadow"
                 width={512}
                 height={512}
+                priority={true}
+                crossOrigin="anonymous"
+                src="https://cdn.glitch.com/20600112-c04b-492c-8190-8a5ccc06f37d%2Fshadow.png?v=1606338852399"
               />
             </a-assets>
             {/* CameraRig */}
-            <a-entity id="cameraRigEl">
+            <a-entity id={cameraRigId}>
               <a-entity
-                id="cameraEl"
+                id={cameraId}
                 camera="fov: 60"
                 look-controls="magicWindowTrackingEnabled: false; mouseEnabled: false; touchEnabled: false"
               />
               <a-entity
-                id="rightHandEl"
+                id={rightHandId}
                 rotation="0 90 0"
+                line="color: #118A7E"
                 laser-controls="hand: right;"
                 raycaster="objects: .raycastable"
-                line="color: #118A7E"
               />
               <a-entity
-                id="leftHandEl"
+                id={leftHandId}
                 rotation="0 90 0"
+                line="color: #118A7E"
                 laser-controls="hand: right;"
                 raycaster="objects: .raycastable"
-                line="color: #118A7E"
               />
             </a-entity>
 
             {/* initEntities */}
             <a-entity
-              id="sceneLightEl"
+              id={sceneLightId}
               light="type: hemisphere; intensity: 1"
             />
-            <a-entity id="containerEl">
+            <a-entity id={containerId}>
               {/* laserHitPanelEl */}
               <a-entity
-                id="laserHitPanel"
-                position="0 0 -10"
-                geometry="primitive: plane; width: 30; height: 20"
-                material="color: red"
+                id={laserHitPanelId}
                 visible="false"
+                position="0 0 -10"
                 class="raycastable"
+                material="color: red"
+                geometry="primitive: plane; width: 30; height: 20"
               />
               {/* titleEl */}
               <a-entity
-                id="title"
-                text="value: '';width: 6"
-                hide-on-enter-ar=""
+                id={titleId}
                 visible="false"
+                hide-on-enter-ar=""
+                text="value: '';width: 6"
               />
               {/* lightEl */}
               <a-entity
-                id="light"
+                id={lightId}
                 position="-2 4 2"
                 light={`
                   type: directional;
@@ -210,51 +243,50 @@ function AFrameModelExample() {
                   shadowCameraBottom: -5;
                   shadowCameraTop: 5;
                   intensity: 0.5;
-                  target: #modelPivot
+                  target: #${modelPivotId}
                 `}
               />
 
               {/* modelPivotEl */}
-              <a-entity id="modelPivot">
+              <a-entity id={modelPivotId}>
                 {/* modelEl */}
                 <a-entity
-                  id="model"
+                  id={modelId}
                   rotation="0 -30 0"
-                  animation-mixer="clip:triceratopsLowPolyv11_LODs"
                   shadow="cast: true; receive: false"
+                  animation-mixer="clip:triceratopsLowPolyv11_LODs"
                 />
                 {/* shadowEl */}
                 <a-entity
-                  id="shadowEl"
+                  id={shadowId}
+                  hide-on-enter-ar=""
                   rotation="-90 -30 0"
                   geometry="primitive: plane; width: 1.0; height: 1.0"
                   material="src: #shadow; transparent: true; opacity: 0.40"
-                  hide-on-enter-ar=""
                 />
                 {/* arShadowEl */}
                 <a-entity
-                  id="arShadowEl"
+                  id={arShadowId}
+                  visible="false"
                   rotation="-90 0 0"
-                  geometry="primitive: plane; width: 30.0; height: 30.0"
                   // shadow="recieve: true"
                   ar-shadows="opacity: 0.2"
-                  visible="false"
+                  geometry="primitive: plane; width: 30.0; height: 30.0"
                 />
               </a-entity>
             </a-entity>
             {/* reticleEl */}
             <a-entity
-              id="reticleEl"
-              gltf-model="url(https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf)"
-              // gltf-model="#reticle"
-              scale="0.8 0.8 0.8"
+              id={reticleId}
               visible="false"
+              scale="0.8 0.8 0.8"
+              // gltf-model="#reticle"
+              gltf-model="url(https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf)"
             />
 
             {/* initBackground */}
             <a-entity
-              id="backgroundEl"
-              geometry="primitive: sphere; radius: 65"
+              id={backgroundId}
               material={`
                 shader: background-gradient;
                 colorTop: #37383c;
@@ -262,14 +294,30 @@ function AFrameModelExample() {
                 side: back
               `}
               hide-on-enter-ar=""
+              geometry="primitive: sphere; radius: 65"
             />
 
             {/* initUploadInput */}
-            <div id="uploadContainerEl" className="a-upload-model ">
-              <input id="inputEl" className="a-upload-model-input" />
-              <button id="submitButtonEl" className="a-upload-model-button">
+            <div id={uploadContainerId} className="a-upload-model ">
+              <Box className="a-upload-model-input">
+                <TextField
+                  id="inputEl"
+                  label={INPUT_DEFAULT_VALUE}
+                  value={modelUrl}
+                  onChange={handleChange}
+                  fullWidth={true}
+                  variant="outlined"
+                />
+              </Box>
+
+              <Button
+                id="submitButtonEl"
+                variant="contained"
+                className="a-upload-model-button"
+                onClick={submitURLButtonClicked}
+              >
                 OPEN MODEL
-              </button>
+              </Button>
             </div>
           </a-scene>
         </AFrameContent>

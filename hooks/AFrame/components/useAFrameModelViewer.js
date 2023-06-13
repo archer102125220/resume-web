@@ -21,11 +21,27 @@ export function useAFrameModelViewer() {
     ) {
       AFrame.registerComponent('model-viewer', {
         schema: {
-          gltfModel: { default: '' },
-          title: { default: '' },
-          uploadUIEnabled: { default: true }
+          gltfModel: { type: 'string' },
+          title: { type: 'string' },
+          uploadUIEnabled: { type: 'boolean', default: true },
+          cameraRigId: { type: 'string' },
+          cameraId: { type: 'string' },
+          rightHandId: { type: 'string' },
+          leftHandId: { type: 'string' },
+          containerId: { type: 'string' },
+          laserHitPanelId: { type: 'string' },
+          modelPivotId: { type: 'string' },
+          modelId: { type: 'string' },
+          shadowId: { type: 'string' },
+          arShadowId: { type: 'string' },
+          titleId: { type: 'string' },
+          reticleId: { type: 'string' },
+          lightId: { type: 'string' },
+          sceneLightId: { type: 'string' },
+          backgroundId: { type: 'string' },
+          uploadContainerId: { type: 'string' }
         },
-        init: function () {
+        init() {
           this.onModelLoaded = this.onModelLoaded.bind(this);
 
           this.onMouseUp = this.onMouseUp.bind(this);
@@ -35,8 +51,6 @@ export function useAFrameModelViewer() {
 
           this.onTouchMove = this.onTouchMove.bind(this);
           this.onTouchEnd = this.onTouchEnd.bind(this);
-
-          this.submitURLButtonClicked = this.submitURLButtonClicked.bind(this);
 
           this.onThumbstickMoved = this.onThumbstickMoved.bind(this);
 
@@ -102,55 +116,83 @@ export function useAFrameModelViewer() {
           this.modelEl.addEventListener('model-loaded', this.onModelLoaded);
         },
 
-        initUploadInput: function () {
+        initCameraRig() {
           const el = this.el;
+          const { cameraRigId, cameraId, rightHandId, leftHandId } = this.data;
+          this.cameraRigEl = el.querySelector(`#${cameraRigId}`);
+          this.cameraEl = el.querySelector(`#${cameraId}`);
+          this.rightHandEl = el.querySelector(`#${rightHandId}`);
+          this.leftHandEl = el.querySelector(`#${leftHandId}`);
+        },
+        initEntities() {
+          const el = this.el;
+          const {
+            containerId,
+            laserHitPanelId,
+            modelPivotId,
+            modelId,
+            shadowId,
+            arShadowId,
+            titleId,
+            reticleId,
+            lightId,
+            sceneLightId,
 
-          const uploadContainerEl = el.querySelector('#uploadContainerEl');
+            title
+          } = this.data;
+
+          // Container for our entities to keep the scene clean and tidy.
+          this.containerEl = el.querySelector(`#${containerId}`);
+          // Plane used as a hit target for laser controls when in VR mode
+          this.laserHitPanelEl = el.querySelector(`#${laserHitPanelId}`);
+          // Models are often not centered on the 0,0,0.
+          // We will center the model and rotate a pivot.
+          this.modelPivotEl = el.querySelector(`#${modelPivotId}`);
+          // This is our glTF model entity.
+          this.modelEl = el.querySelector(`#${modelId}`);
+          // Shadow blurb for 2D and VR modes. Scaled to match the size of the model.
+          this.shadowEl = el.querySelector(`#${shadowId}`);
+          // Real time shadow only used in AR mode.
+          this.arShadowEl = el.querySelector(`#${arShadowId}`);
+          // The title / legend displayed above the model.
+          this.titleEl = el.querySelector(`#${titleId}`);
+          this.titleEl.setAttribute('text', 'value', title);
+          // Reticle model used to position the model in AR mode.
+          this.reticleEl = el.querySelector(`#${reticleId}`);
+          // Scene ligthing.
+          this.lightEl = el.querySelector(`#${lightId}`);
+          this.sceneLightEl = el.querySelector(`#${sceneLightId}`);
+        },
+        initBackground() {
+          const { backgroundId } = this.data;
+          this.backgroundEl = this.el.querySelector(`#${backgroundId}`);
+        },
+        initUploadInput() {
+          const el = this.el;
+          const { uploadContainerId } = this.data;
+
+          const uploadContainerEl = el.querySelector(`#${uploadContainerId}`);
           this.uploadContainerEl = uploadContainerEl;
-
-          const inputEl = el.querySelector('#inputEl');
-          this.inputEl = inputEl;
-
-          const submitButtonEl = el.querySelector('#submitButtonEl');
-          this.submitButtonEl = submitButtonEl;
 
           if (
             AFrame.utils.device.checkARSupport() &&
             document.querySelector('#model-viewer-style') === null
           ) {
-            if (AFrame.utils.device.checkARSupport()) {
-              const style = document.createElement('style');
-              style.id = 'model-viewer-style';
+            const style = document.createElement('style');
+            style.id = 'model-viewer-style';
 
-              const css = `@media only screen and (max-width: 800px) {
-                .a-upload-model-input {width: 60%;}
-              }`;
+            const css = `@media only screen and (max-width: 800px) {
+              .a-upload-model-input {width: 60%;}
+            }`;
 
-              if (style.styleSheet) {
-                style.styleSheet.cssText = css;
-              } else {
-                style.appendChild(document.createTextNode(css));
-              }
-              document.querySelector('head').appendChild(style);
+            if (style.styleSheet) {
+              style.styleSheet.cssText = css;
+            } else {
+              style.appendChild(document.createTextNode(css));
             }
+            document.querySelector('head').appendChild(style);
           }
 
-          submitButtonEl.addEventListener('click', this.submitURLButtonClicked);
-
-          const inputDefaultValue = 'Copy URL to glTF or glb model';
-          this.inputDefaultValue = inputDefaultValue;
-          inputEl.onfocus = function () {
-            if (this.value !== inputDefaultValue) {
-              return;
-            }
-            this.value = '';
-          };
-          inputEl.onblur = function () {
-            if (this.value) {
-              return;
-            }
-            this.value = inputDefaultValue;
-          };
           this.el.sceneEl.addEventListener('infomessageopened', function () {
             uploadContainerEl.classList.add('hidden');
           });
@@ -158,85 +200,17 @@ export function useAFrameModelViewer() {
             uploadContainerEl.classList.remove('hidden');
           });
 
-          inputEl.value = inputDefaultValue;
-
-          uploadContainerEl.appendChild(inputEl);
-          uploadContainerEl.appendChild(submitButtonEl);
-
           this.el.sceneEl.appendChild(uploadContainerEl);
         },
-        update: function () {
-          if (!this.data.gltfModel) {
-            return;
+
+        onOrientationChange() {
+          if (AFrame.utils.device.isLandscape()) {
+            this.cameraRigEl.object3D.position.z -= 1;
+          } else {
+            this.cameraRigEl.object3D.position.z += 1;
           }
-          this.modelEl.setAttribute('gltf-model', this.data.gltfModel);
         },
-
-        submitURLButtonClicked: function () {
-          const modelURL = this.inputEl.value;
-          if (modelURL === this.inputDefaultValue) {
-            return;
-          }
-          this.el.setAttribute('model-viewer', 'gltfModel', modelURL);
-        },
-
-        initCameraRig: function () {
-          const el = this.el;
-          this.cameraRigEl = el.querySelector('#cameraRigEl');
-          this.cameraEl = el.querySelector('#cameraEl');
-          this.rightHandEl = el.querySelector('#rightHandEl');
-          this.leftHandEl = el.querySelector('#leftHandEl');
-        },
-
-        initBackground: function () {
-          this.backgroundEl = this.el.querySelector('#backgroundEl');
-        },
-
-        initEntities: function () {
-          const el = this.el;
-          // Container for our entities to keep the scene clean and tidy.
-          this.containerEl = el.querySelector('#containerEl');
-          // Plane used as a hit target for laser controls when in VR mode
-          this.laserHitPanelEl = el.querySelector('#laserHitPanel');
-          // Models are often not centered on the 0,0,0.
-          // We will center the model and rotate a pivot.
-          this.modelPivotEl = el.querySelector('#modelPivot');
-          // This is our glTF model entity.
-          this.modelEl = el.querySelector('#model');
-          // Shadow blurb for 2D and VR modes. Scaled to match the size of the model.
-          this.shadowEl = el.querySelector('#shadowEl');
-          // Real time shadow only used in AR mode.
-          this.arShadowEl = el.querySelector('#arShadowEl');
-          // The title / legend displayed above the model.
-          this.titleEl = el.querySelector('#title');
-          this.titleEl.setAttribute('text', 'value', this.data.title);
-          // Reticle model used to position the model in AR mode.
-          this.reticleEl = el.querySelector('#reticleEl');
-          // Scene ligthing.
-          this.lightEl = el.querySelector('#light');
-          this.sceneLightEl = el.querySelector('#sceneLightEl');
-        },
-
-        onThumbstickMoved: function (evt) {
-          const modelPivotEl = this.modelPivotEl;
-          let modelScale = this.modelScale || modelPivotEl.object3D.scale.x;
-          modelScale -= evt.detail.y / 20;
-          modelScale = Math.min(Math.max(0.8, modelScale), 2.0);
-          modelPivotEl.object3D.scale.set(modelScale, modelScale, modelScale);
-          this.modelScale = modelScale;
-        },
-
-        onMouseWheel: function (evt) {
-          const modelPivotEl = this.modelPivotEl;
-          let modelScale = this.modelScale || modelPivotEl.object3D.scale.x;
-          modelScale -= evt.deltaY / 100;
-          modelScale = Math.min(Math.max(0.8, modelScale), 2.0);
-          // Clamp scale.
-          modelPivotEl.object3D.scale.set(modelScale, modelScale, modelScale);
-          this.modelScale = modelScale;
-        },
-
-        onMouseDownLaserHitPanel: function (evt) {
+        onMouseDownLaserHitPanel(evt) {
           const cursorEl = evt.detail.cursorEl;
           const intersection = cursorEl.components.raycaster.getIntersection(
             this.laserHitPanelEl
@@ -249,8 +223,7 @@ export function useAFrameModelViewer() {
           this.oldHandX = undefined;
           this.oldHandY = undefined;
         },
-
-        onMouseUpLaserHitPanel: function (evt) {
+        onMouseUpLaserHitPanel(evt) {
           const cursorEl = evt.detail.cursorEl;
           if (cursorEl === this.leftHandEl) {
             this.leftHandPressed = false;
@@ -263,127 +236,15 @@ export function useAFrameModelViewer() {
             this.activeHandEl = undefined;
           }
         },
-
-        onOrientationChange: function () {
-          if (AFrame.utils.device.isLandscape()) {
-            this.cameraRigEl.object3D.position.z -= 1;
-          } else {
-            this.cameraRigEl.object3D.position.z += 1;
-          }
-        },
-
-        tick: function () {
+        onThumbstickMoved(evt) {
           const modelPivotEl = this.modelPivotEl;
-          const activeHandEl = this.activeHandEl;
-          const laserHitPanelEl = this.laserHitPanelEl;
-          if (!this.el.sceneEl.is('vr-mode')) {
-            return;
-          }
-          if (!activeHandEl) {
-            return;
-          }
-
-          const intersection =
-            activeHandEl.components.raycaster.getIntersection(laserHitPanelEl);
-          if (!intersection) {
-            activeHandEl.setAttribute('raycaster', 'lineColor', 'white');
-            return;
-          }
-          activeHandEl.setAttribute('raycaster', 'lineColor', '#007AFF');
-
-          const intersectionPosition = intersection.point;
-          this.oldHandX = this.oldHandX || intersectionPosition.x;
-          this.oldHandY = this.oldHandY || intersectionPosition.y;
-
-          modelPivotEl.object3D.rotation.y -=
-            (this.oldHandX - intersectionPosition.x) / 4;
-          modelPivotEl.object3D.rotation.x +=
-            (this.oldHandY - intersectionPosition.y) / 4;
-
-          this.oldHandX = intersectionPosition.x;
-          this.oldHandY = intersectionPosition.y;
-        },
-
-        onEnterVR: function () {
-          const cameraRigEl = this.cameraRigEl;
-
-          this.cameraRigPosition = cameraRigEl.object3D.position.clone();
-          this.cameraRigRotation = cameraRigEl.object3D.rotation.clone();
-
-          // debugger;
-          if (!this.el.sceneEl.is('ar-mode')) {
-            cameraRigEl.object3D.position.set(0, 0, 2);
-          } else {
-            cameraRigEl.object3D.position.set(0, 0, 0);
-          }
-        },
-
-        onExitVR: function () {
-          const cameraRigEl = this.cameraRigEl;
-
-          cameraRigEl.object3D.position.copy(this.cameraRigPosition);
-          cameraRigEl.object3D.rotation.copy(this.cameraRigRotation);
-
-          cameraRigEl.object3D.rotation.set(0, 0, 0);
-        },
-
-        onTouchMove: function (evt) {
-          if (evt.touches.length === 1) {
-            this.onSingleTouchMove(evt);
-          }
-          if (evt.touches.length === 2) {
-            this.onPinchMove(evt);
-          }
-        },
-
-        onSingleTouchMove: function (evt) {
-          const modelPivotEl = this.modelPivotEl;
-          this.oldClientX = this.oldClientX || evt.touches[0].clientX;
-          this.oldClientY = this.oldClientY || evt.touches[0].clientY;
-
-          const dX = this.oldClientX - evt.touches[0].clientX;
-          const dY = this.oldClientY - evt.touches[0].clientY;
-
-          modelPivotEl.object3D.rotation.y -= dX / 200;
-          this.oldClientX = evt.touches[0].clientX;
-
-          modelPivotEl.object3D.rotation.x -= dY / 100;
-
-          // Clamp x rotation to [-90,90]
-          modelPivotEl.object3D.rotation.x = Math.min(
-            Math.max(-Math.PI / 2, modelPivotEl.object3D.rotation.x),
-            Math.PI / 2
-          );
-          this.oldClientY = evt.touches[0].clientY;
-        },
-
-        onPinchMove: function (evt) {
-          const dX = evt.touches[0].clientX - evt.touches[1].clientX;
-          const dY = evt.touches[0].clientY - evt.touches[1].clientY;
-          const modelPivotEl = this.modelPivotEl;
-          const distance = Math.sqrt(dX * dX + dY * dY);
-          const oldDistance = this.oldDistance || distance;
-          const distanceDifference = oldDistance - distance;
           let modelScale = this.modelScale || modelPivotEl.object3D.scale.x;
-
-          modelScale -= distanceDifference / 500;
+          modelScale -= evt.detail.y / 20;
           modelScale = Math.min(Math.max(0.8, modelScale), 2.0);
-          // Clamp scale.
           modelPivotEl.object3D.scale.set(modelScale, modelScale, modelScale);
-
           this.modelScale = modelScale;
-          this.oldDistance = distance;
         },
-
-        onTouchEnd: function (evt) {
-          this.oldClientX = undefined;
-          this.oldClientY = undefined;
-          if (evt.touches.length < 2) {
-            this.oldDistance = undefined;
-          }
-        },
-
-        onMouseUp: function (evt) {
+        onMouseUp(evt) {
           this.leftRightButtonPressed = false;
           if (evt.buttons === undefined || evt.buttons !== 0) {
             return;
@@ -391,53 +252,121 @@ export function useAFrameModelViewer() {
           this.oldClientX = undefined;
           this.oldClientY = undefined;
         },
-
-        onMouseMove: function (evt) {
+        onMouseMove(evt) {
           if (this.leftRightButtonPressed) {
-            this.dragModel(evt);
+            const modelPivotEl = this.modelPivotEl;
+            if (!this.oldClientX) {
+              return;
+            }
+            const dX = this.oldClientX - evt.clientX;
+            const dY = this.oldClientY - evt.clientY;
+            modelPivotEl.object3D.position.y += dY / 200;
+            modelPivotEl.object3D.position.x -= dX / 200;
+            this.oldClientX = evt.clientX;
+            this.oldClientY = evt.clientY;
           } else {
-            this.rotateModel(evt);
+            const modelPivotEl = this.modelPivotEl;
+            if (!this.oldClientX) {
+              return;
+            }
+            const dX = this.oldClientX - evt.clientX;
+            const dY = this.oldClientY - evt.clientY;
+            modelPivotEl.object3D.rotation.y -= dX / 100;
+            modelPivotEl.object3D.rotation.x -= dY / 200;
+
+            // Clamp x rotation to [-90,90]
+            modelPivotEl.object3D.rotation.x = Math.min(
+              Math.max(-Math.PI / 2, modelPivotEl.object3D.rotation.x),
+              Math.PI / 2
+            );
+
+            this.oldClientX = evt.clientX;
+            this.oldClientY = evt.clientY;
           }
         },
-
-        dragModel: function (evt) {
-          const modelPivotEl = this.modelPivotEl;
-          if (!this.oldClientX) {
-            return;
+        onMouseDown(evt) {
+          if (evt.buttons) {
+            this.leftRightButtonPressed = evt.buttons === 3;
           }
-          const dX = this.oldClientX - evt.clientX;
-          const dY = this.oldClientY - evt.clientY;
-          modelPivotEl.object3D.position.y += dY / 200;
-          modelPivotEl.object3D.position.x -= dX / 200;
           this.oldClientX = evt.clientX;
           this.oldClientY = evt.clientY;
         },
-
-        rotateModel: function (evt) {
+        onMouseWheel(evt) {
           const modelPivotEl = this.modelPivotEl;
-          if (!this.oldClientX) {
-            return;
+          let modelScale = this.modelScale || modelPivotEl.object3D.scale.x;
+          modelScale -= evt.deltaY / 100;
+          modelScale = Math.min(Math.max(0.8, modelScale), 2.0);
+          // Clamp scale.
+          modelPivotEl.object3D.scale.set(modelScale, modelScale, modelScale);
+          this.modelScale = modelScale;
+        },
+        onTouchEnd(evt) {
+          this.oldClientX = undefined;
+          this.oldClientY = undefined;
+          if (evt.touches.length < 2) {
+            this.oldDistance = undefined;
           }
-          const dX = this.oldClientX - evt.clientX;
-          const dY = this.oldClientY - evt.clientY;
-          modelPivotEl.object3D.rotation.y -= dX / 100;
-          modelPivotEl.object3D.rotation.x -= dY / 200;
-
-          // Clamp x rotation to [-90,90]
-          modelPivotEl.object3D.rotation.x = Math.min(
-            Math.max(-Math.PI / 2, modelPivotEl.object3D.rotation.x),
-            Math.PI / 2
-          );
-
-          this.oldClientX = evt.clientX;
-          this.oldClientY = evt.clientY;
         },
+        onTouchMove(evt) {
+          if (evt.touches.length === 1) {
+            const modelPivotEl = this.modelPivotEl;
+            this.oldClientX = this.oldClientX || evt.touches[0].clientX;
+            this.oldClientY = this.oldClientY || evt.touches[0].clientY;
 
-        onModelLoaded: function () {
-          this.centerAndScaleModel();
+            const dX = this.oldClientX - evt.touches[0].clientX;
+            const dY = this.oldClientY - evt.touches[0].clientY;
+
+            modelPivotEl.object3D.rotation.y -= dX / 200;
+            this.oldClientX = evt.touches[0].clientX;
+
+            modelPivotEl.object3D.rotation.x -= dY / 100;
+
+            // Clamp x rotation to [-90,90]
+            modelPivotEl.object3D.rotation.x = Math.min(
+              Math.max(-Math.PI / 2, modelPivotEl.object3D.rotation.x),
+              Math.PI / 2
+            );
+            this.oldClientY = evt.touches[0].clientY;
+          }
+          if (evt.touches.length === 2) {
+            const dX = evt.touches[0].clientX - evt.touches[1].clientX;
+            const dY = evt.touches[0].clientY - evt.touches[1].clientY;
+            const modelPivotEl = this.modelPivotEl;
+            const distance = Math.sqrt(dX * dX + dY * dY);
+            const oldDistance = this.oldDistance || distance;
+            const distanceDifference = oldDistance - distance;
+            let modelScale = this.modelScale || modelPivotEl.object3D.scale.x;
+
+            modelScale -= distanceDifference / 500;
+            modelScale = Math.min(Math.max(0.8, modelScale), 2.0);
+            // Clamp scale.
+            modelPivotEl.object3D.scale.set(modelScale, modelScale, modelScale);
+
+            this.modelScale = modelScale;
+            this.oldDistance = distance;
+          }
         },
+        onEnterVR() {
+          const cameraRigEl = this.cameraRigEl;
 
-        centerAndScaleModel: function () {
+          this.cameraRigPosition = cameraRigEl.object3D.position.clone();
+          this.cameraRigRotation = cameraRigEl.object3D.rotation.clone();
+
+          if (!this.el.sceneEl.is('ar-mode')) {
+            cameraRigEl.object3D.position.set(0, 0, 2);
+          } else {
+            cameraRigEl.object3D.position.set(0, 0, 0);
+          }
+        },
+        onExitVR() {
+          const cameraRigEl = this.cameraRigEl;
+
+          cameraRigEl.object3D.position.copy(this.cameraRigPosition);
+          cameraRigEl.object3D.rotation.copy(this.cameraRigRotation);
+
+          cameraRigEl.object3D.rotation.set(0, 0, 0);
+        },
+        onModelLoaded() {
           let box;
           let size;
           let scale;
@@ -490,12 +419,42 @@ export function useAFrameModelViewer() {
           }
         },
 
-        onMouseDown: function (evt) {
-          if (evt.buttons) {
-            this.leftRightButtonPressed = evt.buttons === 3;
+        update() {
+          if (!this.data.gltfModel) {
+            return;
           }
-          this.oldClientX = evt.clientX;
-          this.oldClientY = evt.clientY;
+          this.modelEl.setAttribute('gltf-model', this.data.gltfModel);
+        },
+        tick() {
+          const modelPivotEl = this.modelPivotEl;
+          const activeHandEl = this.activeHandEl;
+          const laserHitPanelEl = this.laserHitPanelEl;
+          if (!this.el.sceneEl.is('vr-mode')) {
+            return;
+          }
+          if (!activeHandEl) {
+            return;
+          }
+
+          const intersection =
+            activeHandEl.components.raycaster.getIntersection(laserHitPanelEl);
+          if (!intersection) {
+            activeHandEl.setAttribute('raycaster', 'lineColor', 'white');
+            return;
+          }
+          activeHandEl.setAttribute('raycaster', 'lineColor', '#007AFF');
+
+          const intersectionPosition = intersection.point;
+          this.oldHandX = this.oldHandX || intersectionPosition.x;
+          this.oldHandY = this.oldHandY || intersectionPosition.y;
+
+          modelPivotEl.object3D.rotation.y -=
+            (this.oldHandX - intersectionPosition.x) / 4;
+          modelPivotEl.object3D.rotation.x +=
+            (this.oldHandY - intersectionPosition.y) / 4;
+
+          this.oldHandX = intersectionPosition.x;
+          this.oldHandY = intersectionPosition.y;
         }
       });
     }
