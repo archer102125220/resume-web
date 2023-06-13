@@ -10,6 +10,7 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 import { useAFrameBackgroundGradient } from '@/hooks/AFrame/shader/useAFrameBackgroundGradient';
 import { useAFrameModelViewer } from '@/hooks/AFrame/components/useAFrameModelViewer';
+import { mediaMobile } from '@/styles/globals';
 
 const styles = {
   modelExampleScene: {
@@ -74,7 +75,10 @@ const styles = {
       }
     },
     '& .a-enter-vr-button': {
-      bottom: '-97vh'
+      bottom: '-97vh',
+      [mediaMobile]: {
+        bottom: '-90vh',
+      }
     }
   }
 };
