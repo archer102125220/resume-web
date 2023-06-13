@@ -4,25 +4,31 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const isStatic = process.env.STATIC === 'true';
+
 const nextConfig = {
   reactStrictMode: true,
   distDir: process.env.NODE_ENV === 'development' ? '.next' : 'build',
   swcMinify: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.aframe.io',
-        port: '',
-        pathname: '/examples/ui/**'
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.glitch.com',
-        port: '',
-        pathname: '/**'
-      }
-    ]
+    unoptimized: isStatic === true,
+    remotePatterns:
+      isStatic === false
+        ? [
+            {
+              protocol: 'https',
+              hostname: 'cdn.aframe.io',
+              port: '',
+              pathname: '/examples/ui/**'
+            },
+            {
+              protocol: 'https',
+              hostname: 'cdn.glitch.com',
+              port: '',
+              pathname: '/**'
+            }
+          ]
+        : undefined
   },
   webpack: config => {
     config.resolve.alias['@'] = resolve(__dirname);
@@ -51,18 +57,25 @@ const nextConfig = {
       {
         source: '/apple-app-site-association',
         headers: [
-          { key: 'Content-Type', value: 'application/json; charset=utf-8' }
+          {
+            key: 'Content-Type',
+            value: 'application/json; charset=utf-8'
+          }
         ]
       },
       {
         source: '/.well-known/apple-app-site-association',
         headers: [
-          { key: 'Content-Type', value: 'application/json; charset=utf-8' }
+          {
+            key: 'Content-Type',
+            value: 'application/json; charset=utf-8'
+          }
         ]
       }
     ];
   },
   env: {
+    STATIC: isStatic,
     AXIOS_BASE_URL: '/api',
     IS_DEV: process.env.NODE_ENV === 'development',
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,

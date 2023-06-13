@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { systemAsyncThunk } from '@/redux/system';
-import { wrapper } from '@/redux/index';
+// import { wrapper } from '@/redux/index';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 const styles = {
@@ -56,15 +56,15 @@ function Tow(props) {
 }
 
 // https://github.com/kirill-konshin/next-redux-wrapper#getserversideprops
-export const getServerSideProps = wrapper.getServerSideProps(
-  ({ dispatch }) =>
-    function () {
-      dispatch({ type: 'system/message_success', payload: '123' });
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   ({ dispatch }) =>
+//     function () {
+//       dispatch({ type: 'system/message_success', payload: '123' });
 
-      return {
-        props: {}
-      };
-    }
-);
+//       return {
+//         props: {}
+//       };
+//     }
+// );
 
 export default Tow;
