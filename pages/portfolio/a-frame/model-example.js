@@ -74,8 +74,14 @@ const styles = {
         }
       }
     },
-    '& .a-enter-vr-button': {
-      bottom: '-97vh',
+    '& .a-enter-vr': {
+      bottom: '-95vh',
+      [mediaMobile]: {
+        bottom: '-90vh',
+      }
+    },
+    '& .a-enter-ar': {
+      bottom: '-95vh',
       [mediaMobile]: {
         bottom: '-90vh',
       }
