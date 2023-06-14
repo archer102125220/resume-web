@@ -20,7 +20,7 @@ function AFrameEventEaxmple() {
   const mixinFrameId = 'mixinFrame';
   const mixinPosterId = 'mixinPoster';
   const mixinMovieImageId = 'mixinMovieImage';
-  const backgroundId = useId();
+  // const backgroundId = useId();
   const fadeBackgroundId = useId();
   const menuButtonClassName = 'menu-button';
   const raycasterClassName = 'raycastable';
@@ -151,7 +151,8 @@ function AFrameEventEaxmple() {
               />
             </a-assets>
 
-            <a-entity
+            {/* 關閉版面用 */}
+            {/* <a-entity
               id={backgroundId}
               position="0 0 0"
               geometry="primitive: sphere; radius: 2.0"
@@ -159,15 +160,17 @@ function AFrameEventEaxmple() {
               scale="0.001 0.001 0.001"
               visible="false"
               class={raycasterClassName}
-            />
+            /> */}
 
             <a-entity look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false">
               <a-camera active />
+              {/* 遮罩 */}
               <a-entity
                 id={fadeBackgroundId}
                 geometry="primitive: sphere; radius: 2.5"
                 material="color: black; side: back; shader: flat; transparent: true; opacity: 0.6"
                 visible="false"
+                class={raycasterClassName}
               />
             </a-entity>
 
@@ -177,7 +180,8 @@ function AFrameEventEaxmple() {
               {/* Poster menu */}
               <AFrameHighlight
                 menuButtonClassName={menuButtonClassName}
-                backgroundId={backgroundId}
+                // backgroundId={backgroundId}
+                backgroundId={fadeBackgroundId}
                 mixinFrameId={mixinFrameId}
                 karigurashiPosterId={`#${karigurashiPosterId}`}
                 mixinPosterId={mixinPosterId}
@@ -193,7 +197,8 @@ function AFrameEventEaxmple() {
               <AFrameInfoPanel
                 menuButtonClassName={menuButtonClassName}
                 fadeBackgroundId={fadeBackgroundId}
-                backgroundId={backgroundId}
+                // backgroundId={backgroundId}
+                backgroundId={fadeBackgroundId}
                 mixinMovieImageId={mixinMovieImageId}
                 ponyoId={`#${ponyoId}`}
                 kazetachinuId={`#${kazetachinuId}`}
