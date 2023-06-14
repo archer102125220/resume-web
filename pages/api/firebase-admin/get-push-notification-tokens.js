@@ -1,4 +1,4 @@
-import { findAllToken } from '@servicesServices/firebaseAdmin';
+import { mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
 // import { getTokens } from '@/utils/firebase.server';
 
 export default async function getMessageTokens(req, res) {
@@ -10,7 +10,7 @@ export default async function getMessageTokens(req, res) {
       return;
     }
     // const tokens = getTokens();
-    const tokens = await findAllToken();
+    const tokens = await mongoDBFindAllToken();
 
     res.status(200).json(tokens);
   } catch (error) {

@@ -1,4 +1,4 @@
-import { removeToken, findAllToken } from '@servicesServices/firebaseAdmin';
+import { mongoDBRemoveToken, mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
 
 export default async function cancelMessageToken(req, res) {
   try {
@@ -9,11 +9,11 @@ export default async function cancelMessageToken(req, res) {
       return;
     }
     const { platform } = req.query;
-    const tokens = await findAllToken();
+    const tokens = await mongoDBFindAllToken();
     for (let i = 0; i < tokens.length; i++) {
       const { os, token } = tokens[i];
       if (os === platform) {
-        const response = await removeToken(token);
+        const response = await mongoDBRemoveToken(token);
         console.log({ ...response, platform });
       }
     }

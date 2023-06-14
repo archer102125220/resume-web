@@ -1,4 +1,4 @@
-import { addToken } from '@servicesServices/firebaseAdmin';
+import { mongoDBAddToken } from '@servicesServices/firebaseAdmin';
 // import { registerTokens } from '@/utils/firebase.server';
 
 export default async function registerMessageToken(req, res) {
@@ -11,7 +11,7 @@ export default async function registerMessageToken(req, res) {
     }
     const { body } = req;
     // registerTokens(body.token);
-    await addToken(body);
+    await mongoDBAddToken(body);
 
     res.status(200).json({ success: true, token: body.token });
   } catch (error) {

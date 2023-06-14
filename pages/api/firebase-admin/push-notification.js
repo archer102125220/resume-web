@@ -1,4 +1,4 @@
-import { findAllToken } from '@servicesServices/firebaseAdmin';
+import { mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
 import {
   // getTokens,
   firebaseApp,
@@ -15,7 +15,7 @@ export default async function pushMessage(req, res) {
       return;
     }
     // const tokens = getTokens().map(({ token }) => token);
-    const tokens = await findAllToken();
+    const tokens = await mongoDBFindAllToken();
 
     const { body } = req;
     console.log(body.data);

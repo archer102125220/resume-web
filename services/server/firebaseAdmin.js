@@ -1,8 +1,8 @@
 import { MongoDBClient } from '@/utils/mongodb';
 
-export async function addToken(token = { token: '', os: '' }) {
-  await MongoDBClient.connect();
+export async function mongoDBAddToken(token = { token: '', os: '' }) {
   try {
+    await MongoDBClient.connect();
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
     const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
 
@@ -14,50 +14,54 @@ export async function addToken(token = { token: '', os: '' }) {
     }
 
     const response = await firebaseAdminTable.insertMany([token]);
+    await MongoDBClient.close();
     return response;
   } catch (error) {
     console.log(error);
+    MongoDBClient.close().catch(_error => console.log(_error));
   }
-  await MongoDBClient.close();
 }
 
-export async function removeToken(token = '') {
-  await MongoDBClient.connect();
+export async function mongoDBRemoveToken(token = '') {
   try {
+    await MongoDBClient.connect();
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
     const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
     const response = await firebaseAdminTable.deleteMany({ token });
+    await MongoDBClient.close();
     return response;
   } catch (error) {
     console.log(error);
+    MongoDBClient.close().catch(_error => console.log(_error));
   }
-  await MongoDBClient.close();
 }
 
-export async function findToken(token = '') {
-  await MongoDBClient.connect();
+export async function mongoDBFindToken(token = '') {
   try {
+    await MongoDBClient.connect();
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
     const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
     const response = await firebaseAdminTable
       .find({ token: token.token })
       .toArray();
+    await MongoDBClient.close();
     return response;
   } catch (error) {
     console.log(error);
+    MongoDBClient.close().catch(_error => console.log(_error));
   }
-  await MongoDBClient.close();
 }
 
-export async function findAllToken() {
-  await MongoDBClient.connect();
+export async function mongoDBFindAllToken() {
   try {
+    await MongoDBClient.connect();
     const resumeWebDB = MongoDBClient.db('resumeWebDB');
     const firebaseAdminTable = resumeWebDB.collection('firebaseAdminTable');
     const response = await firebaseAdminTable.find({}).toArray();
+    await MongoDBClient.close();
     return response;
   } catch (error) {
     console.log(error);
+    MongoDBClient.close().catch(_error => console.log(_error));
   }
-  await MongoDBClient.close();
 }
