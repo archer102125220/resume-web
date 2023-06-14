@@ -15,6 +15,7 @@
     "createDB": "sequelize db:create",
     "dropDB": "sequelize db:drop",
     "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo",
     "seed": "sequelize db:seed",
     "seedAll": "sequelize db:seed:all"
   },

@@ -15,9 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   FirebaseMessaging.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING
+      token: DataTypes.STRING,
+      os: DataTypes.STRING
     },
     {
       sequelize,

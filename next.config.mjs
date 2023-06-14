@@ -40,13 +40,6 @@ const nextConfig = {
       'server'
     );
     config.resolve.alias['@models'] = join(__dirname, 'models');
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-      child_process: false
-    };
     return config;
   },
   headers() {
