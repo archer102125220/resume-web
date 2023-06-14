@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
-import { useAFrame, AFrameStore } from '@/hooks/AFrame/useAFrame';
+import { useAFrame, AFrameStatus } from '@/hooks/AFrame/useAFrame';
 
 export function useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad) {
   const [AFrameLoaded, setAFrameLoaded] = useState(false);
@@ -34,7 +34,7 @@ export function useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad) {
         html.classList.add('a-fullscreen');
       }
 
-      AFrameStore.insert(window.AFRAME);
+      AFrameStatus.insert(window.AFRAME);
       setAFrameLoaded(true);
     })();
   }, []);

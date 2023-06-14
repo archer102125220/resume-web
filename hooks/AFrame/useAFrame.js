@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 
 let AFrame = null;
 let listeners = [];
-export const AFrameStore = {
+export const AFrameStatus = {
   insert(newAFrame) {
     AFrame = newAFrame;
     for (const listener of listeners) {
@@ -23,5 +23,5 @@ export const AFrameStore = {
   }
 };
 export function useAFrame() {
-  return useSyncExternalStore(AFrameStore.subscribe, AFrameStore.getSnapshot, AFrameStore.getServerSnapshot);
+  return useSyncExternalStore(AFrameStatus.subscribe, AFrameStatus.getSnapshot, AFrameStatus.getServerSnapshot);
 }
