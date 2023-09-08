@@ -162,8 +162,8 @@ function AFrameEventEaxmple() {
               class={raycasterClassName}
             /> */}
 
-            <a-entity look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false">
-              <a-camera active />
+            <a-entity>
+              <a-camera active look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false" />
               {/* 遮罩 */}
               <a-entity
                 id={fadeBackgroundId}
