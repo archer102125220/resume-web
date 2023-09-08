@@ -176,7 +176,7 @@ function AFrameEventEaxmple() {
 
             {/* Hand controls */}
 
-            <a-entity id="ui" position="0 1.6 -2.5">
+            <a-entity id="ui" position="0 1.6 -3.2">
               {/* Poster menu */}
               <AFrameHighlight
                 menuButtonClassName={menuButtonClassName}
