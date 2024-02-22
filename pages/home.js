@@ -1,8 +1,10 @@
 import Head from 'next/head';
+// import { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
 // import { makeStyles } from '@mui/styles';
 // import { systemAsyncThunk } from '@/redux/system';
 
+// import { test } from '@servicesClient/openAi';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
 // const styles = {
@@ -26,6 +28,13 @@ function Home() {
   // const classes = useStyles();
 
   useGTMTrack({ event: 'scnOpen', url: '/home' });
+
+  // useEffect(() => {
+  //   console.log(132);
+  //   test()
+  //     .then(result => console.log(result))
+  //     .catch(console.error);
+  // }, []);
 
   return (
     <div>
