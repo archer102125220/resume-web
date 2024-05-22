@@ -28,7 +28,8 @@ const db = {
 };
 
 Object.keys(pluginBatabases).forEach(modelName => {
-  db[modelName] = _sequelize.import(modelName, pluginBatabases[modelName]);
+  // db[modelName] = _sequelize.import(modelName, pluginBatabases[modelName]);
+  db[modelName] = pluginBatabases[modelName](_sequelize, _Sequelize.DataTypes);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

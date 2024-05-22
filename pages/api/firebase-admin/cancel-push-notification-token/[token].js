@@ -1,4 +1,7 @@
-import { mongoDBRemoveToken } from '@servicesServices/firebaseAdmin';
+import {
+  mongoDBRemoveToken,
+  sequelizeRemoveToken
+} from '@servicesServices/firebaseAdmin';
 import { cancelTokens } from '@/utils/firebase.server';
 
 export default async function cancelMessageToken(req, res) {
@@ -11,7 +14,10 @@ export default async function cancelMessageToken(req, res) {
     }
     const { token } = req.query;
     cancelTokens(token);
-    const response = await mongoDBRemoveToken(token);
+    const response = await Promise.all([
+      mongoDBRemoveToken(token),
+      sequelizeRemoveToken(token)
+    ]);
     console.log(response);
 
     res.status(200).json({ success: true, token });

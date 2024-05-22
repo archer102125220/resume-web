@@ -1,5 +1,16 @@
-import { mongoDBAddToken } from '@servicesServices/firebaseAdmin';
+import {
+  mongoDBAddToken,
+  sequelizeAddToken
+} from '@servicesServices/firebaseAdmin';
 // import { registerTokens } from '@/utils/firebase.server';
+
+async function handleAddToken(data = {}) {
+  const output = await Promise.all([
+    mongoDBAddToken(data),
+    sequelizeAddToken(data)
+  ]);
+  return output;
+}
 
 export default async function registerMessageToken(req, res) {
   try {
@@ -11,10 +22,11 @@ export default async function registerMessageToken(req, res) {
     }
     const { body } = req;
     // registerTokens(body.token);
-    await mongoDBAddToken(body);
+    await handleAddToken(body);
 
     res.status(200).json({ success: true, token: body.token });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 }

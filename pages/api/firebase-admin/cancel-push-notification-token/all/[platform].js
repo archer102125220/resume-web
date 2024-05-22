@@ -1,4 +1,24 @@
-import { mongoDBRemoveToken, mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
+import {
+  mongoDBRemoveToken,
+  sequelizeRemoveToken,
+  mongoDBFindAllToken,
+  sequelizeFindAllToken
+} from '@servicesServices/firebaseAdmin';
+
+async function handleFindAllToken() {
+  let tokenList = await mongoDBFindAllToken();
+  if (tokenList === undefined) {
+    tokenList = await sequelizeFindAllToken();
+  }
+  return tokenList;
+}
+async function handleRemoveToken(token) {
+  let response = await mongoDBRemoveToken(token);
+  if (response === undefined) {
+    response = await sequelizeRemoveToken(token);
+  }
+  return response;
+}
 
 export default async function cancelMessageToken(req, res) {
   try {
@@ -9,11 +29,11 @@ export default async function cancelMessageToken(req, res) {
       return;
     }
     const { platform } = req.query;
-    const tokens = await mongoDBFindAllToken();
+    const tokens = await handleFindAllToken();
     for (let i = 0; i < tokens.length; i++) {
       const { os, token } = tokens[i];
       if (os === platform) {
-        const response = await mongoDBRemoveToken(token);
+        const response = await handleRemoveToken(token);
         console.log({ ...response, platform });
       }
     }

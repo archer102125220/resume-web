@@ -1,5 +1,16 @@
-import { mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
+import {
+  mongoDBFindAllToken,
+  sequelizeFindAllToken
+} from '@servicesServices/firebaseAdmin';
 // import { getTokens } from '@/utils/firebase.server';
+
+async function handleFindAllToken() {
+  let tokenList = await mongoDBFindAllToken();
+  if (tokenList === undefined) {
+    tokenList = await sequelizeFindAllToken();
+  }
+  return tokenList;
+}
 
 export default async function getMessageTokens(req, res) {
   try {
@@ -10,7 +21,7 @@ export default async function getMessageTokens(req, res) {
       return;
     }
     // const tokens = getTokens();
-    const tokens = await mongoDBFindAllToken();
+    const tokens = await handleFindAllToken();
 
     res.status(200).json(tokens);
   } catch (error) {
