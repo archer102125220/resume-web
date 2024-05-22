@@ -1,11 +1,14 @@
 'use strict';
 
+const pg = require('pg');
+
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 //https://github.com/sequelize/cli/issues/766
 
 const envConfig = {
   dialect: process.env.DB_CONNECTION,
+  dialectModule: pg, // I've added this.
   host: process.env.POSTGRES_HOST,
 
   username: process.env.POSTGRES_USER,
