@@ -5,6 +5,43 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 export const mediaTablet = '@media (min-width: 501px) and (max-width: 1080px)';
 export const mediaMobile = '@media (max-width: 500px)';
 
+// https://www.tpisoftware.com/tpu/articleDetails/2415
+const cssAnimation = {
+  '@keyframes type': {
+    '0%': {
+      width: '0%'
+    },
+    '100%': {
+      width: '100%'
+    }
+  },
+  '@keyframes blink ': {
+    '0%': {
+      borderRight: '1px solid #000'
+    },
+    '100%': {
+      borderRight: '0px solid #000'
+    }
+  }
+};
+export const typeAnimation = {
+  position: 'relative',
+  color: 'transparent',
+  '&::before': {
+    content: 'attr(data-text)',
+    position: 'absolute',
+    top: '0px',
+    left: '0px',
+    width: '100%',
+    height: '100%',
+    color: '#000',
+    overflow: 'hidden',
+    animation: 'type 1.5s steps(18), blink 1.5s steps(18)',
+    '-webkit-animation': 'type 1.5s steps(18), blink 1.5s steps(18)',
+    whiteSpace: 'nowrap'
+  }
+};
+
 const scrollbar = {
   '::-webkit-scrollbar': {
     width: '10px',
@@ -73,6 +110,7 @@ export const globalStyle = {
     {
       borderColor: theme.palette.fourthly.main
     },
+  ...cssAnimation,
   ...scrollbar
 };
 
