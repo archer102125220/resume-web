@@ -2,7 +2,8 @@ import { memo } from 'react';
 import theme from '@/theme';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
-export const mediaTablet = '@media (min-width: 501px) and (max-width: 1080px)';
+export const mediaTabletOnly = '@media (min-width: 501px) and (max-width: 1080px)';
+export const mediaTablet = '@media (max-width: 1080px)';
 export const mediaMobile = '@media (max-width: 500px)';
 
 // https://www.tpisoftware.com/tpu/articleDetails/2415

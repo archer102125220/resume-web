@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 // import { useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 
-import { mediaMobile } from '@/styles/globals';
+import { mediaTablet } from '@/styles/globals';
 // import { systemAsyncThunk } from '@/redux/system';
 // import { test } from '@servicesClient/openAi';
 import useGTMTrack from '@/hooks/useGTMTrack';
@@ -14,14 +14,15 @@ import TypeAnimation from '@/components/TypeAnimation';
 
 const styles = {
   homePage: {
-    height: '100%',
+    minHeight: '100%',
+    // margin: 'auto',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'space-around',
-    [mediaMobile]: {
+    [mediaTablet]: {
       alignItems: ' flex-start',
       alignContent: 'flex-start'
     }
@@ -32,7 +33,7 @@ const styles = {
     flexWrap: 'wrap',
     alignContent: 'center',
     // gap: '16px',
-    [mediaMobile]: {
+    [mediaTablet]: {
       marginBottom: '16px'
     }
   },
@@ -46,6 +47,9 @@ const styles = {
     marginTop: '8px'
   },
   'homePage-summary-enName': {
+    marginRight: 'auto'
+  },
+  'homePage-summary-enNickName': {
     marginRight: 'auto',
     marginBottom: '16px'
   },
@@ -59,7 +63,7 @@ const styles = {
     marginRight: 'auto'
   },
   'homePage-summary-educationalQualifications-title-icon': {
-    [mediaMobile]: {
+    [mediaTablet]: {
       width: '25px',
       height: '25px'
     }
@@ -71,25 +75,25 @@ const styles = {
     gap: '5px',
     marginTop: '8px',
     marginLeft: '20px',
-    [mediaMobile]: {
+    [mediaTablet]: {
       alignItems: 'flex-start'
     }
   },
   'homePage-summary-educationalQualifications-row-logo': {
-    [mediaMobile]: {
+    [mediaTablet]: {
       width: '25px',
       height: '25px'
     }
   },
   'homePage-summary-educationalQualifications-row-school-name': {
     // display: '',
-    [mediaMobile]: {
+    [mediaTablet]: {
       display: 'none'
     }
   },
   'homePage-summary-educationalQualifications-row-school-rwdName': {
     display: 'none',
-    [mediaMobile]: {
+    [mediaTablet]: {
       display: 'block'
     }
   }
@@ -99,7 +103,6 @@ const useStyles = makeStyles(styles);
 
 function Home(props) {
   const classes = useStyles(props);
-  console.log({ classes });
 
   useGTMTrack({ event: 'scnOpen', url: '/home' });
 
@@ -129,7 +132,11 @@ function Home(props) {
         />
         <TypeAnimation
           className={classes['homePage-summary-enName']}
-          label="英文姓名：CHEN,PO-CHIEH／Parker"
+          label="英文姓名：CHEN,PO-CHIEH"
+        />
+        <TypeAnimation
+          className={classes['homePage-summary-enNickName']}
+          label="英文暱稱：Parker"
         />
 
         <div className={classes['homePage-summary-educationalQualifications']}>
@@ -235,7 +242,7 @@ function Home(props) {
                     'homePage-summary-educationalQualifications-row-school-rwdName'
                   ]
                 }
-                label="康寧醫護暨管理專科學校"
+                label="康寧醫護暨管理專科校"
               />
               <TypeAnimation
                 className={
