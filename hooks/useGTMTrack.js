@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 export function useGTMTrack(trackData) {
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     try {
       const title = document.getElementsByTagName('title')[0].innerText;
       window.dataLayer.push({ ...trackData, title });
