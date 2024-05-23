@@ -12,18 +12,23 @@ function TypeAnimation(props) {
   const { label } = props;
 
   return (
-    <p className={classes.typeAnimation} data-text={label}>
+    <p
+      className={[classes.typeAnimation, props.className].join(' ')}
+      data-text={label}
+    >
       {label}
     </p>
   );
 }
 
 TypeAnimation.propTypes = {
-  label: PropTypes.string
+  label: PropTypes.string,
+  className: PropTypes.string
 };
 
 TypeAnimation.defaultProps = {
-  label: ''
+  label: '',
+  className: ''
 };
 
 export default TypeAnimation;
