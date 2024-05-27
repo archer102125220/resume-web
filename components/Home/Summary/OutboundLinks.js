@@ -28,6 +28,9 @@ const iconStyle = {
   [mediaTablet]: {
     width: '25px',
     height: '25px'
+  },
+  img: {
+    objectFit: 'contain'
   }
 };
 

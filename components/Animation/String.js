@@ -1,4 +1,4 @@
-import { isValidElement } from 'react';
+import { useState, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 
@@ -19,6 +19,8 @@ function AnimationString(props) {
   } = props;
   const style = {};
 
+  const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+
   if (typeof color === 'string' && color !== '') {
     style['--string_animation_color'] = color;
   }
@@ -32,9 +34,13 @@ function AnimationString(props) {
   return (
     <CustomTag
       {...ortherProps}
-      className={[classes.animationString, props.className].join(' ')}
+      className={[
+        isAnimationEnd === false ? classes.animationString : '',
+        props.className
+      ].join(' ')}
       data-text={label}
       style={style}
+      onAnimationEnd={() => setIsAnimationEnd(true)}
     >
       {label}
     </CustomTag>

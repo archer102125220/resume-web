@@ -50,6 +50,7 @@ function SummaryName(props) {
         className={classes['homePage_summary_name-zhName']}
         label="陳柏杰／CHEN,PO-CHIEH／Parker"
       />
+
       <AnimationString
         className={classes['homePage_summary_name-rwdName']}
         label="姓名：陳柏杰"

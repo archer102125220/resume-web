@@ -1,5 +1,4 @@
-import { isValidElement } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { handleAnimateNumber } from '@/styles/animation';

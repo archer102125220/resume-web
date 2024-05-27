@@ -3,9 +3,9 @@ import theme from '@/theme';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { cssAnimation } from '@/styles/animation';
 
-export const mediaTabletOnly = '@media (min-width: 501px) and (max-width: 1080px)';
-export const mediaTablet = '@media (max-width: 1080px)';
-export const mediaMobile = '@media (max-width: 500px)';
+export const mediaTabletOnly = '@media (min-width: 708px) and (max-width: 1140px)';
+export const mediaTablet = '@media (max-width: 1140px)';
+export const mediaMobile = '@media (max-width: 707px)';
 
 const scrollbar = {
   '::-webkit-scrollbar': {

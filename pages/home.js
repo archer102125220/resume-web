@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import Avatar from '@mui/material/Avatar';
 // import { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
@@ -9,10 +8,10 @@ import { mediaTablet } from '@/styles/globals';
 // import { systemAsyncThunk } from '@/redux/system';
 // import { test } from '@servicesClient/openAi';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import AnimationString from '@/components/Animation/String';
-import AnimationNumber from '@/components/Animation/Number';
 import HomeSummaryName from '@/components/Home/Summary/Name';
-import HomeOutboundLinks from '@/components/Home/Summary/OutboundLinks';
+import HomeSummaryOutboundLinks from '@/components/Home/Summary/OutboundLinks';
+import HomeSummaryEducationalQualifications from '@/components/Home/Summary/EducationalQualifications';
+import HomeExperienceWork from '@/components/Home/Experience/Work';
 
 const styles = {
   homePage: {
@@ -23,10 +22,11 @@ const styles = {
     flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     [mediaTablet]: {
       alignItems: ' flex-start',
-      alignContent: 'flex-start'
+      alignContent: 'flex-start',
+      flexDirection: 'column'
     }
   },
   'homePage-summary': {
@@ -50,50 +50,12 @@ const styles = {
   'homePage-summary-outboundLinks': {
     marginBottom: '16px'
   },
-  'homePage-summary-educationalQualifications': {
+  'homePage-summary-item': {
     marginRight: 'auto'
   },
-  'homePage-summary-educationalQualifications-title': {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '24px',
-    marginRight: 'auto'
-  },
-  'homePage-summary-educationalQualifications-title-icon': {
-    objectFit: 'contain',
-    [mediaTablet]: {
-      width: '25px',
-      height: '25px'
-    }
-  },
-  'homePage-summary-educationalQualifications-row': {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: '5px',
-    marginTop: '8px',
-    marginLeft: '20px',
-    [mediaTablet]: {
-      alignItems: 'flex-start'
-    }
-  },
-  'homePage-summary-educationalQualifications-row-logo': {
-    [mediaTablet]: {
-      width: '25px',
-      height: '25px'
-    }
-  },
-  'homePage-summary-educationalQualifications-row-school-name': {
-    // display: '',
-    [mediaTablet]: {
-      display: 'none'
-    }
-  },
-  'homePage-summary-educationalQualifications-row-school-rwdName': {
-    display: 'none',
-    [mediaTablet]: {
-      display: 'block'
-    }
+  'homePage-experience': {
+    // margin: 'auto',
+    flex: 1
   }
 };
 
@@ -125,144 +87,17 @@ function Home(props) {
         />
         <HomeSummaryName className={classes['homePage-summary-name']} />
 
-        <HomeOutboundLinks
+        <HomeSummaryOutboundLinks
           className={classes['homePage-summary-outboundLinks']}
         />
 
-        <div className={classes['homePage-summary-educationalQualifications']}>
-          <div
-            className={
-              classes['homePage-summary-educationalQualifications-title']
-            }
-          >
-            <Image
-              className={
-                classes['homePage-summary-educationalQualifications-title-icon']
-              }
-              loading="lazy"
-              src="/img/icon/educational-qualifications-icon.png"
-              alt="學歷icon"
-              width={50}
-              height={50}
-            />
-            <p>學歷</p>
-          </div>
-
-          <div
-            className={
-              classes['homePage-summary-educationalQualifications-row']
-            }
-          >
-            <Image
-              className={
-                classes['homePage-summary-educationalQualifications-row-logo']
-              }
-              loading="lazy"
-              src="/img/logo/nutc-logo.png"
-              alt="NUTC LOGO"
-              width={40}
-              height={40}
-            />
-            <div
-              className={
-                classes['homePage-summary-educationalQualifications-row-school']
-              }
-            >
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-name'
-                  ]
-                }
-                label="國立台中科技大學 資訊管理系 學士"
-              />
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-rwdName'
-                  ]
-                }
-                label="國立台中科技大學"
-              />
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-rwdName'
-                  ]
-                }
-                label="資訊管理系 學士"
-              />
-              {/* <p>2018 / 9 - 2020 / 6</p> */}
-              <div>
-                <AnimationNumber label="2018" start={1000} duration={1000} />
-                <span> / </span>
-                <AnimationNumber label="9" start={0} duration={1000} />
-                <span> - </span>
-                <AnimationNumber label="2020" start={1000} duration={1000} />
-                <span> / </span>
-                <AnimationNumber label="6" start={0} duration={1000} />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={
-              classes['homePage-summary-educationalQualifications-row']
-            }
-          >
-            <Image
-              className={
-                classes['homePage-summary-educationalQualifications-row-logo']
-              }
-              src="/img/logo/knjc-mis-logo.png"
-              alt="KNJC MIS LOGO"
-              width={40}
-              height={40}
-            />
-            <div
-              className={
-                classes['homePage-summary-educationalQualifications-row-school']
-              }
-            >
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-name'
-                  ]
-                }
-                label="康寧醫護暨管理專科學校 資訊管理系 副學士"
-              />
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-rwdName'
-                  ]
-                }
-                label="康寧醫護暨管理專科校"
-              />
-              <AnimationString
-                className={
-                  classes[
-                    'homePage-summary-educationalQualifications-row-school-rwdName'
-                  ]
-                }
-                label="資訊管理系 副學士"
-              />
-              {/* <p>2013 / 9 - 2018 / 6</p> */}
-              <div>
-                <AnimationNumber label="2013" start={1000} duration={1000} />
-                <span> / </span>
-                <AnimationNumber label="9" start={0} duration={1000} />
-                <span> - </span>
-                <AnimationNumber label="2018" start={1000} duration={1000} />
-                <span> / </span>
-                <AnimationNumber label="6" start={0} duration={1000} />
-              </div>
-            </div>
-          </div>
-        </div>
+        <HomeSummaryEducationalQualifications
+          className={classes['homePage-summary-item']}
+        />
       </div>
-      <p>不好意思，其餘頁面與動畫正在設計中，感謝您的來訪~</p>
+      <div className={classes['homePage-experience']}>
+        <HomeExperienceWork />
+      </div>
     </div>
   );
 }

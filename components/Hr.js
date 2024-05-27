@@ -23,7 +23,10 @@ function Hr(props) {
   const { label } = props;
 
   return (
-    <div className={classes.hrComponents}>
+    <div
+      {...props}
+      className={[classes.hrComponents, props.className].join(' ')}
+    >
       <hr className={classes.hrComponentsLine} />
       <p>{label}</p>
       <hr className={classes.hrComponentsLine} />
@@ -32,11 +35,13 @@ function Hr(props) {
 }
 
 Hr.propTypes = {
-  label: PropTypes.string
+  label: PropTypes.string,
+  className: PropTypes.string
 };
 
 Hr.defaultProps = {
-  label: ''
+  label: '',
+  className: ''
 };
 
 export default Hr;
