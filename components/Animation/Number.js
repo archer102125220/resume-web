@@ -6,16 +6,17 @@ import { handleAnimateNumber } from '@/styles/animation';
 
 function AnimationNumber(props) {
   const {
-    tagname = 'span',
+    tagName = 'span',
     component = null,
     label = '',
     start = 9,
-    duration = 1000
+    duration = 1000,
+    ...ortherProps
   } = props;
 
   const [numberLabel, setNumberLabel] = useState(Number(label));
 
-  let CustomTag = tagname;
+  let CustomTag = tagName;
 
   if (isValidElement(component) === true) {
     CustomTag = component;
@@ -27,11 +28,11 @@ function AnimationNumber(props) {
     }
   }, []);
 
-  return <CustomTag {...props}>{numberLabel}</CustomTag>;
+  return <CustomTag {...ortherProps}>{numberLabel}</CustomTag>;
 }
 
 AnimationNumber.propTypes = {
-  tagname: PropTypes.string,
+  tagName: PropTypes.string,
   component: PropTypes.any,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   start: PropTypes.number,
@@ -39,7 +40,7 @@ AnimationNumber.propTypes = {
 };
 
 AnimationNumber.defaultProps = {
-  tagname: 'span',
+  tagName: 'span',
   component: null,
   label: '',
   start: 9,

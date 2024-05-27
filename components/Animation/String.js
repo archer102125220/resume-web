@@ -10,14 +10,20 @@ const useStyles = makeStyles(styles);
 
 function AnimationString(props) {
   const classes = useStyles(props);
-  const { tagname = 'p', component = null, label = '', color = '#000' } = props;
+  const {
+    tagName = 'p',
+    component = null,
+    label = '',
+    color = '#000',
+    ...ortherProps
+  } = props;
   const style = {};
 
   if (typeof color === 'string' && color !== '') {
     style['--string_animation_color'] = color;
   }
 
-  let CustomTag = tagname;
+  let CustomTag = tagName;
 
   if (isValidElement(component) === true) {
     CustomTag = component;
@@ -25,7 +31,7 @@ function AnimationString(props) {
 
   return (
     <CustomTag
-      {...props}
+      {...ortherProps}
       className={[classes.animationString, props.className].join(' ')}
       data-text={label}
       style={style}
@@ -36,7 +42,7 @@ function AnimationString(props) {
 }
 
 AnimationString.propTypes = {
-  tagname: PropTypes.string,
+  tagName: PropTypes.string,
   component: PropTypes.any,
   label: PropTypes.string,
   color: PropTypes.string,
@@ -44,7 +50,7 @@ AnimationString.propTypes = {
 };
 
 AnimationString.defaultProps = {
-  tagname: 'p',
+  tagName: 'p',
   component: null,
   label: '',
   color: '#000',

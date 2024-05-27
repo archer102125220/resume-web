@@ -11,11 +11,8 @@ import { mediaTablet } from '@/styles/globals';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import AnimationString from '@/components/Animation/String';
 import AnimationNumber from '@/components/Animation/Number';
-// import Hr from '@/components/Hr';
-
-const summaryName = {
-  marginRight: 'auto'
-};
+import HomeSummaryName from '@/components/Home/Summary/Name';
+import HomeOutboundLinks from '@/components/Home/Summary/OutboundLinks';
 
 const styles = {
   homePage: {
@@ -48,20 +45,9 @@ const styles = {
     margin: 'auto'
   },
   'homePage-summary-name': {
-    ...summaryName,
-    marginTop: '8px'
+    paddingTop: '8px'
   },
-  'homePage-summary-enName': {
-    ...summaryName
-  },
-  'homePage-summary-enNickName': {
-    ...summaryName
-  },
-  'homePage-summary-email': {
-    ...summaryName
-  },
-  'homePage-summary-gitHub': {
-    ...summaryName,
+  'homePage-summary-outboundLinks': {
     marginBottom: '16px'
   },
   'homePage-summary-educationalQualifications': {
@@ -74,6 +60,7 @@ const styles = {
     marginRight: 'auto'
   },
   'homePage-summary-educationalQualifications-title-icon': {
+    objectFit: 'contain',
     [mediaTablet]: {
       width: '25px',
       height: '25px'
@@ -136,34 +123,13 @@ function Home(props) {
           variant="square"
           src="/img/avatar.png"
         />
+        <HomeSummaryName className={classes['homePage-summary-name']} />
 
-        <AnimationString
-          className={classes['homePage-summary-name']}
-          label="姓名：陳柏杰"
-        />
-        <AnimationString
-          className={classes['homePage-summary-enName']}
-          label="英文姓名：CHEN,PO-CHIEH"
-        />
-        <AnimationString
-          className={classes['homePage-summary-enNickName']}
-          label="英文暱稱：Parker"
-        />
-        <AnimationString
-          tagname="a"
-          label="Email：archer102125220.2015@gmail.com"
-          href="mailto: archer102125220.2015@gmail.com"
-          className={classes['homePage-summary-email']}
-        />
-        <AnimationString
-          tagname="a"
-          label="gitHub：https://github.com/archer102125220"
-          href="https://github.com/archer102125220"
-          className={classes['homePage-summary-gitHub']}
+        <HomeOutboundLinks
+          className={classes['homePage-summary-outboundLinks']}
         />
 
         <div className={classes['homePage-summary-educationalQualifications']}>
-          {/* <Hr label="學歷" /> */}
           <div
             className={
               classes['homePage-summary-educationalQualifications-title']
@@ -174,7 +140,6 @@ function Home(props) {
                 classes['homePage-summary-educationalQualifications-title-icon']
               }
               loading="lazy"
-              objectFit="contain"
               src="/img/icon/educational-qualifications-icon.png"
               alt="學歷icon"
               width={50}
@@ -193,7 +158,6 @@ function Home(props) {
                 classes['homePage-summary-educationalQualifications-row-logo']
               }
               loading="lazy"
-              objectFit="contain"
               src="/img/logo/nutc-logo.png"
               alt="NUTC LOGO"
               width={40}
