@@ -9,8 +9,13 @@ import { mediaTablet } from '@/styles/globals';
 // import { systemAsyncThunk } from '@/redux/system';
 // import { test } from '@servicesClient/openAi';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import TypeAnimation from '@/components/TypeAnimation';
+import AnimationString from '@/components/Animation/String';
+import AnimationNumber from '@/components/Animation/Number';
 // import Hr from '@/components/Hr';
+
+const summaryName = {
+  marginRight: 'auto'
+};
 
 const styles = {
   homePage: {
@@ -43,14 +48,20 @@ const styles = {
     margin: 'auto'
   },
   'homePage-summary-name': {
-    marginRight: 'auto',
+    ...summaryName,
     marginTop: '8px'
   },
   'homePage-summary-enName': {
-    marginRight: 'auto'
+    ...summaryName
   },
   'homePage-summary-enNickName': {
-    marginRight: 'auto',
+    ...summaryName
+  },
+  'homePage-summary-email': {
+    ...summaryName
+  },
+  'homePage-summary-gitHub': {
+    ...summaryName,
     marginBottom: '16px'
   },
   'homePage-summary-educationalQualifications': {
@@ -126,17 +137,29 @@ function Home(props) {
           src="/img/avatar.png"
         />
 
-        <TypeAnimation
+        <AnimationString
           className={classes['homePage-summary-name']}
           label="姓名：陳柏杰"
         />
-        <TypeAnimation
+        <AnimationString
           className={classes['homePage-summary-enName']}
           label="英文姓名：CHEN,PO-CHIEH"
         />
-        <TypeAnimation
+        <AnimationString
           className={classes['homePage-summary-enNickName']}
           label="英文暱稱：Parker"
+        />
+        <AnimationString
+          tagname="a"
+          label="Email：archer102125220.2015@gmail.com"
+          href="mailto: archer102125220.2015@gmail.com"
+          className={classes['homePage-summary-email']}
+        />
+        <AnimationString
+          tagname="a"
+          label="gitHub：https://github.com/archer102125220"
+          href="https://github.com/archer102125220"
+          className={classes['homePage-summary-gitHub']}
         />
 
         <div className={classes['homePage-summary-educationalQualifications']}>
@@ -181,7 +204,7 @@ function Home(props) {
                 classes['homePage-summary-educationalQualifications-row-school']
               }
             >
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-name'
@@ -189,7 +212,7 @@ function Home(props) {
                 }
                 label="國立台中科技大學 資訊管理系 學士"
               />
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-rwdName'
@@ -197,7 +220,7 @@ function Home(props) {
                 }
                 label="國立台中科技大學"
               />
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-rwdName'
@@ -205,7 +228,16 @@ function Home(props) {
                 }
                 label="資訊管理系 學士"
               />
-              <p>2018 / 9 - 2020 / 6</p>
+              {/* <p>2018 / 9 - 2020 / 6</p> */}
+              <div>
+                <AnimationNumber label="2018" start={1000} duration={1000} />
+                <span> / </span>
+                <AnimationNumber label="9" start={0} duration={1000} />
+                <span> - </span>
+                <AnimationNumber label="2020" start={1000} duration={1000} />
+                <span> / </span>
+                <AnimationNumber label="6" start={0} duration={1000} />
+              </div>
             </div>
           </div>
 
@@ -228,7 +260,7 @@ function Home(props) {
                 classes['homePage-summary-educationalQualifications-row-school']
               }
             >
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-name'
@@ -236,7 +268,7 @@ function Home(props) {
                 }
                 label="康寧醫護暨管理專科學校 資訊管理系 副學士"
               />
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-rwdName'
@@ -244,7 +276,7 @@ function Home(props) {
                 }
                 label="康寧醫護暨管理專科校"
               />
-              <TypeAnimation
+              <AnimationString
                 className={
                   classes[
                     'homePage-summary-educationalQualifications-row-school-rwdName'
@@ -252,7 +284,16 @@ function Home(props) {
                 }
                 label="資訊管理系 副學士"
               />
-              <p>2013 / 9 - 2018 / 6</p>
+              {/* <p>2013 / 9 - 2018 / 6</p> */}
+              <div>
+                <AnimationNumber label="2013" start={1000} duration={1000} />
+                <span> / </span>
+                <AnimationNumber label="9" start={0} duration={1000} />
+                <span> - </span>
+                <AnimationNumber label="2018" start={1000} duration={1000} />
+                <span> / </span>
+                <AnimationNumber label="6" start={0} duration={1000} />
+              </div>
             </div>
           </div>
         </div>
