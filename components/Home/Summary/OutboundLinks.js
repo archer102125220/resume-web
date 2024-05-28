@@ -102,6 +102,7 @@ function SummaryName(props) {
         />
         <AnimationString
           tagName="a"
+          color={linkStyle.color}
           label="archer102125220.2015@gmail.com"
           href="mailto: archer102125220.2015@gmail.com"
           className={classes['homePage_summary_outbound_links-email-label']}
@@ -109,11 +110,13 @@ function SummaryName(props) {
         <div className={classes['homePage_summary_outbound_links-email-rwd']}>
           <AnimationString
             tagName="a"
+            color={linkStyle.color}
             label="archer102125220.2015"
             href="mailto: archer102125220.2015@gmail.com"
           />
           <AnimationString
             tagName="a"
+            color={linkStyle.color}
             label="@gmail.com"
             href="mailto: archer102125220.2015@gmail.com"
           />
@@ -130,6 +133,7 @@ function SummaryName(props) {
         />
         <AnimationString
           tagName="a"
+          color={linkStyle.color}
           label="https://github.com/archer102125220"
           href="https://github.com/archer102125220"
           className={classes['homePage_summary_outbound_links-gitHub-label']}
@@ -137,11 +141,13 @@ function SummaryName(props) {
         <div className={classes['homePage_summary_outbound_links-gitHub-rwd']}>
           <AnimationString
             tagName="a"
+            color={linkStyle.color}
             label="https://github.com/"
             href="https://github.com/archer102125220"
           />
           <AnimationString
             tagName="a"
+            color={linkStyle.color}
             label="archer102125220"
             href="https://github.com/archer102125220"
           />

@@ -1,6 +1,7 @@
 import { isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 
 import { mediaTablet } from '@/styles/globals';
@@ -38,6 +39,7 @@ const styles = {
   },
   'homePage_experience-work-row-info-logo': {
     objectFit: 'contain',
+    backgroundColor: '#fff',
     [mediaTablet]: {
       width: '25px',
       height: '25px'
@@ -104,7 +106,8 @@ const EXPERIENCE_DATA = [
         name: '愛嬉遊臺灣青年旅館聯盟',
         summary:
           '本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。',
-        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合。'
+        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合。',
+        describeLink: '/isu'
       }
     ]
   },
@@ -267,28 +270,42 @@ function SummaryName(props) {
                 >
                   {experienceData.onLine.map(onLine => (
                     <li key={onLine.webUrl}>
-                      <a
-                        href={onLine.webUrl}
-                        className={
-                          classes[
-                            'homePage_experience-work-row-describe-linkList-link'
-                          ]
-                        }
-                      >
-                        <span>{onLine.name}</span>
-                        <Image
+                      <div>
+                        <a
+                          href={onLine.webUrl}
+                          target="_blank"
+                          rel="noreferrer noopenner"
                           className={
                             classes[
-                              'homePage_experience-work-row-describe-linkList-link-icon'
+                              'homePage_experience-work-row-describe-linkList-link'
                             ]
                           }
-                          loading="lazy"
-                          src="/img/icon/outbound-link-icon.png"
-                          alt="outbound Link icon"
-                          width={10}
-                          height={10}
-                        />
-                      </a>
+                        >
+                          <span>{onLine.name}</span>
+                          <Image
+                            className={
+                              classes[
+                                'homePage_experience-work-row-describe-linkList-link-icon'
+                              ]
+                            }
+                            loading="lazy"
+                            src="/img/icon/outbound-link-icon.png"
+                            alt="outbound Link icon"
+                            width={10}
+                            height={10}
+                          />
+                        </a>
+                        <Link
+                          href={onLine.describeLink}
+                          className={
+                            classes[
+                              'homePage_experience-work-row-describe-linkList-link'
+                            ]
+                          }
+                        >
+                          (前往介紹頁面)
+                        </Link>
+                      </div>
 
                       <p>{onLine.summary}</p>
                       <p>主要負責：{onLine.responsible}</p>
