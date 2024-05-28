@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
 
 import { mediaTablet } from '@/styles/globals';
+import { linkStyle } from '@/styles/linkStyle';
 
 import AnimationString from '@/components/Animation/String';
 import AnimationNumber from '@/components/Animation/Number';
@@ -57,6 +58,15 @@ const styles = {
   'homePage_experience-work-row-describe': {
     marginTop: '8px',
     marginLeft: '32px'
+  },
+  'homePage_experience-work-row-describe-linkList': {
+    marginLeft: '16px'
+  },
+  'homePage_experience-work-row-describe-linkList-link': {
+    ...linkStyle
+  },
+  'homePage_experience-work-row-describe-linkList-link-icon': {
+    marginLeft: '5px'
   }
 };
 
@@ -87,11 +97,16 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    describe: className => (
-      <p className={className}>
-        開發形象網站及中台系統、整合並開發網頁環景服務
-      </p>
-    )
+    describe: '開發形象網站及中台系統、整合並開發網頁環景服務',
+    onLine: [
+      {
+        webUrl: 'https://www.iseeyou.org.tw/',
+        name: '愛嬉遊臺灣青年旅館聯盟',
+        summary:
+          '本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。',
+        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合。'
+      }
+    ]
   },
   {
     logoLoading: 'lazy',
@@ -117,7 +132,7 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    describe: className => (
+    Describe: className => (
       <p className={className}>
         接手代標部門雙平台App開發，並依主管指示作調整前端工程師/紅鬍子數位有限公司
       </p>
@@ -147,7 +162,7 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    describe: className => (
+    Describe: className => (
       <p className={className}>
         翻新購物網站(CSR轉SSR)，並持續維護與新增功能，整合google
         Ads工具成組件以提升代碼品質
@@ -174,7 +189,8 @@ function SummaryName(props) {
       </div>
 
       {EXPERIENCE_DATA.map(experienceData => {
-        const Describe = experienceData.describe;
+        const Describe = experienceData.Describe;
+        const describe = experienceData.describe;
 
         return (
           <div
@@ -242,7 +258,44 @@ function SummaryName(props) {
             ) : typeof Describe === 'function' ? (
               Describe(classes['homePage_experience-work-row-describe'])
             ) : (
-              Describe
+              <div className={classes['homePage_experience-work-row-describe']}>
+                <p>{describe}</p>
+                <ul
+                  className={
+                    classes['homePage_experience-work-row-describe-linkList']
+                  }
+                >
+                  {experienceData.onLine.map(onLine => (
+                    <li key={onLine.webUrl}>
+                      <a
+                        href={onLine.webUrl}
+                        className={
+                          classes[
+                            'homePage_experience-work-row-describe-linkList-link'
+                          ]
+                        }
+                      >
+                        <span>{onLine.name}</span>
+                        <Image
+                          className={
+                            classes[
+                              'homePage_experience-work-row-describe-linkList-link-icon'
+                            ]
+                          }
+                          loading="lazy"
+                          src="/img/icon/outbound-link-icon.png"
+                          alt="outbound Link icon"
+                          width={10}
+                          height={10}
+                        />
+                      </a>
+
+                      <p>{onLine.summary}</p>
+                      <p>主要負責：{onLine.responsible}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         );
