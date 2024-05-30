@@ -99,6 +99,7 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
+    remark: ['全遠端工作'],
     describe: '開發形象網站及中台系統、整合並開發網頁環景服務',
     onLine: [
       {
@@ -194,6 +195,7 @@ function SummaryName(props) {
       {EXPERIENCE_DATA.map(experienceData => {
         const Describe = experienceData.Describe;
         const describe = experienceData.describe;
+        const remark = experienceData.remark || [];
 
         return (
           <div
@@ -262,6 +264,10 @@ function SummaryName(props) {
               Describe(classes['homePage_experience-work-row-describe'])
             ) : (
               <div className={classes['homePage_experience-work-row-describe']}>
+                {remark.map(_remark => (
+                  <p key={_remark}>*{_remark}</p>
+                ))}
+
                 <p>{describe}</p>
                 <ul
                   className={

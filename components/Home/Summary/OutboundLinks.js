@@ -126,7 +126,7 @@ function SummaryName(props) {
         <Image
           className={classes['homePage_summary_outbound_links-gitHub-cion']}
           loading="lazy"
-          src="/img/icon/gitHub-icon.png"
+          src="/img/icon/github-icon.png"
           alt="email icon"
           width={40}
           height={40}
