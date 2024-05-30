@@ -21,10 +21,10 @@ const styles = theme => ({
   },
   table: {
     ...tableStyle,
-    top: '5%',
+    top: '2%',
     left: '2.5%',
     width: '95%',
-    height: '90%'
+    height: '95%'
   },
   tableTop: {
     position: 'absolute',
@@ -32,7 +32,7 @@ const styles = theme => ({
     height: '100%'
   },
   tablecloth: {
-    width: '80%',
+    width: '85%',
     height: '100%',
     margin: 'auto',
     padding: '15px',

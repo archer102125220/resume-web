@@ -10,6 +10,7 @@ import AnimationString from '@/components/Animation/String';
 const outboundLinksStyle = {
   ...linkStyle,
   margin: 'auto',
+  marginLeft: 'unset',
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
@@ -67,12 +68,7 @@ const styles = {
   'homePage_summary_outbound_links-gitHub-cion': {
     ...iconStyle
   },
-  'homePage_summary_outbound_links-gitHub-label': {
-    display: 'block',
-    [mediaTablet]: {
-      display: 'none'
-    }
-  },
+
   'homePage_summary_outbound_links-gitHub-rwd': {
     ...outboundLinksRwdStyle
   }
@@ -134,24 +130,9 @@ function SummaryName(props) {
         <AnimationString
           tagName="a"
           color={linkStyle.color}
-          label="https://github.com/archer102125220"
+          label="archer102125220"
           href="https://github.com/archer102125220"
-          className={classes['homePage_summary_outbound_links-gitHub-label']}
         />
-        <div className={classes['homePage_summary_outbound_links-gitHub-rwd']}>
-          <AnimationString
-            tagName="a"
-            color={linkStyle.color}
-            label="https://github.com/"
-            href="https://github.com/archer102125220"
-          />
-          <AnimationString
-            tagName="a"
-            color={linkStyle.color}
-            label="archer102125220"
-            href="https://github.com/archer102125220"
-          />
-        </div>
       </div>
     </div>
   );

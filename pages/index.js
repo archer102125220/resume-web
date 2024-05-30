@@ -264,10 +264,10 @@ function Index() {
     });
     tabletopAnime.current = anime({
       targets: tabletopRef.current,
-      top: ['25%', '5%'],
+      top: ['25%', '2%'],
       left: ['25%', '2.5%'],
       width: ['50%', '95%'],
-      height: ['20%', '90%'],
+      height: ['20%', '95%'],
       perspective: ['0.5em', '0.5em'],
       rotateX: [1, 0],
       delay: 500,

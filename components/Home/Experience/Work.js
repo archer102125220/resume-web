@@ -68,7 +68,8 @@ const styles = {
     marginLeft: '16px'
   },
   'homePage_experience-work-row-describe-linkList-link': {
-    ...linkStyle
+    ...linkStyle,
+    marginRight: 'unset'
   },
   'homePage_experience-work-row-describe-linkList-link-icon': {
     marginLeft: '5px',
@@ -106,9 +107,17 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    remark: ['全遠端工作'],
+    remark: ['全遠端工作', '因公司資訊技術部門裁撤，被迫離職'],
     describe: '開發形象網站及中台系統、整合並開發網頁環景服務。',
     onLine: [
+      {
+        webUrl: 'https://etravel.matsu.gov.tw/360vr',
+        name: '馬祖e點通 - 360°VR 線上玩',
+        summary: '本專案為馬祖縣政府的觀光網站，包含島民系統及線上環景服務。',
+        responsible:
+          '將A-frame（WebVR框架）與Nuxt3做整合，並開發線上環景服務。',
+        describeLink: '/matsu360'
+      },
       {
         webUrl: 'https://www.iseeyou.org.tw/',
         name: '愛嬉遊臺灣青年旅館聯盟',
@@ -143,11 +152,8 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    Describe: className => (
-      <p className={className}>
-        接手代標部門雙平台App開發，並依主管指示作調整。
-      </p>
-    )
+    remark: ['由於長期處於閒置狀態且缺乏職業發展機會，因而離職。'],
+    describe: '接手代標部門雙平台App開發，並依主管指示作調整。'
   },
   {
     logoLoading: 'lazy',
@@ -173,12 +179,19 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
-    Describe: className => (
-      <p className={className}>
-        翻新購物網站(CSR轉SSR)，並持續維護與新增功能，整合google
-        Ads工具成組件以提升代碼品質。
-      </p>
-    )
+    remark: ['因義務役入伍離職'],
+    describe:
+      '翻新購物網站(CSR轉SSR)，並持續維護與新增功能，整合google Ads工具成組件以提升代碼品質。',
+    onLine: [
+      {
+        name: 'Big Big Shop',
+        summary:
+          '本專案為香港電商平台，已上線5年以上，於2022/10/07確認已下線。',
+        responsible:
+          '新增及維護功能、SPA轉為SSR，整合google Ads 工具以及youtube 播放器成vue組件。',
+        describeLink: '/bbshop'
+      }
+    ]
   }
 ];
 
@@ -202,6 +215,7 @@ function SummaryName(props) {
       {EXPERIENCE_DATA.map(experienceData => {
         const Describe = experienceData.Describe;
         const describe = experienceData.describe;
+        const onLine = experienceData.onLine || [];
         const remark = experienceData.remark || [];
 
         return (
@@ -276,40 +290,34 @@ function SummaryName(props) {
                 ))}
 
                 <p>{describe}</p>
+
                 <ul
                   className={
                     classes['homePage_experience-work-row-describe-linkList']
                   }
                 >
-                  {experienceData.onLine.map(onLine => (
-                    <li key={onLine.webUrl}>
+                  {onLine.map(_onLine => (
+                    <li key={_onLine.name}>
                       <div>
-                        <a
-                          href={onLine.webUrl}
-                          target="_blank"
-                          rel="noreferrer noopenner"
-                          className={
-                            classes[
-                              'homePage_experience-work-row-describe-linkList-link'
-                            ]
-                          }
-                        >
-                          <span>{onLine.name}</span>
-                          <Image
+                        {typeof _onLine.webUrl === 'string' &&
+                        _onLine.webUrl !== '' ? (
+                          <a
+                            href={_onLine.webUrl}
+                            target="_blank"
+                            rel="noreferrer noopenner"
                             className={
                               classes[
-                                'homePage_experience-work-row-describe-linkList-link-icon'
+                                'homePage_experience-work-row-describe-linkList-link'
                               ]
                             }
-                            loading="lazy"
-                            src="/img/icon/outbound-link-icon.png"
-                            alt="outbound Link icon"
-                            width={10}
-                            height={10}
-                          />
-                        </a>
+                          >
+                            {_onLine.name}
+                          </a>
+                        ) : (
+                          <span>{_onLine.name}</span>
+                        )}
                         <Link
-                          href={onLine.describeLink}
+                          href={_onLine.describeLink}
                           className={
                             classes[
                               'homePage_experience-work-row-describe-linkList-link'
@@ -320,8 +328,8 @@ function SummaryName(props) {
                         </Link>
                       </div>
 
-                      <p>{onLine.summary}</p>
-                      <p>主要負責：{onLine.responsible}</p>
+                      <p>{_onLine.summary}</p>
+                      <p>主要負責：{_onLine.responsible}</p>
                     </li>
                   ))}
                 </ul>

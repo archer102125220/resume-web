@@ -165,7 +165,7 @@ function TokenDataView({
         {appMessageTokens.map((appMessageToken, index) => (
           <ListItem key={index}>
             <ListItemText
-              sx={{ maxWidth: '80%', overflow: 'auto' }}
+              sx={{ maxWidth: '85%', overflow: 'auto' }}
               primary={appMessageToken.token}
             />
             <IconButton
