@@ -107,7 +107,7 @@ const EXPERIENCE_DATA = [
       animationMonthDuration: 1000
     },
     remark: ['全遠端工作'],
-    describe: '開發形象網站及中台系統、整合並開發網頁環景服務',
+    describe: '開發形象網站及中台系統、整合並開發網頁環景服務。',
     onLine: [
       {
         webUrl: 'https://www.iseeyou.org.tw/',
@@ -145,7 +145,7 @@ const EXPERIENCE_DATA = [
     },
     Describe: className => (
       <p className={className}>
-        接手代標部門雙平台App開發，並依主管指示作調整前端工程師/紅鬍子數位有限公司
+        接手代標部門雙平台App開發，並依主管指示作調整。
       </p>
     )
   },
@@ -176,7 +176,7 @@ const EXPERIENCE_DATA = [
     Describe: className => (
       <p className={className}>
         翻新購物網站(CSR轉SSR)，並持續維護與新增功能，整合google
-        Ads工具成組件以提升代碼品質
+        Ads工具成組件以提升代碼品質。
       </p>
     )
   }
