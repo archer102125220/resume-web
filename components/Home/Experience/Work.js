@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 
-import { mediaTablet } from '@/styles/globals';
+import { mediaTablet, mediaMobile } from '@/styles/globals';
 import { linkStyle } from '@/styles/linkStyle';
 
 import AnimationString from '@/components/Animation/String';
@@ -59,7 +59,10 @@ const styles = {
   },
   'homePage_experience-work-row-describe': {
     marginTop: '8px',
-    marginLeft: '32px'
+    marginLeft: '32px',
+    [mediaMobile]: {
+      marginLeft: '10px'
+    }
   },
   'homePage_experience-work-row-describe-linkList': {
     marginLeft: '16px'
@@ -68,7 +71,11 @@ const styles = {
     ...linkStyle
   },
   'homePage_experience-work-row-describe-linkList-link-icon': {
-    marginLeft: '5px'
+    marginLeft: '5px',
+    [mediaTablet]: {
+      width: '10px',
+      height: '10px'
+    }
   }
 };
 
