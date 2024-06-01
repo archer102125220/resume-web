@@ -173,7 +173,7 @@ function SummaryName(props) {
                 'homePage_summary-educationalQualifications-row-school-rwdName'
               ]
             }
-            label="資訊管理系 副學士"
+            label="資訊管理科 副學士"
           />
           {/* <p>2013 / 9 - 2018 / 6</p> */}
           <div>
