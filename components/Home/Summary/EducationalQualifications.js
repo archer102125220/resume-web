@@ -157,7 +157,7 @@ function SummaryName(props) {
                 'homePage_summary-educationalQualifications-row-school-name'
               ]
             }
-            label="康寧醫護暨管理專科學校 資訊管理系 副學士"
+            label="康寧醫護暨管理專科學校 資訊管理科 副學士"
           />
           <AnimationString
             className={
