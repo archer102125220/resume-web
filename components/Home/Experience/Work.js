@@ -285,9 +285,7 @@ function SummaryName(props) {
               Describe(classes['homePage_experience-work-row-describe'])
             ) : (
               <div className={classes['homePage_experience-work-row-describe']}>
-                {remark.map(_remark => (
-                  <p key={_remark}>*{_remark}</p>
-                ))}
+                <p>* {remark.join('、')}</p>
 
                 <p>{describe}</p>
 
