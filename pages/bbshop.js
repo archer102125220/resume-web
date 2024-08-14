@@ -1,11 +1,34 @@
 import Head from 'next/head';
 import Image from 'next/image';
-// import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-// import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
+const styles = {
+  // BBShop: {},
+  BBShopTitle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginBottom: '16px'
+  },
+  BBShopTitleName: {
+    fontSize: '24px'
+  },
+  BBShopTitleRemark: {
+    fontSize: '12px'
+  },
+  BBShopScreenshot: {
+    display: 'block',
+    margin: 'auto'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
 function BBShop() {
+  const classes = useStyles();
   useGTMTrack({ event: 'scnOpen', url: '/bbshop' });
 
   return (
@@ -13,21 +36,23 @@ function BBShop() {
       <Head>
         <title>Parker Chan 的上線專案介紹- BBShop</title>
       </Head>
-      <div>
-        <p>專案連結：於2022/10/07確認已下線</p>
+      <div className={classes.BBShopTitle}>
+        <p className={classes.BBShopTitleName}>Big Big Shop</p>
+        <p className={classes.BBShopTitleRemark}>於2022/10/07確認已下線</p>
       </div>
-      <p>專案簡介：</p>
       <p>
-        本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。
+        本專案為香港電商平台，已上線5年以上，參予專案期間內改善SEO，並由Vue1(SPA)轉為Nuxt2(SSR)、翻新介面，以提供簡潔流暢的使用者介面。
       </p>
       <p>
-        本專案採SSR技術（Nuxt3）開發，提供google、FaceBook以及Line等第三方的快速註冊及登入，並有FaceBook分享功能，能便於會員可快速分享心儀的文章或資訊。
+        本專案提供賣家設定youtube影片串聯，能更進一步介紹產品資訊；提供google
+        ADS服務，使賣家更能在站內提升曝光度。
       </p>
 
       <Image
+        className={classes.BBShopScreenshot}
         loading="lazy"
-        src="/img/isu.png"
-        alt="ISU"
+        src="/img/BBShop/BBShop.png"
+        alt="BBShop"
         width={920}
         height={500}
       />

@@ -1,11 +1,33 @@
 import Head from 'next/head';
 import Image from 'next/image';
-// import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-// import { linkStyle } from '@/styles/linkStyle';
+import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
+const styles = {
+  // isu: {},
+  isuTitle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '16px'
+  },
+  isuTitleLink: {
+    ...linkStyle,
+    fontSize: '24px'
+  },
+  isuScreenshot: {
+    display: 'block',
+    margin: 'auto'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
 function Isu() {
+  const classes = useStyles();
   useGTMTrack({ event: 'scnOpen', url: '/isu' });
 
   return (
@@ -13,9 +35,9 @@ function Isu() {
       <Head>
         <title>Parker Chan 的上線專案介紹- Isu</title>
       </Head>
-      <div>
-        <p>專案連結：</p>
+      <div className={classes.isuTitle}>
         <a
+          className={classes.isuTitleLink}
           href="https://www.iseeyou.org.tw/"
           target="_blank"
           rel="noreferrer noopenner"
@@ -23,7 +45,6 @@ function Isu() {
           愛嬉遊臺灣青年旅館聯盟
         </a>
       </div>
-      <p>專案簡介：</p>
       <p>
         本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。
       </p>
@@ -32,8 +53,9 @@ function Isu() {
       </p>
 
       <Image
+        className={classes.isuScreenshot}
         loading="lazy"
-        src="/img/isu.png"
+        src="/img/isu/isu.png"
         alt="ISU"
         width={920}
         height={500}

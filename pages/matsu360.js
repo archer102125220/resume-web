@@ -1,11 +1,33 @@
 import Head from 'next/head';
 import Image from 'next/image';
-// import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-// import { linkStyle } from '@/styles/linkStyle';
+import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 
+const styles = {
+  // matsu360: {},
+  matsu360Title: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '16px'
+  },
+  matsu360TitleLink: {
+    ...linkStyle,
+    fontSize: '24px'
+  },
+  matsu360Screenshot: {
+    display: 'block',
+    margin: 'auto'
+  }
+};
+
+const useStyles = makeStyles(styles);
+
 function Matsu360() {
+  const classes = useStyles();
   useGTMTrack({ event: 'scnOpen', url: '/bbshop' });
 
   return (
@@ -13,9 +35,9 @@ function Matsu360() {
       <Head>
         <title>Parker Chan 的上線專案介紹- Matsu360</title>
       </Head>
-      <div>
-        <p>專案連結：</p>
+      <div className={classes.matsu360Title}>
         <a
+          className={classes.matsu360TitleLink}
           href="https://etravel.matsu.gov.tw/360vr"
           target="_blank"
           rel="noreferrer noopenner"
@@ -23,18 +45,18 @@ function Matsu360() {
           馬祖e點通 - 360°VR 線上玩
         </a>
       </div>
-      <p>專案簡介：</p>
       <p>
-        本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。
+        本專案為馬祖縣政府的觀光網站，參予專案期間內整合並開發網頁環景服務，並協助專案架構調整。
       </p>
       <p>
-        本專案採SSR技術（Nuxt3）開發，提供google、FaceBook以及Line等第三方的快速註冊及登入，並有FaceBook分享功能，能便於會員可快速分享心儀的文章或資訊。
+        本專案採SSR技術（Nuxt3）開發，並以A-frame（WebVR框架）實作線上VR服務。
       </p>
 
       <Image
+        className={classes.matsu360Screenshot}
         loading="lazy"
-        src="/img/isu.png"
-        alt="ISU"
+        src="/img/matsu360/matsu360.png"
+        alt="matsu360"
         width={920}
         height={500}
       />
