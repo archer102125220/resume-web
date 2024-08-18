@@ -1,11 +1,11 @@
 import { useEffect, useId, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+import Image from '@/components/Image';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 import AFrameInfoPanel from '@/components/AFrame/EventEaxmple/InfoPanel';
 import AFrameHighlight from '@/components/AFrame/EventEaxmple/Highlight';

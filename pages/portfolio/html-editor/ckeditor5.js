@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
@@ -28,6 +27,7 @@ const CKEditor = dynamic(
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import { UploadAdapter, removeCKEditor5 } from '@/utils/CKEditor5';
+import Image from '@/components/Image';
 
 const colAuto = {
   flex: '0 0 auto',

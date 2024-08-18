@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 
 import { mediaTablet } from '@/styles/globals';
 import { linkStyle } from '@/styles/linkStyle';
 
+import Image from '@/components/Image';
 import AnimationString from '@/components/Animation/String';
 
 const outboundLinksStyle = {

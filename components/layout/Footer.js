@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
+
+import Image from '@/components/Image';
 
 const styles = {
   footer: {
@@ -10,7 +11,7 @@ const styles = {
     padding: ({ footerPadding }) => footerPadding,
     borderTop: '1px solid #eaeaea',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   logo: {
     // height: '1em',
@@ -35,20 +36,13 @@ function Footer(props) {
 }
 
 Footer.propTypes = {
-  logoHeight: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  footerPadding: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  logoHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  footerPadding: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 Footer.defaultProps = {
   footerPadding: '2rem 0',
   logoHeight: '1em'
 };
-
 
 export default Footer;

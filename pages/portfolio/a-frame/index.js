@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -10,6 +9,8 @@ import Button from '@mui/material/Button';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+
+import Image from '@/components/Image';
 
 const styles = {
   AFrameList: {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
+import Image from '@/components/Image';
 
 const styles = {
   piWalletBtn: {

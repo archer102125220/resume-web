@@ -1,12 +1,12 @@
 import { isValidElement } from 'react';
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 
 import { mediaTablet, mediaMobile } from '@/styles/globals';
 import { linkStyle } from '@/styles/linkStyle';
 
+import Image from '@/components/Image';
 import AnimationString from '@/components/Animation/String';
 import AnimationNumber from '@/components/Animation/Number';
 

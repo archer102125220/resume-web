@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useRef, useId, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
@@ -37,6 +36,7 @@ import {
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
 import { mediaMobile } from '@/styles/globals';
+import Image from '@/components/Image';
 import TappayInputField from '@/components/Tappay/InputField';
 import ApplePayBtn from '@/components/Tappay/ApplePayBtn';
 import LinePayBtn from '@/components/Tappay/LinePayBtn';

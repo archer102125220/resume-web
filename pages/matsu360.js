@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
 
 import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import Image from '@/components/Image';
 
 const styles = {
   // matsu360: {},
@@ -56,7 +56,6 @@ function Matsu360() {
         className={classes.matsu360Screenshot}
         loading="lazy"
         src="/img/matsu360/matsu360.png"
-        alt="matsu360"
         width={920}
         height={500}
       />

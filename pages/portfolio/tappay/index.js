@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
@@ -7,6 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import Image from '@/components/Image';
 
 const styles = {
   tappayList: {

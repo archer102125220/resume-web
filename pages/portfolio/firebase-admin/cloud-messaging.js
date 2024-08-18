@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import TextField from '@mui/material/TextField';
@@ -10,6 +9,7 @@ import Button from '@mui/material/Button';
 import { firebaseAdminAsyncThunk } from '@/redux/firebaseAdmin';
 import buttonStyle from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import Image from '@/components/Image';
 import TokenDataView from '@/components/Firebase/TokenDataView';
 
 function FirebaseCloudMessaging() {

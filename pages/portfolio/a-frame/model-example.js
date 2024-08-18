@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
@@ -10,6 +9,7 @@ import Button from '@mui/material/Button';
 import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+import Image from '@/components/Image';
 import AFrameContent from '@/components/AFrame/AFrameContent';
 import { useAFrameBackgroundGradient } from '@/hooks/AFrame/shader/useAFrameBackgroundGradient';
 import { useAFrameModelViewer } from '@/hooks/AFrame/components/useAFrameModelViewer';

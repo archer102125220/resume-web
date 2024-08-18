@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
 
 import { linkStyle } from '@/styles/linkStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
+import Image from '@/components/Image';
 
 const styles = {
   // isu: {},
