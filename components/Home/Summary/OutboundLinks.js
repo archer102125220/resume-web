@@ -68,6 +68,10 @@ const styles = {
   'homePage_summary_outbound_links-gitHub-cion': {
     ...iconStyle
   },
+  'homePage_summary_outbound_links-gitHub-link': {
+    ...linkStyle,
+    margin: 'unset'
+  },
 
   'homePage_summary_outbound_links-gitHub-rwd': {
     ...outboundLinksRwdStyle
@@ -128,9 +132,12 @@ function SummaryName(props) {
           height={40}
         />
         <AnimationString
+          className={classes['homePage_summary_outbound_links-gitHub-link']}
           tagName="a"
           color={linkStyle.color}
           label="archer102125220"
+          target="_blank"
+          rel="noreferrer noopenner"
           href="https://github.com/archer102125220"
         />
       </div>
