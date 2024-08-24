@@ -61,6 +61,11 @@ function Portfolio() {
     nextRouter.push('/portfolio/a-frame');
   }
 
+  function handleGoToYoutubeApi(e) {
+    e.preventDefault();
+    nextRouter.push('/portfolio/youtube-api');
+  }
+
   return (
     <div>
       <Head>
@@ -140,6 +145,24 @@ function Portfolio() {
           <Image
             src="/img/aframe-name-pink.svg"
             alt="a-frame"
+            className={classes.portfolioImg}
+            priority={true}
+            width={200}
+            height={50}
+          />
+        </Button>
+
+        <Button
+          className={classes.portfolioButton}
+          variant="contained"
+          onClick={handleGoToYoutubeApi}
+          component="a"
+          href="/portfolio/youtube-api"
+        >
+          <p>youtube api</p>
+          <Image
+            src="/img/youtube-logo-icon.svg"
+            alt="youtube"
             className={classes.portfolioImg}
             priority={true}
             width={200}

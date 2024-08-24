@@ -3,14 +3,20 @@ import { forwardRef } from 'react';
 import { makeStyles } from '@mui/styles';
 import Link from 'next/link';
 
+import { mediaMobile } from '@/styles/globals';
+
 const styles = {
   menu: {
     display: 'inline-block',
     width: '85px',
-    height: '100px',
+    // height: '200px',
+    maxWidth: '8%',
     // backgroundColor: 'rgb(0,0,0)',
     '& > a': {
       display: 'block'
+    },
+    [mediaMobile]: {
+      maxWidth: '10%'
     }
   }
 };
@@ -34,11 +40,11 @@ const Menu = forwardRef(function Menu(props, ref) {
 });
 
 Menu.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 Menu.defaultProps = {
-  className: '',
+  className: ''
 };
 
 export default Menu;
