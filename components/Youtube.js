@@ -23,30 +23,28 @@ const Youtube = forwardRef(function Youtube(props, ref) {
     autoplay,
     onReady,
     onStateChange,
-    onError
+    onError,
+    onBeforeCreate,
+    onCreated
   } = props;
   const classes = useStyles(props);
 
   const YoutubeRef = useRef(null);
   const youtbue = useYoutube(YoutubeRef, {
     videoId,
+    videoUrl,
     playerVars,
     events: {
       onReady: playerReady,
-      onStateChange: playerStateChange,
-      onError: onPlayerError
+      onStateChange,
+      onError,
+      beforeCreate: onBeforeCreate,
+      created: onCreated
     }
   });
 
   function playerReady(e, ...arg) {
     const youtubePlayer = e.target;
-    if (typeof videoUrl === 'string' && videoUrl !== '') {
-      // player.loadVideoByUrl(mediaContentUrl:String, startSeconds?:Number, endSeconds?:Number):Void
-      youtubePlayer.loadVideoByUrl(videoUrl);
-      if (autoplay === false) {
-        youtubePlayer.stopVideo();
-      }
-    }
     if (
       // !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       //   navigator.userAgent
@@ -58,16 +56,6 @@ const Youtube = forwardRef(function Youtube(props, ref) {
     }
     if (typeof onReady === 'function') {
       onReady(youtubePlayer, e, ...arg);
-    }
-  }
-  function playerStateChange(e, ...arg) {
-    if (typeof onStateChange === 'function') {
-      onStateChange(e.target, e, ...arg);
-    }
-  }
-  function onPlayerError(e, ...arg) {
-    if (typeof onError === 'function') {
-      onError(e.target, e, ...arg);
     }
   }
 
@@ -83,7 +71,9 @@ Youtube.propTypes = {
 
   onReady: PropTypes.func,
   onStateChange: PropTypes.func,
-  onError: PropTypes.func
+  onError: PropTypes.func,
+  onBeforeCreate: PropTypes.func,
+  onCreated: PropTypes.func
 };
 
 Youtube.defaultProps = {
@@ -100,7 +90,9 @@ Youtube.defaultProps = {
 
   onReady: () => {},
   onStateChange: () => {},
-  onError: () => {}
+  onError: () => {},
+  onBeforeCreate: () => {},
+  onCreated: () => {}
 };
 
 export default Youtube;
