@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import Head from 'next/head';
 import { makeStyles } from '@mui/styles';
 
@@ -14,8 +15,13 @@ const useStyles = makeStyles(styles);
 
 function YoutubeApi(props) {
   const classes = useStyles(props);
+  const youtubeRef = useRef(null);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/youtube-api' });
+
+  useEffect(() => {
+    console.log(youtubeRef);
+  }, [youtubeRef]);
 
   return (
     <div className={classes.container}>
@@ -28,7 +34,7 @@ function YoutubeApi(props) {
           api整合至Vue2的經驗，想說嘗試也整合進react中試試看
         </p>
         <div className={classes.youtube}>
-          <Youtube videoId="W8p5RPTPsoU" />
+          <Youtube ref={youtubeRef} videoId="W8p5RPTPsoU" />
         </div>
       </div>
     </div>
