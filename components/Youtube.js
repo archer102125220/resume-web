@@ -15,6 +15,26 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+/**
+ * A simple button component.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.videoId -
+ * @param {string} props.videoUrl -
+ * @param {Object} props.playerVars -
+ * @param {bool} props.autoplay -
+ * @param {function} props.onReady -
+ * @param {function} props.onStateChange -
+ * @param {function} props.onError -
+ * @param {function} props.onBeforeCreate -
+ * @param {function} props.onCreated -
+ * @returns {JSX.Element} The rendered button component.
+ *
+ * @example
+ * // 帶入videoId
+ * <Youtube videoId="W8p5RPTPsoU" />
+ */
 const Youtube = forwardRef(function Youtube(props, ref) {
   const {
     videoId,
