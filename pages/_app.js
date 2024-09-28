@@ -92,18 +92,21 @@ function App({ ...rest }) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Head>
-          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <meta name="description" content="Parker Chan 的個人資料" />
-          <meta name="theme-color" content={theme.palette.primary.main} />
-          <meta
-            name="copyright"
-            content={`Copyright © ${dayjs().year()} Parker Chen. All rights reserved.`}
-          />
-          <title>Parker Chan 的個人資料</title>
-        </Head>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
+          <Head>
+            <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+            <meta name="description" content="Parker Chan 的個人資料" />
+            <meta name="theme-color" content={theme.palette.primary.main} />
+            <meta
+              name="copyright"
+              content={`Copyright © ${dayjs().year()} Parker Chen. All rights reserved.`}
+            />
+            <title>Parker Chan 的個人資料</title>
+          </Head>
           <LayoutSwitch
             router={router}
             isMobile={isMobile}
