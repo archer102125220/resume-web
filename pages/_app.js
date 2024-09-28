@@ -8,6 +8,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ThemeProvider } from '@mui/material/styles';
 
+import 'dayjs/locale/zh-cn';
+import dayjs from 'dayjs';
+
 import theme from '@/theme';
 import LayoutSwitch from '@/components/layout/LayoutSwitch';
 import Message from '@/components/Message';
@@ -15,8 +18,6 @@ import PageLoading from '@/components/PageLoading';
 import NotificationPermission from '@/components/NotificationPermission';
 import { wrapper } from '@/redux/index';
 import { firebaseClientInit } from '@/utils/firebase.client';
-
-import 'dayjs/locale/zh-cn';
 
 firebaseClientInit();
 
@@ -96,6 +97,10 @@ function App({ ...rest }) {
           <meta name="viewport" content="initial-scale=1, width=device-width" />
           <meta name="description" content="Parker Chan 的個人資料" />
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta
+            name="copyright"
+            content={`Copyright © ${dayjs().year()} Parker Chen. All rights reserved.`}
+          />
           <title>Parker Chan 的個人資料</title>
         </Head>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
