@@ -8,7 +8,7 @@ const BUFFERING = 3;
 const CUED = 5;
 
 /**
- * A point on a two dimensional plane.
+ * A youtube Api.
  * @typedef {Object} youtubeApi
  * @property {HTMLElement} player -
  * @property {Object} youtubePlayerInstance - youtube Instance
