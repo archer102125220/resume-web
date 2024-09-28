@@ -7,6 +7,38 @@ const PAUSED = 2;
 const BUFFERING = 3;
 const CUED = 5;
 
+/**
+ * A point on a two dimensional plane.
+ * @typedef {Object} youtubeApi
+ * @property {HTMLElement} player -
+ * @property {Object} youtubePlayerInstance - youtube Instance
+ * @property {function} getPlayerState -
+ * @property {Object} el -
+ * @property {HTMLElement} el.current -
+ */
+
+/**
+ * A Youtube API hook.
+ *
+ * @hook
+ * @param {HTMLElement} el
+ * @param {object} options
+ * @param {function} options.beforeCreate -
+ * @param {string} options.videoId -
+ * @param {string} options.videoUrl -
+ * @param {function} options.onYouTubeIframeAPIReady -
+ * @param {function} options.destroy -
+ * @param {function} options.loadVideoById -
+ * @param {function} options.loadVideoByUrl -
+ * @param {object} options.events -
+ * @param {function} options.created -
+ * @param {function} options.events.onReady -
+ * @returns {youtubeApi}
+ *
+ * @example
+ * // 帶入videoId
+ *  const youtbue = useYoutube(dom, { videoId: 'W8p5RPTPsoU' });
+ */
 export function useYoutube(el, options = {}) {
   const [player, setPlayer] = useState(null);
   const [youtubePlayerInstance, setYoutubePlayerInstance] = useState(null);

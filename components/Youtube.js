@@ -16,7 +16,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 /**
- * A simple button component.
+ * A Youtube component.
  *
  * @component
  * @param {Object} props
