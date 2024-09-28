@@ -8,16 +8,6 @@ const BUFFERING = 3;
 const CUED = 5;
 
 /**
- * A youtube Api.
- * @typedef {Object} youtubeApi
- * @property {HTMLElement} player -
- * @property {Object} youtubePlayerInstance - youtube Instance
- * @property {function} getPlayerState -
- * @property {Object} el -
- * @property {HTMLElement} el.current -
- */
-
-/**
  * A Youtube API hook.
  *
  * @hook
@@ -33,7 +23,7 @@ const CUED = 5;
  * @param {object} options.events -
  * @param {function} options.created -
  * @param {function} options.events.onReady -
- * @returns {youtubeApi}
+ * @returns {{player: HTMLElement, youtubePlayerInstance: Object, getPlayerState: function, el: { current: HTMLElement } }}
  *
  * @example
  * // 帶入videoId
