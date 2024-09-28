@@ -35,6 +35,8 @@ const Menu = forwardRef(function Menu(props, ref) {
       <Link href="/matsu360">馬祖360</Link>
       <Link href="/bbshop">BBShop</Link>
       <Link href="/portfolio">小成品展示</Link>
+      <Link href="/external-link">站外成品</Link>
+      <Link href="/about-web_site">關於本站</Link>
     </div>
   );
 });
