@@ -343,7 +343,8 @@ function Index() {
       autoplay,
       complete() {
         // console.log(tableLowerRightHandBaseSideRef.current);
-        nextRouter.push('/home');
+        // nextRouter.push('/home');
+        nextRouter.replace('/home');
       }
     });
     setOpenDoor(true);

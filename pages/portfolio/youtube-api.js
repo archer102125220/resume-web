@@ -30,8 +30,8 @@ function YoutubeApi(props) {
   const classes = useStyles(props);
   const youtubeRef = useRef(null);
 
-  const [youtubeId, setYoutubeId] = useState('W8p5RPTPsoU');
-  const [videoId, setVideoId] = useState('W8p5RPTPsoU');
+  const [youtubeId, setYoutubeId] = useState('GA0MxdEYsGM');
+  const [videoId, setVideoId] = useState('GA0MxdEYsGM');
   const [youtubeIdError, setYoutubeIdError] = useState(false);
 
   useGTMTrack({ event: 'scnOpen', url: '/portfolio/youtube-api' });

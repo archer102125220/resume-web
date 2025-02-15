@@ -30,7 +30,6 @@ const Menu = forwardRef(function Menu(props, ref) {
   return (
     <div ref={ref} className={[classes.menu, propClassName].join(' ')}>
       <Link href="/home">首頁</Link>
-      {/* <Link href="/tow">tow</Link> */}
       <Link href="/isu">愛嬉遊</Link>
       <Link href="/matsu360">馬祖360</Link>
       <Link href="/bbshop">BBShop</Link>

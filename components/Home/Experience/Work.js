@@ -57,6 +57,9 @@ const styles = {
       display: 'block'
     }
   },
+  'homePage_experience-work-row-info-company-isStillWorking': {
+    display: 'inline-block'
+  },
   'homePage_experience-work-row-describe': {
     marginTop: '8px',
     marginLeft: '32px',
@@ -85,6 +88,39 @@ const useStyles = makeStyles(styles);
 const EXPERIENCE_DATA = [
   {
     logoLoading: 'lazy',
+    logoSrc: '/img/logo/le-tron-logo.png',
+    logoAlt: 'jiapin cloud LOGO',
+    logoWidth: 40,
+    logoHeight: 40,
+    companyName: '前端工程師 / 樂創互娛科技有限公司',
+    companyRwdName: ['前端工程師', '樂創互娛科技有限公司'],
+    startDate: {
+      year: '2023',
+      animationYearStart: 1000,
+      animationYearDuration: 1000,
+      month: '5',
+      animationMonthStart: 0,
+      animationMonthDuration: 1000
+    },
+    isStillWorking: true,
+    remark: ['部分遠端工作', '因公司成長疑慮，考慮新的機會'],
+    describe: '維護體育賽事直播平台。',
+    onLine: [
+      {
+        webUrl: 'https://www.sgss2.com/',
+        name: '松果賽事(PC版)'
+      },
+      {
+        webUrl: 'https://m.sgss2.com/',
+        name: '松果賽事(手機版、android版、ios書籤版)',
+        summary: '本專案並無RWD、android版為uni-app開發。',
+        responsible: '新增及維護既有功能，前端api資料快取，開發團隊共用組件。'
+        // describeLink: '/matsu360'
+      }
+    ]
+  },
+  {
+    logoLoading: 'lazy',
     logoSrc: '/img/logo/jiapin-cloud-logo.png',
     logoAlt: 'jiapin cloud LOGO',
     logoWidth: 40,
@@ -95,7 +131,7 @@ const EXPERIENCE_DATA = [
       year: '2023',
       animationYearStart: 1000,
       animationYearDuration: 1000,
-      month: '5',
+      month: '6',
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
@@ -103,7 +139,7 @@ const EXPERIENCE_DATA = [
       year: '2024',
       animationYearStart: 1000,
       animationYearDuration: 1000,
-      month: '5',
+      month: '6',
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
@@ -140,7 +176,7 @@ const EXPERIENCE_DATA = [
       year: '2022',
       animationYearStart: 1000,
       animationYearDuration: 1000,
-      month: '11',
+      month: '5',
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
@@ -265,17 +301,30 @@ function SummaryName(props) {
                     duration={experienceData.startDate.animationMonthDuration}
                   />
                   <span> - </span>
-                  <AnimationNumber
-                    label={experienceData.endDate.year}
-                    start={experienceData.endDate.animationYearStart}
-                    duration={experienceData.endDate.animationYearDuration}
-                  />
-                  <span> / </span>
-                  <AnimationNumber
-                    label={experienceData.endDate.month}
-                    start={experienceData.endDate.animationMonthStart}
-                    duration={experienceData.endDate.animationMonthDuration}
-                  />
+                  {experienceData.isStillWorking === true ? (
+                    <AnimationString
+                      className={
+                        classes[
+                          'homePage_experience-work-row-info-company-isStillWorking'
+                        ]
+                      }
+                      label="至今"
+                    />
+                  ) : (
+                    <>
+                      <AnimationNumber
+                        label={experienceData.endDate.year}
+                        start={experienceData.endDate.animationYearStart}
+                        duration={experienceData.endDate.animationYearDuration}
+                      />
+                      <span> / </span>
+                      <AnimationNumber
+                        label={experienceData.endDate.month}
+                        start={experienceData.endDate.animationMonthStart}
+                        duration={experienceData.endDate.animationMonthDuration}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -314,20 +363,33 @@ function SummaryName(props) {
                         ) : (
                           <span>{_onLine.name}</span>
                         )}
-                        <Link
-                          href={_onLine.describeLink}
-                          className={
-                            classes[
-                              'homePage_experience-work-row-describe-linkList-link'
-                            ]
-                          }
-                        >
-                          (前往介紹頁面)
-                        </Link>
+                        {typeof _onLine.describeLink === 'string' &&
+                        _onLine.describeLink !== '' ? (
+                          <Link
+                            href={_onLine.describeLink}
+                            className={
+                              classes[
+                                'homePage_experience-work-row-describe-linkList-link'
+                              ]
+                            }
+                          >
+                            (前往介紹頁面)
+                          </Link>
+                        ) : (
+                          ''
+                        )}
                       </div>
 
-                      <p>{_onLine.summary}</p>
-                      <p>主要負責：{_onLine.responsible}</p>
+                      {typeof _onLine.summary === 'string' &&
+                        _onLine.summary !== '' && <p>{_onLine.summary}</p>}
+                      {Array.isArray(_onLine.remark) &&
+                        _onLine.remark.length > 0 && (
+                          <p>*{_onLine.remark.join('，')}</p>
+                        )}
+                      {typeof _onLine.responsible === 'string' &&
+                        _onLine.responsible !== '' && (
+                          <p>主要負責：{_onLine.responsible}</p>
+                        )}
                     </li>
                   ))}
                 </ul>
