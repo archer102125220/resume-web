@@ -5,7 +5,7 @@
   "scripts": {
     "sequelize": "./node_modules/.bin/sequelize",
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
-    "dev-https": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first yarn local-ssl-proxy --key local-ssh/key.pem --cert local-ssh/cert.pem --source 3001 --target 3000",
+    "dev-https": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first yarn local-ssl-proxy --key local-ssl/key.pem --cert local-ssl/cert.pem --source 3001 --target 3000",
     "build": "next build",
     "start": "next start -p 3002",
     "lint": "next lint",
@@ -74,7 +74,7 @@
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
     "eslint-config-prettier": "^8.7.0",
-    "eslint-plugin-jsdoc": "^40.0.3",
+    "eslint-plugin-jsdoc": "^50.6.3",
     "eslint-plugin-prettier": "^4.2.1",
     "local-ssl-proxy": "^2.0.5",
     "prettier": "^2.8.4",

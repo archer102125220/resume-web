@@ -18,7 +18,7 @@
 # misc
 .DS_Store
 *.pem
-!local-ssh/*.pem
+!local-ssl/*.pem
 
 # debug
 npm-debug.log*
