@@ -54,9 +54,9 @@ function ExternalLink() {
           target="_blank"
           variant="contained"
           rel="noreferrer noopenner"
-          href="https://nuxt-lab-archer102125220s-projects.vercel.app/"
+          href="https://parker-nuxt-lab.vercel.app/"
         >
-          <p>Nuxt 實驗室</p>
+          <p>Parker 的 Nuxt 實驗室</p>
           <Image
             src="/img/nuxt-icon-green.svg"
             alt="Nuxt Logo"
