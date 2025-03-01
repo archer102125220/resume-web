@@ -67,7 +67,7 @@ function SportsStreamingPlatform() {
           target="_blank"
           rel="noreferrer noopenner"
         >
-          西瓜看球(手機版、android版、ios書籤版)
+          西瓜看球(手機版 | android版 | ios書籤版)
         </a>
         <p>、</p>
         <a
@@ -83,7 +83,7 @@ function SportsStreamingPlatform() {
           target="_blank"
           rel="noreferrer noopenner"
         >
-          松果賽事(手機版、android版、ios書籤版)
+          松果賽事(手機版 | android版 | ios書籤版)
         </a>
       </div>
       <p>
