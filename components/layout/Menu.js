@@ -8,12 +8,13 @@ import { mediaMobile } from '@/styles/globals';
 const styles = {
   menu: {
     display: 'inline-block',
-    width: '85px',
+    width: '200px',
     // height: '200px',
-    maxWidth: '8%',
+    maxWidth: '10%',
     // backgroundColor: 'rgb(0,0,0)',
     '& > a': {
-      display: 'block'
+      display: 'block',
+      marginBottom: '6px'
     },
     [mediaMobile]: {
       maxWidth: '10%'
@@ -31,6 +32,7 @@ const Menu = forwardRef(function Menu(props, ref) {
     <div ref={ref} className={[classes.menu, propClassName].join(' ')}>
       <Link href="/home">首頁</Link>
       <Link href="/isu">愛嬉遊</Link>
+      <Link href="/sports-streaming-platform">體育賽事直播</Link>
       <Link href="/matsu360">馬祖360</Link>
       <Link href="/bbshop">BBShop</Link>
       <Link href="/portfolio">小成品展示</Link>

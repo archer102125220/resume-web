@@ -20,7 +20,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    // alignItems: 'center',
+    alignItems: 'flex-start',
     alignContent: 'center',
     justifyContent: 'space-evenly',
     [mediaTablet]: {

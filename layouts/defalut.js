@@ -32,7 +32,7 @@ const styles = theme => ({
     height: '100%'
   },
   tablecloth: {
-    width: '85%',
+    width: '80%',
     height: '100%',
     margin: 'auto',
     padding: '15px',
