@@ -32,6 +32,7 @@ const styles = {
   SportsStreamingPlatformScreenshotPc: {
     flex: 1,
     width: '530px',
+    maxWidth: '100%',
     // height: '400px',
     height: 'auto'
   },
