@@ -112,7 +112,7 @@ const EXPERIENCE_DATA = [
       },
       {
         webUrl: 'https://m.xga2ytxqck3y.xyz/',
-        name: '西瓜看球(手機版、android版、ios書籤版)'
+        name: '西瓜看球(手機版 | android版 | ios書籤版)'
       },
       {
         webUrl: 'https://www.sgss2.com/',
@@ -120,7 +120,7 @@ const EXPERIENCE_DATA = [
       },
       {
         webUrl: 'https://m.sgss2.com/',
-        name: '松果賽事(手機版、android版、ios書籤版)'
+        name: '松果賽事(手機版 | android版 | ios書籤版)'
       },
       {
         summary: '本專案並無RWD、android版為uni-app開發。',
