@@ -97,7 +97,7 @@ function SportsStreamingPlatform() {
         <Image
           className={classes.SportsStreamingPlatformScreenshotPc}
           loading="lazy"
-          src="/img/sports-streaming-platform/bl-pc.png"
+          src="/img/sports-streaming-platform/bl-PC.png"
           alt="SportsStreamingPlatform"
           width={530}
           height={400}
@@ -113,7 +113,7 @@ function SportsStreamingPlatform() {
         <Image
           className={classes.SportsStreamingPlatformScreenshotPc}
           loading="lazy"
-          src="/img/sports-streaming-platform/sg-pc.png"
+          src="/img/sports-streaming-platform/sg-PC.png"
           alt="SportsStreamingPlatform"
           width={530}
           height={400}
