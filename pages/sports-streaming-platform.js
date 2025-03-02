@@ -30,14 +30,16 @@ const styles = {
     paddingBottom: '8px'
   },
   SportsStreamingPlatformScreenshotPc: {
-    // flex: 1,
+    flex: 1,
     width: '530px',
-    height: '400px'
+    // height: '400px',
+    height: 'auto'
   },
   SportsStreamingPlatformScreenshotM: {
     // flex: 1,
     width: '200px',
-    height: '400px'
+    // height: '400px',
+    height: 'auto'
   }
 };
 
@@ -55,7 +57,7 @@ function SportsStreamingPlatform() {
       <p className={classes.SportsStreamingPlatformTitle}>體育賽事直播平台</p>
       <div className={classes.SportsStreamingPlatformTitleLink}>
         <a
-          href="https://www.xga2ytxqck3y.xyz/pages/match/match"
+          href="https://www.xga2ytxqck3y.xyz/"
           target="_blank"
           rel="noreferrer noopenner"
         >

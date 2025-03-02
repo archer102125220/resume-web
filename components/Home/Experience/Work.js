@@ -107,15 +107,26 @@ const EXPERIENCE_DATA = [
     describe: '維護體育賽事直播平台。',
     onLine: [
       {
+        webUrl: 'https://www.xga2ytxqck3y.xyz/',
+        name: '西瓜看球(PC版)'
+      },
+      {
+        webUrl: 'https://m.xga2ytxqck3y.xyz/',
+        name: '西瓜看球(手機版、android版、ios書籤版)'
+      },
+      {
         webUrl: 'https://www.sgss2.com/',
         name: '松果賽事(PC版)'
       },
       {
         webUrl: 'https://m.sgss2.com/',
-        name: '松果賽事(手機版、android版、ios書籤版)',
+        name: '松果賽事(手機版、android版、ios書籤版)'
+      },
+      {
         summary: '本專案並無RWD、android版為uni-app開發。',
-        responsible: '新增及維護既有功能，前端api資料快取，開發團隊共用組件。'
-        // describeLink: '/matsu360'
+        responsible:
+          '適用換皮之架構調整、新增及維護既有功能，前端api資料快取，開發團隊共用組件。',
+        describeLink: '/sports-streaming-platform'
       }
     ]
   },
