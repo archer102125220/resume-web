@@ -6,11 +6,11 @@ import useGTMTrack from '@/hooks/useGTMTrack';
 import Image from '@/components/Image';
 
 const styles = {
-  SportsStreamingPlatformTitle: {
+  sports_streaming_platform_title: {
     fontSize: '24px',
     textAlign: 'center'
   },
-  SportsStreamingPlatformTitleLink: {
+  'sports_streaming_platform_title-link': {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -21,7 +21,7 @@ const styles = {
       margin: '0'
     }
   },
-  SportsStreamingPlatformScreenshot: {
+  'sports_streaming_platform-screenshot': {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -29,19 +29,22 @@ const styles = {
     paddingTop: '8px',
     paddingBottom: '8px'
   },
-  SportsStreamingPlatformScreenshotPc: {
+  'sports_streaming_platform-screenshot-pc': {
     flex: 1,
     width: '530px',
     maxWidth: '100%',
     // height: '400px',
     height: 'auto'
   },
-  SportsStreamingPlatformScreenshotM: {
+  'sports_streaming_platform-screenshot-m': {
     // flex: 1,
     width: '200px',
     // height: '400px',
     height: 'auto'
-  }
+  },
+  // 'sports_streaming_platform-lessons_learned': {
+  //   marginTop: '16px'
+  // }
 };
 
 const useStyles = makeStyles(styles);
@@ -55,8 +58,10 @@ function SportsStreamingPlatform() {
       <Head>
         <title>Parker Chan 的上線專案介紹- 體育賽事直播平台</title>
       </Head>
-      <p className={classes.SportsStreamingPlatformTitle}>體育賽事直播平台</p>
-      <div className={classes.SportsStreamingPlatformTitleLink}>
+      <p className={classes.sports_streaming_platform_title}>
+        體育賽事直播平台
+      </p>
+      <div className={classes['sports_streaming_platform_title-link']}>
         <a
           href="https://www.xga2ytxqck3y.xyz/"
           target="_blank"
@@ -96,9 +101,9 @@ function SportsStreamingPlatform() {
         本專案由uni-app框架開發，狀態管理採用vuex做處理，並使用axios做api串接，css預處理器採用less做樣式開發，程式碼格式化則是採用prettier做規範，不過由於uni-app有與一般網頁套件相容的疑慮，因此大多數UI功能需自行實踐。
       </p>
 
-      <div className={classes.SportsStreamingPlatformScreenshot}>
+      <div className={classes['sports_streaming_platform-screenshot']}>
         <Image
-          className={classes.SportsStreamingPlatformScreenshotPc}
+          className={classes['sports_streaming_platform-screenshot-pc']}
           loading="lazy"
           src="/img/sports-streaming-platform/bl-PC.png"
           alt="SportsStreamingPlatform"
@@ -106,7 +111,7 @@ function SportsStreamingPlatform() {
           height={400}
         />
         <Image
-          className={classes.SportsStreamingPlatformScreenshotM}
+          className={classes['sports_streaming_platform-screenshot-m']}
           loading="lazy"
           src="/img/sports-streaming-platform/bl-M.png"
           alt="SportsStreamingPlatform"
@@ -114,7 +119,7 @@ function SportsStreamingPlatform() {
           height={400}
         />
         <Image
-          className={classes.SportsStreamingPlatformScreenshotPc}
+          className={classes['sports_streaming_platform-screenshot-pc']}
           loading="lazy"
           src="/img/sports-streaming-platform/sg-PC.png"
           alt="SportsStreamingPlatform"
@@ -122,7 +127,7 @@ function SportsStreamingPlatform() {
           height={400}
         />
         <Image
-          className={classes.SportsStreamingPlatformScreenshotM}
+          className={classes['sports_streaming_platform-screenshot-m']}
           loading="lazy"
           src="/img/sports-streaming-platform/sg-M.png"
           alt="SportsStreamingPlatform"

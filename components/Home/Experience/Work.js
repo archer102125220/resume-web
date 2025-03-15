@@ -1,6 +1,5 @@
 import { isValidElement } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 
 import { mediaTablet, mediaMobile } from '@/styles/globals';
@@ -9,26 +8,27 @@ import { linkStyle } from '@/styles/linkStyle';
 import Image from '@/components/Image';
 import AnimationString from '@/components/Animation/String';
 import AnimationNumber from '@/components/Animation/Number';
+import ExperienceProdItem from '@/components/Home/Experience/ProdItem';
 
 const styles = {
-  'homePage_experience-work-title': {
+  'work-title': {
     display: 'flex',
     alignItems: 'center',
     fontSize: '24px',
     marginRight: 'auto'
   },
-  'homePage_experience-work-title-icon': {
+  'work-title-icon': {
     objectFit: 'contain',
     [mediaTablet]: {
       width: '25px',
       height: '25px'
     }
   },
-  'homePage_experience-work-row': {
+  'work-row': {
     marginTop: '16px',
     marginLeft: '20px'
   },
-  'homePage_experience-work-row-info': {
+  'work-row-info': {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -37,7 +37,7 @@ const styles = {
       alignItems: 'flex-start'
     }
   },
-  'homePage_experience-work-row-info-logo': {
+  'work-row-info-logo': {
     objectFit: 'contain',
     backgroundColor: '#fff',
     [mediaTablet]: {
@@ -45,36 +45,36 @@ const styles = {
       height: '25px'
     }
   },
-  'homePage_experience-work-row-info-company-name': {
+  'work-row-info-company-name': {
     marginLeft: 'auto',
     [mediaTablet]: {
       display: 'none'
     }
   },
-  'homePage_experience-work-row-info-company-rwdName': {
+  'work-row-info-company-rwdName': {
     display: 'none',
     [mediaTablet]: {
       display: 'block'
     }
   },
-  'homePage_experience-work-row-info-company-isStillWorking': {
+  'work-row-info-company-isStillWorking': {
     display: 'inline-block'
   },
-  'homePage_experience-work-row-describe': {
+  'work-row-describe': {
     marginTop: '8px',
     marginLeft: '32px',
     [mediaMobile]: {
       marginLeft: '10px'
     }
   },
-  'homePage_experience-work-row-describe-linkList': {
+  'work-row-describe-linkList': {
     marginLeft: '16px'
   },
-  'homePage_experience-work-row-describe-linkList-link': {
+  'work-row-describe-linkList-link': {
     ...linkStyle,
     marginRight: 'unset'
   },
-  'homePage_experience-work-row-describe-linkList-link-icon': {
+  'work-row-describe-linkList-link-icon': {
     marginLeft: '5px',
     [mediaTablet]: {
       width: '10px',
@@ -104,29 +104,32 @@ const EXPERIENCE_DATA = [
     },
     isStillWorking: true,
     remark: ['部分遠端工作', '因公司成長疑慮，考慮新的機會'],
-    describe: '維護體育賽事直播平台。',
-    onLine: [
+    describe: '維護現有的直播平台，並根據客戶需求做調整',
+    prodList: [
       {
-        webUrl: 'https://www.xga2ytxqck3y.xyz/',
-        name: '西瓜看球(PC版)'
-      },
-      {
-        webUrl: 'https://m.xga2ytxqck3y.xyz/',
-        name: '西瓜看球(手機版 | android版 | ios書籤版)'
-      },
-      {
-        webUrl: 'https://www.sgss2.com/',
-        name: '松果賽事(PC版)'
-      },
-      {
-        webUrl: 'https://m.sgss2.com/',
-        name: '松果賽事(手機版 | android版 | ios書籤版)'
-      },
-      {
-        summary: '本專案並無RWD、android版為uni-app開發。',
+        name: '體育賽事直播平台',
         responsible:
           '適用換皮之架構調整、新增及維護既有功能，前端api資料快取，開發團隊共用組件。',
-        describeLink: '/sports-streaming-platform'
+        describeLink: '/sports-streaming-platform',
+        webUrlListTitle: '上線平台:',
+        webUrlList: [
+          {
+            webUrl: 'https://www.xga2ytxqck3y.xyz/',
+            name: '西瓜看球(PC版)'
+          },
+          {
+            webUrl: 'https://m.xga2ytxqck3y.xyz/',
+            name: '西瓜看球(手機版 | android版 | ios書籤版)'
+          },
+          {
+            webUrl: 'https://www.sgss2.com/',
+            name: '松果賽事(PC版)'
+          },
+          {
+            webUrl: 'https://m.sgss2.com/',
+            name: '松果賽事(手機版 | android版 | ios書籤版)'
+          }
+        ]
       }
     ]
   },
@@ -156,7 +159,7 @@ const EXPERIENCE_DATA = [
     },
     remark: ['全遠端工作', '因公司資訊技術部門裁撤，被迫離職'],
     describe: '開發形象網站及中台系統、整合並開發網頁環景服務。',
-    onLine: [
+    prodList: [
       {
         webUrl: 'https://etravel.matsu.gov.tw/360vr',
         name: '馬祖e點通 - 360°VR 線上玩',
@@ -229,7 +232,7 @@ const EXPERIENCE_DATA = [
     remark: ['因義務役入伍離職'],
     describe:
       '翻新購物網站(CSR轉SSR)，並持續維護與新增功能，整合google Ads工具成組件以提升代碼品質。',
-    onLine: [
+    prodList: [
       {
         name: 'Big Big Shop',
         summary:
@@ -242,14 +245,14 @@ const EXPERIENCE_DATA = [
   }
 ];
 
-function SummaryName(props) {
+function ExperienceWork(props) {
   const classes = useStyles(props);
 
   return (
     <div {...props} className={[props.className].join(' ')}>
-      <div className={classes['homePage_experience-work-title']}>
+      <div className={classes['work-title']}>
         <Image
-          className={classes['homePage_experience-work-title-icon']}
+          className={classes['work-title-icon']}
           loading="lazy"
           src="/img/icon/working-icon.png"
           alt="工作icon"
@@ -262,40 +265,29 @@ function SummaryName(props) {
       {EXPERIENCE_DATA.map(experienceData => {
         const Describe = experienceData.Describe;
         const describe = experienceData.describe;
-        const onLine = experienceData.onLine || [];
+        const prodList = experienceData.prodList || [];
         const remark = experienceData.remark || [];
 
         return (
-          <div
-            key={experienceData.companyName}
-            className={classes['homePage_experience-work-row']}
-          >
-            <div className={classes['homePage_experience-work-row-info']}>
+          <div key={experienceData.companyName} className={classes['work-row']}>
+            <div className={classes['work-row-info']}>
               <Image
-                className={classes['homePage_experience-work-row-info-logo']}
+                className={classes['work-row-info-logo']}
                 loading={experienceData.logoLoading}
                 src={experienceData.logoSrc}
                 alt={experienceData.logoAlt}
                 width={experienceData.logoWidth}
                 height={experienceData.logoHeight}
               />
-              <div
-                className={classes['homePage_experience-work-row-info-company']}
-              >
+              <div className={classes['work-row-info-company']}>
                 <AnimationString
-                  className={
-                    classes['homePage_experience-work-row-info-company-name']
-                  }
+                  className={classes['work-row-info-company-name']}
                   label={experienceData.companyName}
                 />
                 {experienceData.companyRwdName.map(companyRwdName => (
                   <AnimationString
                     key={companyRwdName}
-                    className={
-                      classes[
-                        'homePage_experience-work-row-info-company-rwdName'
-                      ]
-                    }
+                    className={classes['work-row-info-company-rwdName']}
                     label={companyRwdName}
                   />
                 ))}
@@ -315,9 +307,7 @@ function SummaryName(props) {
                   {experienceData.isStillWorking === true ? (
                     <AnimationString
                       className={
-                        classes[
-                          'homePage_experience-work-row-info-company-isStillWorking'
-                        ]
+                        classes['work-row-info-company-isStillWorking']
                       }
                       label="至今"
                     />
@@ -342,66 +332,16 @@ function SummaryName(props) {
             {isValidElement(Describe) === true ? (
               <Describe />
             ) : typeof Describe === 'function' ? (
-              Describe(classes['homePage_experience-work-row-describe'])
+              Describe(classes['work-row-describe'])
             ) : (
-              <div className={classes['homePage_experience-work-row-describe']}>
+              <div className={classes['work-row-describe']}>
                 <p>* {remark.join('、')}</p>
 
                 <p>{describe}</p>
 
-                <ul
-                  className={
-                    classes['homePage_experience-work-row-describe-linkList']
-                  }
-                >
-                  {onLine.map(_onLine => (
-                    <li key={_onLine.name}>
-                      <div>
-                        {typeof _onLine.webUrl === 'string' &&
-                        _onLine.webUrl !== '' ? (
-                          <a
-                            href={_onLine.webUrl}
-                            target="_blank"
-                            rel="noreferrer noopenner"
-                            className={
-                              classes[
-                                'homePage_experience-work-row-describe-linkList-link'
-                              ]
-                            }
-                          >
-                            {_onLine.name}
-                          </a>
-                        ) : (
-                          <span>{_onLine.name}</span>
-                        )}
-                        {typeof _onLine.describeLink === 'string' &&
-                        _onLine.describeLink !== '' ? (
-                          <Link
-                            href={_onLine.describeLink}
-                            className={
-                              classes[
-                                'homePage_experience-work-row-describe-linkList-link'
-                              ]
-                            }
-                          >
-                            (前往介紹頁面)
-                          </Link>
-                        ) : (
-                          ''
-                        )}
-                      </div>
-
-                      {typeof _onLine.summary === 'string' &&
-                        _onLine.summary !== '' && <p>{_onLine.summary}</p>}
-                      {Array.isArray(_onLine.remark) &&
-                        _onLine.remark.length > 0 && (
-                          <p>*{_onLine.remark.join('，')}</p>
-                        )}
-                      {typeof _onLine.responsible === 'string' &&
-                        _onLine.responsible !== '' && (
-                          <p>主要負責：{_onLine.responsible}</p>
-                        )}
-                    </li>
+                <ul className={classes['work-row-describe-linkList']}>
+                  {prodList.map(prod => (
+                    <ExperienceProdItem key={prod.name} {...prod} />
                   ))}
                 </ul>
               </div>
@@ -413,12 +353,12 @@ function SummaryName(props) {
   );
 }
 
-SummaryName.propTypes = {
+ExperienceWork.propTypes = {
   className: PropTypes.string
 };
 
-SummaryName.defaultProps = {
+ExperienceWork.defaultProps = {
   className: ''
 };
 
-export default SummaryName;
+export default ExperienceWork;

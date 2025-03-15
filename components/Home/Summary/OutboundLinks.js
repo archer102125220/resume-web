@@ -38,42 +38,42 @@ const iconStyle = {
 };
 
 const styles = {
-  homePage_summary_outbound_links: {
+  outbound_links: {
     margin: 'auto',
     [mediaTablet]: {
       marginLeft: 'unset'
     }
   },
-  'homePage_summary_outbound_links-email': {
+  'outbound_links-email': {
     ...outboundLinksStyle,
     marginTop: '8px',
     marginBottom: '8px'
   },
-  'homePage_summary_outbound_links-email-icon': {
+  'outbound_links-email-icon': {
     ...iconStyle
   },
-  'homePage_summary_outbound_links-email-label': {
+  'outbound_links-email-label': {
     display: 'block',
     [mediaTablet]: {
       display: 'none'
     }
   },
-  'homePage_summary_outbound_links-email-rwd': {
+  'outbound_links-email-rwd': {
     ...outboundLinksRwdStyle
   },
-  'homePage_summary_outbound_links-gitHub': {
+  'outbound_links-gitHub': {
     ...outboundLinksStyle,
     marginBottom: '16px'
   },
-  'homePage_summary_outbound_links-gitHub-cion': {
+  'outbound_links-gitHub-cion': {
     ...iconStyle
   },
-  'homePage_summary_outbound_links-gitHub-link': {
+  'outbound_links-gitHub-link': {
     ...linkStyle,
     margin: 'unset'
   },
 
-  'homePage_summary_outbound_links-gitHub-rwd': {
+  'outbound_links-gitHub-rwd': {
     ...outboundLinksRwdStyle
   }
 };
@@ -86,14 +86,11 @@ function SummaryName(props) {
   return (
     <div
       {...props}
-      className={[
-        classes.homePage_summary_outbound_links,
-        props.className
-      ].join(' ')}
+      className={[classes.outbound_links, props.className].join(' ')}
     >
-      <div className={classes['homePage_summary_outbound_links-email']}>
+      <div className={classes['outbound_links-email']}>
         <Image
-          className={classes['homePage_summary_outbound_links-email-icon']}
+          className={classes['outbound_links-email-icon']}
           loading="lazy"
           src="/img/icon/email-icon.png"
           alt="email icon"
@@ -105,9 +102,9 @@ function SummaryName(props) {
           color={linkStyle.color}
           label="archer102125220.2015@gmail.com"
           href="mailto: archer102125220.2015@gmail.com"
-          className={classes['homePage_summary_outbound_links-email-label']}
+          className={classes['outbound_links-email-label']}
         />
-        <div className={classes['homePage_summary_outbound_links-email-rwd']}>
+        <div className={classes['outbound_links-email-rwd']}>
           <AnimationString
             tagName="a"
             color={linkStyle.color}
@@ -122,9 +119,9 @@ function SummaryName(props) {
           />
         </div>
       </div>
-      <div className={classes['homePage_summary_outbound_links-gitHub']}>
+      <div className={classes['outbound_links-gitHub']}>
         <Image
-          className={classes['homePage_summary_outbound_links-gitHub-cion']}
+          className={classes['outbound_links-gitHub-cion']}
           loading="lazy"
           src="/img/icon/github-icon.png"
           alt="email icon"
@@ -132,7 +129,7 @@ function SummaryName(props) {
           height={40}
         />
         <AnimationString
-          className={classes['homePage_summary_outbound_links-gitHub-link']}
+          className={classes['outbound_links-gitHub-link']}
           tagName="a"
           color={linkStyle.color}
           label="archer102125220"

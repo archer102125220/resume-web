@@ -45,7 +45,7 @@ function AboutWebSite() {
         <title>Parker Chan 的個人資料 - 關於本站</title>
       </Head>
       <p>
-        本站主要是由Nextjs、redux-toolkit、MUI、animejs做開發，以文件式路由做路由處理，並由vercel做自動化部屬，不過由於開發初期完全沒有設計概念，因此花費在大量時間摸索整體風格，目前仍有些不滿意，但應該會以其他SSR框架實作
+        本站主要是由Nextjs、redux-toolkit、MUI、animejs做開發，以文件式路由做路由處理，並由vercel做自動化部屬，不過由於開發初期完全沒有設計概念，因此花費在大量時間摸索整體風格，後來見識多了才發現原先定義的主題方向性不太適合網頁，不過應該會以其他SSR框架另行開發。
       </p>
       <div className={classes.aboutWebSite}>
         <Image

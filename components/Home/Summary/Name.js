@@ -14,24 +14,24 @@ const summaryNameRwdStyle = {
 };
 
 const styles = {
-  homePage_summary_name: {
+  summary_name: {
     margin: 'auto'
   },
-  'homePage_summary_name-zhName': {
+  'summary_name-zhName': {
     margin: 'auto',
     display: 'block',
     [mediaTablet]: {
       display: 'none'
     }
   },
-  'homePage_summary_name-rwdName': {
+  'summary_name-rwdName': {
     ...summaryNameRwdStyle,
     marginTop: '8px'
   },
-  'homePage_summary_name-rwdEnName': {
+  'summary_name-rwdEnName': {
     ...summaryNameRwdStyle
   },
-  'homePage_summary_name-rwdEnNickName': {
+  'summary_name-rwdEnNickName': {
     ...summaryNameRwdStyle
   }
 };
@@ -44,23 +44,23 @@ function SummaryName(props) {
   return (
     <div
       {...props}
-      className={[classes.homePage_summary_name, props.className].join(' ')}
+      className={[classes.summary_name, props.className].join(' ')}
     >
       <AnimationString
-        className={classes['homePage_summary_name-zhName']}
+        className={classes['summary_name-zhName']}
         label="陳柏杰／CHEN,PO-CHIEH／Parker"
       />
 
       <AnimationString
-        className={classes['homePage_summary_name-rwdName']}
+        className={classes['summary_name-rwdName']}
         label="姓名：陳柏杰"
       />
       <AnimationString
-        className={classes['homePage_summary_name-rwdEnName']}
+        className={classes['summary_name-rwdEnName']}
         label="英文姓名：CHEN,PO-CHIEH"
       />
       <AnimationString
-        className={classes['homePage_summary_name-rwdEnNickName']}
+        className={classes['summary_name-rwdEnNickName']}
         label="英文暱稱：Parker"
       />
     </div>
