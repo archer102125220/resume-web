@@ -28,6 +28,7 @@ const systemSlice = createSlice({
   name,
   initialState: {
     message: { text: '', type: 'success' },
+    pageInfo: {},
     isMobile: false,
     loading: false,
     defalutLayout: null,
@@ -56,6 +57,9 @@ const systemSlice = createSlice({
 
     SAVE_message(state, { payload }) {
       return { ...state, message: payload };
+    },
+    SAVE_page_info(state, { payload }) {
+      return { ...state, pageInfo: payload };
     },
     SAVE_isMobile(state, { payload }) {
       return { ...state, isMobile: payload };
