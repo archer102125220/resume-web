@@ -375,7 +375,7 @@ function Index() {
     <div className={index} onClick={openingAnime}>
       <div className={leftDoor} ref={leftDoorRef}>
         <div className={leftDoorHandle} />
-        <h1 className={leftDoorDoorplate}>Parker Cheng</h1>
+        <h1 className={leftDoorDoorplate}>Parker Chen</h1>
       </div>
       <div className={rightDoor} ref={rightDoorRef}>
         <div className={rightDoorHandle} />
