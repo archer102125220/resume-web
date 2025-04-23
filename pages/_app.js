@@ -27,7 +27,6 @@ function App({ ...rest }) {
   const { Component, pageProps, router } = props;
 
   const [messageState, setMessageState] = useState({});
-  const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const store = useMemo(() => wrapperData.store, [wrapperData.store]);
@@ -74,11 +73,6 @@ function App({ ...rest }) {
         setMessageState(newMessage);
       }
 
-      const newLoading = state.system.loading;
-      if (loading !== newLoading) {
-        setLoading(newLoading);
-      }
-
       // next-redux-wrapper 目前在前後端資料持同步上仍有bug，gitHub上寫預計9.x版會修復，目前尚未發布，尚無官方文件資料．
       // https://github.com/kirill-konshin/next-redux-wrapper/pull/523
       const newIsMobile = state.system.isMobile;
@@ -87,7 +81,7 @@ function App({ ...rest }) {
       }
     });
     return unsubscribe;
-  }, [messageState, loading]);
+  }, [messageState, isMobile]);
 
   return (
     <Provider store={store}>
@@ -119,7 +113,7 @@ function App({ ...rest }) {
             messageState={messageState}
             resetMessageState={resetMessageState}
           />
-          <PageLoading loading={loading} />
+          <PageLoading />
         </LocalizationProvider>
       </ThemeProvider>
     </Provider>

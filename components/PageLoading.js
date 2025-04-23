@@ -1,9 +1,11 @@
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import { useSelector } from 'react-redux';
 
-function PageLoading({ loading }) {
-  return loading === true ? (
+function PageLoading() {
+  const systemLoading = useSelector(state => state.system.loading);
+
+  return systemLoading === true ? (
     <Box
       sx={{
         position: 'absolute',
@@ -19,13 +21,5 @@ function PageLoading({ loading }) {
     <></>
   );
 }
-
-PageLoading.propTypes = {
-  loading: PropTypes.bool
-};
-
-PageLoading.defaultProps = {
-  loading: false
-};
 
 export default PageLoading;

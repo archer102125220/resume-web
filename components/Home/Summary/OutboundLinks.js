@@ -80,7 +80,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function SummaryName(props) {
+function HomeSummaryOutboundLinks(props) {
   const classes = useStyles(props);
 
   return (
@@ -142,12 +142,12 @@ function SummaryName(props) {
   );
 }
 
-SummaryName.propTypes = {
+HomeSummaryOutboundLinks.propTypes = {
   className: PropTypes.string
 };
 
-SummaryName.defaultProps = {
+HomeSummaryOutboundLinks.defaultProps = {
   className: ''
 };
 
-export default SummaryName;
+export default HomeSummaryOutboundLinks;

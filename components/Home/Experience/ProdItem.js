@@ -77,7 +77,7 @@ function ExperienceProdItem(props) {
   const classes = useStyles(props);
 
   return (
-    <li {...props} className={[props.className].join(' ')}>
+    <li className={[props.className].join(' ')}>
       {typeof props.webUrl === 'string' && props.webUrl !== '' ? (
         <a
           href={props.webUrl}

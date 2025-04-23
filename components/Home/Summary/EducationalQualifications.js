@@ -58,7 +58,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function SummaryName(props) {
+function HomeSummaryEducationalQualifications(props) {
   const classes = useStyles(props);
 
   return (
@@ -163,12 +163,12 @@ function SummaryName(props) {
   );
 }
 
-SummaryName.propTypes = {
+HomeSummaryEducationalQualifications.propTypes = {
   className: PropTypes.string
 };
 
-SummaryName.defaultProps = {
+HomeSummaryEducationalQualifications.defaultProps = {
   className: ''
 };
 
-export default SummaryName;
+export default HomeSummaryEducationalQualifications;
