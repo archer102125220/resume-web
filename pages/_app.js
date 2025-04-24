@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { enquireScreen } from 'enquire-js';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ThemeProvider } from '@mui/material/styles';
@@ -85,6 +86,7 @@ function App({ ...rest }) {
 
   return (
     <Provider store={store}>
+      <SpeedInsights />
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
           <Head>
