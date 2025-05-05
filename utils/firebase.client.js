@@ -119,12 +119,12 @@ export async function firebaseMessagingInit() {
         try {
           // new Notification('測試', {
           //   body: payload.data?.msg,
-          //   icon: '/favicon.ico'
+          //   icon: '/img/favicon/favicon.ico'
           // });
 
           registration.showNotification('測試', {
             body: payload.data?.msg,
-            icon: '/favicon.ico'
+            icon: '/img/favicon/favicon.ico'
           });
         } catch (error) {
           console.log(error);

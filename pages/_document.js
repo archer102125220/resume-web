@@ -8,7 +8,7 @@ import GlobalStyles from '@/styles/globals';
 const pageCacheManage = new _pageCacheManage();
 
 const linkTagList = [
-  { rel: 'icon', href: '/favicon.ico' },
+  { rel: 'icon', href: '/img/favicon/favicon.ico' },
   {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
