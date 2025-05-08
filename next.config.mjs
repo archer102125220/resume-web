@@ -45,6 +45,16 @@ const nextConfig = {
   headers() {
     return [
       {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            // prettier-ignore
+            value: 'default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: https://cdn.aframe.io https://cdn.glitch.com; font-src \'self\'; connect-src \'self\';'
+          }
+        ]
+      },
+      {
         source: '/apple-app-site-association',
         headers: [
           {
