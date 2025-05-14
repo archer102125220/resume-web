@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// const IS_DEV = process.env.NODE_ENV !== 'production';
+
 const isStatic = process.env.STATIC === 'true';
 
 const nextConfig = {
@@ -43,17 +45,34 @@ const nextConfig = {
     return config;
   },
   headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            // prettier-ignore
-            value: 'default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: https://cdn.aframe.io https://cdn.glitch.com; font-src \'self\'; connect-src \'self\';'
-          }
-        ]
-      },
+    const headersList = [];
+
+    // if (IS_DEV !== true) {
+    //   headersList.push({
+    //     source: '/:path*',
+    //     headers: [
+    //       {
+    //         key: 'Content-Security-Policy',
+    //         // prettier-ignore
+    //         value: 'default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: https://cdn.aframe.io https://cdn.glitch.com; font-src \'self\'; connect-src \'self\';'
+    //       }
+    //     ]
+    //   });
+    // }
+
+    // https://nextjs.org/docs/pages/api-reference/config/next-config-js/headers#permissions-policy
+    headersList.push({
+      source: '/:path*',
+      headers: [
+        {
+          key: 'Permissions-Policy',
+          value:
+            'accelerometer=(), autoplay=(), camera=(), fullscreen=(), geolocation=(), microphone=()'
+        }
+      ]
+    });
+
+    headersList.push(
       {
         source: '/apple-app-site-association',
         headers: [
@@ -72,7 +91,9 @@ const nextConfig = {
           }
         ]
       }
-    ];
+    );
+
+    return headersList;
   },
   env: {
     STATIC: isStatic,
