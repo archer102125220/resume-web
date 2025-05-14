@@ -2,7 +2,19 @@ import { NextResponse } from 'next/server';
 
 // https://nextjs.org/docs/pages/guides/content-security-policy
 export async function contentSecurityPolicyMiddleware(request) {
-  if (process.env.NODE_ENV !== 'production') return;
+  const requestHeaders = new Headers(request.headers);
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders
+    }
+  });
+
+  if (
+    process.env.NODE_ENV !== 'production' ||
+    response.headers.get('Content-Security-Policy')
+  ) {
+    return;
+  }
 
   console.log('____contentSecurityPolicy____');
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
@@ -23,7 +35,6 @@ export async function contentSecurityPolicyMiddleware(request) {
     .replace(/\s{2,}/g, ' ')
     .trim();
 
-  const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
 
   requestHeaders.set(
@@ -31,11 +42,6 @@ export async function contentSecurityPolicyMiddleware(request) {
     contentSecurityPolicyHeaderValue
   );
 
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders
-    }
-  });
   response.headers.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue

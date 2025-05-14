@@ -14,11 +14,9 @@ const STATIC_FILE_PREFIXES = [
   '/robots.txt'
 ];
 
-const GLOBAL_MIDDLEWARE_SETTINGS = [
-  globalTestMiddleware,
-  contentSecurityPolicyMiddleware,
-  logMiddleware
-];
+const POLICY_MIDDLEWARE_SETTINGS = [contentSecurityPolicyMiddleware];
+
+const GLOBAL_MIDDLEWARE_SETTINGS = [globalTestMiddleware, logMiddleware];
 
 const MIDDLEWARE_SETTINGS = [
   // {
@@ -33,6 +31,13 @@ const MIDDLEWARE_SETTINGS = [
 ];
 
 export async function middleware(request) {
+  for (const middlewareHandler of POLICY_MIDDLEWARE_SETTINGS) {
+    const middlewareResponse = await middlewareHandler(request);
+    if (middlewareResponse) {
+      return middlewareResponse; // 確保 CSP相關 Middleware 回傳了 NextResponse 在 return
+    }
+  }
+
   // 排除靜態檔案
   if (
     STATIC_FILE_EXTENSIONS.test(request.nextUrl.pathname) ||
