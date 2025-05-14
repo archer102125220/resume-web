@@ -17,6 +17,7 @@ export async function contentSecurityPolicyMiddleware(request) {
   }
 
   console.log('____contentSecurityPolicy____');
+
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const cspHeader = `
     default-src 'self';
@@ -36,12 +37,12 @@ export async function contentSecurityPolicyMiddleware(request) {
     .trim();
 
   requestHeaders.set('x-nonce', nonce);
-
   requestHeaders.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
   );
 
+  response.headers.set('x-nonce', nonce);
   response.headers.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
