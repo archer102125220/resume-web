@@ -32,14 +32,17 @@ export async function contentSecurityPolicyMiddleware(request) {
   //     upgrade-insecure-requests;
   // `;
   const cspHeader = `
+    default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.youtube.com https://connect.facebook.net https://www.googletagmanager.com; // 允許資源來源
+    font-src 'self' https://fonts.gstatic.com;
     base-uri 'self';
-    font-src 'self' https:data:;
     form-action 'self';
     frame-ancestors 'self';
     img-src 'self' data:;
     object-src 'none';
-    script-src-attr 'none';
-    style-src 'self' https: 'unsafe-inline';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https://connect.facebook.net https://www.googletagmanager.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+    frame-src 'self' https://www.youtube.com https://www.googletagmanager.com;
     upgrade-insecure-requests;
 `;
 
