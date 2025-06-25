@@ -33,7 +33,7 @@ module.exports = {
   //     files: ['*.js'],
   //     rules: {
   //       'react-hooks/exhaustive-deps': 'off',
-  //       'react/prop-types': 'warn',
+  //       'react/prop-types': 'warn', // propTypes 即將被移除：https://github.com/woocommerce/woocommerce/issues/49534
   //       'import/no-anonymous-default-export': 'warn',
   //       'no-extra-semi': 'warn',
   //       'semi': [
@@ -63,7 +63,7 @@ module.exports = {
   // ],
   rules: {
     'react-hooks/exhaustive-deps': 'off',
-    'react/prop-types': 'warn',
+    // 'react/prop-types': 'warn', // propTypes 即將被移除：https://github.com/woocommerce/woocommerce/issues/49534
     'import/no-anonymous-default-export': 'warn',
     '@next/next/no-sync-scripts': 'warn',
     'no-extra-semi': 'warn',

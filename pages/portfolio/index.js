@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
@@ -66,6 +67,11 @@ function Portfolio() {
     nextRouter.push('/portfolio/youtube-api');
   }
 
+  function handleSwiperJs(e) {
+    e.preventDefault();
+    nextRouter.push('/portfolio/swiper-js');
+  }
+
   return (
     <div>
       <Head>
@@ -77,9 +83,9 @@ function Portfolio() {
       <div className={classes.portfolio}>
         <Button
           className={classes.portfolioButton}
-          variant="contained"
           onClick={handleGoToTappay}
-          component="a"
+          component={Link}
+          variant="contained"
           href="/portfolio/tappay"
         >
           <p>Tappay串接</p>
@@ -94,9 +100,9 @@ function Portfolio() {
 
         <Button
           className={classes.portfolioButton}
-          variant="contained"
           onClick={handleGoToFirebaseAdmin}
-          component="a"
+          component={Link}
+          variant="contained"
           href="/portfolio/firebase-admin"
         >
           <p>Firebase Admin SDK</p>
@@ -112,9 +118,9 @@ function Portfolio() {
 
         <Button
           className={classes.portfolioButton}
-          variant="contained"
           onClick={handleGoToHTMLEditor}
-          component="a"
+          component={Link}
+          variant="contained"
           href="/portfolio/html-editor"
         >
           <p>HTML編輯器</p>
@@ -136,9 +142,9 @@ function Portfolio() {
 
         <Button
           className={classes.portfolioButton}
-          variant="contained"
           onClick={handleGoToAFrame}
-          component="a"
+          component={Link}
+          variant="contained"
           href="/portfolio/a-frame"
         >
           <p>a-frame</p>
@@ -154,15 +160,33 @@ function Portfolio() {
 
         <Button
           className={classes.portfolioButton}
-          variant="contained"
           onClick={handleGoToYoutubeApi}
-          component="a"
+          component={Link}
+          variant="contained"
           href="/portfolio/youtube-api"
         >
           <p>youtube api</p>
           <Image
             src="/img/youtube-logo-icon.svg"
             alt="youtube"
+            className={classes.portfolioImg}
+            priority={true}
+            width={200}
+            height={50}
+          />
+        </Button>
+
+        <Button
+          className={classes.portfolioButton}
+          onClick={handleSwiperJs}
+          component={Link}
+          variant="contained"
+          href="/portfolio/swiper-js"
+        >
+          <p>swiper.js react 整合</p>
+          <Image
+            src="/img/swiper-logo.svg"
+            alt="swiper.js"
             className={classes.portfolioImg}
             priority={true}
             width={200}
