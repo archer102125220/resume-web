@@ -250,6 +250,15 @@ export function SwiperJs(props) {
     },
     [loop, change, slideList, valueKey, value, slideChange]
   );
+  const handleSliderMove = useCallback(
+    (swiper, ...arg) => {
+      if (typeof sliderMove === 'function') {
+        sliderMove(swiper, ...arg);
+      }
+      setIsSliderMoveing(true);
+    },
+    [sliderMove]
+  );
   const handleSwiperInit = useCallback(() => {
     const _params = {
       modules: [],
@@ -265,7 +274,7 @@ export function SwiperJs(props) {
         destroy,
         beforeSlideChangeStart,
         slideChange: handleSlideChange,
-        sliderMove,
+        sliderMove: handleSliderMove,
         reachBeginning,
         reachEnd,
         fromEdge,
@@ -439,10 +448,9 @@ export function SwiperJs(props) {
 
     setCssVariable(_cssVariable);
   }, [overflow, shouldFillHeight, swiperHeight]);
+
   useEffect(() => {
-    handleSwiperInit();
-  }, [handleSwiperInit]);
-  useEffect(() => {
+    if (typeof swiperRef.current?.swiper === 'undefined') return;
     // handleSwiperUpdata(props);
 
     window.requestAnimationFrame(() => {
@@ -453,6 +461,10 @@ export function SwiperJs(props) {
       syncSlide(newValue, swiperObj);
     });
   }, [props]);
+  useEffect(() => {
+    if (typeof swiperRef.current?.swiper !== 'undefined') return;
+    handleSwiperInit();
+  }, [handleSwiperInit]);
 
   return (
     <div
