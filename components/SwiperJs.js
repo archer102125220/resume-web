@@ -2,6 +2,7 @@
 // import PropTypes from 'prop-types';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
+import _debounce from 'lodash/debounce';
 
 // Import Swiper and modules
 import Swiper from 'swiper';
@@ -143,6 +144,7 @@ export function SwiperJs(props) {
 
   const classes = useStyles(props);
 
+  const swiperJsRootRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const swiperRef = useRef(null);
@@ -158,6 +160,13 @@ export function SwiperJs(props) {
   const resetMoveingStatus = useCallback(() => {
     setIsSliderMoveing(false);
   }, []);
+  const resetSwiperScroll = useCallback(() => {
+    // 校正 slide 位置，避免有任何scroll事件影響swiper位置
+    if (swiperJsRootRef.current?.scrollWidth > 0) {
+      swiperJsRootRef.current.scrollTo(0, 0);
+    }
+  }, []);
+
   const syncSlide = useCallback(
     (value, swiper) => {
       if (
@@ -219,14 +228,25 @@ export function SwiperJs(props) {
     },
     [afterInit]
   );
+  const changeDebounce = useCallback(
+    _debounce((slideValue, activeIndex) => {
+      if (typeof change === 'function') {
+        change(
+          isNaN(slideValue) ? slideValue : Number(slideValue),
+          activeIndex
+        );
+      }
+    }, 200),
+    [change]
+  );
   const handleSlideChange = useCallback(
     (swiper, ...arg) => {
       if (loop === true) {
         const slideValueEl = swiper.slides[swiper.activeIndex];
         const slideValue = slideValueEl?.getAttribute('swiper-loop-value');
 
-        if (typeof change === 'function' && `${value}` !== slideValue) {
-          change(slideValue, swiper.activeIndex);
+        if (`${value}` !== slideValue) {
+          changeDebounce(slideValue, swiper.activeIndex);
         }
       } else {
         // const slideData = slideList[swiper.activeIndex];
@@ -236,11 +256,8 @@ export function SwiperJs(props) {
         const slideValue =
           slideData?.[valueKey] || slideData?.value || swiper.realIndex;
 
-        if (typeof change === 'function' && value !== slideValue) {
-          change(
-            isNaN(slideValue) ? slideValue : Number(slideValue),
-            swiper.activeIndex
-          );
+        if (value !== slideValue) {
+          changeDebounce(slideValue, swiper.activeIndex);
         }
       }
 
@@ -248,7 +265,7 @@ export function SwiperJs(props) {
         slideChange(swiper, ...arg);
       }
     },
-    [loop, change, slideList, valueKey, value, slideChange]
+    [loop, changeDebounce, slideList, valueKey, value, slideChange]
   );
   const handleSliderMove = useCallback(
     (swiper, ...arg) => {
@@ -406,10 +423,10 @@ export function SwiperJs(props) {
         setParams(_params);
 
         // 校正 slide 位置
-        swiperObj.off('slideChange', slideChange);
+        swiperObj.off('slideChange', handleSlideChange);
         swiperObj.slideTo(props.slideList.length - 1, 0, false);
         setTimeout(() => {
-          swiperObj.on('slideChange', slideChange);
+          swiperObj.on('slideChange', handleSlideChange);
           syncSlide(value, swiperObj);
         }, 300);
       }
@@ -468,10 +485,12 @@ export function SwiperJs(props) {
 
   return (
     <div
+      ref={swiperJsRootRef}
       className={[classes.swiperJs, className].join(' ')}
       style={cssVariable}
       onMouseUp={resetMoveingStatus}
       onTouchEnd={resetMoveingStatus}
+      onScroll={resetSwiperScroll}
     >
       {/* If we need navigation buttons */}
       {hasNavigation === true && (
