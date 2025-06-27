@@ -349,7 +349,7 @@ export function SwiperJs(props) {
     destroy,
     beforeSlideChangeStart,
     handleSlideChange,
-    sliderMove,
+    handleSliderMove,
     reachBeginning,
     reachEnd,
     fromEdge,
