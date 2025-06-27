@@ -65,7 +65,7 @@ const styles = {
     flexDirection: 'var(--slide_flex_direction)',
 
     // height: 'var(--content_wrapper_slide_height)',
-    height: 'var(--content_wrapper_slide_height)'
+    height: 'var(--slide_height)'
   },
   swiperJsContentWrapperSlideCenter: {
     position: 'relative',
