@@ -1,6 +1,6 @@
 'use client';
 // import PropTypes from 'prop-types';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { makeStyles } from '@mui/styles';
 import _debounce from 'lodash/debounce';
 
@@ -156,7 +156,37 @@ export function SwiperJs(props) {
   const [params, setParams] = useState(null);
   const [isSliderMoveing, setIsSliderMoveing] = useState(false);
 
-  const [cssVariable, setCssVariable] = useState(null);
+  const cssVariable = useMemo(() => {
+    const _cssVariable = {};
+
+    if (typeof overflow === 'boolean' && overflow === true) {
+      _cssVariable['--content_wrapper_slide_height'] = '100%';
+      _cssVariable['--slide_height'] = '100%';
+      _cssVariable['--slide_overflow_y'] = 'auto';
+      _cssVariable['--slide_overflow_x'] = 'hidden';
+    }
+
+    if (typeof shouldFillHeight === 'boolean' && shouldFillHeight === true) {
+      _cssVariable['--content_wrapper_slide_height'] = '100%';
+      _cssVariable['--slide_height'] = '100%';
+      _cssVariable['--slide_display'] = 'flex';
+      _cssVariable['--slide_flex_direction'] = 'column';
+      _cssVariable['--center_flex'] = 1;
+    }
+
+    if (typeof swiperHeight === 'string' && swiperHeight !== '') {
+      _cssVariable['--content_wrapper_slide_height'] = swiperHeight;
+      _cssVariable['--slide_height'] = swiperHeight;
+    } else if (swiperHeight !== '' && isNaN(Number(swiperHeight)) === false) {
+      _cssVariable['--content_wrapper_slide_height'] = `${swiperHeight}px`;
+      _cssVariable['--slide_height'] = `${swiperHeight}px`;
+    } else {
+      // _cssVariable["--content_wrapper_slide_height"] = "";
+      _cssVariable['--slide_height'] = '';
+    }
+
+    return _cssVariable;
+  }, [overflow, shouldFillHeight, swiperHeight]);
 
   const resetMoveingStatus = useCallback(() => {
     setIsSliderMoveing(false);
@@ -454,38 +484,6 @@ export function SwiperJs(props) {
     },
     [swiperObj, value]
   );
-
-  useEffect(() => {
-    const _cssVariable = {};
-
-    if (typeof overflow === 'boolean' && overflow === true) {
-      _cssVariable['--content_wrapper_slide_height'] = '100%';
-      _cssVariable['--slide_height'] = '100%';
-      _cssVariable['--slide_overflow_y'] = 'auto';
-      _cssVariable['--slide_overflow_x'] = 'hidden';
-    }
-
-    if (typeof shouldFillHeight === 'boolean' && shouldFillHeight === true) {
-      _cssVariable['--content_wrapper_slide_height'] = '100%';
-      _cssVariable['--slide_height'] = '100%';
-      _cssVariable['--slide_display'] = 'flex';
-      _cssVariable['--slide_flex_direction'] = 'column';
-      _cssVariable['--center_flex'] = 1;
-    }
-
-    if (typeof swiperHeight === 'string' && swiperHeight !== '') {
-      _cssVariable['--content_wrapper_slide_height'] = swiperHeight;
-      _cssVariable['--slide_height'] = swiperHeight;
-    } else if (swiperHeight !== '' && isNaN(Number(swiperHeight)) === false) {
-      _cssVariable['--content_wrapper_slide_height'] = `${swiperHeight}px`;
-      _cssVariable['--slide_height'] = `${swiperHeight}px`;
-    } else {
-      // _cssVariable["--content_wrapper_slide_height"] = "";
-      _cssVariable['--slide_height'] = '';
-    }
-
-    setCssVariable(_cssVariable);
-  }, [overflow, shouldFillHeight, swiperHeight]);
 
   useEffect(() => {
     if (typeof swiperRef.current?.swiper === 'undefined') return;
