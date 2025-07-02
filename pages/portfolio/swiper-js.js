@@ -49,6 +49,8 @@ export function SwiperJsPage(props) {
 
   return (
     <div className={classes.swiperJsPage}>
+      <h1>SwiperJs 元件演示</h1>
+
       <SwiperJs
         className={classes.swiperJsPageContent}
         shouldFillHeight={true}

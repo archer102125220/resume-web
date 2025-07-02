@@ -65,7 +65,7 @@ const styles = {
     flexDirection: 'var(--slide_flex_direction)',
 
     // height: 'var(--content_wrapper_slide_height)',
-    height: 'var(--slide_height)'
+    height: 'var(--content_wrapper_slide_height)'
   },
   swiperJsContentWrapperSlideCenter: {
     position: 'relative',
@@ -139,7 +139,8 @@ export function SwiperJs(props) {
     fromEdge = null,
     activeIndexChange = null,
     beforeTransitionStart = null,
-    realIndexChange = null
+    realIndexChange = null,
+    touchEnd = null
   } = props;
 
   const classes = useStyles(props);
@@ -276,6 +277,24 @@ export function SwiperJs(props) {
     },
     [sliderMove]
   );
+  const handleSlideChangeTransitionEnd = useCallback(
+    swiper => {
+      if (typeof slideChangeTransitionEnd === 'function') {
+        slideChangeTransitionEnd(swiper);
+      }
+      setIsSliderMoveing(false);
+    },
+    [slideChangeTransitionEnd]
+  );
+  const handleTouchEnd = useCallback(
+    (swiper, event) => {
+      if (typeof touchEnd === 'function') {
+        touchEnd(swiper, event);
+      }
+      setIsSliderMoveing(false);
+    },
+    [touchEnd]
+  );
   const handleSwiperInit = useCallback(() => {
     const _params = {
       modules: [],
@@ -298,7 +317,8 @@ export function SwiperJs(props) {
         activeIndexChange,
         beforeTransitionStart,
         realIndexChange,
-        slideChangeTransitionEnd
+        slideChangeTransitionEnd: handleSlideChangeTransitionEnd,
+        touchEnd: handleTouchEnd
       }
     };
     if (hasNavigation === true) {
@@ -356,7 +376,8 @@ export function SwiperJs(props) {
     activeIndexChange,
     beforeTransitionStart,
     realIndexChange,
-    slideChangeTransitionEnd,
+    handleSlideChangeTransitionEnd,
+    handleTouchEnd,
 
     hasNavigation,
 
