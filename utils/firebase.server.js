@@ -1,5 +1,9 @@
 import firebaseAdmin from 'firebase-admin';
 
+// https://firebase.google.com/docs/cloud-messaging/migrate-v1?authuser=0&_gl=11yc83x4_gaMTMzNDU0MDY5LjE2ODYxMDI5NzQ._ga_CW55HF8NVT*MTY5NDY3NzAxMy4yNC4xLjE2OTQ2NzgxODEuMC4wLjA.&hl=zh-tw#linux-or-macos
+// https://firebase.google.com/docs/cloud-messaging/js/client?hl=zh-tw#web
+// https://firebase.google.com/docs/cloud-messaging/js/client?hl=zh-tw#web_2
+
 export const credential = process.env.FIREBASE_CREDENTIAL || '{}';
 
 export const firebaseConfig = {
@@ -51,7 +55,7 @@ export function firebaseServerInit() {
       } else {
         firebaseApp = firebaseAdmin.initializeApp({
           ...firebaseConfig,
-          credential: firebaseAdmin.credential.cert(JSON.parse(credential))
+          credential: firebaseAdmin.credential.applicationDefault()
         });
       }
       if (firebaseAdminAppStore.get('androidFirebase')) {
@@ -60,9 +64,7 @@ export function firebaseServerInit() {
         androidFirebaseApp = firebaseAdmin.initializeApp(
           {
             ...androidFirebaseConfig,
-            credential: firebaseAdmin.credential.cert(
-              JSON.parse(androidCredential)
-            )
+            credential: firebaseAdmin.credential.applicationDefault()
           },
           'androidFirebase'
         );
