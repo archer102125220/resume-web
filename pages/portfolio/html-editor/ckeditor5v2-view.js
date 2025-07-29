@@ -7,7 +7,7 @@ import { makeStyles } from '@mui/styles';
 
 import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { importCKEditor5, removeCKEditor5 } from '@/utils/CKEditor5';
+import { importCKEditor5, removeCKEditor5 } from '@/utils/third-party/CKEditor5';
 
 const styles = {
   root: {

@@ -1,4 +1,4 @@
-import { openai } from '@/utils/open-ai';
+import { openai } from '@/utils/third-party/open-ai';
 
 export async function test() {
   const completion = await openai.chat.completions.create({

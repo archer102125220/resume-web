@@ -26,7 +26,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { UploadAdapter, removeCKEditor5 } from '@/utils/CKEditor5';
+import { UploadAdapter, removeCKEditor5 } from '@/utils/third-party/CKEditor5';
 import Image from '@/components/Image';
 
 const colAuto = {

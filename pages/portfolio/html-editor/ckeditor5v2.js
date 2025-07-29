@@ -21,7 +21,7 @@ import {
   importCKEditor5,
   UploadAdapter,
   removeCKEditor5
-} from '@/utils/CKEditor5';
+} from '@/utils/third-party/CKEditor5';
 import Image from '@/components/Image';
 
 const colAuto = {

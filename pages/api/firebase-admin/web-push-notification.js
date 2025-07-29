@@ -1,4 +1,4 @@
-import { firebaseApp } from '@/utils/firebase.server';
+import { firebaseApp } from '@/utils/helpers/firebase.server';
 
 export default async function webPushMessage(req, res) {
   try {

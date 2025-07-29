@@ -2,7 +2,7 @@ import { Children } from 'react';
 import Script from 'next/script';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
-import { pageCacheManage as _pageCacheManage } from '@/utils/cache-manage.js';
+import { pageCacheManage as _pageCacheManage } from '@/utils/request/cache-manage.js';
 import GlobalStyles from '@/styles/globals';
 
 const pageCacheManage = new _pageCacheManage();

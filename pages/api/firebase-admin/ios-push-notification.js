@@ -1,4 +1,4 @@
-import { iosFirebaseApp } from '@/utils/firebase.server';
+import { iosFirebaseApp } from '@/utils/helpers/firebase.server';
 
 export default async function iosPushMessage(req, res) {
   try {

@@ -1,4 +1,4 @@
-import { androidFirebaseApp } from '@/utils/firebase.server';
+import { androidFirebaseApp } from '@/utils/helpers/firebase.server';
 
 export default async function androidPushMessage(req, res) {
   try {

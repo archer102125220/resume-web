@@ -8,7 +8,7 @@ import { makeStyles } from '@mui/styles';
 import {
   requestPermission,
   firebaseMessagingInit
-} from '@/utils/firebase.client';
+} from '@/utils/helpers/firebase.client';
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 
 const styles = {

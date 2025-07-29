@@ -5,7 +5,7 @@ import qs from 'qs';
 // import { cacheAdapterEnhancer } from 'axios-extensions';
 
 import LRUCache from 'lru-cache';
-import cacheAdapterEnhancer from '@/utils/axios-extensions';
+import cacheAdapterEnhancer from '@/utils/request/axios-extensions';
 
 const baseURL = process.env.AXIOS_BASE_URL;
 

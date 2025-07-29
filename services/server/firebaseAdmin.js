@@ -1,4 +1,4 @@
-import { MongoDBClient } from '@/utils/mongodb';
+import { MongoDBClient } from '@/utils/helpers/mongodb';
 import { FirebaseMessaging, Sequelize } from '@/models';
 const { Op } = Sequelize;
 

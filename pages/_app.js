@@ -18,7 +18,7 @@ import Message from '@/components/Message';
 import PageLoading from '@/components/PageLoading';
 import NotificationPermission from '@/components/NotificationPermission';
 import { wrapper } from '@/redux/index';
-import { firebaseClientInit } from '@/utils/firebase.client';
+import { firebaseClientInit } from '@/utils/helpers/firebase.client';
 
 firebaseClientInit();
 

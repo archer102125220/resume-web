@@ -16,7 +16,7 @@ const CKEditor = dynamic(
 
 import { buttonStyle } from '@/styles/buttonStyle';
 import useGTMTrack from '@/hooks/useGTMTrack';
-import { removeCKEditor5 } from '@/utils/CKEditor5';
+import { removeCKEditor5 } from '@/utils/third-party/CKEditor5';
 
 const styles = {
   root: {

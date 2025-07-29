@@ -2,7 +2,7 @@ import {
   mongoDBRemoveToken,
   sequelizeRemoveToken
 } from '@servicesServices/firebaseAdmin';
-import { cancelTokens } from '@/utils/firebase.server';
+import { cancelTokens } from '@/utils/helpers/firebase.server';
 
 export default async function cancelMessageToken(req, res) {
   try {

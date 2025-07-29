@@ -32,7 +32,7 @@ import {
   tappayAtomeGetPrime,
   tappayPiWalletGetPrime,
   tappayPlusPayGetPrime
-} from '@/utils/tappay';
+} from '@/utils/third-party/tappay';
 import { buttonStyle } from '@/styles/buttonStyle';
 import { linkStyle } from '@/styles/linkStyle';
 import { mediaMobile } from '@/styles/globals';

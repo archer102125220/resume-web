@@ -4,7 +4,7 @@ import {
   firebaseApp,
   androidFirebaseApp,
   iosFirebaseApp
-} from '@/utils/firebase.server';
+} from '@/utils/helpers/firebase.server';
 
 export default async function pushMessage(req, res) {
   try {
