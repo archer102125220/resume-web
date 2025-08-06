@@ -82,7 +82,7 @@ export function firebaseServerInit() {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return { firebaseApp, androidFirebaseApp, iosFirebaseApp };

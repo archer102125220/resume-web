@@ -1,10 +1,26 @@
-import { mongoDBFindAllToken } from '@servicesServices/firebaseAdmin';
+import { getMessaging } from 'firebase-admin/messaging';
+
+import {
+  mongoDBFindAllToken,
+  sequelizeFindAllToken
+} from '@servicesServices/firebaseAdmin';
 import {
   // getTokens,
-  firebaseApp,
-  androidFirebaseApp,
-  iosFirebaseApp
+  getFirebaseApp,
+  // firebaseApp,
+  getAndroidFirebaseApp,
+  // androidFirebaseApp,
+  getIosFirebaseApp
+  // iosFirebaseApp
 } from '@/utils/helpers/firebase.server';
+
+async function handleFindAllToken() {
+  let tokenList = await mongoDBFindAllToken();
+  if (tokenList === undefined) {
+    tokenList = await sequelizeFindAllToken();
+  }
+  return tokenList;
+}
 
 export default async function pushMessage(req, res) {
   try {
@@ -15,30 +31,52 @@ export default async function pushMessage(req, res) {
       return;
     }
     // const tokens = getTokens().map(({ token }) => token);
-    const tokens = await mongoDBFindAllToken();
+    const tokens = await handleFindAllToken();
 
     const { body } = req;
-    console.log(body.data);
-    const responseArray = await Promise.all([
-      firebaseApp.messaging().sendMulticast({
-        data: { msg: body.data },
-        tokens: tokens
-          .filter(({ os }) => os === 'web')
-          .map(({ token }) => token)
-      }),
-      androidFirebaseApp.messaging().sendMulticast({
-        data: { msg: body.data },
-        tokens: tokens
-          .filter(({ os }) => os === 'android')
-          .map(({ token }) => token)
-      }),
-      iosFirebaseApp.messaging().sendMulticast({
-        data: { msg: body.data },
-        tokens: tokens
-          .filter(({ os }) => os === 'ios')
-          .map(({ token }) => token)
-      })
-    ]);
+    const webTokens = tokens
+      .filter(({ os }) => os === 'web')
+      .map(({ token }) => token);
+    const androidTokens = tokens
+      .filter(({ os }) => os === 'android')
+      .map(({ token }) => token);
+    const iosTokens = tokens
+      .filter(({ os }) => os === 'ios')
+      .map(({ token }) => token);
+    console.log(body.data, { webTokens, androidTokens, iosTokens });
+
+    const firebaseApp = getFirebaseApp();
+    const androidFirebaseApp = getAndroidFirebaseApp();
+    const iosFirebaseApp = getIosFirebaseApp();
+
+    const promiseArray = [];
+
+    if (webTokens.length > 0) {
+      promiseArray.push(
+        getMessaging(firebaseApp).sendEachForMulticast({
+          data: { msg: body.data },
+          tokens: webTokens
+        })
+      );
+    }
+    if (androidTokens.length > 0) {
+      promiseArray.push(
+        getMessaging(androidFirebaseApp).sendEachForMulticast({
+          data: { msg: body.data },
+          tokens: androidTokens
+        })
+      );
+    }
+    if (iosTokens.length > 0) {
+      promiseArray.push(
+        getMessaging(iosFirebaseApp).sendEachForMulticast({
+          data: { msg: body.data },
+          tokens: iosTokens
+        })
+      );
+    }
+
+    const responseArray = await Promise.all(promiseArray);
 
     const response = { failureCount: 0, successCount: 0, responses: [] };
     responseArray.forEach(_response => {
