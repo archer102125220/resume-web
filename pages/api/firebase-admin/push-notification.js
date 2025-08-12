@@ -1,4 +1,4 @@
-import { getMessaging } from 'firebase-admin/messaging';
+import firebaseAdmin from 'firebase-admin';
 
 import {
   mongoDBFindAllToken,
@@ -43,7 +43,7 @@ export default async function pushMessage(req, res) {
     const iosTokens = tokens
       .filter(({ os }) => os === 'ios')
       .map(({ token }) => token);
-    console.log(body.data, { webTokens, androidTokens, iosTokens });
+    // console.log(body.data, { webTokens, androidTokens, iosTokens });
 
     const firebaseApp = getFirebaseApp();
     const androidFirebaseApp = getAndroidFirebaseApp();
@@ -53,7 +53,7 @@ export default async function pushMessage(req, res) {
 
     if (webTokens.length > 0) {
       promiseArray.push(
-        getMessaging(firebaseApp).sendEachForMulticast({
+        firebaseAdmin.messaging(firebaseApp).sendEachForMulticast({
           data: { msg: body.data },
           tokens: webTokens
         })
@@ -61,7 +61,7 @@ export default async function pushMessage(req, res) {
     }
     if (androidTokens.length > 0) {
       promiseArray.push(
-        getMessaging(androidFirebaseApp).sendEachForMulticast({
+        firebaseAdmin.messaging(androidFirebaseApp).sendEachForMulticast({
           data: { msg: body.data },
           tokens: androidTokens
         })
@@ -69,7 +69,7 @@ export default async function pushMessage(req, res) {
     }
     if (iosTokens.length > 0) {
       promiseArray.push(
-        getMessaging(iosFirebaseApp).sendEachForMulticast({
+        firebaseAdmin.messaging(iosFirebaseApp).sendEachForMulticast({
           data: { msg: body.data },
           tokens: iosTokens
         })

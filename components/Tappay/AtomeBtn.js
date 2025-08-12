@@ -20,7 +20,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function AtomeBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -47,9 +47,9 @@ AtomeBtn.propTypes = {
   className: PropTypes.string
 };
 
-AtomeBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// AtomeBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default AtomeBtn;

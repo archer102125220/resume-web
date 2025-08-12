@@ -20,13 +20,10 @@ const useStyles = makeStyles(styles);
 
 function Hr(props) {
   const classes = useStyles(props);
-  const { label } = props;
+  const { label = '', className = '' } = props;
 
   return (
-    <div
-      {...props}
-      className={[classes.hrComponents, props.className].join(' ')}
-    >
+    <div {...props} className={[classes.hrComponents, className].join(' ')}>
       <hr className={classes.hrComponentsLine} />
       <p>{label}</p>
       <hr className={classes.hrComponentsLine} />
@@ -39,9 +36,9 @@ Hr.propTypes = {
   className: PropTypes.string
 };
 
-Hr.defaultProps = {
-  label: '',
-  className: ''
-};
+// Hr.defaultProps = {
+//   label: '',
+//   className: ''
+// };
 
 export default Hr;

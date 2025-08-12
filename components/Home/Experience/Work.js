@@ -90,6 +90,7 @@ const useStyles = makeStyles(styles);
 
 function HomeExperienceWork(props) {
   const classes = useStyles(props);
+  const { className = '' } = props;
   const dispatch = useDispatch();
   const systemLoading = useSelector(state => state.system.loading);
   const [experienceData, setExperienceData] = useState([]);
@@ -124,7 +125,7 @@ function HomeExperienceWork(props) {
   }, [systemLoading]);
 
   return (
-    <div {...props} className={[props.className].join(' ')}>
+    <div {...props} className={[className].join(' ')}>
       <div className={classes['work-title']}>
         <Image
           className={classes['work-title-icon']}
@@ -232,8 +233,8 @@ HomeExperienceWork.propTypes = {
   className: PropTypes.string
 };
 
-HomeExperienceWork.defaultProps = {
-  className: ''
-};
+// HomeExperienceWork.defaultProps = {
+//   className: ''
+// };
 
 export default HomeExperienceWork;

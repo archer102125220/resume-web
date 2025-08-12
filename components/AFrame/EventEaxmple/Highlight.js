@@ -4,7 +4,7 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 import { useAFrame } from '@/hooks/AFrame/useAFrame';
 
 function AFrameHighlight({
-  menuButtonClassName,
+  menuButtonClassName = 'menu-button',
   backgroundId,
   mixinFrameId,
   karigurashiPosterId,
@@ -76,9 +76,9 @@ AFrameHighlight.propTypes = {
   ponyoButtonId: PropTypes.string.isRequired
 };
 
-AFrameHighlight.defaultProps = {
-  menuButtonClassName: 'menu-button'
-};
+// AFrameHighlight.defaultProps = {
+//   menuButtonClassName: 'menu-button'
+// };
 
 export function useAFrameHighlight() {
   const AFrame = useAFrame();

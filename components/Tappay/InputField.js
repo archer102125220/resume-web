@@ -27,7 +27,13 @@ const styles = theme => ({
 const useStyles = makeStyles(styles);
 
 const TappayInputField = forwardRef(function InputField(props, ref) {
-  const { label, labelClassName, inputClassName, error, success } = props;
+  const {
+    label = '',
+    labelClassName = '',
+    inputClassName = '',
+    error = false,
+    success = false
+  } = props;
   const [statusClassName, setStatusClassName] = useState('');
 
   const classes = useStyles();
@@ -67,12 +73,12 @@ TappayInputField.propTypes = {
   success: PropTypes.bool
 };
 
-TappayInputField.defaultProps = {
-  label: '',
-  labelClassName: '',
-  inputClassName: '',
-  error: false,
-  success: false
-};
+// TappayInputField.defaultProps = {
+//   label: '',
+//   labelClassName: '',
+//   inputClassName: '',
+//   error: false,
+//   success: false
+// };
 
 export default TappayInputField;

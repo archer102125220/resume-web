@@ -55,12 +55,12 @@ AnimationString.propTypes = {
   className: PropTypes.string
 };
 
-AnimationString.defaultProps = {
-  tagName: 'p',
-  component: null,
-  label: '',
-  color: '#000',
-  className: ''
-};
+// AnimationString.defaultProps = {
+//   tagName: 'p',
+//   component: null,
+//   label: '',
+//   color: '#000',
+//   className: ''
+// };
 
 export default AnimationString;

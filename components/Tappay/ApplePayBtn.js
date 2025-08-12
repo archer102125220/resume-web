@@ -20,7 +20,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function ApplePayBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -52,9 +52,9 @@ ApplePayBtn.propTypes = {
   className: PropTypes.string
 };
 
-ApplePayBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// ApplePayBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default ApplePayBtn;

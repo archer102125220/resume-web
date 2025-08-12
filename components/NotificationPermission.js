@@ -21,7 +21,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function NotificationPermission({ anchorOrigin }) {
+function NotificationPermission({ anchorOrigin = { vertical: 'top', horizontal: 'center' } }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -79,8 +79,8 @@ NotificationPermission.propTypes = {
   anchorOrigin: PropTypes.object
 };
 
-NotificationPermission.defaultProps = {
-  anchorOrigin: { vertical: 'top', horizontal: 'center' }
-};
+// NotificationPermission.defaultProps = {
+//   anchorOrigin: { vertical: 'top', horizontal: 'center' }
+// };
 
 export default NotificationPermission;

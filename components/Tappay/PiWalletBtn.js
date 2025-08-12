@@ -19,7 +19,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function PiWalletBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -51,9 +51,9 @@ PiWalletBtn.propTypes = {
   className: PropTypes.string
 };
 
-PiWalletBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// PiWalletBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default PiWalletBtn;

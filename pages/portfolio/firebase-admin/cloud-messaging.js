@@ -155,7 +155,9 @@ function FirebaseCloudMessaging() {
   function pushNotification() {
     POST_PushNotification({
       data: appMessage,
-      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+      callback(response) {
+        console.log({ response });
+        const { failureCount = 0, successCount = 0 } = response;
         informationMessage(
           `執行完畢，成功向${successCount}份裝置發送推播訊息，${failureCount}份裝置發送失敗`
         );

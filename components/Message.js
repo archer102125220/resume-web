@@ -4,11 +4,11 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 function Message({
-  messageState,
-  anchorOrigin,
-  autoHideDuration,
-  width,
-  resetMessageState
+  messageState = { text: '', type: 'success' },
+  anchorOrigin = { vertical: 'top', horizontal: 'center' },
+  autoHideDuration = 6000,
+  width = '100%',
+  resetMessageState = () => {}
 }) {
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState('');
@@ -60,12 +60,12 @@ Message.propTypes = {
   resetMessageState: PropTypes.func
 };
 
-Message.defaultProps = {
-  messageState: { text: '', type: 'success' },
-  anchorOrigin: { vertical: 'top', horizontal: 'center' },
-  autoHideDuration: 6000,
-  width: '100%',
-  resetMessageState() {}
-};
+// Message.defaultProps = {
+//   messageState: { text: '', type: 'success' },
+//   anchorOrigin: { vertical: 'top', horizontal: 'center' },
+//   autoHideDuration: 6000,
+//   width: '100%',
+//   resetMessageState() {}
+// };
 
 export default Message;

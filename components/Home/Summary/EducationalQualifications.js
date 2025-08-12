@@ -60,9 +60,10 @@ const useStyles = makeStyles(styles);
 
 function HomeSummaryEducationalQualifications(props) {
   const classes = useStyles(props);
+  const { className = '' } = props;
 
   return (
-    <div {...props} className={[props.className].join(' ')}>
+    <div {...props} className={[className].join(' ')}>
       <div className={classes['summary_educationalQualifications-title']}>
         <Image
           className={classes['summary_educationalQualifications-title-icon']}
@@ -167,8 +168,8 @@ HomeSummaryEducationalQualifications.propTypes = {
   className: PropTypes.string
 };
 
-HomeSummaryEducationalQualifications.defaultProps = {
-  className: ''
-};
+// HomeSummaryEducationalQualifications.defaultProps = {
+//   className: ''
+// };
 
 export default HomeSummaryEducationalQualifications;

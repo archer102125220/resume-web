@@ -4,7 +4,13 @@ import { forwardRef } from 'react';
 import { useImportAFrame } from '@/hooks/AFrame/useImportAFrame';
 
 const _AFrameContent = forwardRef(function AFrameContent(
-  { children, beforeAFrameLoad, getAframe, afterAFrameLoad, isRender },
+  {
+    children,
+    beforeAFrameLoad = () => {},
+    getAframe = () => {},
+    afterAFrameLoad = () => {},
+    isRender = true
+  },
   AFrameRootRef
 ) {
   const _AFrame = useImportAFrame(beforeAFrameLoad, getAframe, afterAFrameLoad);
@@ -24,11 +30,11 @@ _AFrameContent.propTypes = {
   isRender: PropTypes.bool
 };
 
-_AFrameContent.defaultProps = {
-  beforeAFrameLoad() {},
-  getAframe() {},
-  afterAFrameLoad() {},
-  isRender: true
-};
+// _AFrameContent.defaultProps = {
+//   beforeAFrameLoad() {},
+//   getAframe() {},
+//   afterAFrameLoad() {},
+//   isRender: true
+// };
 
 export default _AFrameContent;

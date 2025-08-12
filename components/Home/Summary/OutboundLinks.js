@@ -82,12 +82,10 @@ const useStyles = makeStyles(styles);
 
 function HomeSummaryOutboundLinks(props) {
   const classes = useStyles(props);
+  const { className = '' } = props;
 
   return (
-    <div
-      {...props}
-      className={[classes.outbound_links, props.className].join(' ')}
-    >
+    <div {...props} className={[classes.outbound_links, className].join(' ')}>
       <div className={classes['outbound_links-email']}>
         <Image
           className={classes['outbound_links-email-icon']}
@@ -146,8 +144,8 @@ HomeSummaryOutboundLinks.propTypes = {
   className: PropTypes.string
 };
 
-HomeSummaryOutboundLinks.defaultProps = {
-  className: ''
-};
+// HomeSummaryOutboundLinks.defaultProps = {
+//   className: ''
+// };
 
 export default HomeSummaryOutboundLinks;

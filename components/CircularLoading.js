@@ -4,7 +4,7 @@ import CircularProgress, {
   circularProgressClasses
 } from '@mui/material/CircularProgress';
 
-function CircularLoading({ style, size, loading }) {
+function CircularLoading({ style, size = 40, loading = false }) {
   return loading === true ? (
     <Box sx={{ position: 'relative', ...style }}>
       <CircularProgress
@@ -47,9 +47,9 @@ CircularLoading.propTypes = {
   loading: PropTypes.bool
 };
 
-CircularLoading.defaultProps = {
-  size: 40,
-  loading: false
-};
+// CircularLoading.defaultProps = {
+//   size: 40,
+//   loading: false
+// };
 
 export default CircularLoading;

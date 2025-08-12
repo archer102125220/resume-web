@@ -19,6 +19,7 @@ const useStyles = makeStyles(styles);
 
 export function Image(props) {
   const classes = useStyles(props);
+  const { className = '' } = props;
 
   const [loaded, setLoaded] = useState(false);
 
@@ -28,7 +29,7 @@ export function Image(props) {
       className={[
         classes.img,
         loaded === true ? classes.imgLoaded : classes.imgBeforeLoad,
-        props.className
+        className
       ].join(' ')}
       onLoad={() => {
         setLoaded(false);
@@ -44,8 +45,8 @@ Image.propTypes = {
   className: PropTypes.string
 };
 
-Image.defaultProps = {
-  className: ''
-};
+// Image.defaultProps = {
+//   className: ''
+// };
 
 export default Image;

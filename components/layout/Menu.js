@@ -26,10 +26,10 @@ const useStyles = makeStyles(styles);
 
 const Menu = forwardRef(function Menu(props, ref) {
   const classes = useStyles(props);
-  const propClassName = props.className;
+  const { className = '' } = props;
 
   return (
-    <div ref={ref} className={[classes.menu, propClassName].join(' ')}>
+    <div ref={ref} className={[classes.menu, className].join(' ')}>
       <Link href="/home">首頁</Link>
       <Link href="/isu">愛嬉遊</Link>
       <Link href="/sports-streaming-platform">體育賽事直播</Link>
@@ -46,8 +46,8 @@ Menu.propTypes = {
   className: PropTypes.string
 };
 
-Menu.defaultProps = {
-  className: ''
-};
+// Menu.defaultProps = {
+//   className: ''
+// };
 
 export default Menu;

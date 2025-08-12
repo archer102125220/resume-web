@@ -38,12 +38,12 @@ AnimationNumber.propTypes = {
   duration: PropTypes.number
 };
 
-AnimationNumber.defaultProps = {
-  tagName: 'span',
-  component: null,
-  label: '',
-  start: 9,
-  duration: 1000
-};
+// AnimationNumber.defaultProps = {
+//   tagName: 'span',
+//   component: null,
+//   label: '',
+//   start: 9,
+//   duration: 1000
+// };
 
 export default AnimationNumber;

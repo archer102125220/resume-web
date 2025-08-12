@@ -127,7 +127,7 @@ const styles = theme => ({
 
 const useStyles = makeStyles(styles);
 
-function TappayUi({ isMobile }) {
+function TappayUi({ isMobile = false }) {
   const [tappay, setTapPay] = useState(null);
   const [directPayAmount, setDirectPayAmount] = useState('');
   const [directPayError, setDirectPayError] = useState(false);
@@ -1207,9 +1207,9 @@ function TappayUi({ isMobile }) {
 TappayUi.propTypes = {
   isMobile: PropTypes.bool
 };
-TappayUi.defaultProps = {
-  isMobile: false
-};
+// TappayUi.defaultProps = {
+//   isMobile: false
+// };
 
 // export const getServerSideProps = wrapper.getServerSideProps(
 //   reduxStore =>

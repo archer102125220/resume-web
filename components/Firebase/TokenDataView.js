@@ -17,12 +17,12 @@ import { firebaseAdminAsyncThunk } from '@/redux/firebaseAdmin';
 import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 
 function TokenDataView({
-  defaultAppMessage,
-  title,
-  messageTitle,
-  appMessageTokens,
-  pushNotification,
-  platform
+  defaultAppMessage = 'appMessage',
+  title = 'App Message Tokens',
+  messageTitle = '推播訊息',
+  appMessageTokens = [],
+  pushNotification = appMessage => appMessage,
+  platform = ''
 }) {
   const [appMessage, setAppMessage] = useState(defaultAppMessage);
   const dispatch = useDispatch();
@@ -191,12 +191,12 @@ TokenDataView.propTypes = {
   platform: PropTypes.string
 };
 
-TokenDataView.defaultProps = {
-  defaultAppMessage: 'appMessage',
-  appMessageTokens: [],
-  title: 'App Message Tokens',
-  messageTitle: '推播訊息',
-  pushNotification: appMessage => appMessage
-};
+// TokenDataView.defaultProps = {
+//   defaultAppMessage: 'appMessage',
+//   appMessageTokens: [],
+//   title: 'App Message Tokens',
+//   messageTitle: '推播訊息',
+//   pushNotification: appMessage => appMessage
+// };
 
 export default TokenDataView;

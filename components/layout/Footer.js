@@ -23,7 +23,8 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function Footer(props) {
-  const classes = useStyles(props);
+  const { footerPadding = '2rem 0', logoHeight = '1em' } = props;
+  const classes = useStyles({ ...props, footerPadding, logoHeight });
 
   return (
     <footer className={classes.footer}>
@@ -40,9 +41,9 @@ Footer.propTypes = {
   footerPadding: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-Footer.defaultProps = {
-  footerPadding: '2rem 0',
-  logoHeight: '1em'
-};
+// Footer.defaultProps = {
+//   footerPadding: '2rem 0',
+//   logoHeight: '1em'
+// };
 
 export default Footer;

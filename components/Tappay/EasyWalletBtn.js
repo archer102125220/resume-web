@@ -20,7 +20,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function EasyWalletBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -48,9 +48,9 @@ EasyWalletBtn.propTypes = {
   className: PropTypes.string
 };
 
-EasyWalletBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// EasyWalletBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default EasyWalletBtn;

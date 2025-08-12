@@ -37,15 +37,21 @@ const useStyles = makeStyles(styles);
  */
 const Youtube = forwardRef(function Youtube(props, ref) {
   const {
-    videoId,
-    videoUrl,
-    playerVars,
-    autoplay,
-    onReady,
-    onStateChange,
-    onError,
-    onBeforeCreate,
-    onCreated
+    videoId = '',
+    videoUrl = '',
+    playerVars = {
+      rel: 0,
+      controls: 1,
+      showinfo: 0,
+      enablejsapi: 1,
+      wmode: 'opaque'
+    },
+    autoplay = false,
+    onReady = () => {},
+    onStateChange = () => {},
+    onError = () => {},
+    onBeforeCreate = () => {},
+    onCreated = () => {}
   } = props;
   const classes = useStyles(props);
 
@@ -96,23 +102,23 @@ Youtube.propTypes = {
   onCreated: PropTypes.func
 };
 
-Youtube.defaultProps = {
-  videoId: '',
-  videoUrl: '',
-  playerVars: {
-    rel: 0,
-    controls: 1,
-    showinfo: 0,
-    enablejsapi: 1,
-    wmode: 'opaque'
-  },
-  autoplay: false,
+// Youtube.defaultProps = {
+//   videoId: '',
+//   videoUrl: '',
+//   playerVars: {
+//     rel: 0,
+//     controls: 1,
+//     showinfo: 0,
+//     enablejsapi: 1,
+//     wmode: 'opaque'
+//   },
+//   autoplay: false,
 
-  onReady: () => {},
-  onStateChange: () => {},
-  onError: () => {},
-  onBeforeCreate: () => {},
-  onCreated: () => {}
-};
+//   onReady: () => {},
+//   onStateChange: () => {},
+//   onError: () => {},
+//   onBeforeCreate: () => {},
+//   onCreated: () => {}
+// };
 
 export default Youtube;

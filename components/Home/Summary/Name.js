@@ -40,12 +40,10 @@ const useStyles = makeStyles(styles);
 
 function HomeSummaryName(props) {
   const classes = useStyles(props);
+  const { className = '' } = props;
 
   return (
-    <div
-      {...props}
-      className={[classes.summary_name, props.className].join(' ')}
-    >
+    <div {...props} className={[classes.summary_name, className].join(' ')}>
       <AnimationString
         className={classes['summary_name-zhName']}
         label="陳柏杰／CHEN,PO-CHIEH／Parker"
@@ -71,8 +69,8 @@ HomeSummaryName.propTypes = {
   className: PropTypes.string
 };
 
-HomeSummaryName.defaultProps = {
-  className: ''
-};
+// HomeSummaryName.defaultProps = {
+//   className: ''
+// };
 
 export default HomeSummaryName;

@@ -75,24 +75,35 @@ const useStyles = makeStyles(styles);
 
 function ExperienceProdItem(props) {
   const classes = useStyles(props);
+  const {
+    className = '',
+    webUrl = '',
+    webUrlListTitle = '',
+    webUrlList = [],
+    name = '',
+    describeLink = '',
+    summary = '',
+    remark = [],
+    responsible = ''
+  } = props;
 
   return (
-    <li className={[props.className].join(' ')}>
-      {typeof props.webUrl === 'string' && props.webUrl !== '' ? (
+    <li className={[className].join(' ')}>
+      {typeof webUrl === 'string' && webUrl !== '' ? (
         <a
-          href={props.webUrl}
+          href={webUrl}
           target="_blank"
           rel="noreferrer noopenner"
           className={classes['prod_item-describe-linkList-link']}
         >
-          {props.name}
+          {name}
         </a>
       ) : (
-        <span>{props.name}</span>
+        <span>{name}</span>
       )}
-      {typeof props.describeLink === 'string' && props.describeLink !== '' ? (
+      {typeof describeLink === 'string' && describeLink !== '' ? (
         <Link
-          href={props.describeLink}
+          href={describeLink}
           className={classes['prod_item-describe-linkList-link']}
         >
           (前往介紹頁面)
@@ -101,18 +112,17 @@ function ExperienceProdItem(props) {
         ''
       )}
 
-      {typeof props.webUrlListTitle === 'string' &&
-      props.webUrlListTitle !== '' ? (
+      {typeof webUrlListTitle === 'string' && webUrlListTitle !== '' ? (
         <p className={classes['prod_item-sub_link_list_title']}>
-          {props.webUrlListTitle}
+          {webUrlListTitle}
         </p>
       ) : (
         ''
       )}
 
-      {Array.isArray(props.webUrlList) ? (
+      {Array.isArray(webUrlList) ? (
         <ol className={classes['prod_item-sub_link_list']}>
-          {props.webUrlList.map(webUrlItem => (
+          {webUrlList.map(webUrlItem => (
             <li key={webUrlItem.webUrl}>
               {typeof webUrlItem.webUrl === 'string' &&
               webUrlItem.webUrl !== '' ? (
@@ -134,14 +144,12 @@ function ExperienceProdItem(props) {
         ''
       )}
 
-      {typeof props.summary === 'string' && props.summary !== '' && (
-        <p>{props.summary}</p>
+      {typeof summary === 'string' && summary !== '' && <p>{summary}</p>}
+      {Array.isArray(remark) && remark.length > 0 && (
+        <p>*{remark.join('，')}</p>
       )}
-      {Array.isArray(props.remark) && props.remark.length > 0 && (
-        <p>*{props.remark.join('，')}</p>
-      )}
-      {typeof props.responsible === 'string' && props.responsible !== '' && (
-        <p>主要負責：{props.responsible}</p>
+      {typeof responsible === 'string' && responsible !== '' && (
+        <p>主要負責：{responsible}</p>
       )}
     </li>
   );
@@ -159,15 +167,15 @@ ExperienceProdItem.propTypes = {
   responsible: PropTypes.string
 };
 
-ExperienceProdItem.defaultProps = {
-  className: '',
-  webUrl: '',
-  webUrlListTitle: '',
-  webUrlList: [],
-  name: '',
-  describeLink: '',
-  remark: [],
-  responsible: ''
-};
+// ExperienceProdItem.defaultProps = {
+//   className: '',
+//   webUrl: '',
+//   webUrlListTitle: '',
+//   webUrlList: [],
+//   name: '',
+//   describeLink: '',
+//   remark: [],
+//   responsible: ''
+// };
 
 export default ExperienceProdItem;

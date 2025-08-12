@@ -19,7 +19,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function PlusPayBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -46,9 +46,9 @@ PlusPayBtn.propTypes = {
   className: PropTypes.string
 };
 
-PlusPayBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// PlusPayBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default PlusPayBtn;

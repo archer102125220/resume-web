@@ -20,7 +20,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function LinePayBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -48,9 +48,9 @@ LinePayBtn.propTypes = {
   className: PropTypes.string
 };
 
-LinePayBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// LinePayBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default LinePayBtn;

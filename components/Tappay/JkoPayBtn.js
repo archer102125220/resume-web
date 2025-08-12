@@ -20,7 +20,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function JkoPayBtn(props) {
-  const { disabled, onClick, className, ...ortherProps } = props;
+  const { disabled = false, onClick, className = '', ...ortherProps } = props;
   const classes = useStyles();
 
   return (
@@ -48,9 +48,9 @@ JkoPayBtn.propTypes = {
   className: PropTypes.string
 };
 
-JkoPayBtn.defaultProps = {
-  disabled: false,
-  className: ''
-};
+// JkoPayBtn.defaultProps = {
+//   disabled: false,
+//   className: ''
+// };
 
 export default JkoPayBtn;

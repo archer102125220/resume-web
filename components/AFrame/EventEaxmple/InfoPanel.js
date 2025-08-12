@@ -6,7 +6,7 @@ import { useAFrame } from '@/hooks/AFrame/useAFrame';
 import { AFrameStoreSubscriber } from '@/hooks/AFrame/useAFrameStore';
 
 function AFrameInfoPanel({
-  menuButtonClassName,
+  menuButtonClassName = 'menu-button',
   fadeBackgroundId,
   backgroundId,
   mixinMovieImageId,
@@ -108,9 +108,9 @@ AFrameInfoPanel.propTypes = {
   ponyoButtonId: PropTypes.string.isRequired
 };
 
-AFrameInfoPanel.defaultProps = {
-  menuButtonClassName: 'menu-button'
-};
+// AFrameInfoPanel.defaultProps = {
+//   menuButtonClassName: 'menu-button'
+// };
 
 export function useAFrameInfoPanel() {
   const AFrame = useAFrame();
