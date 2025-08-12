@@ -18,10 +18,10 @@ const styles = {
     alignContent: 'space-around',
     alignItems: 'center'
   },
-  'firebase_admin-warning': {
-    color: 'red',
-    fontSize: '24px'
-  },
+  // 'firebase_admin-warning': {
+  //   color: 'red',
+  //   fontSize: '24px'
+  // },
   firebaseAdminButton: {
     ...buttonStyle,
     textAlign: 'center'
@@ -61,9 +61,9 @@ function FirebaseAdmin() {
       <Head>
         <title>Parker Chan 的作品集 - FirebaseAdmin</title>
       </Head>
-      <p className={classes['firebase_admin-warning']}>
+      {/* <p className={classes['firebase_admin-warning']}>
         **此功能目前疑似因為Firebase版本問題，因此目前已無法正常觸發通知功能，將再研究版本差異**
-      </p>
+      </p> */}
 
       <p>
         Firebase原先是因為公司的React Native需要使用Firebase Cloud
