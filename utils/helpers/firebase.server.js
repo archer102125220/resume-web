@@ -55,7 +55,7 @@ export function firebaseServerInit() {
       } else {
         firebaseApp = firebaseAdmin.initializeApp({
           ...firebaseConfig,
-          credential: firebaseAdmin.credential.applicationDefault()
+          credential: firebaseAdmin.credential.cert(JSON.parse(credential))
         });
       }
       if (firebaseAdminAppStore.get('androidFirebase')) {
@@ -64,7 +64,9 @@ export function firebaseServerInit() {
         androidFirebaseApp = firebaseAdmin.initializeApp(
           {
             ...androidFirebaseConfig,
-            credential: firebaseAdmin.credential.applicationDefault()
+            credential: firebaseAdmin.credential.cert(
+              JSON.parse(androidCredential)
+            )
           },
           'androidFirebase'
         );
