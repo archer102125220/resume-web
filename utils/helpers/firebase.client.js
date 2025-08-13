@@ -109,7 +109,12 @@ export async function firebaseMessagingInit() {
       const serviceWorkerRegistration = await getOrRegisterServiceWorker();
 
       const registration = await navigator.serviceWorker.ready;
-      console.log({ registration }, registration.postMessage);
+      console.log({
+        registration,
+        ['registration.installing']: registration.installing,
+        ['registration.waiting']: registration.waiting,
+        ['registration.postMessage']: registration.postMessage
+      });
       registration.postMessage(`${UrlFirebaseConfig}`);
       if (
         typeof registration.waiting === 'object' &&
