@@ -98,8 +98,6 @@ export async function getOrRegisterServiceWorker() {
 }
 
 async function setFirebaseServiceWorkerConfig(resolve, reject) {
-  console.log('setFirebaseServiceWorkerConfig');
-
   try {
     const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
     const serviceWorkerRegistration = await getOrRegisterServiceWorker();
@@ -110,6 +108,8 @@ async function setFirebaseServiceWorkerConfig(resolve, reject) {
     } else {
       setTimeout(() => setFirebaseServiceWorkerConfig(resolve, reject), 100);
     }
+
+    return serviceWorkerRegistration;
   } catch (error) {
     if (typeof reject === 'function') {
       reject(error);
