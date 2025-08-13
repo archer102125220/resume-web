@@ -123,7 +123,7 @@ function TokenDataView({
         spacing={2}
         sx={{ marginTop: '10px', marginBottom: '10px' }}
       >
-        <Grid xs={6} md={8}>
+        <Grid size={{ xs: 6, md: 8 }}>
           <TextField
             label={messageTitle}
             variant="filled"
@@ -132,7 +132,7 @@ function TokenDataView({
             onChange={e => setAppMessage(e.target.value)}
           />
         </Grid>
-        <Grid xs={6} md={4}>
+        <Grid size={{ xs: 6, md: 4 }}>
           <Button
             sx={{ ...buttonStyle, width: '100%' }}
             variant="contained"

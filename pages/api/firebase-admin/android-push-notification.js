@@ -17,7 +17,7 @@ export default async function androidPushMessage(req, res) {
       return;
     }
     const response = await androidFirebaseApp.messaging().sendMulticast({
-      data: { msg: body.data },
+      data: { msg: body.data, title: body.title, img: body.img },
       tokens: body.token
     });
     console.log(response);

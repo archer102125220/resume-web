@@ -15,6 +15,10 @@ import TokenDataView from '@/components/Firebase/TokenDataView';
 function FirebaseCloudMessaging() {
   const [appMessageToken, setAppMessageToken] = useState('');
   const [appMessage, setAppMessage] = useState('appMessage');
+  const [appMessageTitle, setAppMessageTitle] = useState('appMessageTitle');
+  const [appMessageImg, setAppMessageImg] = useState(
+    '/img/favicon/favicon.ico'
+  );
   const [appMessageTokenError, setAppMessageTokenError] = useState(false);
   const appMessageTokens = useSelector(
     ({ firebaseAdmin }) => firebaseAdmin.appMessageTokens || []
@@ -62,11 +66,11 @@ function FirebaseCloudMessaging() {
     [dispatch]
   );
   const POST_PushNotification = useCallback(
-    ({ data, callback } = {}) => {
+    ({ data, title, img, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_PushNotification({
           loading: boloean => SAVE_loading(boloean),
-          payload: { data },
+          payload: { data, title, img },
           callback
         })
       );
@@ -154,7 +158,9 @@ function FirebaseCloudMessaging() {
   }
   function pushNotification() {
     POST_PushNotification({
+      title: appMessageTitle,
       data: appMessage,
+      img: appMessageImg,
       callback(response) {
         console.log({ response });
         const { failureCount = 0, successCount = 0 } = response;
@@ -185,7 +191,7 @@ function FirebaseCloudMessaging() {
         />
       </Box>
       <Grid container spacing={2} sx={{ marginBottom: '10px' }}>
-        <Grid xs={6} md={8}>
+        <Grid size={{ xs: 6, md: 8 }}>
           <TextField
             label="推播Token"
             variant="filled"
@@ -195,7 +201,7 @@ function FirebaseCloudMessaging() {
             onChange={handleSetAppMessageToken}
           />
         </Grid>
-        <Grid xs={6} md={4}>
+        <Grid size={{ xs: 6, md: 4 }}>
           <Button
             sx={{ ...buttonStyle, width: '100%' }}
             variant="contained"
@@ -206,18 +212,40 @@ function FirebaseCloudMessaging() {
         </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ marginBottom: '10px' }}>
-        <Grid xs={6} md={8}>
-          <TextField
-            label="推播訊息"
-            variant="filled"
-            fullWidth
-            value={appMessage}
-            onChange={e => setAppMessage(e.target.value)}
-          />
+        <Grid size={{ xs: 6, md: 8 }}>
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播標題"
+              variant="filled"
+              fullWidth
+              sx={{ marginBottom: '5px' }}
+              value={appMessageTitle}
+              onChange={e => setAppMessageTitle(e.target.value)}
+            />
+          </Grid>
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播訊息"
+              variant="filled"
+              fullWidth
+              sx={{ marginBottom: '5px' }}
+              value={appMessage}
+              onChange={e => setAppMessage(e.target.value)}
+            />
+          </Grid>
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播圖片網址"
+              variant="filled"
+              fullWidth
+              value={appMessageImg}
+              onChange={e => setAppMessageImg(e.target.value)}
+            />
+          </Grid>
         </Grid>
-        <Grid xs={6} md={4}>
+        <Grid size={{ xs: 6, md: 4 }}>
           <Button
-            sx={{ ...buttonStyle, width: '100%' }}
+            sx={{ ...buttonStyle, height: '100%', width: '100%', margin: 0 }}
             variant="contained"
             onClick={pushNotification}
           >

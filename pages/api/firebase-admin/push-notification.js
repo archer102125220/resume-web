@@ -54,7 +54,7 @@ export default async function pushMessage(req, res) {
     if (webTokens.length > 0) {
       promiseArray.push(
         firebaseAdmin.messaging(firebaseApp).sendEachForMulticast({
-          data: { msg: body.data },
+          data: { msg: body.data, title: body.title, img: body.img },
           tokens: webTokens
         })
       );
@@ -62,7 +62,7 @@ export default async function pushMessage(req, res) {
     if (androidTokens.length > 0) {
       promiseArray.push(
         firebaseAdmin.messaging(androidFirebaseApp).sendEachForMulticast({
-          data: { msg: body.data },
+          data: { msg: body.data, title: body.title, img: body.img },
           tokens: androidTokens
         })
       );
@@ -70,7 +70,7 @@ export default async function pushMessage(req, res) {
     if (iosTokens.length > 0) {
       promiseArray.push(
         firebaseAdmin.messaging(iosFirebaseApp).sendEachForMulticast({
-          data: { msg: body.data },
+          data: { msg: body.data, title: body.title, img: body.img },
           tokens: iosTokens
         })
       );

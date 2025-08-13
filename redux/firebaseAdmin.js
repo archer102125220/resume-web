@@ -50,6 +50,7 @@ export const firebaseAdminAsyncThunk = {
     `${name}/POST_PushNotification`,
     async function (arg) {
       const { payload, callback, loading } = arg || {};
+      console.log({ payload });
       if (typeof loading === 'function') loading(true);
       let data;
       try {

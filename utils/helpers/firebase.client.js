@@ -122,9 +122,9 @@ export async function firebaseMessagingInit() {
           //   icon: '/img/favicon/favicon.ico'
           // });
 
-          registration.showNotification('測試', {
+          registration.showNotification(payload.data?.title, {
             body: payload.data?.msg,
-            icon: '/img/favicon/favicon.ico'
+            icon: payload.data?.img || '/img/favicon/favicon.ico'
           });
         } catch (error) {
           console.log(error);
