@@ -97,8 +97,30 @@ export async function getOrRegisterServiceWorker() {
   throw new Error('The browser doesn`t support service worker.');
 }
 
+async function setFirebaseServiceWorkerConfig(resolve, reject) {
+  console.log('setFirebaseServiceWorkerConfig');
+
+  try {
+    const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
+    const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+
+    if (typeof serviceWorkerRegistration?.active?.postMessage === 'function') {
+      serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
+      if (typeof resolve === 'function') resolve(serviceWorkerRegistration);
+    } else {
+      setTimeout(() => setFirebaseServiceWorkerConfig(resolve, reject), 100);
+    }
+  } catch (error) {
+    if (typeof reject === 'function') {
+      reject(error);
+    } else {
+      console.error(error);
+    }
+  }
+}
+
 export async function firebaseMessagingInit() {
-  const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
+  // const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
 
   const isSupport = await isSupported();
 
@@ -106,28 +128,18 @@ export async function firebaseMessagingInit() {
 
   if (typeof window === 'object' && isSupport) {
     try {
-      const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+      // const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+      // serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
+      const serviceWorkerRegistration = await new Promise(
+        setFirebaseServiceWorkerConfig
+      );
 
-      const registration = await navigator.serviceWorker.ready;
-      console.log({
-        serviceWorkerRegistration,
-        ['serviceWorkerRegistration.installing']: serviceWorkerRegistration.installing,
-        ['serviceWorkerRegistration.active']: serviceWorkerRegistration.active,
-        ['serviceWorkerRegistration.waiting']: serviceWorkerRegistration.waiting,
-        ['serviceWorkerRegistration.postMessage']: serviceWorkerRegistration.postMessage,
-        registration,
-        ['registration.installing']: registration.installing,
-        ['registration.active']: registration.active,
-        ['registration.waiting']: registration.waiting,
-        ['registration.postMessage']: registration.postMessage
-      });
-      registration.postMessage(`${UrlFirebaseConfig}`);
       if (
-        typeof registration.waiting === 'object' &&
-        registration.waiting !== null
+        typeof serviceWorkerRegistration.waiting === 'object' &&
+        serviceWorkerRegistration.waiting !== null
       ) {
         window.addEventListener('beforeunload', () => {
-          registration.postMessage('SKIP_WAITING');
+          serviceWorkerRegistration.active.postMessage('SKIP_WAITING');
         });
       }
       // await fetch(swUrl);
@@ -148,7 +160,7 @@ export async function firebaseMessagingInit() {
           //   icon: '/img/favicon/favicon.ico'
           // });
 
-          registration.showNotification(payload.data?.title, {
+          serviceWorkerRegistration.showNotification(payload.data?.title, {
             body: payload.data?.msg,
             icon: payload.data?.img || '/img/favicon/favicon.ico'
           });
