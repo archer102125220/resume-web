@@ -110,8 +110,14 @@ export async function firebaseMessagingInit() {
 
       const registration = await navigator.serviceWorker.ready;
       console.log({
+        serviceWorkerRegistration,
+        ['serviceWorkerRegistration.installing']: serviceWorkerRegistration.installing,
+        ['serviceWorkerRegistration.active']: serviceWorkerRegistration.active,
+        ['serviceWorkerRegistration.waiting']: serviceWorkerRegistration.waiting,
+        ['serviceWorkerRegistration.postMessage']: serviceWorkerRegistration.postMessage,
         registration,
         ['registration.installing']: registration.installing,
+        ['registration.active']: registration.active,
         ['registration.waiting']: registration.waiting,
         ['registration.postMessage']: registration.postMessage
       });
