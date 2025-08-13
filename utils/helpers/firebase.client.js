@@ -115,7 +115,7 @@ export async function firebaseMessagingInit() {
         registration.waiting !== null
       ) {
         window.addEventListener('beforeunload', () => {
-          serviceWorkerRegistration.active.postMessage('SKIP_WAITING');
+          registration.postMessage('SKIP_WAITING');
         });
       }
       // await fetch(swUrl);
