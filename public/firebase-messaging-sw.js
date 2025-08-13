@@ -12,20 +12,36 @@ importScripts(
 // https://medium.com/@sumanthegde123/web-push-notifications-with-react-and-firebase-with-safari-error-handling-d2979d10c9ac
 function loadingFirebaseConfig(event) {
   try {
-    const url = event?.request?.url || '';
-    const search = url.substring(url.indexOf('?') + 1);
-    const urlParams = new URLSearchParams(search);
-    const firebaseConfig = Object.fromEntries(urlParams);
+    // const url = event?.request?.url || '';
+    // const search = url.substring(url.indexOf('?') + 1);
+    // const urlParams = new URLSearchParams(search);
+    // const firebaseConfig = Object.fromEntries(urlParams);
+
+    const dataParams = new URLSearchParams(event?.data);
+    const firebaseConfig = Object.fromEntries(dataParams);
     if (typeof firebaseConfig.apiKey === 'string') {
       self.firebaseConfig = firebaseConfig;
       firebaseInitializeApp(firebaseConfig);
-      self.removeEventListener('fetch', loadingFirebaseConfig);
+      // self.removeEventListener('fetch', loadingFirebaseConfig);
+      self.removeEventListener('message', loadingFirebaseConfig);
     }
   } catch (err) {
     console.error('Failed to add event listener', err);
   }
 }
-self.addEventListener('fetch', loadingFirebaseConfig);
+// self.addEventListener('fetch', loadingFirebaseConfig);
+self.addEventListener('message', loadingFirebaseConfig);
+
+function handleSWUpdate(event) {
+  if (!event.data) {
+    return;
+  }
+
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+}
+self.addEventListener('message', handleSWUpdate);
 
 // "Default" Firebase configuration (prevents errors)
 const defaultConfig = {
