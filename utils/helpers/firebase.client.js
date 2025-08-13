@@ -81,9 +81,6 @@ export async function firebaseClientMessage(
   onMessage(messaging, callback);
 }
 
-const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
-// const swUrl = `/firebase-messaging-sw.js?${UrlFirebaseConfig}`;
-
 export async function getOrRegisterServiceWorker() {
   if (
     'serviceWorker' in navigator &&
@@ -93,20 +90,26 @@ export async function getOrRegisterServiceWorker() {
       '/'
     );
     if (serviceWorker) return serviceWorker;
-    return await window.navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    return await window.navigator.serviceWorker.register(
+      '/firebase-messaging-sw.js'
+    );
   }
   throw new Error('The browser doesn`t support service worker.');
 }
 
 export async function firebaseMessagingInit() {
+  const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
+
   const isSupport = await isSupported();
+
   if (isSupport === false) console.log('FCM is not Supported');
+
   if (typeof window === 'object' && isSupport) {
     try {
       const serviceWorkerRegistration = await getOrRegisterServiceWorker();
 
-      serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
       const registration = await navigator.serviceWorker.ready;
+      registration.postMessage(`${UrlFirebaseConfig}`);
       if (
         typeof registration.waiting === 'object' &&
         registration.waiting !== null
