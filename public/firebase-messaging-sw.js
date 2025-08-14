@@ -100,27 +100,22 @@ function firebaseInitializeApp(firebaseConfig) {
       //   icon: '/firebase-logo.png'
       // };
 
-      const notificationPayload = payload?.data || payload?.notification || {};
+      const notificationTitle =
+        payload?.data?.title || payload?.notification?.title || '';
+      const notificationBody =
+        payload?.data?.msg || payload?.notification?.body || '';
+      const notificationIcon =
+        payload?.data?.img || payload?.notification?.image || '';
 
       // self.registration.showNotification(notificationTitle, notificationOptions);
       if (
-        (typeof notificationPayload?.title === 'string' &&
-          notificationPayload?.title !== '') ||
-        (typeof notificationPayload?.msg === 'string' &&
-          notificationPayload?.msg !== '') ||
-        (typeof notificationPayload?.body === 'string' &&
-          notificationPayload?.body !== '') ||
-        (typeof notificationPayload?.img === 'string' &&
-          notificationPayload?.img !== '') ||
-        (typeof notificationPayload?.image === 'string' &&
-          notificationPayload?.image !== '')
+        (typeof notificationTitle === 'string' && notificationTitle !== '') ||
+        (typeof notificationBody === 'string' && notificationBody !== '') ||
+        (typeof notificationIcon === 'string' && notificationIcon !== '')
       ) {
-        self.registration.showNotification(notificationPayload.title, {
-          body: notificationPayload.msg || notificationPayload.body,
-          icon:
-            notificationPayload.img ||
-            notificationPayload.image ||
-            '/img/favicon/favicon.ico'
+        self.registration.showNotification(notificationTitle, {
+          body: notificationBody,
+          icon: notificationIcon || '/img/favicon/favicon.ico'
         });
       }
     });

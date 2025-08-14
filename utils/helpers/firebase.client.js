@@ -182,18 +182,17 @@ export async function firebaseMessagingInit() {
           //   icon: '/img/favicon/favicon.ico'
           // });
 
-          const notificationPayload =
-            payload?.data || payload?.notification || {};
-          serviceWorkerRegistration.showNotification(
-            notificationPayload.title,
-            {
-              body: notificationPayload.msg || notificationPayload.body,
-              icon:
-                notificationPayload.img ||
-                notificationPayload.image ||
-                '/img/favicon/favicon.ico'
-            }
-          );
+          const notificationTitle =
+            payload?.data?.title || payload?.notification?.title || '';
+          const notificationBody =
+            payload?.data?.msg || payload?.notification?.body || '';
+          const notificationIcon =
+            payload?.data?.img || payload?.notification?.image || '';
+
+          serviceWorkerRegistration.showNotification(notificationTitle, {
+            body: notificationBody,
+            icon: notificationIcon || '/img/favicon/favicon.ico'
+          });
         } catch (error) {
           console.log(error);
           // POST_appErrorLog(error);
