@@ -1,36 +1,32 @@
-// Give the service worker access to Firebase Messaging.
-// Note that you can only use Firebase Messaging here. Other Firebase libraries
-// are not available in the service worker.
-// Replace 11.10.0 with latest version of the Firebase JS SDK.
-importScripts(
-  'https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js'
-);
-importScripts(
-  'https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js'
-);
+import { initializeApp } from 'firebase/app';
+import { getMessaging } from 'firebase/messaging/sw';
+
+import { firebaseConfig } from '@/utils/helpers/firebase.client';
 
 // https://medium.com/@sumanthegde123/web-push-notifications-with-react-and-firebase-with-safari-error-handling-d2979d10c9ac
-function loadingFirebaseConfig(event) {
-  try {
-    // const url = event?.request?.url || '';
-    // const search = url.substring(url.indexOf('?') + 1);
-    // const urlParams = new URLSearchParams(search);
-    // const firebaseConfig = Object.fromEntries(urlParams);
+// function loadingFirebaseConfig(event) {
+//   try {
+//     // const url = event?.request?.url || '';
+//     // const search = url.substring(url.indexOf('?') + 1);
+//     // const urlParams = new URLSearchParams(search);
+//     // const firebaseConfig = Object.fromEntries(urlParams);
 
-    const dataParams = new URLSearchParams(event?.data);
-    const firebaseConfig = Object.fromEntries(dataParams);
-    if (typeof firebaseConfig.apiKey === 'string') {
-      self.firebaseConfig = firebaseConfig;
-      firebaseInitializeApp(firebaseConfig);
-      // self.removeEventListener('fetch', loadingFirebaseConfig);
-      self.removeEventListener('message', loadingFirebaseConfig);
-    }
-  } catch (err) {
-    console.error('Failed to add event listener', err);
-  }
-}
-// self.addEventListener('fetch', loadingFirebaseConfig);
-self.addEventListener('message', loadingFirebaseConfig);
+//     const dataParams = new URLSearchParams(event?.data);
+//     const firebaseConfig = Object.fromEntries(dataParams);
+//     if (typeof firebaseConfig.apiKey === 'string') {
+//       self.firebaseConfig = firebaseConfig;
+//       firebaseInitializeApp(firebaseConfig);
+//       // self.removeEventListener('fetch', loadingFirebaseConfig);
+//       self.removeEventListener('message', loadingFirebaseConfig);
+//     }
+//   } catch (err) {
+//     console.error('Failed to add event listener', err);
+//   }
+// }
+// // self.addEventListener('fetch', loadingFirebaseConfig);
+// self.addEventListener('message', loadingFirebaseConfig);
+
+firebaseInitializeApp(firebaseConfig);
 
 function handleSWUpdate(event) {
   if (!event.data) {
@@ -57,7 +53,7 @@ self.addEventListener('notificationclick', function (event) {
   //   event.waitUntil(clients.openWindow('/'));
   // }
 
-  event.waitUntil(clients.openWindow('/'));
+  event.waitUntil(self.clients.openWindow('/'));
 });
 
 // "Default" Firebase configuration (prevents errors)
@@ -68,19 +64,17 @@ const defaultConfig = {
   appId: true
 };
 
-function firebaseInitializeApp(firebaseConfig) {
+function firebaseInitializeApp(_firebaseConfig) {
   try {
     // Initialize the Firebase app in the service worker by passing in
     // your app's Firebase config object.
     // https://firebase.google.com/docs/web/setup#config-object
     // Set Firebase configuration, once available
-    firebase.initializeApp(
-      self.firebaseConfig || firebaseConfig || defaultConfig
-    );
+    initializeApp(self.firebaseConfig || _firebaseConfig || defaultConfig);
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
-    const messaging = firebase.messaging();
+    const messaging = getMessaging();
 
     /*
       interface MessagePayload {

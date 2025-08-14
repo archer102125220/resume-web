@@ -3,3 +3,4 @@ node_modules
 
 public/ckeditor/*
 firebase-messaging-sw.js
+service-worker.js

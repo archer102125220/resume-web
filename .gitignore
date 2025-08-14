@@ -36,4 +36,6 @@ yarn-error.log*
 # firebase
 *-firebase-adminsdk-*.json
 
+service-worker.js
+
 certificates
