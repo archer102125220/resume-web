@@ -65,11 +65,34 @@ function firebaseInitializeApp(firebaseConfig) {
     // messages.
     const messaging = firebase.messaging();
 
+    /*
+      interface MessagePayload {
+        readonly collapseKey: string; // 僅限 FCM 訊息才有
+        readonly from: string;       // 訊息的發送者
+        readonly messageId: string;  // 訊息的唯一 ID
+        readonly messageType: string; // "push" 或 "data"
+
+        readonly data?: { [key: string]: string }; // 如果有資料訊息，則包含此屬性
+
+        readonly notification?: NotificationPayload; // 如果有通知訊息，則包含此屬性
+
+        readonly rawData: object; // 原始訊息數據，可能包含更多低級別屬性
+      }
+
+      interface NotificationPayload {
+        readonly title: string | undefined;
+        readonly body: string | undefined;
+        readonly image: string | undefined; // 如果設定了通知圖片
+        // 還有其他可能的標準通知屬性，例如 icon, badge, click_action, tag, etc.
+        // 這些屬性通常在 `notification` 物件內部，或者作為 `data` 的一部分，視如何發送而定
+      }
+    */
     messaging.onBackgroundMessage(payload => {
       console.log(
         '[firebase-messaging-sw.js] Received background message ',
         payload
       );
+
       // Customize notification here
       // const notificationTitle = 'Background Message Title';
       // const notificationOptions = {
@@ -77,16 +100,27 @@ function firebaseInitializeApp(firebaseConfig) {
       //   icon: '/firebase-logo.png'
       // };
 
+      const notificationPayload = payload?.data || payload?.notification || {};
+
       // self.registration.showNotification(notificationTitle, notificationOptions);
       if (
-        (typeof payload?.data?.title === 'string' &&
-          payload?.data?.title !== '') ||
-        (typeof payload?.data?.msg === 'string' && payload?.data?.msg !== '') ||
-        (typeof payload?.data?.img === 'string' && payload?.data?.img !== '')
+        (typeof notificationPayload?.title === 'string' &&
+          notificationPayload?.title !== '') ||
+        (typeof notificationPayload?.msg === 'string' &&
+          notificationPayload?.msg !== '') ||
+        (typeof notificationPayload?.body === 'string' &&
+          notificationPayload?.body !== '') ||
+        (typeof notificationPayload?.img === 'string' &&
+          notificationPayload?.img !== '') ||
+        (typeof notificationPayload?.image === 'string' &&
+          notificationPayload?.image !== '')
       ) {
-        self.registration.showNotification(payload.data?.title, {
-          body: payload.data?.msg,
-          icon: payload.data?.img || '/img/favicon/favicon.ico'
+        self.registration.showNotification(notificationPayload.title, {
+          body: notificationPayload.msg || notificationPayload.body,
+          icon:
+            notificationPayload.img ||
+            notificationPayload.image ||
+            '/img/favicon/favicon.ico'
         });
       }
     });

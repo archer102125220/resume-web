@@ -153,6 +153,28 @@ export async function firebaseMessagingInit() {
       await POST_registerMessageToken({ token, os: 'web' });
 
       await requestPermission();
+      /*
+        interface MessagePayload {
+          readonly collapseKey: string; // 僅限 FCM 訊息才有
+          readonly from: string;       // 訊息的發送者
+          readonly messageId: string;  // 訊息的唯一 ID
+          readonly messageType: string; // "push" 或 "data"
+
+          readonly data?: { [key: string]: string }; // 如果有資料訊息，則包含此屬性
+
+          readonly notification?: NotificationPayload; // 如果有通知訊息，則包含此屬性
+
+          readonly rawData: object; // 原始訊息數據，可能包含更多低級別屬性
+        }
+
+        interface NotificationPayload {
+          readonly title: string | undefined;
+          readonly body: string | undefined;
+          readonly image: string | undefined; // 如果設定了通知圖片
+          // 還有其他可能的標準通知屬性，例如 icon, badge, click_action, tag, etc.
+          // 這些屬性通常在 `notification` 物件內部，或者作為 `data` 的一部分，視如何發送而定
+        }
+      */
       firebaseClientMessage(firebaseMessaging, payload => {
         try {
           // new Notification('測試', {
@@ -160,10 +182,18 @@ export async function firebaseMessagingInit() {
           //   icon: '/img/favicon/favicon.ico'
           // });
 
-          serviceWorkerRegistration.showNotification(payload.data?.title, {
-            body: payload.data?.msg,
-            icon: payload.data?.img || '/img/favicon/favicon.ico'
-          });
+          const notificationPayload =
+            payload?.data || payload?.notification || {};
+          serviceWorkerRegistration.showNotification(
+            notificationPayload.title,
+            {
+              body: notificationPayload.msg || notificationPayload.body,
+              icon:
+                notificationPayload.img ||
+                notificationPayload.image ||
+                '/img/favicon/favicon.ico'
+            }
+          );
         } catch (error) {
           console.log(error);
           // POST_appErrorLog(error);
