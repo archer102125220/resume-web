@@ -1,4 +1,9 @@
-import { iosFirebaseApp } from '@/utils/helpers/firebase.server';
+import firebaseAdmin from 'firebase-admin';
+
+import {
+  getIosFirebaseApp
+  // iosFirebaseApp
+} from '@/utils/helpers/firebase.server';
 
 export default async function iosPushMessage(req, res) {
   try {
@@ -16,10 +21,14 @@ export default async function iosPushMessage(req, res) {
       res.status(500).send('Missing parameter: token');
       return;
     }
-    const response = await iosFirebaseApp.messaging().sendMulticast({
-      data: { msg: body.data, title: body.title, img: body.img },
-      tokens: body.token
-    });
+
+    const iosFirebaseApp = getIosFirebaseApp();
+    const response = await firebaseAdmin
+      .messaging(iosFirebaseApp)
+      .sendEachForMulticast({
+        data: { msg: body.data, title: body.title, img: body.img },
+        tokens: body.token
+      });
     console.log(response);
 
     res.status(200).json(response);

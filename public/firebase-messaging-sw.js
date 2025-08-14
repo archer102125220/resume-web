@@ -78,7 +78,12 @@ function firebaseInitializeApp(firebaseConfig) {
       // };
 
       // self.registration.showNotification(notificationTitle, notificationOptions);
-      if (typeof payload?.data?.msg === 'string' && payload?.data?.msg !== '') {
+      if (
+        (typeof payload?.data?.title === 'string' &&
+          payload?.data?.title !== '') ||
+        (typeof payload?.data?.msg === 'string' && payload?.data?.msg !== '') ||
+        (typeof payload?.data?.img === 'string' && payload?.data?.img !== '')
+      ) {
         self.registration.showNotification(payload.data?.title, {
           body: payload.data?.msg,
           icon: payload.data?.img || '/img/favicon/favicon.ico'

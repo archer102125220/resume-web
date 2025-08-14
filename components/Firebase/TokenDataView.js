@@ -18,13 +18,16 @@ import { buttonStyle, buttonLayout } from '@/styles/buttonStyle';
 
 function TokenDataView({
   defaultAppMessage = 'appMessage',
+  defaultMessageTitle = '推播訊息',
+  defaultMessageImg = '/img/favicon/favicon.ico',
   title = 'App Message Tokens',
-  messageTitle = '推播訊息',
   appMessageTokens = [],
   pushNotification = appMessage => appMessage,
   platform = ''
 }) {
   const [appMessage, setAppMessage] = useState(defaultAppMessage);
+  const [appMessageTitle, setAppMessageTitle] = useState(defaultMessageTitle);
+  const [appMessageImg, setAppMessageImg] = useState(defaultMessageImg);
   const dispatch = useDispatch();
   const SAVE_loading = useCallback(
     loading => dispatch({ type: 'system/SAVE_loading', payload: loading }),
@@ -39,6 +42,12 @@ function TokenDataView({
   const informationMessage = useCallback(
     payload => {
       return dispatch({ type: 'system/message_information', payload });
+    },
+    [dispatch]
+  );
+  const warningMessage = useCallback(
+    payload => {
+      return dispatch({ type: 'system/message_warning', payload });
     },
     [dispatch]
   );
@@ -96,12 +105,20 @@ function TokenDataView({
     });
   }
 
-  function handlePushNotification(appMessage) {
+  function handlePushNotification() {
+    if (appMessageTokens.length <= 0) {
+      warningMessage(`尚無${platform}平台token`);
+      return;
+    }
     pushNotification({
       data: appMessage,
-      callback: ({ failureCount = 0, successCount = 0 } = {}) => {
+      title: appMessageTitle,
+      img: appMessageImg,
+      callback(response) {
+        console.log({ response });
+        const { failureCount = 0, successCount = 0 } = response;
         informationMessage(
-          `執行完畢，成功向${successCount}份${platform}裝置發送推播訊息，${failureCount}份裝置發送失敗`
+          `執行完畢，成功向${successCount}份裝置發送推播訊息，${failureCount}份裝置發送失敗`
         );
       }
     });
@@ -124,21 +141,43 @@ function TokenDataView({
         sx={{ marginTop: '10px', marginBottom: '10px' }}
       >
         <Grid size={{ xs: 6, md: 8 }}>
-          <TextField
-            label={messageTitle}
-            variant="filled"
-            fullWidth
-            value={appMessage}
-            onChange={e => setAppMessage(e.target.value)}
-          />
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播標題"
+              variant="filled"
+              fullWidth
+              sx={{ marginBottom: '5px' }}
+              value={appMessageTitle}
+              onChange={e => setAppMessageTitle(e.target.value)}
+            />
+          </Grid>
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播訊息"
+              variant="filled"
+              fullWidth
+              sx={{ marginBottom: '5px' }}
+              value={appMessage}
+              onChange={e => setAppMessage(e.target.value)}
+            />
+          </Grid>
+          <Grid size={{ xs: 3, md: 6 }}>
+            <TextField
+              label="推播圖片網址"
+              variant="filled"
+              fullWidth
+              value={appMessageImg}
+              onChange={e => setAppMessageImg(e.target.value)}
+            />
+          </Grid>
         </Grid>
         <Grid size={{ xs: 6, md: 4 }}>
           <Button
             sx={{ ...buttonStyle, width: '100%' }}
             variant="contained"
-            onClick={(...e) => handlePushNotification(appMessage, ...e)}
+            onClick={handlePushNotification}
           >
-            <p>發送推播訊息</p>
+            <p>發送{platform}推播訊息</p>
           </Button>
         </Grid>
       </Grid>
@@ -186,7 +225,7 @@ TokenDataView.propTypes = {
   defaultAppMessage: PropTypes.string,
   appMessageTokens: PropTypes.array,
   title: PropTypes.string,
-  messageTitle: PropTypes.string,
+  defaultMessageTitle: PropTypes.string,
   pushNotification: PropTypes.func,
   platform: PropTypes.string
 };
@@ -195,7 +234,7 @@ TokenDataView.propTypes = {
 //   defaultAppMessage: 'appMessage',
 //   appMessageTokens: [],
 //   title: 'App Message Tokens',
-//   messageTitle: '推播訊息',
+//   defaultMessageTitle: '推播訊息',
 //   pushNotification: appMessage => appMessage
 // };
 

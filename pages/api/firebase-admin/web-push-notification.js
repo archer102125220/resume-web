@@ -1,4 +1,9 @@
-import { firebaseApp } from '@/utils/helpers/firebase.server';
+import firebaseAdmin from 'firebase-admin';
+
+import {
+  getFirebaseApp
+  // firebaseApp
+} from '@/utils/helpers/firebase.server';
 
 export default async function webPushMessage(req, res) {
   try {
@@ -16,10 +21,14 @@ export default async function webPushMessage(req, res) {
       res.status(500).send('Missing parameter: token');
       return;
     }
-    const response = await firebaseApp.messaging().sendMulticast({
-      data: { msg: body.data, title: body.title, img: body.img },
-      tokens: body.token
-    });
+
+    const firebaseApp = getFirebaseApp();
+    const response = await firebaseAdmin
+      .messaging(firebaseApp)
+      .sendEachForMulticast({
+        data: { msg: body.data, title: body.title, img: body.img },
+        tokens: body.token
+      });
     console.log(response);
 
     res.status(200).json(response);

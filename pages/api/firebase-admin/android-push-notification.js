@@ -1,4 +1,9 @@
-import { androidFirebaseApp } from '@/utils/helpers/firebase.server';
+import firebaseAdmin from 'firebase-admin';
+
+import {
+  getAndroidFirebaseApp
+  // androidFirebaseApp
+} from '@/utils/helpers/firebase.server';
 
 export default async function androidPushMessage(req, res) {
   try {
@@ -16,10 +21,14 @@ export default async function androidPushMessage(req, res) {
       res.status(500).send('Missing parameter: token');
       return;
     }
-    const response = await androidFirebaseApp.messaging().sendMulticast({
-      data: { msg: body.data, title: body.title, img: body.img },
-      tokens: body.token
-    });
+
+    const androidFirebaseApp = getAndroidFirebaseApp();
+    const response = await firebaseAdmin
+      .messaging(androidFirebaseApp)
+      .sendEachForMulticast({
+        data: { msg: body.data, title: body.title, img: body.img },
+        tokens: body.token
+      });
     console.log(response);
 
     res.status(200).json(response);

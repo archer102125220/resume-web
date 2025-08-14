@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -78,13 +79,15 @@ function FirebaseCloudMessaging() {
     [dispatch]
   );
   const POST_AndroidPushNotification = useCallback(
-    ({ data, callback } = {}) => {
+    ({ data, title, img, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_AndroidPushNotification({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('android'),
-            data
+            data,
+            title,
+            img
           },
           callback
         })
@@ -93,13 +96,15 @@ function FirebaseCloudMessaging() {
     [dispatch, appMessageTokens]
   );
   const POST_IosPushNotification = useCallback(
-    ({ data, callback } = {}) => {
+    ({ data, title, img, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_IosPushNotification({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('ios'),
-            data
+            data,
+            title,
+            img
           },
           callback
         })
@@ -108,13 +113,15 @@ function FirebaseCloudMessaging() {
     [dispatch, appMessageTokens]
   );
   const POST_WebPushMessage = useCallback(
-    ({ data, callback } = {}) => {
+    ({ data, title, img, callback } = {}) => {
       return dispatch(
         firebaseAdminAsyncThunk.POST_WebPushMessage({
           loading: boloean => SAVE_loading(boloean),
           payload: {
             token: tokenFilter('web'),
-            data
+            data,
+            title,
+            img
           },
           callback
         })
@@ -162,7 +169,6 @@ function FirebaseCloudMessaging() {
       data: appMessage,
       img: appMessageImg,
       callback(response) {
-        console.log({ response });
         const { failureCount = 0, successCount = 0 } = response;
         informationMessage(
           `執行完畢，成功向${successCount}份裝置發送推播訊息，${failureCount}份裝置發送失敗`
@@ -255,25 +261,33 @@ function FirebaseCloudMessaging() {
       </Grid>
       <TokenDataView
         platform="web"
-        messageTitle="Web推播訊息"
-        title="Web Message Tokens"
+        defaultMessageTitle="Web推播訊息"
         defaultAppMessage="WebAppMessage"
+        defaultMessageImg="/img/favicon/favicon.ico"
+        title="Web Message Tokens"
         pushNotification={POST_WebPushMessage}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'web')}
       />
+      <Box sx={{ marginTop: '10px', marginBottom: '10px' }}>
+        <Typography>
+          android及ios平台目前由於沒有相關的專案，因此主要留作以後以防萬一的測試用功能
+        </Typography>
+      </Box>
       <TokenDataView
         platform="android"
-        messageTitle="Android推播訊息"
-        title="Android Message Tokens"
+        defaultMessageTitle="Android推播訊息"
         defaultAppMessage="AndroidAppMessage"
+        defaultMessageImg="/img/favicon/favicon.ico"
+        title="Android Message Tokens"
         pushNotification={POST_AndroidPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'android')}
       />
       <TokenDataView
         platform="ios"
-        messageTitle="Ios推播訊息"
-        title="Ios Message Tokens"
+        defaultMessageTitle="Ios推播訊息"
         defaultAppMessage="IosAppMessage"
+        defaultMessageImg="/img/favicon/favicon.ico"
+        title="Ios Message Tokens"
         pushNotification={POST_IosPushNotification}
         appMessageTokens={appMessageTokens.filter(({ os }) => os === 'ios')}
       />
