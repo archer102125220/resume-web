@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging } from 'firebase/messaging/sw';
+import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 
 import { firebaseConfig } from '@/utils/helpers/firebase.client';
 
@@ -71,7 +71,7 @@ function firebaseInitializeApp(_firebaseConfig) {
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
-    const newFirebaseMessaging = getMessaging();
+    const newFirebaseMessaging = getMessaging(newFirebase);
 
     /*
       interface MessagePayload {
@@ -95,7 +95,7 @@ function firebaseInitializeApp(_firebaseConfig) {
         // 這些屬性通常在 `notification` 物件內部，或者作為 `data` 的一部分，視如何發送而定
       }
     */
-    newFirebaseMessaging.onBackgroundMessage(payload => {
+    onBackgroundMessage(newFirebaseMessaging, payload => {
       console.log(
         '[firebase-messaging.js] Received background message ',
         payload
