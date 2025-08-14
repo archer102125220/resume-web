@@ -90,9 +90,12 @@ export async function getOrRegisterServiceWorker() {
       '/'
     );
     if (serviceWorker) return serviceWorker;
-    return await window.navigator.serviceWorker.register(
-      '/firebase-messaging-sw.js'
-    );
+    // return await window.navigator.serviceWorker.register(
+    //   '/firebase-messaging-sw.js'
+    // );
+    return await window.navigator.serviceWorker.register('/service-worker.js', {
+      scope: '/'
+    });
   }
   throw new Error('The browser doesn`t support service worker.');
 }
@@ -148,6 +151,7 @@ export async function firebaseMessagingInit() {
         vapidKey: process.env.FIREBASE_VAPID_KEY
       });
       const token = await getToken(firebaseMessaging, {
+        vapidKey: process.env.FIREBASE_VAPID_KEY,
         serviceWorkerRegistration
       });
       await POST_registerMessageToken({ token, os: 'web' });

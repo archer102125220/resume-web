@@ -1,12 +1,12 @@
 // Give the service worker access to Firebase Messaging.
 // Note that you can only use Firebase Messaging here. Other Firebase libraries
 // are not available in the service worker.
-// Replace 10.13.2 with latest version of the Firebase JS SDK.
+// Replace 11.10.0 with latest version of the Firebase JS SDK.
 importScripts(
-  'https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js'
+  'https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js'
 );
 importScripts(
-  'https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js'
+  'https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js'
 );
 
 // https://medium.com/@sumanthegde123/web-push-notifications-with-react-and-firebase-with-safari-error-handling-d2979d10c9ac
@@ -42,6 +42,23 @@ function handleSWUpdate(event) {
   }
 }
 self.addEventListener('message', handleSWUpdate);
+
+self.addEventListener('notificationclick', function (event) {
+  // 關閉通知
+  event.notification.close();
+
+  // // 檢查是否已定義 action
+  // if (event.action === 'some_action') {
+  //   // 執行與特定 action 相關的程式碼
+  //   // 例如，開啟特定頁面
+  //   event.waitUntil(clients.openWindow('/specific-page.html'));
+  // } else {
+  //   // 處理預設點擊行為
+  //   event.waitUntil(clients.openWindow('/'));
+  // }
+
+  event.waitUntil(clients.openWindow('/'));
+});
 
 // "Default" Firebase configuration (prevents errors)
 const defaultConfig = {
