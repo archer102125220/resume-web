@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "sequelize": "./node_modules/.bin/sequelize",
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
-    "dev-https": "cross-env NODE_OPTIONS='--inspect' next dev --experimental-https -H 0.0.0.0 -p 3000",
+    "dev": "yarn buildSW && cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
+    "dev-https": "yarn buildSW && cross-env NODE_OPTIONS='--inspect' next dev --experimental-https -H 0.0.0.0 -p 3000",
     "buildSW": "node ./esbuild.js",
     "build": "yarn buildSW && next build",
     "start": "next start -p 3002",
