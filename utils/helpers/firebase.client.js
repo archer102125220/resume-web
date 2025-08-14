@@ -19,7 +19,7 @@ import { POST_appErrorLog } from '@/services/appErrorLog';
 // const firebaseAdmin = require('firebase-admin');
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// For Firebase JS SDK v11.10.0 and later, measurementId is optional
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'resume-web-bcdbb.firebaseapp.com',
@@ -100,27 +100,27 @@ export async function getOrRegisterServiceWorker() {
   throw new Error('The browser doesn`t support service worker.');
 }
 
-async function setFirebaseServiceWorkerConfig(resolve, reject) {
-  try {
-    const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
-    const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+// async function setFirebaseServiceWorkerConfig(resolve, reject) {
+//   try {
+//     const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
+//     const serviceWorkerRegistration = await getOrRegisterServiceWorker();
 
-    if (typeof serviceWorkerRegistration?.active?.postMessage === 'function') {
-      serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
-      if (typeof resolve === 'function') resolve(serviceWorkerRegistration);
-    } else {
-      setTimeout(() => setFirebaseServiceWorkerConfig(resolve, reject), 100);
-    }
+//     if (typeof serviceWorkerRegistration?.active?.postMessage === 'function') {
+//       serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
+//       if (typeof resolve === 'function') resolve(serviceWorkerRegistration);
+//     } else {
+//       setTimeout(() => setFirebaseServiceWorkerConfig(resolve, reject), 100);
+//     }
 
-    return serviceWorkerRegistration;
-  } catch (error) {
-    if (typeof reject === 'function') {
-      reject(error);
-    } else {
-      console.error(error);
-    }
-  }
-}
+//     return serviceWorkerRegistration;
+//   } catch (error) {
+//     if (typeof reject === 'function') {
+//       reject(error);
+//     } else {
+//       console.error(error);
+//     }
+//   }
+// }
 
 export async function firebaseMessagingInit() {
   // const UrlFirebaseConfig = new URLSearchParams(firebaseConfig);
@@ -131,11 +131,11 @@ export async function firebaseMessagingInit() {
 
   if (typeof window === 'object' && isSupport) {
     try {
-      // const serviceWorkerRegistration = await getOrRegisterServiceWorker();
+      const serviceWorkerRegistration = await getOrRegisterServiceWorker();
       // serviceWorkerRegistration.active.postMessage(`${UrlFirebaseConfig}`);
-      const serviceWorkerRegistration = await new Promise(
-        setFirebaseServiceWorkerConfig
-      );
+      // const serviceWorkerRegistration = await new Promise(
+      //   setFirebaseServiceWorkerConfig
+      // );
 
       if (
         typeof serviceWorkerRegistration.waiting === 'object' &&

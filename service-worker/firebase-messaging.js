@@ -26,7 +26,10 @@ import { firebaseConfig } from '@/utils/helpers/firebase.client';
 // // self.addEventListener('fetch', loadingFirebaseConfig);
 // self.addEventListener('message', loadingFirebaseConfig);
 
-firebaseInitializeApp(firebaseConfig);
+const { firebase, firebaseMessaging } = firebaseInitializeApp(firebaseConfig);
+
+self.firebase = firebase;
+self.firebaseMessaging = firebaseMessaging;
 
 function handleSWUpdate(event) {
   if (!event.data) {
@@ -56,25 +59,19 @@ self.addEventListener('notificationclick', function (event) {
   event.waitUntil(self.clients.openWindow('/'));
 });
 
-// "Default" Firebase configuration (prevents errors)
-const defaultConfig = {
-  apiKey: true,
-  projectId: true,
-  messagingSenderId: true,
-  appId: true
-};
-
 function firebaseInitializeApp(_firebaseConfig) {
   try {
     // Initialize the Firebase app in the service worker by passing in
     // your app's Firebase config object.
     // https://firebase.google.com/docs/web/setup#config-object
     // Set Firebase configuration, once available
-    initializeApp(self.firebaseConfig || _firebaseConfig || defaultConfig);
+    const newFirebase = initializeApp(
+      self.firebaseConfig || _firebaseConfig || firebaseConfig
+    );
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
-    const messaging = getMessaging();
+    const newFirebaseMessaging = getMessaging();
 
     /*
       interface MessagePayload {
@@ -98,9 +95,9 @@ function firebaseInitializeApp(_firebaseConfig) {
         // 這些屬性通常在 `notification` 物件內部，或者作為 `data` 的一部分，視如何發送而定
       }
     */
-    messaging.onBackgroundMessage(payload => {
+    newFirebaseMessaging.onBackgroundMessage(payload => {
       console.log(
-        '[firebase-messaging-sw.js] Received background message ',
+        '[firebase-messaging.js] Received background message ',
         payload
       );
 
@@ -130,7 +127,9 @@ function firebaseInitializeApp(_firebaseConfig) {
         });
       }
     });
+
+    return { firebase: newFirebase, firebaseMessaging: newFirebaseMessaging };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
