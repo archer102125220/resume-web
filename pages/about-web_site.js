@@ -37,7 +37,7 @@ const useStyles = makeStyles(styles);
 function AboutWebSite() {
   const classes = useStyles();
 
-  useGTMTrack({ event: 'scnOpen', url: '/external-link' });
+  useGTMTrack({ event: 'scnOpen', url: '/about-web_site' });
 
   return (
     <div>

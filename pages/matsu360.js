@@ -28,7 +28,7 @@ const useStyles = makeStyles(styles);
 
 function Matsu360() {
   const classes = useStyles();
-  useGTMTrack({ event: 'scnOpen', url: '/bbshop' });
+  useGTMTrack({ event: 'scnOpen', url: '/matsu360' });
 
   return (
     <div>
