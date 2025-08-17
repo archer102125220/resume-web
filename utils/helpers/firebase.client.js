@@ -187,11 +187,11 @@ export async function firebaseMessagingInit() {
           // });
 
           const notificationTitle =
-            payload?.data?.title || payload?.notification?.title || '';
+            payload?.notification?.title || payload?.data?.title || '';
           const notificationBody =
-            payload?.data?.msg || payload?.notification?.body || '';
+            payload?.notification?.body || payload?.data?.msg || '';
           const notificationIcon =
-            payload?.data?.img || payload?.notification?.image || '';
+            payload?.notification?.image || payload?.data?.img || '';
 
           serviceWorkerRegistration.showNotification(notificationTitle, {
             body: notificationBody,

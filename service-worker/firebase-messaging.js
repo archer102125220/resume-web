@@ -109,11 +109,11 @@ function firebaseInitializeApp(_firebaseConfig) {
       // };
 
       const notificationTitle =
-        payload?.data?.title || payload?.notification?.title || '';
+        payload?.notification?.title || payload?.data?.title || '';
       const notificationBody =
-        payload?.data?.msg || payload?.notification?.body || '';
+        payload?.notification?.body || payload?.data?.msg || '';
       const notificationIcon =
-        payload?.data?.img || payload?.notification?.image || '';
+        payload?.notification?.image || payload?.data?.img || '';
 
       // self.registration.showNotification(notificationTitle, notificationOptions);
       if (
