@@ -15,6 +15,14 @@ const EXPERIENCE_DATA = [
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
+    endDate: {
+      year: '2026',
+      animationYearStart: 1000,
+      animationYearDuration: 1000,
+      month: '1',
+      animationMonthStart: 0,
+      animationMonthDuration: 1000
+    },
     isStillWorking: true,
     remark: ['部分遠端工作', '為尋求能提供更具成長性的發展機會，以及與公司營運績效連動的薪資與技能提升空間，故探索新的職涯發展機會'],
     describe: '維護現有的直播平台，並根據客戶需求做調整',
