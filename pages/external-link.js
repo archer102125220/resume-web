@@ -28,7 +28,7 @@ const styles = {
     }
   },
   externalLinkImg: {
-    width: '200px'
+    width: '150px'
   }
 };
 
@@ -61,8 +61,8 @@ function ExternalLink() {
             src="/img/NuxtRock.v.10.4.webp"
             alt="Parker's Nuxt Lab"
             className={classes.externalLinkImg}
-            width={200}
-            height={50}
+            width={150}
+            height={150}
           />
         </Button>
 
@@ -77,11 +77,11 @@ function ExternalLink() {
         >
           <p>Parker 的 Next.js 實驗室</p>
           <Image
-            src="/img/Next.jsLab.v.01.webp"
+            src="/img/Next.jsLab.v.02.webp"
             alt="Parker's Next.js Lab"
             className={classes.externalLinkImg}
-            width={200}
-            height={50}
+            width={150}
+            height={150}
           />
         </Button>
       </div>
