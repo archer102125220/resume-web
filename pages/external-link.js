@@ -77,7 +77,7 @@ function ExternalLink() {
         >
           <p>Parker 的 Next.js 實驗室</p>
           <Image
-            src="/img/Next.jsLab.v.02.webp"
+            src="/img/Next.jsLab.v.03.webp"
             alt="Parker's Next.js Lab"
             className={classes.externalLinkImg}
             width={150}
