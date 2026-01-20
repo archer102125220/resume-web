@@ -58,8 +58,27 @@ function ExternalLink() {
         >
           <p>Parker 的 Nuxt 實驗室</p>
           <Image
-            src="/img/nuxt-icon-green.svg"
-            alt="Nuxt Logo"
+            src="/img/NuxtRock.v.10.4.webp"
+            alt="Parker's Nuxt Lab"
+            className={classes.externalLinkImg}
+            width={200}
+            height={50}
+          />
+        </Button>
+
+        
+        <Button
+          className={classes.externalLinkButton}
+          component="a"
+          target="_blank"
+          variant="contained"
+          rel="noreferrer noopenner"
+          href="https://parker-nextjs-lab.vercel.app"
+        >
+          <p>Parker 的 Next.js 實驗室</p>
+          <Image
+            src="/img/Next.jsLab.v.01.webp"
+            alt="Parker's Next.js Lab"
             className={classes.externalLinkImg}
             width={200}
             height={50}
