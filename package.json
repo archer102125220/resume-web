@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development yarn buildSW && NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
     "dev-https": "cross-env NODE_ENV=development yarn buildSW && cross-env NODE_OPTIONS='--inspect' next dev --experimental-https -H 0.0.0.0 -p 3000",
     "buildSW": "node ./esbuild.config.js",
-    "build": "cross-env NODE_ENV=production yarn buildSW && next build",
+    "build": "cross-env NODE_ENV=production yarn buildSW && next build && next-sitemap",
     "start": "next start -p 3001",
     "lint": "next lint",
     "export": "cross-env NODE_ENV=production STATIC=true yarn buildSW && cross-env STATIC=true next build && cross-env STATIC=true next export",
@@ -18,8 +18,7 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
     "seed": "sequelize db:seed",
-    "seedAll": "sequelize db:seed:all",
-    "postbuild": "next-sitemap"
+    "seedAll": "sequelize db:seed:all"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^37.1.0",
