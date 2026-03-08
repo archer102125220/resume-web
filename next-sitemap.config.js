@@ -5,7 +5,7 @@ module.exports = {
   sitemapSize: 7000,       // 每個 sitemap 檔案的最大連結數
 
   // 強制讓它去找 Vercel 建置出來的資料夾
-  sourceDir: '.next',
+  sourceDir: './build',
   outDir: 'public',
 
   // 排除不需要出現在 sitemap 的路徑
