@@ -84,13 +84,12 @@ export default class NextDocument extends Document {
             <link key={index + '-link'} rel={linkTag.rel} href={linkTag.href} />
           ))}
           <GlobalStyles />
-          <meta name="google-site-verification" content={process.env.GOOGLE_SITE_VERIFICATION} />
+          <meta
+            name="google-site-verification"
+            content={process.env.GOOGLE_SITE_VERIFICATION}
+          />
         </Head>
         <body>
-          <Main />
-          <NextScript />
-        </body>
-        {typeof window === 'object' ? (
           <noscript>
             <iframe
               src={
@@ -102,7 +101,9 @@ export default class NextDocument extends Document {
               style="display:none;visibility:hidden"
             ></iframe>
           </noscript>
-        ) : null}
+          <Main />
+          <NextScript />
+        </body>
       </Html>
     );
   }
