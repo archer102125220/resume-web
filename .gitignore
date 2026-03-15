@@ -39,3 +39,7 @@ yarn-error.log*
 service-worker.js
 
 certificates
+
+robots.txt
+sitemap.xml
+sitemap-*.xml
