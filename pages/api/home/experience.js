@@ -94,7 +94,7 @@ const EXPERIENCE_DATA = [
         name: '愛嬉遊臺灣青年旅館聯盟',
         summary:
           '本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。',
-        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合。',
+        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合並於 Google Search Console 進行網站註冊與SEO優化。',
         describeLink: '/isu'
       }
     ]
