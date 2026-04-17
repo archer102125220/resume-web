@@ -17,8 +17,6 @@ export async function contentSecurityPolicyMiddleware(request) {
   }
 
   console.log('____contentSecurityPolicy____');
-
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   //   const cspHeader = `
   //     default-src 'self';
   //     script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
@@ -38,11 +36,11 @@ export async function contentSecurityPolicyMiddleware(request) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'self';
-    img-src 'self' data: https://js.tappaysdk.com;
+    img-src 'self' data: https://js.tappaysdk.com https://www.google-analytics.com https://stats.g.doubleclick.net;
     object-src 'none';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.tappaysdk.com;
-    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://firebase.googleapis.com https://fcmregistrations.googleapis.com https://analytics.google.com https://stats.g.doubleclick.net;
     frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://*.tappaysdk.com;
     upgrade-insecure-requests;
 `;
@@ -52,13 +50,11 @@ export async function contentSecurityPolicyMiddleware(request) {
     .replace(/\s{2,}/g, ' ')
     .trim();
 
-  requestHeaders.set('x-nonce', nonce);
   requestHeaders.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
   );
 
-  response.headers.set('x-nonce', nonce);
   response.headers.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
