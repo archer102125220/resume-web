@@ -17,8 +17,6 @@ export async function contentSecurityPolicyMiddleware(request) {
   }
 
   console.log('____contentSecurityPolicy____');
-
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   //   const cspHeader = `
   //     default-src 'self';
   //     script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
@@ -40,25 +38,22 @@ export async function contentSecurityPolicyMiddleware(request) {
     frame-ancestors 'self';
     img-src 'self' data: https://js.tappaysdk.com;
     object-src 'none';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.tappaysdk.com;
     connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
     frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://*.tappaysdk.com;
     upgrade-insecure-requests;
 `;
 
-  // Replace newline characters and spaces
   const contentSecurityPolicyHeaderValue = cspHeader
     .replace(/\s{2,}/g, ' ')
     .trim();
 
-  requestHeaders.set('x-nonce', nonce);
   requestHeaders.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
   );
 
-  response.headers.set('x-nonce', nonce);
   response.headers.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
