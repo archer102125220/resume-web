@@ -17,6 +17,8 @@ export async function contentSecurityPolicyMiddleware(request) {
   }
 
   console.log('____contentSecurityPolicy____');
+
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   //   const cspHeader = `
   //     default-src 'self';
   //     script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
@@ -50,11 +52,13 @@ export async function contentSecurityPolicyMiddleware(request) {
     .replace(/\s{2,}/g, ' ')
     .trim();
 
+  requestHeaders.set('x-nonce', nonce);
   requestHeaders.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
   );
 
+  response.headers.set('x-nonce', nonce);
   response.headers.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
