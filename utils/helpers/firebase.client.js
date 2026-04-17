@@ -21,13 +21,13 @@ import { POST_appErrorLog } from '@/services/appErrorLog';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v11.10.0 and later, measurementId is optional
 export const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: 'resume-web-bcdbb.firebaseapp.com',
   projectId: 'resume-web-bcdbb',
   storageBucket: 'resume-web-bcdbb.appspot.com',
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.GA_ID
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_GA_ID
 };
 
 export let firebaseApp;
@@ -148,10 +148,10 @@ export async function firebaseMessagingInit() {
       // await fetch(swUrl);
 
       firebaseMessaging = getMessaging(firebaseApp, {
-        vapidKey: process.env.FIREBASE_VAPID_KEY
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
       });
       const token = await getToken(firebaseMessaging, {
-        vapidKey: process.env.FIREBASE_VAPID_KEY,
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
         serviceWorkerRegistration
       });
       await POST_registerMessageToken({ token, os: 'web' });

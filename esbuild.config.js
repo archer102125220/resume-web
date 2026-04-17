@@ -30,27 +30,27 @@ async function handleEsbuild() {
   //           process.env.AXIOS_BASE_URL || '/'
   //         }"`,
 
-  //         'process.env.FIREBASE_API_KEY': `"${process.env.FIREBASE_API_KEY}"`,
+  //         'process.env.NEXT_PUBLIC_FIREBASE_API_KEY': `"${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}"`,
   //         'process.env.ANDROID_FIREBASE_CREDENTIAL':
   //           process.env.ANDROID_FIREBASE_CREDENTIAL,
   //         'process.env.FIREBASE_CREDENTIAL': process.env.FIREBASE_CREDENTIAL,
   //         'process.env.IOS_FIREBASE_CREDENTIAL':
   //           process.env.IOS_FIREBASE_CREDENTIAL,
-  //         'process.env.MESSAGING_SENDER_ID': `"${process.env.MESSAGING_SENDER_ID}"`,
+  //         'process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID': `"${process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID}"`,
 
-  //         'process.env.GA_ID': `"${process.env.GA_ID}"`,
-  //         'process.env.GTM_ID': `"${process.env.GTM_ID}"`,
+  //         'process.env.NEXT_PUBLIC_GA_ID': `"${process.env.NEXT_PUBLIC_GA_ID}"`,
+  //         'process.env.NEXT_PUBLIC_GTM_ID': `"${process.env.NEXT_PUBLIC_GTM_ID}"`,
 
-  //         'process.env.APP_ID': `"${process.env.APP_ID}"`,
-  //         'process.env.TAPPAY_DOMAIN': `"${process.env.TAPPAY_DOMAIN}"`,
-  //         'process.env.TAPPAY_APP_ID': `"${process.env.TAPPAY_APP_ID}"`,
-  //         'process.env.TAPPAY_APP_KEY': `"${process.env.TAPPAY_APP_KEY}"`,
-  //         'process.env.TAPPAY_PROD': `"${process.env.TAPPAY_PROD === 'true'}"`,
-  //         'process.env.TAPPAY_PARTNER_KEY': `"${process.env.TAPPAY_PARTNER_KEY}"`,
-  //         'process.env.TAPPAY_FRONTEND_DOMAIN': `"${process.env.TAPPAY_FRONTEND_DOMAIN}"`,
+  //         'process.env.NEXT_PUBLIC_APP_ID': `"${process.env.NEXT_PUBLIC_APP_ID}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_DOMAIN}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_APP_ID': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_ID}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_APP_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_KEY}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_PROD': `"${process.env.NEXT_PUBLIC_TAPPAY_PROD === 'true'}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY}"`,
+  //         'process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}"`,
 
-  //         'process.env.MERCHANT_ID': `"${process.env.MERCHANT_ID}"`,
-  //         'process.env.MERCHANT_NAME': `"${process.env.MERCHANT_NAME}"`
+  //         'process.env.NEXT_PUBLIC_MERCHANT_ID': `"${process.env.NEXT_PUBLIC_MERCHANT_ID}"`,
+  //         'process.env.NEXT_PUBLIC_MERCHANT_NAME': `"${process.env.NEXT_PUBLIC_MERCHANT_NAME}"`
   //       }
   //     });
   //     console.log('⚡Bundle build complete ⚡');
@@ -73,27 +73,27 @@ async function handleEsbuild() {
 
   //       'process.env.AXIOS_BASE_URL': `"${process.env.AXIOS_BASE_URL || '/'}"`,
 
-  //       'process.env.FIREBASE_API_KEY': `"${process.env.FIREBASE_API_KEY}"`,
+  //       'process.env.NEXT_PUBLIC_FIREBASE_API_KEY': `"${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}"`,
   //       'process.env.ANDROID_FIREBASE_CREDENTIAL':
   //         process.env.ANDROID_FIREBASE_CREDENTIAL,
   //       'process.env.FIREBASE_CREDENTIAL': process.env.FIREBASE_CREDENTIAL,
   //       'process.env.IOS_FIREBASE_CREDENTIAL':
   //         process.env.IOS_FIREBASE_CREDENTIAL,
-  //       'process.env.MESSAGING_SENDER_ID': `"${process.env.MESSAGING_SENDER_ID}"`,
+  //       'process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID': `"${process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID}"`,
 
-  //       'process.env.GA_ID': `"${process.env.GA_ID}"`,
-  //       'process.env.GTM_ID': `"${process.env.GTM_ID}"`,
+  //       'process.env.NEXT_PUBLIC_GA_ID': `"${process.env.NEXT_PUBLIC_GA_ID}"`,
+  //       'process.env.NEXT_PUBLIC_GTM_ID': `"${process.env.NEXT_PUBLIC_GTM_ID}"`,
 
-  //       'process.env.APP_ID': `"${process.env.APP_ID}"`,
-  //       'process.env.TAPPAY_DOMAIN': `"${process.env.TAPPAY_DOMAIN}"`,
-  //       'process.env.TAPPAY_APP_ID': `"${process.env.TAPPAY_APP_ID}"`,
-  //       'process.env.TAPPAY_APP_KEY': `"${process.env.TAPPAY_APP_KEY}"`,
-  //       'process.env.TAPPAY_PROD': `"${process.env.TAPPAY_PROD === 'true'}"`,
-  //       'process.env.TAPPAY_PARTNER_KEY': `"${process.env.TAPPAY_PARTNER_KEY}"`,
-  //       'process.env.TAPPAY_FRONTEND_DOMAIN': `"${process.env.TAPPAY_FRONTEND_DOMAIN}"`,
+  //       'process.env.NEXT_PUBLIC_APP_ID': `"${process.env.NEXT_PUBLIC_APP_ID}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_DOMAIN}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_APP_ID': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_ID}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_APP_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_KEY}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_PROD': `"${process.env.NEXT_PUBLIC_TAPPAY_PROD === 'true'}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY}"`,
+  //       'process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}"`,
 
-  //       'process.env.MERCHANT_ID': `"${process.env.MERCHANT_ID}"`,
-  //       'process.env.MERCHANT_NAME': `"${process.env.MERCHANT_NAME}"`
+  //       'process.env.NEXT_PUBLIC_MERCHANT_ID': `"${process.env.NEXT_PUBLIC_MERCHANT_ID}"`,
+  //       'process.env.NEXT_PUBLIC_MERCHANT_NAME': `"${process.env.NEXT_PUBLIC_MERCHANT_NAME}"`
   //     }
   //   });
 
@@ -116,27 +116,27 @@ async function handleEsbuild() {
 
         'process.env.AXIOS_BASE_URL': `"${process.env.AXIOS_BASE_URL || '/'}"`,
 
-        'process.env.FIREBASE_API_KEY': `"${process.env.FIREBASE_API_KEY}"`,
+        'process.env.NEXT_PUBLIC_FIREBASE_API_KEY': `"${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}"`,
         'process.env.ANDROID_FIREBASE_CREDENTIAL':
           process.env.ANDROID_FIREBASE_CREDENTIAL,
         'process.env.FIREBASE_CREDENTIAL': process.env.FIREBASE_CREDENTIAL,
         'process.env.IOS_FIREBASE_CREDENTIAL':
           process.env.IOS_FIREBASE_CREDENTIAL,
-        'process.env.MESSAGING_SENDER_ID': `"${process.env.MESSAGING_SENDER_ID}"`,
+        'process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID': `"${process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID}"`,
 
-        'process.env.GA_ID': `"${process.env.GA_ID}"`,
-        'process.env.GTM_ID': `"${process.env.GTM_ID}"`,
+        'process.env.NEXT_PUBLIC_GA_ID': `"${process.env.NEXT_PUBLIC_GA_ID}"`,
+        'process.env.NEXT_PUBLIC_GTM_ID': `"${process.env.NEXT_PUBLIC_GTM_ID}"`,
 
-        'process.env.APP_ID': `"${process.env.APP_ID}"`,
-        'process.env.TAPPAY_DOMAIN': `"${process.env.TAPPAY_DOMAIN}"`,
-        'process.env.TAPPAY_APP_ID': `"${process.env.TAPPAY_APP_ID}"`,
-        'process.env.TAPPAY_APP_KEY': `"${process.env.TAPPAY_APP_KEY}"`,
-        'process.env.TAPPAY_PROD': `"${process.env.TAPPAY_PROD === 'true'}"`,
-        'process.env.TAPPAY_PARTNER_KEY': `"${process.env.TAPPAY_PARTNER_KEY}"`,
-        'process.env.TAPPAY_FRONTEND_DOMAIN': `"${process.env.TAPPAY_FRONTEND_DOMAIN}"`,
+        'process.env.NEXT_PUBLIC_APP_ID': `"${process.env.NEXT_PUBLIC_APP_ID}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_DOMAIN}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_APP_ID': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_ID}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_APP_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_APP_KEY}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_PROD': `"${process.env.NEXT_PUBLIC_TAPPAY_PROD === 'true'}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY': `"${process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY}"`,
+        'process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN': `"${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}"`,
 
-        'process.env.MERCHANT_ID': `"${process.env.MERCHANT_ID}"`,
-        'process.env.MERCHANT_NAME': `"${process.env.MERCHANT_NAME}"`
+        'process.env.NEXT_PUBLIC_MERCHANT_ID': `"${process.env.NEXT_PUBLIC_MERCHANT_ID}"`,
+        'process.env.NEXT_PUBLIC_MERCHANT_NAME': `"${process.env.NEXT_PUBLIC_MERCHANT_NAME}"`
       }
     });
     console.log('⚡Bundle build complete ⚡');

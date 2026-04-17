@@ -295,7 +295,7 @@ function TappayUi({ isMobile = false }) {
         {
           googleMerchantId: GOOGLE_MERCHANT_ID,
           allowedCardAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-          merchantName: process.env.TAPPAY_MERCHANT_NAME,
+          merchantName: process.env.NEXT_PUBLIC_TAPPAY_MERCHANT_NAME,
 
           allowPrepaidCards: true,
           allowedCountryCodes: ['TW'],
@@ -575,8 +575,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -630,8 +630,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -676,8 +676,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -725,8 +725,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -800,8 +800,8 @@ function TappayUi({ isMobile = false }) {
           }
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -861,8 +861,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {
@@ -915,8 +915,8 @@ function TappayUi({ isMobile = false }) {
           national_id: 'A123456789'
         },
         result_url: {
-          frontend_redirect_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
-          backend_notify_url: `${process.env.TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
+          frontend_redirect_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/portfolio/tappay/result`,
+          backend_notify_url: `${process.env.NEXT_PUBLIC_TAPPAY_FRONTEND_DOMAIN}/api/tappay/backend_notify`
         }
       },
       (tappayResult, error) => {

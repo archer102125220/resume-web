@@ -99,19 +99,6 @@ const nextConfig = {
     STATIC: isStatic,
     AXIOS_BASE_URL: '/api',
     IS_DEV: process.env.NODE_ENV === 'development',
-    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-    GA_ID: process.env.GA_ID,
-    GTM_ID: process.env.GTM_ID,
-    MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
-    APP_ID: process.env.APP_ID,
-    TAPPAY_DOMAIN: process.env.TAPPAY_DOMAIN,
-    MERCHANT_ID: process.env.MERCHANT_ID,
-    MERCHANT_NAME: process.env.MERCHANT_NAME,
-    TAPPAY_APP_ID: Number(process.env.TAPPAY_APP_ID),
-    TAPPAY_APP_KEY: process.env.TAPPAY_APP_KEY,
-    TAPPAY_PROD: process.env.TAPPAY_PROD === 'true',
-    TAPPAY_PARTNER_KEY: process.env.TAPPAY_PARTNER_KEY,
-    TAPPAY_FRONTEND_DOMAIN: process.env.TAPPAY_FRONTEND_DOMAIN
   }
 };
 

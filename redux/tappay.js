@@ -43,10 +43,10 @@ export const tappayAsyncThunk = {
 const tappaySlice = createSlice({
   name,
   initialState: {
-    appId: process.env.TAPPAY_APP_ID || -1,
-    appKey: process.env.TAPPAY_APP_KEY || '',
-    prod: process.env.TAPPAY_PROD || false,
-    partnerKey: process.env.TAPPAY_PARTNER_KEY || ''
+    appId: process.env.NEXT_PUBLIC_TAPPAY_APP_ID || -1,
+    appKey: process.env.NEXT_PUBLIC_TAPPAY_APP_KEY || '',
+    prod: process.env.NEXT_PUBLIC_TAPPAY_PROD || false,
+    partnerKey: process.env.NEXT_PUBLIC_TAPPAY_PARTNER_KEY || ''
   },
   reducers: {}
 });
