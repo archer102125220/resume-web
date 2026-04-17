@@ -38,7 +38,7 @@ export async function contentSecurityPolicyMiddleware(request) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'self';
-    img-src 'self' data: https://js.tappaysdk.com https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com https://www.google.com.tw;
+    img-src 'self' data: https://js.tappaysdk.com https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com https://www.google.com.tw https://www.googletagmanager.com https://www.gstatic.com;
     object-src 'none';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://pay.google.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.tappaysdk.com;
