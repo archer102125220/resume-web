@@ -31,8 +31,9 @@ export async function contentSecurityPolicyMiddleware(request) {
   //     frame-ancestors 'none';
   //     upgrade-insecure-requests;
   // `;
+  // default-src -> 允許資源來源
   const cspHeader = `
-    default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.youtube.com https://connect.facebook.net https://www.googletagmanager.com https://js.tappaysdk.com; // 允許資源來源
+    default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.youtube.com https://connect.facebook.net https://www.googletagmanager.com https://js.tappaysdk.com;
     font-src 'self' https://fonts.gstatic.com https://js.tappaysdk.com;
     base-uri 'self';
     form-action 'self';
