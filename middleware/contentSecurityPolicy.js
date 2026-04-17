@@ -32,17 +32,17 @@ export async function contentSecurityPolicyMiddleware(request) {
   //     upgrade-insecure-requests;
   // `;
   const cspHeader = `
-    default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.youtube.com https://connect.facebook.net https://www.googletagmanager.com; // 允許資源來源
-    font-src 'self' https://fonts.gstatic.com;
+    default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.youtube.com https://connect.facebook.net https://www.googletagmanager.com https://js.tappaysdk.com; // 允許資源來源
+    font-src 'self' https://fonts.gstatic.com https://js.tappaysdk.com;
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'self';
-    img-src 'self' data:;
+    img-src 'self' data: https://js.tappaysdk.com;
     object-src 'none';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https://connect.facebook.net https://www.googletagmanager.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
-    frame-src 'self' https://www.youtube.com https://www.googletagmanager.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.tappaysdk.com;
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com;
+    frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://*.tappaysdk.com;
     upgrade-insecure-requests;
 `;
 
