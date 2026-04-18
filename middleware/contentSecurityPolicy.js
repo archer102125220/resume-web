@@ -42,8 +42,9 @@ export async function contentSecurityPolicyMiddleware(request) {
     object-src 'none';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://connect.facebook.net https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://pay.google.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.tappaysdk.com;
-    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com https://analytics.google.com https://stats.g.doubleclick.net https://pay.google.com https://google.com;
+    connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com https://analytics.google.com https://stats.g.doubleclick.net https://pay.google.com https://google.com https://www.google.com;
     frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://sandbox.tappaysdk.com https://portal.tappaysdk.com https://js.tappaysdk.com https://*.tappaysdk.com https://pay.google.com https://google.com;
+    manifest-src 'self' https://www.google.com;
     upgrade-insecure-requests;
 `;
 
