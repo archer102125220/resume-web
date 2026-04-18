@@ -424,9 +424,13 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
-          successMessage('直接付款測試成功！');
+          if (tappayResult.status !== 0) {
+            warningMessage(`直接付款錯誤：${tappayResult.msg} (${tappayResult.status})`);
+          } else {
+            successMessage('直接付款測試成功！');
+          }
         } else {
-          errorMessage('直接付款錯誤');
+          errorMessage('直接付款系統錯誤');
         }
       }
     );
@@ -467,9 +471,13 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
-          successMessage('GooglePay測試成功！');
+          if (tappayResult.status !== 0) {
+            warningMessage(`GooglePay錯誤：${tappayResult.msg} (${tappayResult.status})`);
+          } else {
+            successMessage('GooglePay測試成功！');
+          }
         } else {
-          errorMessage('GooglePay錯誤');
+          errorMessage('GooglePay系統錯誤');
         }
       }
     );
@@ -530,9 +538,13 @@ function TappayUi({ isMobile = false }) {
           (tappayResult, error) => {
             if (error === null) {
               console.log(tappayResult);
-              successMessage('ApplePay測試成功！');
+              if (tappayResult.status !== 0) {
+                warningMessage(`ApplePay錯誤：${tappayResult.msg} (${tappayResult.status})`);
+              } else {
+                successMessage('ApplePay測試成功！');
+              }
             } else {
-              errorMessage('ApplePay錯誤');
+              errorMessage('ApplePay系統錯誤');
             }
           }
         );
@@ -582,11 +594,15 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
+          if (tappayResult.status !== 0) {
+            warningMessage(`LinePay錯誤：${tappayResult.msg} (${tappayResult.status})`);
+            return;
+          }
           console.log(tappayResult.payment_url);
           location.href = tappayResult.payment_url;
           informationMessage('即將跳轉LinePay頁面！');
         } else {
-          errorMessage('LinePay錯誤');
+          errorMessage('LinePay系統錯誤');
         }
       }
     );
@@ -637,11 +653,15 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
+          if (tappayResult.status !== 0) {
+            warningMessage(`SamsungPay錯誤：${tappayResult.msg} (${tappayResult.status})`);
+            return;
+          }
           console.log(tappayResult.payment_url);
           location.href = tappayResult.payment_url;
           informationMessage('即將跳轉SamsungPay頁面！');
         } else {
-          errorMessage('SamsungPay錯誤');
+          errorMessage('SamsungPay系統錯誤');
         }
       }
     );
@@ -683,11 +703,15 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
+          if (tappayResult.status !== 0) {
+            warningMessage(`街口支付錯誤：${tappayResult.msg} (${tappayResult.status})`);
+            return;
+          }
           console.log(tappayResult.payment_url);
           location.href = tappayResult.payment_url;
           informationMessage('即將跳轉街口支付頁面！');
         } else {
-          errorMessage('街口支付錯誤');
+          errorMessage('街口支付系統錯誤');
         }
       }
     );
@@ -732,11 +756,15 @@ function TappayUi({ isMobile = false }) {
       (tappayResult, error) => {
         if (error === null) {
           console.log(tappayResult);
+          if (tappayResult.status !== 0) {
+            warningMessage(`悠遊付錯誤：${tappayResult.msg} (${tappayResult.status})`);
+            return;
+          }
           console.log(tappayResult.payment_url);
           location.href = tappayResult.payment_url;
           informationMessage('即將跳轉悠遊付頁面！');
         } else {
-          errorMessage('悠遊付錯誤');
+          errorMessage('悠遊付系統錯誤');
         }
       }
     );
