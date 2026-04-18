@@ -122,7 +122,28 @@ const styles = theme => ({
       display: 'block'
     }
   },
-  tappayUiPayButton
+  tappayUiPayButton,
+  tappayUiTestCardBox: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4),
+    padding: theme.spacing(2),
+    border: '1px dashed #ccc',
+    borderRadius: '4px',
+    textAlign: 'left'
+  },
+  tappayUiTestCardTitle: {
+    margin: '0 0 8px 0',
+    fontWeight: 'bold'
+  },
+  tappayUiTestCardDesc: {
+    margin: '0 0 4px 0',
+    fontSize: '0.95rem'
+  },
+  tappayUiTestCardWarning: {
+    display: 'block',
+    marginTop: '8px',
+    fontSize: '0.9rem'
+  }
 });
 
 const useStyles = makeStyles(styles);
@@ -994,11 +1015,11 @@ function TappayUi({ isMobile = false }) {
           （不建議使用真實卡號）
         </p>
       </Box>
-      <Box sx={{ mt: 2, mb: 4, p: 2, border: '1px dashed #ccc', borderRadius: '4px', textAlign: 'left' }}>
-        <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>💳 本頁專屬測試卡號（TapPay 銀聯卡）</p>
-        <p style={{ margin: '0 0 4px 0', fontSize: '0.95rem' }}>卡號：6234 5774 3859 4899</p>
-        <p style={{ margin: '0 0 4px 0', fontSize: '0.95rem' }}>驗證碼：123 | 有效期限：未來任何年月 (例 12/30)</p>
-        <p className={classes.tappayUiParagraphWarning} style={{ display: 'block', marginTop: '8px', fontSize: '0.9rem' }}>
+      <Box className={classes.tappayUiTestCardBox}>
+        <p className={classes.tappayUiTestCardTitle}>💳 本頁專屬測試卡號（TapPay 銀聯卡）</p>
+        <p className={classes.tappayUiTestCardDesc}>卡號：6234 5774 3859 4899</p>
+        <p className={classes.tappayUiTestCardDesc}>驗證碼：123 | 有效期限：未來任何年月 (例 12/30)</p>
+        <p className={[classes.tappayUiParagraphWarning, classes.tappayUiTestCardWarning].join(' ')}>
           * 注意：由於本頁面串接為 TapPay「沙盒測試環境 (Sandbox)」，且使用的測試特店限定為銀聯卡，若使用上方生成的 Visa 或 Mastercard 進行測試，雖能通過前端卡號格式驗證，但送出後必定會遭到伺服器拒絕付款 (10039)。
         </p>
       </Box>
