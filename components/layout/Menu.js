@@ -38,6 +38,13 @@ const Menu = forwardRef(function Menu(props, ref) {
       <Link href="/portfolio">小成品展示</Link>
       <Link href="/external-link">站外成品</Link>
       <Link href="/about-web_site">關於本站</Link>
+      <a
+        href="https://parker-notes.notion.site/Parker-Notes-98037968698140519191919191919191"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Notion 筆記
+      </a>
     </div>
   );
 });
