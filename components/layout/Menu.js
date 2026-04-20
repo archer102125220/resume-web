@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import { makeStyles } from '@mui/styles';
 import Link from 'next/link';
 
+import { outboundLinkStyle } from '@/styles/linkStyle';
 import { mediaMobile } from '@/styles/globals';
 
 const styles = {
@@ -13,6 +14,7 @@ const styles = {
     maxWidth: '10%',
     // backgroundColor: 'rgb(0,0,0)',
     '& > a': {
+      ...outboundLinkStyle,
       display: 'block',
       marginBottom: '6px'
     },
@@ -39,7 +41,7 @@ const Menu = forwardRef(function Menu(props, ref) {
       <Link href="/external-link">站外成品</Link>
       <Link href="/about-web_site">關於本站</Link>
       <a
-        href="https://parker-notes.notion.site/Parker-Notes-98037968698140519191919191919191"
+        href="https://valley-hortensia-084.notion.site/Parker-Chen-3446dcd96fa280c7b1ecdd139384ee12"
         target="_blank"
         rel="noopener noreferrer"
       >
