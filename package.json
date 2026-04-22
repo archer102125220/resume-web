@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "sequelize": "./node_modules/.bin/sequelize",
-    "dev": "cross-env NODE_ENV=development yarn buildSW && NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
+    "dev": "cross-env NODE_ENV=development yarn buildSW && cross-env NODE_OPTIONS='--inspect' next dev -H 0.0.0.0 -p 3000",
     "dev-https": "cross-env NODE_ENV=development yarn buildSW && cross-env NODE_OPTIONS='--inspect' next dev --experimental-https -H 0.0.0.0 -p 3000",
     "buildSW": "node ./esbuild.config.js",
     "build": "cross-env NODE_ENV=production yarn buildSW && next build && next-sitemap",

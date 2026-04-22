@@ -19,9 +19,31 @@ const styles = {
   BBShopTitleRemark: {
     fontSize: '12px'
   },
+  BBShopFeature: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    margin: '8px 0px'
+  },
+  BBShopFeatureList: {
+    // display: 'flex',
+    // flexDirection: 'row',
+    // flexWrap: 'wrap'
+  },
+  BBShopFeatureItem: {
+    marginLeft: '24px'
+    // '&:not(:first-child)': {
+    //   marginLeft: '48px'
+    // }
+  },
+  BBShopFeatureSubList: {
+    marginLeft: '24px'
+  },
   BBShopScreenshot: {
     display: 'block',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '8px'
   }
 };
 
@@ -41,12 +63,24 @@ function BBShop() {
         <p className={classes.BBShopTitleRemark}>於2022/10/07確認已下線</p>
       </div>
       <p>
-        本專案為香港電商平台，已上線5年以上，參予專案期間內改善SEO，並由Vue1(SPA)轉為Nuxt2(SSR)、翻新介面，以提供簡潔流暢的使用者介面。
+        本專案為香港電商平台，已上線5年以上，參予專案期間內改善SEO，並由VueJS(SPA)轉為NuxtJS(SSR)，使通訊軟體或社群軟體的爬蟲能夠正確爬取內容，也透過翻新介面，以提供簡潔流暢的使用者介面。
+        翻新功能模組有：
       </p>
-      <p>
-        本專案提供賣家設定youtube影片串聯，能更進一步介紹產品資訊；提供google
-        ADS服務，使賣家更能在站內提升曝光度。
-      </p>
+      <div className={classes.BBShopFeature}>
+        <ul className={classes.BBShopFeatureList}>
+          <li className={classes.BBShopFeatureItem}>首頁</li>
+          <li className={classes.BBShopFeatureItem}>首頁輪播公告橫幅</li>
+          <li className={classes.BBShopFeatureItem}>搜尋頁</li>
+          <li className={classes.BBShopFeatureItem}>產品頁</li>
+          <li className={classes.BBShopFeatureItem}>會員資訊頁</li>
+          <li className={classes.BBShopFeatureItem}>GA/GTM埋點</li>
+          <li className={classes.BBShopFeatureItem}>
+            Youtube 播放器組件化(Youtube Iframe API)
+          </li>
+          <li className={classes.BBShopFeatureItem}>Google ADS 組件化</li>
+          <li className={classes.BBShopFeatureItem}>Nuxt2 伺服端產品頁快取</li>
+        </ul>
+      </div>
 
       <Image
         className={classes.BBShopScreenshot}

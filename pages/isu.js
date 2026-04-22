@@ -18,9 +18,31 @@ const styles = {
     ...linkStyle,
     fontSize: '24px'
   },
+  isuFeature: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: '8px 0px'
+  },
+  isuFeatureList: {
+    // display: 'flex',
+    // flexDirection: 'row',
+    // flexWrap: 'wrap'
+  },
+  isuFeatureItem: {
+    marginLeft: '24px'
+    // '&:not(:first-child)': {
+    //   marginLeft: '48px'
+    // }
+  },
+  isuFeatureSubList: {
+    marginLeft: '24px'
+  },
   isuScreenshot: {
     display: 'block',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '16px'
   }
 };
 
@@ -46,10 +68,57 @@ function Isu() {
         </a>
       </div>
       <p>
-        本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。
+        獨自開發前後台之前端部分，並且也有註冊於 Google Search
+        Console，使搜尋引擎能夠有效爬取網站，採用 SSR
+        技術（Nuxt3）開發，功能模組包括：
       </p>
+      <div className={classes.isuFeature}>
+        <ul className={classes.isuFeatureList}>
+          <li className={classes.isuFeatureItem}>部落格</li>
+          <li className={classes.isuFeatureItem}>Facebook分享功能</li>
+          <li className={classes.isuFeatureItem}>景點推薦</li>
+          <li className={classes.isuFeatureItem}>住宿推薦</li>
+          <li className={classes.isuFeatureItem}>最新消息</li>
+          <li className={classes.isuFeatureItem}>Google Map 路徑導覽</li>
+          <li className={classes.isuFeatureItem}>GA串接</li>
+        </ul>
+        <ul className={classes.isuFeatureList}>
+          <li className={classes.isuFeatureItem}>
+            <p>會員系統：</p>
+            <ul className={classes.isuFeatureSubList}>
+              <li>Google 登入及榜定</li>
+              <li>Facebook 登入及榜定</li>
+              <li>Line 登入及榜定</li>
+              <li>會員點數兌換</li>
+              <li>會員集章兌換</li>
+              <li>會員優惠券兌換</li>
+            </ul>
+          </li>
+        </ul>
+        <ul className={classes.isuFeatureList}>
+          <li className={classes.isuFeatureItem}>
+            <p>後台管理系統：</p>
+            <ul className={classes.isuFeatureSubList}>
+              <li>權限管理功能</li>
+              <li>文章管理功能</li>
+              <li>景點推薦管理功能</li>
+              <li>住宿推薦管理功能</li>
+              <li>最新消息管理功能</li>
+              <li>會員管理功能</li>
+              <li>會員點數管理功能</li>
+              <li>會員集章管理功能</li>
+              <li>會員優惠券管理功能</li>
+              <li>會員點數兌換功能</li>
+              <li>會員集章兌換功能</li>
+              <li>會員優惠券兌換功能</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <p>
-        本專案採SSR技術（Nuxt3）開發，提供google、FaceBook以及Line等第三方的快速註冊及登入，並有FaceBook分享功能，能便於會員可快速分享心儀的文章或資訊。
+        其中兌換功能的部分，由於客戶有額外希望做雙重確認的機制，因此有透過
+        WebSocket
+        的方式，讓後台在按下兌換時，會員須到兌換頁面等待確認談窗的出現，按下確認後才可以完成兌換流程{' '}
       </p>
 
       <Image

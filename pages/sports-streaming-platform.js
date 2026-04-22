@@ -41,7 +41,7 @@ const styles = {
     width: '200px',
     // height: '400px',
     height: 'auto'
-  },
+  }
   // 'sports_streaming_platform-lessons_learned': {
   //   marginTop: '16px'
   // }
@@ -95,10 +95,14 @@ function SportsStreamingPlatform() {
         </a>
       </div>
       <p>
-        本專案因應客戶需求，與團隊一同將產品調整為適合換皮的架構進行開發，參予專案期間內改善專案架構，並翻新介面及優化，在提供簡潔流暢的使用者介面情況下改善專案的維護性。
+        本專案因應客戶需求，與團隊一同將產品調整為適合換皮的架構進行開發，參予專案期間內改善專案架構，並翻新介面及優化，同時移除異常寫法，在提供簡潔流暢的使用者介面情況下提升至少
+        70 %
+        專案的維護性及穩定性，同時透過將自訂組件設計為組件庫的方式，提升團隊 50%
+        的開發效率。
       </p>
       <p>
-        本專案由uni-app框架開發，狀態管理採用vuex做處理，並使用axios做api串接，css預處理器採用less做樣式開發，程式碼格式化則是採用prettier做規範，不過由於uni-app有與一般網頁套件相容的疑慮，因此大多數UI功能需自行實踐。
+        本專案由uni-app框架開發，狀態管理採用vuex做處理，並使用axios做api串接，css預處理器採用less做樣式開發，程式碼格式化則是採用prettier做規範，不過由於uni-app本身提供的組件在跨平台上整合有問題，因此大多數UI功能需自行實踐，並且透過自訂組件的方式修復並解決了既有
+        80% 的Bug
       </p>
 
       <div className={classes['sports_streaming_platform-screenshot']}>
