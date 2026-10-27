@@ -1,8 +1,36 @@
 const EXPERIENCE_DATA = [
   {
     logoLoading: 'lazy',
+    logoSrc: '/img/logo/company-logo.jpg',
+    logoAlt: 'company logo',
+    logoWidth: 40,
+    logoHeight: 40,
+    companyName: '全端工程師 / 先悅資訊有限公司',
+    companyRwdName: ['全端工程師', '先悅資訊有限公司'],
+    startDate: {
+      year: '2026',
+      animationYearStart: 1000,
+      animationYearDuration: 1000,
+      month: '6',
+      animationMonthStart: 0,
+      animationMonthDuration: 1000
+    },
+    isStillWorking: true,
+    remark: ['駐派於資拓宏宇'],
+    describe: '參予並維護及翻新健保屬資訊系統',
+    prodList: [
+      {
+        name: '健保署資訊系統',
+        responsible:
+          '依照需求調整 .Net C# 後端 API 及前端 Vue2 畫面，協助後端程式翻新，將舊版 VB.net 翻新為 .Net C# API'
+        // describeLink: '/sports-streaming-platform',
+      }
+    ]
+  },
+  {
+    logoLoading: 'lazy',
     logoSrc: '/img/logo/le-tron-logo.png',
-    logoAlt: 'jiapin cloud LOGO',
+    logoAlt: 'le tron LOGO',
     logoWidth: 40,
     logoHeight: 40,
     companyName: '前端工程師 / 樂創互娛科技有限公司',
@@ -24,7 +52,10 @@ const EXPERIENCE_DATA = [
       animationMonthDuration: 1000
     },
     // isStillWorking: true,
-    remark: ['部分遠端工作', '為尋求能提供更具成長性的發展機會，以及與公司營運績效連動的薪資與技能提升空間，故探索新的職涯發展機會'],
+    remark: [
+      '部分遠端工作',
+      '為尋求能提供更具成長性的發展機會，以及與公司營運績效連動的薪資與技能提升空間，故探索新的職涯發展機會'
+    ],
     describe: '維護現有的直播平台，並根據客戶需求做調整',
     prodList: [
       {
@@ -94,7 +125,8 @@ const EXPERIENCE_DATA = [
         name: '愛嬉遊臺灣青年旅館聯盟',
         summary:
           '本專案為愛嬉遊臺灣青年旅館聯盟的網站翻新、網站內容管理系統開發以及會員系統的整合。',
-        responsible: 'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合並於 Google Search Console 進行網站註冊與SEO優化。',
+        responsible:
+          'API串接，前端資料邏輯處理，RWD樣式調整，第三方服務整合並於 Google Search Console 進行網站註冊與SEO優化。',
         describeLink: '/isu'
       }
     ]
