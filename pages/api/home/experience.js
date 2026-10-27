@@ -11,7 +11,7 @@ const EXPERIENCE_DATA = [
       year: '2026',
       animationYearStart: 1000,
       animationYearDuration: 1000,
-      month: '6',
+      month: '5',
       animationMonthStart: 0,
       animationMonthDuration: 1000
     },
